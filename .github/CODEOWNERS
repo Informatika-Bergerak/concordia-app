@@ -1,0 +1,12 @@
+# Infrastruktur & Core
+/prisma/                   @<Username-Kamu>
+/src/lib/                  @<Username-Kamu>
+
+# Modul Produk
+/src/modules/forum/        @<Username-FS-Forum>
+/src/modules/activities/   @<Username-FS-Act>
+/src/modules/report/       @<Username-FS-Report>
+
+# Kualitas & Testing
+/.github/                  @<Username-QA>
+/tests/                    @<Username-QA>
