@@ -1,12 +1,12 @@
 # Infrastruktur & Core
-/prisma/                   @<Username-Kamu>
-/src/lib/                  @<Username-Kamu>
+/prisma/                   @<zanrizkir>
+/src/lib/                  @<zanrizkir>
 
 # Modul Produk
-/src/modules/forum/        @<Username-FS-Forum>
-/src/modules/activities/   @<Username-FS-Act>
-/src/modules/report/       @<Username-FS-Report>
+/src/modules/forum/        @<mrhackerfreefire-FS-Forum>
+/src/modules/activities/   @<G1QY-FS-Act>
+/src/modules/report/       @<NobySix66-FS-Report>
 
 # Kualitas & Testing
-/.github/                  @<Username-QA>
-/tests/                    @<Username-QA>
+/.github/                  @<Rumbew22-QA>
+/tests/                    @<Rumbew22-QA>
