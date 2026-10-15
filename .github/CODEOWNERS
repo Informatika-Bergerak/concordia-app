@@ -1,12 +1,16 @@
+# Pemilik kode: GitHub otomatis meminta review dari mereka
+# untuk perubahan di folder terkait. Tiap folder punya dua pemilik
+# supaya penulis PR tetap bisa di-approve oleh pemilik lainnya.
+
 # Infrastruktur & Core
-/prisma/                   @<zanrizkir>
-/src/lib/                  @<zanrizkir>
+/prisma/                   @zanrizkir @Informatika-Bergerak/developers
+/src/lib/                  @zanrizkir @Informatika-Bergerak/developers
 
 # Modul Produk
-/src/modules/forum/        @<mrhackerfreefire-FS-Forum>
-/src/modules/activities/   @<G1QY-FS-Act>
-/src/modules/report/       @<NobySix66-FS-Report>
+/src/modules/forum/        @mrhackerfreefire @zanrizkir
+/src/modules/activities/   @G1QY @zanrizkir
+/src/modules/report/       @NobySix66 @zanrizkir
 
 # Kualitas & Testing
-/.github/                  @<Rumbew22-QA>
-/tests/                    @<Rumbew22-QA>
+/.github/                  @Rumbew22 @zanrizkir
+/tests/                    @Rumbew22 @zanrizkir
