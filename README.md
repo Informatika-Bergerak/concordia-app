@@ -8,8 +8,17 @@
 5. Mulai server development: `npm run dev`
 6. Buka [http://localhost:3000](http://localhost:3000)
 
-## 🏗 Keputusan Teknis
-- **Framework:** Next.js (App Router) + TypeScript
-- **Database:** PostgreSQL (via Prisma ORM)
-- **Authentication:** NextAuth.js / Auth.js
-- **Penyimpanan Foto:** AWS S3 compatible (Cloudinary / MinIO)
+## 📁 Struktur Modul
+Proyek ini menggunakan arsitektur Modular Monolith dengan pembagian direktori:
+- `src/modules/forum`: Mengelola diskusi dan postingan pengguna.
+- `src/modules/activities`: Mengelola event, kegiatan, dan partisipasi.
+- `src/modules/report`: Mengelola pelaporan pengguna/konten dan moderasi.
+- `src/modules/trust`: Mengelola sistem poin/reputasi dan validasi.
+- `src/lib`: Kode internal yang digunakan bersama (auth, instance database).
+
+## 🏗 Keputusan Teknis (Tech Stack)
+- **Framework:** Next.js (App Router) + TypeScript Strict
+- **Database Provider:** PostgreSQL
+- **ORM:** Prisma
+- **Authentication:** NextAuth.js
+- **Penyimpanan Foto/File:** Cloudinary
