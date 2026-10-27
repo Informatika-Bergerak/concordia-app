@@ -25,3 +25,12 @@ declare module "next-auth/jwt" {
     username: string;
   }
 }
+
+declare module "@auth/core/jwt" {
+  interface JWT {
+    id: string;
+    role: Role;
+    userType: UserType | null;
+    username: string;
+  }
+}

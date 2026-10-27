@@ -1,4 +1,3 @@
-// @ts-expect-error CSS side-effect imports are handled by Next.js.
 import "@/styles/app.css";
 
 export const metadata = {
