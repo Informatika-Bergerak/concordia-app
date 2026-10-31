@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { resetPasswordAction } from "./actions";
 
-export function ResetPasswordButton({ userId, username }: { userId: string; username: string }) {
+export function ResetPasswordButton({ userId, username }: { userId: number; username: string }) {
   const [pending, startTransition] = useTransition();
   const [password, setPassword] = useState<string | null>(null);
   const [error, setError] = useState("");
