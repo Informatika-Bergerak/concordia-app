@@ -18,8 +18,8 @@ export const usernameSchema = z
 
 // Saat login, aturan password tidak perlu diulang, cukup tidak kosong
 export const loginSchema = z.object({
-  username: z.string().trim().toLowerCase().min(1),
-  password: z.string().min(1),
+  username: z.string().trim().toLowerCase().min(1).max(64),
+  password: z.string().min(1).max(128),
 });
 
 export const changePasswordSchema = z

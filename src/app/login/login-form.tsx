@@ -2,25 +2,33 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
+import { isLoginLockedAction } from "./actions";
 
 export function LoginForm() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     const form = new FormData(e.currentTarget);
+    const username = String(form.get("username") ?? "");
+
     const res = await signIn("credentials", {
-      username: form.get("username"),
+      username,
       password: form.get("password"),
       redirect: false,
     });
 
     if (res?.error) {
-      setError("Username atau password salah");
+      const locked = await isLoginLockedAction(username);
+      setError(
+        locked
+          ? "Terlalu banyak percobaan gagal. Coba lagi dalam 15 menit."
+          : "Username atau password salah",
+      );
       setLoading(false);
       return;
     }

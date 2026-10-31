@@ -7,6 +7,7 @@ import { generateTempPassword } from "@/lib/auth/password";
 import { prisma } from "@/lib/db";
 import { createUserSchema } from "@/lib/validations/auth";
 import type { Role } from "@/generated/prisma/enums";
+import { clearFailures } from "@/lib/auth/rate-limit";
 
 export type CreateUserState = {
   error?: string;
@@ -58,7 +59,10 @@ export async function resetPasswordAction(
 ): Promise<{ error?: string; password?: string }> {
   await requireRole(["ADMIN"]);
 
-  const target = await prisma.user.findUnique({ where: { id: userId }, select: { id: true } });
+  const target = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { id: true, username: true },
+  });
   if (!target) return { error: "Akun tidak ditemukan" };
 
   const password = generateTempPassword();
@@ -66,6 +70,7 @@ export async function resetPasswordAction(
     where: { id: userId },
     data: { passwordHash: await bcrypt.hash(password, 12), mustChangePassword: true },
   });
+  await clearFailures(target.username);
 
   return { password };
 }
