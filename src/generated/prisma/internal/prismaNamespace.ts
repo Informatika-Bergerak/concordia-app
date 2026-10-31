@@ -397,7 +397,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
-  User: 'User'
+  User: 'User',
+  LoginThrottle: 'LoginThrottle'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -413,7 +414,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user"
+    modelProps: "user" | "loginThrottle"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -491,6 +492,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    LoginThrottle: {
+      payload: Prisma.$LoginThrottlePayload<ExtArgs>
+      fields: Prisma.LoginThrottleFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LoginThrottleFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginThrottlePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LoginThrottleFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginThrottlePayload>
+        }
+        findFirst: {
+          args: Prisma.LoginThrottleFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginThrottlePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LoginThrottleFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginThrottlePayload>
+        }
+        findMany: {
+          args: Prisma.LoginThrottleFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginThrottlePayload>[]
+        }
+        create: {
+          args: Prisma.LoginThrottleCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginThrottlePayload>
+        }
+        createMany: {
+          args: Prisma.LoginThrottleCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LoginThrottleCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginThrottlePayload>[]
+        }
+        delete: {
+          args: Prisma.LoginThrottleDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginThrottlePayload>
+        }
+        update: {
+          args: Prisma.LoginThrottleUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginThrottlePayload>
+        }
+        deleteMany: {
+          args: Prisma.LoginThrottleDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LoginThrottleUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LoginThrottleUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginThrottlePayload>[]
+        }
+        upsert: {
+          args: Prisma.LoginThrottleUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginThrottlePayload>
+        }
+        aggregate: {
+          args: Prisma.LoginThrottleAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLoginThrottle>
+        }
+        groupBy: {
+          args: Prisma.LoginThrottleGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LoginThrottleGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LoginThrottleCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LoginThrottleCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -544,6 +619,17 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const LoginThrottleScalarFieldEnum = {
+  key: 'key',
+  attempts: 'attempts',
+  windowStart: 'windowStart',
+  lockedUntil: 'lockedUntil',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LoginThrottleScalarFieldEnum = (typeof LoginThrottleScalarFieldEnum)[keyof typeof LoginThrottleScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -650,6 +736,20 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 /**
@@ -804,6 +904,7 @@ export interface PrismaClientOptionsWithAdapter extends PrismaClientBaseOptions 
 export type PrismaClientOptions = PrismaClientOptionsWithAccelerateUrl | PrismaClientOptionsWithAdapter
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
+  loginThrottle?: Prisma.LoginThrottleOmit
 }
 
 /* Types for Logging */

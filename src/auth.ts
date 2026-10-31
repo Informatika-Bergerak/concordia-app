@@ -1,8 +1,14 @@
-import NextAuth from "next-auth";
+import NextAuth, { CredentialsSignin } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
+import { buildKeys, clearFailures, getClientIp, isLocked, recordFailure } from "@/lib/auth/rate-limit";
 import { loginSchema } from "@/lib/validations/auth";
+
+// Kode khusus supaya halaman login bisa membedakan "terkunci" dari "password salah"
+class RateLimitedError extends CredentialsSignin {
+  code = "rate_limited";
+}
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   session: { strategy: "jwt", maxAge: 60 * 60 * 24 * 7 }, // 7 hari
@@ -10,18 +16,32 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     Credentials({
       credentials: { username: {}, password: {} },
-      async authorize(raw) {
+      async authorize(raw, request) {
         const parsed = loginSchema.safeParse(raw);
         if (!parsed.success) return null;
+        const { username, password } = parsed.data;
 
-        const user = await prisma.user.findUnique({
-          where: { username: parsed.data.username },
-        });
-        if (!user) return null;
-        if (!user.isActive) return null;
+        const keys = buildKeys(username, getClientIp(request));
 
-        const valid = await bcrypt.compare(parsed.data.password, user.passwordHash);
-        if (!valid) return null;
+        // 1. Sedang terkunci? Tolak tanpa memeriksa password sama sekali
+        if (await isLocked(keys)) throw new RateLimitedError();
+
+        // 2. Periksa kredensial
+        const user = await prisma.user.findUnique({ where: { username } });
+        const valid = user?.isActive
+          ? await bcrypt.compare(password, user.passwordHash)
+          : false;
+
+        // 3. Gagal: catat. Username yang tidak ada juga dicatat, supaya pola
+        //    penguncian tidak membocorkan username mana yang terdaftar
+        if (!user || !valid) {
+          const lockedNow = await recordFailure(keys);
+          if (lockedNow) throw new RateLimitedError();
+          return null;
+        }
+
+        // 4. Berhasil: reset hitungan gagal untuk username ini
+        await clearFailures(username);
 
         return {
           id: user.id,
