@@ -1,0 +1,19 @@
+:root {
+  --brand-primary: #b331d3;
+  --brand-secondary: #c667de;
+  --brand-soft: #da9cea;
+  --brand-tint: #ecd3f5;
+  --brand-dark: #210329;
+
+  --ink: #210329;
+  --ink-muted: #6d686f;
+  --surface: #ffffff;
+  --surface-muted: #efeaf2;
+  --field: #ece3ef;
+  --line: #e4dde7;
+
+  --radius-card: 16px;
+  --radius-field: 10px;
+  --shadow-card: 0 1px 4px rgba(33, 3, 41, 0.12);
+  --app-width: 413px;
+}
