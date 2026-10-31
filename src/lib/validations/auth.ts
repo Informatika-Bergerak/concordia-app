@@ -21,3 +21,26 @@ export const loginSchema = z.object({
   username: z.string().trim().toLowerCase().min(1),
   password: z.string().min(1),
 });
+
+export const changePasswordSchema = z
+  .object({
+    currentPassword: z.string().min(1, "Password lama wajib diisi"),
+    newPassword: passwordSchema,
+    confirmPassword: z.string(),
+  })
+  .refine((d) => d.newPassword === d.confirmPassword, {
+    message: "Konfirmasi password tidak cocok",
+    path: ["confirmPassword"],
+  })
+  .refine((d) => d.newPassword !== d.currentPassword, {
+    message: "Password baru tidak boleh sama dengan password lama",
+    path: ["newPassword"],
+  });
+
+export const createUserSchema = z.object({
+  name: z.string().trim().min(2, "Nama minimal 2 karakter").max(60, "Nama maksimal 60 karakter"),
+  username: usernameSchema,
+  accountType: z.enum(["MAHASISWA", "DOSEN", "MODERATOR", "ADMIN"], {
+    message: "Pilih tipe akun",
+  }),
+});

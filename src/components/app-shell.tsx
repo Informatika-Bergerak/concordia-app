@@ -28,11 +28,14 @@ export function AppShell({ user, children }: Props) {
           {(user.role === "MODERATOR" || user.role === "ADMIN") && (
             <Link href="/moderator">Moderasi</Link>
           )}
+          {user.role === "ADMIN" && <Link href="/admin">Admin</Link>}
+          {user.role === "ADMIN" && <Link href="/admin/users">Kelola Akun</Link>}
         </nav>
 
         <div className="user-box">
           <span>{user.name}</span>
           <span className={badge.cls}>{badge.label}</span>
+          <Link href="/change-password" className="btn btn-ghost">Ganti password</Link>
           <form
             action={async () => {
               "use server";
