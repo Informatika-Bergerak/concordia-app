@@ -1,0 +1,46 @@
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--surface);
+  box-shadow: 0 2px 6px rgba(33, 3, 41, 0.12);
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px 4px;
+}
+.plain { display: inline-flex; color: var(--ink); }
+.brand {
+  flex: 1;
+  font-size: 22px;
+  font-weight: 800;
+  font-style: italic;
+  color: var(--brand-primary);
+}
+.actions { display: flex; align-items: center; gap: 10px; }
+.round {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--brand-dark);
+  color: #fff;
+}
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 4px 0 6px;
+}
+.tab,
+.tabActive {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0;
+  color: var(--brand-dark);
+}
+.tabActive { color: var(--brand-primary); }

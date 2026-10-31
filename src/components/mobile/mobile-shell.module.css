@@ -1,0 +1,19 @@
+.stage {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  background: var(--surface-muted);
+}
+.phone {
+  width: 100%;
+  max-width: var(--app-width);
+  min-height: 100vh;
+  background: var(--surface-muted);
+  box-shadow: 0 0 0 1px var(--line);
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 8px 8px 24px;
+}
