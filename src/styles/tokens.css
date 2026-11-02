@@ -4,16 +4,39 @@
   --brand-soft: #da9cea;
   --brand-tint: #ecd3f5;
   --brand-dark: #210329;
+  --brand-gradient: linear-gradient(135deg, #b331d3, #c400d9);
 
   --ink: #210329;
   --ink-muted: #6d686f;
   --surface: #ffffff;
   --surface-muted: #efeaf2;
+  --surface-search: #eee8f0;
   --field: #ece3ef;
   --line: #e4dde7;
 
+  --success: #22c55e;
+  --danger: #ef4444;
+
   --radius-card: 16px;
   --radius-field: 10px;
+  --radius-btn: 8px;
   --shadow-card: 0 1px 4px rgba(33, 3, 41, 0.12);
+  --shadow-drawer: 4px 0 24px rgba(33, 3, 41, 0.18);
   --app-width: 413px;
+
+  /* Responsive breakpoints (for reference only, use in @media) */
+  --bp-tablet: 768px;
+  --bp-desktop: 1024px;
+
+  /* Layout widths */
+  --content-max: 720px;
+  --sidebar-width: 280px;
+  --desktop-content-max: 680px;
+
+  /* Touch target */
+  --touch-min: 44px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
 }

@@ -4,5 +4,9 @@ import { requireRole } from "@/lib/auth/guards";
 
 export default async function UserLayout({ children }: { children: ReactNode }) {
   const { user } = await requireRole(["USER"]);
-  return <MobileShell userName={user.name}>{children}</MobileShell>;
+  return (
+    <MobileShell user={{ name: user.name, fotoProfil: user.fotoProfil }}>
+      {children}
+    </MobileShell>
+  );
 }
