@@ -1,13 +1,21 @@
 import Link from "next/link";
-import type { Session } from "next-auth";
 import { signOut } from "@/auth";
+import type { Role, UserType } from "@/generated/prisma/enums";
+
+type AppUser = {
+  id: number;
+  name: string;
+  username: string;
+  role: Role;
+  userType: UserType | null;
+};
 
 type Props = {
-  user: Session["user"];
+  user: AppUser;
   children: React.ReactNode;
 };
 
-function roleBadge(user: Session["user"]) {
+function roleBadge(user: AppUser) {
   if (user.role === "ADMIN") return { label: "Admin", cls: "badge badge-admin" };
   if (user.role === "MODERATOR") return { label: "Moderator", cls: "badge badge-moderator" };
   if (user.userType === "DOSEN") return { label: "Dosen", cls: "badge badge-dosen" };

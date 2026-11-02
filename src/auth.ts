@@ -44,7 +44,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         await clearFailures(username);
 
         return {
-          id: user.id,
+          id: String(user.id),
           name: user.name,
           username: user.username,
           role: user.role,

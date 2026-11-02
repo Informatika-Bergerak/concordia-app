@@ -55,7 +55,7 @@ export async function createUserAction(
 }
 
 export async function resetPasswordAction(
-  userId: string,
+  userId: number,
 ): Promise<{ error?: string; password?: string }> {
   await requireRole(["ADMIN"]);
 
@@ -78,8 +78,9 @@ export async function resetPasswordAction(
 export async function toggleActiveAction(formData: FormData): Promise<void> {
   const { user: admin } = await requireRole(["ADMIN"]);
 
-  const userId = formData.get("userId");
-  if (typeof userId !== "string" || userId === admin.id) return; // tidak boleh menonaktifkan diri sendiri
+  const raw = formData.get("userId");
+  const userId = Number(raw);
+  if (!Number.isInteger(userId) || userId === admin.id) return; // tidak boleh menonaktifkan diri sendiri
 
   const target = await prisma.user.findUnique({
     where: { id: userId },

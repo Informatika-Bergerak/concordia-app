@@ -6,6 +6,7 @@ import type { Role, UserType } from "../src/generated/prisma/enums";
 import { passwordSchema } from "../src/lib/validations/auth";
 import { dosen, mahasiswa } from "./seed-data";
 
+const DEFAULT_JURUSAN = "Teknik Informatika";
 const prisma = new PrismaClient({
   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
 });
@@ -48,12 +49,13 @@ async function main() {
     await prisma.user.upsert({
       where: { username: acc.username },
       // Saat seed diulang, password yang sudah diganti user TIDAK ikut di-reset
-      update: { name: acc.name, role: acc.role, userType: acc.userType },
+      update: { name: acc.name, role: acc.role, userType: acc.userType, jurusan: DEFAULT_JURUSAN },
       create: {
         username: acc.username,
         name: acc.name,
         role: acc.role,
         userType: acc.userType,
+        jurusan: DEFAULT_JURUSAN,
         passwordHash,
       },
     });
