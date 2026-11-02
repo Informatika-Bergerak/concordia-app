@@ -1,0 +1,60 @@
+.landing {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  padding: 24px;
+  text-align: center;
+}
+
+.logo {
+  margin-bottom: 24px;
+}
+
+.loginLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 40px;
+  background: var(--brand-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-btn);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  margin-top: 16px;
+  min-height: var(--touch-min);
+}
+.loginLink:hover {
+  background: #9a28b5;
+}
+.loginLink:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 4px;
+}
+
+.footer {
+  position: fixed;
+  bottom: 24px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--brand-primary);
+}
+
+/* ── Desktop ── */
+@media (min-width: 1024px) {
+  .landing {
+    background: linear-gradient(135deg, #faf5fc, var(--brand-tint) 60%, #faf5fc);
+  }
+
+  .logo {
+    margin-bottom: 32px;
+  }
+}
