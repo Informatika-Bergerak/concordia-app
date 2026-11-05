@@ -45,12 +45,13 @@ export interface GetAuditLogsResult {
 
 export async function getAuditLogs({
   page,
-  pageSize = 20,
+  pageSize = 10,
   action,
   q,
 }: GetAuditLogsParams): Promise<GetAuditLogsResult> {
   const safePage = Math.max(1, page);
-  const skip = (safePage - 1) * pageSize;
+  const safePageSize = Math.max(1, Math.min(100, pageSize));
+  const skip = (safePage - 1) * safePageSize;
 
   // Validasi action — abaikan nilai yang tidak valid
   const validAction =
@@ -76,7 +77,7 @@ export async function getAuditLogs({
       where,
       orderBy: { createdAt: "desc" },
       skip,
-      take: pageSize,
+      take: safePageSize,
     }),
     prisma.auditLog.count({ where }),
   ]);
@@ -84,6 +85,6 @@ export async function getAuditLogs({
   return {
     logs,
     total,
-    totalPages: Math.max(1, Math.ceil(total / pageSize)),
+    totalPages: Math.max(1, Math.ceil(total / safePageSize)),
   };
 }
