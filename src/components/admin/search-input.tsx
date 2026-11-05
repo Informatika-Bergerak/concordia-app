@@ -7,11 +7,13 @@ import styles from "./admin.module.css";
 interface Props {
   placeholder?: string;
   paramName?: string;
+  pageParamName?: string;
 }
 
 export function SearchInput({
   placeholder = "Cari username atau nama...",
   paramName = "q",
+  pageParamName = "page",
 }: Props) {
   const router = useRouter();
   const pathname = usePathname();
@@ -28,7 +30,7 @@ export function SearchInput({
       } else {
         params.delete(paramName);
       }
-      params.delete("page");
+      params.delete(pageParamName);
       router.push(`${pathname}?${params.toString()}`);
     }, 350);
   }

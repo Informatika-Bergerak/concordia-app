@@ -17,6 +17,29 @@
   margin-bottom: 1rem;
 }
 
+.tableSection {
+  margin-bottom: 2.5rem;
+}
+
+.tableSectionHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.tableSectionTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.tableSectionCount {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
 .pagination {
   display: flex;
   justify-content: space-between;

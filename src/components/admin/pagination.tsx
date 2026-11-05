@@ -8,18 +8,19 @@ interface Props {
   page: number;
   totalPages: number;
   total: number;
+  pageParamName?: string;
 }
 
-export function Pagination({ page, totalPages, total }: Props) {
+export function Pagination({ page, totalPages, total, pageParamName = "page" }: Props) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   function buildUrl(newPage: number) {
     const params = new URLSearchParams(searchParams.toString());
     if (newPage > 1) {
-      params.set("page", String(newPage));
+      params.set(pageParamName, String(newPage));
     } else {
-      params.delete("page");
+      params.delete(pageParamName);
     }
     const qs = params.toString();
     return qs ? `${pathname}?${qs}` : pathname;
