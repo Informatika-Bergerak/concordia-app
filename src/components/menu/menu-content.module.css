@@ -1,0 +1,245 @@
+.menuContent {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 16px 14px 24px;
+}
+
+/* ── Profile card ── */
+.profileCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.profileInfo {
+  flex: 1;
+  min-width: 0;
+}
+.profileName {
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.profileChevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--surface-muted);
+  border: none;
+  cursor: pointer;
+  color: var(--ink);
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
+  flex-shrink: 0;
+}
+.profileChevron:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+}
+
+/* ── Create post row ── */
+.createPost {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  margin-bottom: 12px;
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 14px;
+}
+.createPostIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: var(--brand-dark);
+  color: #fff;
+  flex-shrink: 0;
+}
+
+/* ── Tile grid ── */
+.tileGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.tile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: var(--surface-muted);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-btn);
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 13px;
+  min-height: var(--touch-min);
+}
+.tile:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+}
+.tileIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--brand-dark);
+  color: #fff;
+  flex-shrink: 0;
+}
+
+/* ── Full-width tile (Report) ── */
+.tileFull {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: var(--surface-muted);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-btn);
+  color: var(--ink);
+  min-height: var(--touch-min);
+  margin-bottom: 8px;
+}
+.tileFull:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+}
+.tileFullText {
+  flex: 1;
+  min-width: 0;
+}
+.tileFullTitle {
+  font-weight: 700;
+  font-size: 13px;
+}
+.tileFullSub {
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+
+/* ── See more ── */
+.seeMore {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  background: var(--surface-muted);
+  border: none;
+  border-radius: var(--radius-btn);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  cursor: pointer;
+  margin-bottom: 16px;
+  min-height: var(--touch-min);
+}
+.seeMore:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+}
+
+/* ── Divider ── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 4px 0 12px;
+}
+
+/* ── Accordion ── */
+.accordionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink);
+  min-height: var(--touch-min);
+}
+.accordionHeader:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.accordionChevron {
+  transition: transform var(--transition-fast);
+}
+.accordionChevronOpen {
+  transform: rotate(180deg);
+}
+.accordionBody {
+  padding-left: 8px;
+  padding-bottom: 8px;
+}
+.accordionLink {
+  display: block;
+  padding: 8px 0;
+  font-size: 14px;
+  color: var(--ink);
+  min-height: var(--touch-min);
+  display: flex;
+  align-items: center;
+}
+.accordionLink:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Logout ── */
+.logoutBtn {
+  width: 100%;
+  padding: 12px;
+  background: var(--surface-muted);
+  border: none;
+  border-radius: var(--radius-btn);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  cursor: pointer;
+  margin-top: auto;
+  min-height: var(--touch-min);
+}
+.logoutBtn:hover {
+  background: var(--line);
+}
+.logoutBtn:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+}
+
+/* ── Active item marker (desktop sidebar) ── */
+.tileActive {
+  border-color: var(--brand-primary);
+  background: var(--brand-tint);
+}
+.accordionLinkActive {
+  color: var(--brand-primary);
+  font-weight: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accordionChevron {
+    transition: none;
+  }
+}

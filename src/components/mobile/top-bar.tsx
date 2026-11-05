@@ -2,7 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bell, CalendarDays, Home, Menu, MessageCircle, Search, ShoppingCart } from "lucide-react";
+import {
+  Bell,
+  CalendarDays,
+  Home,
+  Menu,
+  MessageCircle,
+  Search,
+  ShoppingCart,
+} from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
 import styles from "./top-bar.module.css";
 
@@ -13,18 +21,54 @@ const tabs = [
   { href: "/fjb", label: "FJB", Icon: ShoppingCart },
 ] as const;
 
-export function TopBar({ userName }: { userName: string }) {
+type TopBarProps = {
+  userName: string;
+  onMenuToggle?: () => void;
+};
+
+export function TopBar({ userName, onMenuToggle }: TopBarProps) {
   const pathname = usePathname();
 
   return (
     <header className={styles.bar}>
       <div className={styles.row}>
-        <Link href="/menu" aria-label="Menu" className={styles.plain}>
+        <button
+          type="button"
+          className={styles.menuBtn}
+          onClick={onMenuToggle}
+          aria-label="Buka menu"
+        >
           <Menu size={26} />
-        </Link>
+        </button>
+
         <Link href="/beranda" className={styles.brand}>
           Concordia
         </Link>
+
+        {/* Desktop inline search link */}
+        <Link href="/search" className={styles.desktopSearch}>
+          <Search size={16} className={styles.desktopSearchIcon} />
+          <span>Cari...</span>
+        </Link>
+
+        {/* Desktop inline tabs */}
+        <nav className={styles.desktopTabs} aria-label="Navigasi utama">
+          {tabs.map(({ href, label, Icon }) => {
+            const active = pathname === href || pathname.startsWith(href + "/");
+            return (
+              <Link
+                key={href}
+                href={href}
+                aria-label={label}
+                aria-current={active ? "page" : undefined}
+                className={active ? styles.tabActive : styles.tab}
+              >
+                <Icon size={22} />
+              </Link>
+            );
+          })}
+        </nav>
+
         <div className={styles.actions}>
           <Link href="/search" aria-label="Cari" className={styles.round}>
             <Search size={16} />
@@ -38,6 +82,7 @@ export function TopBar({ userName }: { userName: string }) {
         </div>
       </div>
 
+      {/* Mobile bottom tabs */}
       <nav className={styles.tabs} aria-label="Navigasi utama">
         {tabs.map(({ href, label, Icon }) => {
           const active = pathname === href || pathname.startsWith(href + "/");

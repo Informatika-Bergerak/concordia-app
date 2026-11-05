@@ -1,19 +1,107 @@
 .stage {
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
-  justify-content: center;
   background: var(--surface-muted);
 }
-.phone {
-  width: 100%;
-  max-width: var(--app-width);
-  min-height: 100vh;
-  background: var(--surface-muted);
-  box-shadow: 0 0 0 1px var(--line);
+
+/* ── Sidebar (desktop only) ── */
+.sidebar {
+  display: none;
 }
+
+/* ── Main column ── */
+.main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
 .content {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 10px;
   padding: 8px 8px 24px;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* ── Drawer overlay (mobile/tablet) ── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgba(33, 3, 41, 0.45);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-normal), visibility var(--transition-normal);
+}
+.overlayOpen {
+  opacity: 1;
+  visibility: visible;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+  width: min(85%, 340px);
+  background: var(--surface);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  transform: translateX(-100%);
+  transition: transform var(--transition-normal);
+  box-shadow: var(--shadow-drawer);
+}
+.drawerOpen {
+  transform: translateX(0);
+}
+
+/* ── Desktop (≥1024) ── */
+@media (min-width: 1024px) {
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-width);
+    height: 100dvh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--surface);
+    border-right: 1px solid var(--line);
+  }
+
+  .content {
+    max-width: var(--desktop-content-max);
+    padding: 16px 24px 32px;
+  }
+
+  /* Hide drawer on desktop */
+  .overlay,
+  .drawer {
+    display: none !important;
+  }
+}
+
+/* ── Tablet ── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .content {
+    max-width: var(--content-max);
+    padding: 12px 16px 32px;
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .drawer {
+    transition: none;
+  }
 }
