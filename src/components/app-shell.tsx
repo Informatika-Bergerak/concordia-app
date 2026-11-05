@@ -38,7 +38,7 @@ export function AppShell({ user, children }: Props) {
           )}
           {user.role === "ADMIN" && <Link href="/admin">Admin</Link>}
           {user.role === "ADMIN" && <Link href="/admin/users">Kelola Akun</Link>}
-          {user.role === "ADMIN" && <Link href="/admin/logs">Log Aktivitas</Link>}
+          {user.role === "ADMIN" && <Link href="/admin/audit-logs">Log Aktivitas</Link>}
         </nav>
 
         <div className="user-box">

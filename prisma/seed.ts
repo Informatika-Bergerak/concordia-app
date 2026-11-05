@@ -35,7 +35,10 @@ async function main() {
   const userPassword = getPassword("SEED_USER_PASSWORD");
 
   const accounts: Account[] = [
-    { username: "admin", name: "Administrator", role: "ADMIN", userType: null, password: adminPassword },
+    // { username: "admin", name: "Administrator", role: "ADMIN", userType: null, password: adminPassword },
+    { username: "admin1", name: "Administrator 1", role: "ADMIN", userType: null, password: adminPassword },
+    { username: "admin2", name: "Administrator 2", role: "ADMIN", userType: null, password: adminPassword },
+    { username: "admin3", name: "Administrator 3", role: "ADMIN", userType: null, password: adminPassword },
     { username: "moderator", name: "Moderator", role: "MODERATOR", userType: null, password: moderatorPassword },
     ...[...mahasiswa, ...dosen].map((u) => ({
       ...u,
