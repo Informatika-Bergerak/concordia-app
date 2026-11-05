@@ -1,21 +1,12 @@
 "use client";
 
-import { useFormState, useFormStatus } from "react-dom";
+import { useActionState } from "react";
 import { changePasswordAction, type ChangePasswordState } from "./actions";
 
 const initial: ChangePasswordState = {};
 
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <button type="submit" className="btn" disabled={pending}>
-      {pending ? "Menyimpan..." : "Simpan password"}
-    </button>
-  );
-}
-
 export function ChangePasswordForm({ forced }: { forced: boolean }) {
-  const [state, formAction] = useFormState(changePasswordAction, initial);
+  const [state, formAction, pending] = useActionState(changePasswordAction, initial);
 
   return (
     <form action={formAction} className="login-card">
@@ -47,7 +38,9 @@ export function ChangePasswordForm({ forced }: { forced: boolean }) {
         Minimal 8 karakter, mengandung huruf besar, huruf kecil, angka, dan karakter khusus.
       </p>
 
-      <SubmitButton />
+      <button type="submit" className="btn" disabled={pending}>
+        {pending ? "Menyimpan..." : "Simpan password"}
+      </button>
     </form>
   );
 }

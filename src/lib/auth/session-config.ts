@@ -1,0 +1,2 @@
+export const SESSION_IDLE_MINUTES = 30;
+export const SESSION_HEARTBEAT_SECONDS = 60;

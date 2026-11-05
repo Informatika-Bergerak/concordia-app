@@ -40,7 +40,7 @@ export const changePasswordSchema = z
 export const createUserSchema = z.object({
   name: z.string().trim().min(2, "Nama minimal 2 karakter").max(60, "Nama maksimal 60 karakter"),
   username: usernameSchema,
-  accountType: z.enum(["MAHASISWA", "DOSEN", "MODERATOR", "ADMIN"], {
+  accountType: z.enum(["MAHASISWA", "DOSEN", "MODERATOR"], {
     message: "Pilih tipe akun",
   }),
 });

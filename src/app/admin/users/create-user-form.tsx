@@ -1,21 +1,12 @@
 "use client";
 
-import { useFormState, useFormStatus } from "react-dom";
+import { useActionState } from "react";
 import { createUserAction, type CreateUserState } from "./actions";
 
 const initial: CreateUserState = {};
 
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <button type="submit" className="btn" disabled={pending}>
-      {pending ? "Membuat..." : "Buat akun"}
-    </button>
-  );
-}
-
 export function CreateUserForm() {
-  const [state, formAction] = useFormState(createUserAction, initial);
+  const [state, formAction, pending] = useActionState(createUserAction, initial);
 
   return (
     <form action={formAction} className="card form-card">
@@ -26,26 +17,42 @@ export function CreateUserForm() {
       <div className="form-grid">
         <div className="field">
           <label htmlFor="name">Nama lengkap</label>
-          <input id="name" name="name" required />
+          <input
+            id="name"
+            name="name"
+            required
+            defaultValue={state.created ? "" : (state.values?.name ?? "")}
+          />
         </div>
 
         <div className="field">
           <label htmlFor="username">Username (NPM / NIDN)</label>
-          <input id="username" name="username" required />
+          <input
+            id="username"
+            name="username"
+            required
+            defaultValue={state.created ? "" : (state.values?.username ?? "")}
+          />
         </div>
 
         <div className="field">
           <label htmlFor="accountType">Tipe akun</label>
-          <select id="accountType" name="accountType" defaultValue="MAHASISWA" required>
+          <select
+            id="accountType"
+            name="accountType"
+            required
+            defaultValue={state.created ? "MAHASISWA" : (state.values?.accountType ?? "MAHASISWA")}
+          >
             <option value="MAHASISWA">Mahasiswa</option>
             <option value="DOSEN">Dosen</option>
             <option value="MODERATOR">Moderator</option>
-            <option value="ADMIN">Admin</option>
           </select>
         </div>
 
         <div className="field">
-          <SubmitButton />
+          <button type="submit" className="btn" disabled={pending}>
+            {pending ? "Membuat..." : "Buat akun"}
+          </button>
         </div>
       </div>
 

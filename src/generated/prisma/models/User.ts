@@ -50,6 +50,9 @@ export type UserMinAggregateOutputType = {
   mustChangePassword: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  activeSessionId: string | null
+  lastSeenAt: Date | null
+  activeDevice: string | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -66,6 +69,9 @@ export type UserMaxAggregateOutputType = {
   mustChangePassword: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  activeSessionId: string | null
+  lastSeenAt: Date | null
+  activeDevice: string | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -82,6 +88,9 @@ export type UserCountAggregateOutputType = {
   mustChangePassword: number
   createdAt: number
   updatedAt: number
+  activeSessionId: number
+  lastSeenAt: number
+  activeDevice: number
   _all: number
 }
 
@@ -110,6 +119,9 @@ export type UserMinAggregateInputType = {
   mustChangePassword?: true
   createdAt?: true
   updatedAt?: true
+  activeSessionId?: true
+  lastSeenAt?: true
+  activeDevice?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -126,6 +138,9 @@ export type UserMaxAggregateInputType = {
   mustChangePassword?: true
   createdAt?: true
   updatedAt?: true
+  activeSessionId?: true
+  lastSeenAt?: true
+  activeDevice?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -142,6 +157,9 @@ export type UserCountAggregateInputType = {
   mustChangePassword?: true
   createdAt?: true
   updatedAt?: true
+  activeSessionId?: true
+  lastSeenAt?: true
+  activeDevice?: true
   _all?: true
 }
 
@@ -245,6 +263,9 @@ export type UserGroupByOutputType = {
   mustChangePassword: boolean
   createdAt: Date
   updatedAt: Date
+  activeSessionId: string | null
+  lastSeenAt: Date | null
+  activeDevice: string | null
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -284,6 +305,9 @@ export type UserWhereInput = {
   mustChangePassword?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  activeSessionId?: Prisma.StringNullableFilter<"User"> | string | null
+  lastSeenAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  activeDevice?: Prisma.StringNullableFilter<"User"> | string | null
 }
 
 export type UserOrderByWithRelationInput = {
@@ -300,6 +324,9 @@ export type UserOrderByWithRelationInput = {
   mustChangePassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  activeSessionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastSeenAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  activeDevice?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -319,6 +346,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   mustChangePassword?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  activeSessionId?: Prisma.StringNullableFilter<"User"> | string | null
+  lastSeenAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  activeDevice?: Prisma.StringNullableFilter<"User"> | string | null
 }, "id" | "username">
 
 export type UserOrderByWithAggregationInput = {
@@ -335,6 +365,9 @@ export type UserOrderByWithAggregationInput = {
   mustChangePassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  activeSessionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastSeenAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  activeDevice?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -359,6 +392,9 @@ export type UserScalarWhereWithAggregatesInput = {
   mustChangePassword?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  activeSessionId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  lastSeenAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  activeDevice?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
 }
 
 export type UserCreateInput = {
@@ -374,6 +410,9 @@ export type UserCreateInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activeSessionId?: string | null
+  lastSeenAt?: Date | string | null
+  activeDevice?: string | null
 }
 
 export type UserUncheckedCreateInput = {
@@ -390,6 +429,9 @@ export type UserUncheckedCreateInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activeSessionId?: string | null
+  lastSeenAt?: Date | string | null
+  activeDevice?: string | null
 }
 
 export type UserUpdateInput = {
@@ -405,6 +447,9 @@ export type UserUpdateInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserUncheckedUpdateInput = {
@@ -421,6 +466,9 @@ export type UserUncheckedUpdateInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserCreateManyInput = {
@@ -437,6 +485,9 @@ export type UserCreateManyInput = {
   mustChangePassword?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  activeSessionId?: string | null
+  lastSeenAt?: Date | string | null
+  activeDevice?: string | null
 }
 
 export type UserUpdateManyMutationInput = {
@@ -452,6 +503,9 @@ export type UserUpdateManyMutationInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -468,6 +522,9 @@ export type UserUncheckedUpdateManyInput = {
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -484,6 +541,9 @@ export type UserCountOrderByAggregateInput = {
   mustChangePassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  activeSessionId?: Prisma.SortOrder
+  lastSeenAt?: Prisma.SortOrder
+  activeDevice?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
@@ -505,6 +565,9 @@ export type UserMaxOrderByAggregateInput = {
   mustChangePassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  activeSessionId?: Prisma.SortOrder
+  lastSeenAt?: Prisma.SortOrder
+  activeDevice?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -521,6 +584,9 @@ export type UserMinOrderByAggregateInput = {
   mustChangePassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  activeSessionId?: Prisma.SortOrder
+  lastSeenAt?: Prisma.SortOrder
+  activeDevice?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
@@ -560,6 +626,10 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
 
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -576,6 +646,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   mustChangePassword?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  activeSessionId?: boolean
+  lastSeenAt?: boolean
+  activeDevice?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -592,6 +665,9 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   mustChangePassword?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  activeSessionId?: boolean
+  lastSeenAt?: boolean
+  activeDevice?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -608,6 +684,9 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   mustChangePassword?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  activeSessionId?: boolean
+  lastSeenAt?: boolean
+  activeDevice?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -624,9 +703,12 @@ export type UserSelectScalar = {
   mustChangePassword?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  activeSessionId?: boolean
+  lastSeenAt?: boolean
+  activeDevice?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "name" | "passwordHash" | "role" | "userType" | "fotoProfil" | "jurusan" | "trustScore" | "isActive" | "mustChangePassword" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "name" | "passwordHash" | "role" | "userType" | "fotoProfil" | "jurusan" | "trustScore" | "isActive" | "mustChangePassword" | "createdAt" | "updatedAt" | "activeSessionId" | "lastSeenAt" | "activeDevice", ExtArgs["result"]["user"]>
 
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
@@ -645,6 +727,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     mustChangePassword: boolean
     createdAt: Date
     updatedAt: Date
+    activeSessionId: string | null
+    lastSeenAt: Date | null
+    activeDevice: string | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -1081,6 +1166,9 @@ export interface UserFieldRefs {
   readonly mustChangePassword: Prisma.FieldRef<"User", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly activeSessionId: Prisma.FieldRef<"User", 'String'>
+  readonly lastSeenAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly activeDevice: Prisma.FieldRef<"User", 'String'>
 }
     
 

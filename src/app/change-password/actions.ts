@@ -6,6 +6,8 @@ import { getCurrentUser } from "@/lib/auth/guards";
 import { homeByRole } from "@/lib/auth/routes";
 import { prisma } from "@/lib/db";
 import { changePasswordSchema } from "@/lib/validations/auth";
+import { logAudit } from "@/lib/audit/log";
+import { getRequestMeta } from "@/lib/audit/request-meta";
 
 export type ChangePasswordState = { error?: string };
 
@@ -38,6 +40,14 @@ export async function changePasswordAction(
       passwordHash: await bcrypt.hash(parsed.data.newPassword, 12),
       mustChangePassword: false,
     },
+  });
+
+  const meta = await getRequestMeta();
+  await logAudit({
+    action: "PASSWORD_CHANGED",
+    actor: { id: user.id, username: user.username },
+    ip: meta.ip,
+    userAgent: meta.userAgent,
   });
 
   redirect(homeByRole[user.role]);

@@ -27,6 +27,14 @@ export function LoginForm() {
     });
 
     if (res?.error) {
+      if (res.code === "device_in_use") {
+        setError(
+          "Akun ini sedang digunakan di perangkat lain. Keluar dari perangkat tersebut atau coba lagi nanti.",
+        );
+        setLoading(false);
+        return;
+      }
+
       const locked = await isLoginLockedAction(username);
       setError(
         locked
