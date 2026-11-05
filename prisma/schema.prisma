@@ -18,6 +18,20 @@ enum UserType {
   DOSEN
 }
 
+enum AuditAction {
+  LOGIN_SUCCESS
+  LOGIN_FAILED
+  LOGIN_LOCKED
+  LOGIN_DEVICE_REJECTED
+  LOGOUT
+  PASSWORD_CHANGED
+  PASSWORD_RESET
+  ACCOUNT_CREATED
+  ACCOUNT_ACTIVATED
+  ACCOUNT_DEACTIVATED
+  SESSION_REVOKED
+}
+
 model User {
   id           Int       @id @default(autoincrement())
   username     String    @unique
@@ -32,6 +46,11 @@ model User {
   mustChangePassword Boolean   @default(true)
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
+
+  // Kolom baru untuk fitur single-device session (nullable — tidak memengaruhi data lama)
+  activeSessionId String?
+  lastSeenAt      DateTime?
+  activeDevice    String?
 }
 
 model LoginThrottle {
@@ -40,4 +59,21 @@ model LoginThrottle {
   windowStart DateTime  @default(now())
   lockedUntil DateTime?
   updatedAt   DateTime  @updatedAt
+}
+
+model AuditLog {
+  id             Int         @id @default(autoincrement())
+  createdAt      DateTime    @default(now())
+  action         AuditAction
+  actorId        Int?
+  actorUsername  String?
+  targetId       Int?
+  targetUsername String?
+  ip             String?
+  userAgent      String?
+  metadata       Json?
+
+  @@index([createdAt])
+  @@index([action])
+  @@index([actorId])
 }

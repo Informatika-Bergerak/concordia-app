@@ -10,4 +10,5 @@
  */
 export type * from './models/User'
 export type * from './models/LoginThrottle'
+export type * from './models/AuditLog'
 export type * from './commonInputTypes'

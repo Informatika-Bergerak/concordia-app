@@ -33,11 +33,12 @@ export function AppShell({ user, children }: Props) {
         <nav className="nav">
           {user.role === "USER" && <Link href="/dashboard">Dashboard</Link>}
           {user.role === "ADMIN" && <Link href="/admin">Admin</Link>}
+          {/* {user.role === "ADMIN" && <Link href="/admin">Admin</Link>} */}
           {(user.role === "MODERATOR" || user.role === "ADMIN") && (
             <Link href="/moderator">Moderasi</Link>
           )}
-          {user.role === "ADMIN" && <Link href="/admin">Admin</Link>}
           {user.role === "ADMIN" && <Link href="/admin/users">Kelola Akun</Link>}
+          {user.role === "ADMIN" && <Link href="/admin/logs">Log Aktivitas</Link>}
         </nav>
 
         <div className="user-box">

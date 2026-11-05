@@ -24,3 +24,20 @@ export const UserType = {
 } as const
 
 export type UserType = (typeof UserType)[keyof typeof UserType]
+
+
+export const AuditAction = {
+  LOGIN_SUCCESS: 'LOGIN_SUCCESS',
+  LOGIN_FAILED: 'LOGIN_FAILED',
+  LOGIN_LOCKED: 'LOGIN_LOCKED',
+  LOGIN_DEVICE_REJECTED: 'LOGIN_DEVICE_REJECTED',
+  LOGOUT: 'LOGOUT',
+  PASSWORD_CHANGED: 'PASSWORD_CHANGED',
+  PASSWORD_RESET: 'PASSWORD_RESET',
+  ACCOUNT_CREATED: 'ACCOUNT_CREATED',
+  ACCOUNT_ACTIVATED: 'ACCOUNT_ACTIVATED',
+  ACCOUNT_DEACTIVATED: 'ACCOUNT_DEACTIVATED',
+  SESSION_REVOKED: 'SESSION_REVOKED'
+} as const
+
+export type AuditAction = (typeof AuditAction)[keyof typeof AuditAction]
