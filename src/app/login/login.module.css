@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: var(--surface);
+  background-color: #f8fafc;
 }
 
 /* ── Logo area ── */
@@ -17,9 +17,15 @@
 /* ── Card ── */
 .card {
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 36px 32px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 }
 
 .title {
@@ -28,16 +34,19 @@
   color: var(--ink);
   margin: 0 0 24px;
   text-align: center;
+  letter-spacing: -0.02em;
 }
 
 /* ── Error ── */
 .error {
-  padding: 10px 12px;
-  border-radius: var(--radius-btn);
+  padding: 10px 14px;
+  border-radius: 8px;
   background: #fef2f2;
+  border: 1px solid #fee2e2;
   color: #dc2626;
   font-size: 14px;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
+  line-height: 1.4;
 }
 
 /* ── Field ── */
@@ -47,32 +56,39 @@
   gap: 6px;
   margin-bottom: 16px;
 }
+
 .fieldLabel {
   font-size: 14px;
   font-weight: 600;
   color: var(--ink);
 }
+
 .fieldWrapper {
   position: relative;
 }
+
 .fieldInput {
   width: 100%;
-  padding: 10px 12px;
-  border: 1px solid var(--brand-dark);
+  padding: 10px 14px;
+  border: 1px solid #cbd5e1;
   border-radius: var(--radius-btn);
   font-size: 14px;
   font-family: inherit;
   outline: none;
-  background: var(--surface);
+  background: #ffffff;
   color: var(--ink);
-  height: 40px;
+  height: 42px;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
+
 .fieldInput:focus {
   border-color: var(--brand-primary);
   box-shadow: 0 0 0 3px rgba(179, 49, 211, 0.15);
 }
+
 .fieldInput::placeholder {
-  color: var(--ink-muted);
+  color: #94a3b8;
 }
 
 /* Password toggle */
@@ -92,6 +108,7 @@
   min-width: var(--touch-min);
   min-height: var(--touch-min);
 }
+
 .passwordToggle:focus-visible {
   outline: 2px solid var(--brand-primary);
   outline-offset: 2px;
@@ -103,7 +120,7 @@
   width: 100%;
   padding: 12px;
   border: none;
-  border-radius: var(--radius-btn);
+  border-radius: 10px;
   background: var(--brand-primary);
   color: #fff;
   font-size: 15px;
@@ -111,15 +128,19 @@
   font-family: inherit;
   cursor: pointer;
   min-height: var(--touch-min);
-  margin-top: 4px;
+  margin-top: 8px;
+  transition: background-color 0.15s ease;
 }
+
 .submitBtn:hover {
-  background: #9a28b5;
+  background: #7e2096;
 }
+
 .submitBtn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
 .submitBtn:focus-visible {
   outline: 2px solid var(--brand-primary);
   outline-offset: 4px;
@@ -139,6 +160,7 @@
   padding: 4px;
   min-height: var(--touch-min);
 }
+
 .forgotLink:focus-visible {
   outline: 2px solid var(--brand-primary);
   outline-offset: 2px;
@@ -148,16 +170,18 @@
 .forgotPanel {
   margin-top: 12px;
   padding: 12px 16px;
-  background: var(--surface-muted);
-  border-radius: var(--radius-btn);
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
   font-size: 13px;
   color: var(--ink);
   text-align: center;
+  line-height: 1.4;
 }
 
 /* ── Footer ── */
 .loginFooter {
-  margin-top: 32px;
+  margin-top: 28px;
   text-align: center;
   font-size: 12px;
   color: var(--ink-muted);
@@ -168,10 +192,18 @@
   display: contents;
 }
 
+@media (max-width: 480px) {
+  .card {
+    padding: 28px 20px;
+    border-radius: 14px;
+  }
+}
+
 @media (min-width: 1024px) {
   .loginPage {
     flex-direction: row;
     padding: 0;
+    background-color: transparent;
   }
 
   .desktopWrapper {
@@ -191,6 +223,7 @@
     padding: 48px;
     text-align: center;
   }
+
   .brandTagline {
     font-size: 20px;
     font-weight: 600;
@@ -204,7 +237,8 @@
     align-items: center;
     justify-content: center;
     flex: 1;
-    padding: 48px;
+    padding: 48px 24px;
+    background-color: #f8fafc;
     position: relative;
   }
 
