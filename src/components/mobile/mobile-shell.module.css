@@ -129,6 +129,57 @@
   }
 }
 
+/* ── Minimal scrollbar (tablet/desktop only) ── */
+@media (min-width: 768px) {
+  :global(html),
+  :global(body),
+  .sidebar,
+  .main,
+  .rightSidebar,
+  .drawer {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(111, 104, 104, 0.48) transparent;
+  }
+
+  :global(html)::-webkit-scrollbar,
+  :global(body)::-webkit-scrollbar,
+  .sidebar::-webkit-scrollbar,
+  .main::-webkit-scrollbar,
+  .rightSidebar::-webkit-scrollbar,
+  .drawer::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  :global(html)::-webkit-scrollbar-track,
+  :global(body)::-webkit-scrollbar-track,
+  .sidebar::-webkit-scrollbar-track,
+  .main::-webkit-scrollbar-track,
+  .rightSidebar::-webkit-scrollbar-track,
+  .drawer::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  :global(html)::-webkit-scrollbar-thumb,
+  :global(body)::-webkit-scrollbar-thumb,
+  .sidebar::-webkit-scrollbar-thumb,
+  .main::-webkit-scrollbar-thumb,
+  .rightSidebar::-webkit-scrollbar-thumb,
+  .drawer::-webkit-scrollbar-thumb {
+    background: rgba(111, 104, 104, 0.48);
+    border-radius: 999px;
+  }
+
+  :global(html)::-webkit-scrollbar-thumb:hover,
+  :global(body)::-webkit-scrollbar-thumb:hover,
+  .sidebar::-webkit-scrollbar-thumb:hover,
+  .main::-webkit-scrollbar-thumb:hover,
+  .rightSidebar::-webkit-scrollbar-thumb:hover,
+  .drawer::-webkit-scrollbar-thumb:hover {
+    background: rgba(78, 72, 72, 0.68);
+  }
+}
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .overlay,
