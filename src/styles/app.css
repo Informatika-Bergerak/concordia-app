@@ -4,8 +4,8 @@
   --text: #1f2937;
   --muted: #6b7280;
   --border: #e5e7eb;
-  --primary: #b331d3;
-  --primary-dark: #7e2096;
+  --primary: #B80E0E;
+  --primary-dark: #8A0A0A;
   --danger: #dc2626;
 }
 
@@ -48,7 +48,7 @@ a { color: inherit; text-decoration: none; }
   font-size: 14px;
   outline: none;
 }
-.field input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15); }
+.field input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(184, 14, 14, 0.15); }
 
 .btn {
   display: inline-block;
@@ -110,7 +110,7 @@ a { color: inherit; text-decoration: none; }
   border-radius: 999px;
   font-size: 12px;
   font-weight: 600;
-  background: #eef2ff;
+  background: #fef2f2;
   color: var(--primary);
 }
 .badge-admin { background: #fef2f2; color: #b91c1c; }
@@ -172,7 +172,7 @@ tr:last-child td { border-bottom: none; }
   background: #fff;
   outline: none;
 }
-.field select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15); }
+.field select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(184, 14, 14, 0.15); }
 
 .form-card { margin-bottom: 24px; }
 .form-grid {

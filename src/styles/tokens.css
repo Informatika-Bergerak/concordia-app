@@ -1,18 +1,18 @@
 :root {
-  --brand-primary: #b331d3;
-  --brand-secondary: #c667de;
-  --brand-soft: #da9cea;
-  --brand-tint: #ecd3f5;
-  --brand-dark: #210329;
-  --brand-gradient: linear-gradient(135deg, #b331d3, #c400d9);
+  --brand-primary: #B80E0E;
+  --brand-secondary: #D44040;
+  --brand-soft: #E89A9A;
+  --brand-tint: #F5D3D3;
+  --brand-dark: #2E0404;
+  --brand-gradient: linear-gradient(135deg, #B80E0E, #D42020);
 
-  --ink: #210329;
-  --ink-muted: #6d686f;
+  --ink: #2E0404;
+  --ink-muted: #6f6868;
   --surface: #ffffff;
-  --surface-muted: #efeaf2;
-  --surface-search: #eee8f0;
-  --field: #ece3ef;
-  --line: #e4dde7;
+  --surface-muted: #f2eaea;
+  --surface-search: #f0e8e8;
+  --field: #efe3e3;
+  --line: #e7dddd;
 
   --success: #22c55e;
   --danger: #ef4444;
@@ -20,8 +20,8 @@
   --radius-card: 16px;
   --radius-field: 10px;
   --radius-btn: 8px;
-  --shadow-card: 0 1px 4px rgba(33, 3, 41, 0.12);
-  --shadow-drawer: 4px 0 24px rgba(33, 3, 41, 0.18);
+  --shadow-card: 0 1px 4px rgba(46, 4, 4, 0.12);
+  --shadow-drawer: 4px 0 24px rgba(46, 4, 4, 0.18);
   --app-width: 413px;
 
   /* Responsive breakpoints (for reference only, use in @media) */

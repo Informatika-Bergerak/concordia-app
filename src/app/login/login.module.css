@@ -84,7 +84,7 @@
 
 .fieldInput:focus {
   border-color: var(--brand-primary);
-  box-shadow: 0 0 0 3px rgba(179, 49, 211, 0.15);
+  box-shadow: 0 0 0 3px rgba(184, 14, 14, 0.15);
 }
 
 .fieldInput::placeholder {
@@ -133,7 +133,7 @@
 }
 
 .submitBtn:hover {
-  background: #7e2096;
+  background: #8A0A0A;
 }
 
 .submitBtn:disabled {
@@ -218,7 +218,7 @@
     align-items: center;
     justify-content: center;
     flex: 1;
-    background: linear-gradient(135deg, #b331d3, #c400d9, #210329);
+    background: linear-gradient(135deg, #B80E0E, #D42020, #2E0404);
     color: #fff;
     padding: 48px;
     text-align: center;
