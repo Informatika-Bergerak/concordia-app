@@ -41,15 +41,15 @@ export function TopBar({ userName, onMenuToggle }: TopBarProps) {
           <Menu size={26} />
         </button>
 
-        <Link href="/beranda" className={styles.brand}>
-          Concordia
-        </Link>
-
-        {/* Desktop inline search link */}
-        <Link href="/search" className={styles.desktopSearch}>
-          <Search size={16} className={styles.desktopSearchIcon} />
-          <span>Cari...</span>
-        </Link>
+        <div className={styles.leftArea}>
+          <Link href="/beranda" className={styles.brand}>
+            Concordia
+          </Link>
+          <Link href="/search" className={styles.desktopSearch}>
+            <Search size={16} className={styles.desktopSearchIcon} />
+            <span>Cari...</span>
+          </Link>
+        </div>
 
         {/* Desktop inline tabs */}
         <nav className={styles.desktopTabs} aria-label="Navigasi utama">

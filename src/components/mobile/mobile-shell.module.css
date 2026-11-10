@@ -7,8 +7,9 @@
   min-width: 0;
 }
 
-/* ── Sidebar (desktop only) ── */
-.sidebar {
+/* ── Sidebars (desktop only) ── */
+.sidebar,
+.rightSidebar {
   display: none;
 }
 
@@ -73,6 +74,7 @@
   .body {
     display: flex;
     min-height: 0;
+    justify-content: center;
   }
 
   .sidebar {
@@ -86,6 +88,17 @@
 
   .main {
     flex: 1;
+    min-width: 0;
+    max-width: 760px;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .rightSidebar {
+    display: block;
+    width: 280px;
+    min-width: 280px;
     min-height: 0;
     overflow-y: auto;
     overscroll-behavior: contain;

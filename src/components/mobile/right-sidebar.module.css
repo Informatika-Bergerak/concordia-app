@@ -1,0 +1,87 @@
+.sidebar {
+  width: 280px;
+  flex: 0 0 280px;
+  padding: 16px 16px 32px 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.section {
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.section + .section {
+  margin-top: 16px;
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.heading h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 16px;
+}
+
+.heading a {
+  color: var(--brand-primary);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.list {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: var(--touch-min);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.person span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.note {
+  margin: 12px 0 0;
+  color: var(--ink-muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.heading a:focus-visible,
+.person:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-btn);
+}

@@ -3,7 +3,7 @@
   top: 0;
   z-index: 20;
   background: var(--surface);
-  box-shadow: 0 2px 6px rgba(33, 3, 41, 0.12);
+  box-shadow: 0 1px 3px rgba(46, 4, 4, 0.14);
   padding-top: env(safe-area-inset-top, 0px);
 }
 
@@ -18,34 +18,31 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: none;
-  border: none;
-  padding: 4px;
-  cursor: pointer;
-  color: var(--ink);
   min-width: var(--touch-min);
   min-height: var(--touch-min);
+  padding: 4px;
+  border: none;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
 }
-.menuBtn:focus-visible {
-  outline: 2px solid var(--brand-primary);
-  outline-offset: 2px;
-  border-radius: 4px;
+
+.leftArea {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
 }
 
 .brand {
   flex: 1;
-  font-size: 22px;
-  font-weight: 800;
-  font-style: italic;
   color: var(--brand-primary);
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 800;
 }
 
-/* Desktop inline tabs - hidden by default, shown at ≥1024 */
-.desktopTabs {
-  display: none;
-}
-
-/* Desktop inline search - hidden by default */
+.desktopTabs,
 .desktopSearch {
   display: none;
 }
@@ -56,22 +53,17 @@
   gap: 10px;
 }
 
-
 .round {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 30px;
   height: 30px;
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
   border-radius: 50%;
   background: var(--brand-dark);
   color: #fff;
-  min-width: var(--touch-min);
-  min-height: var(--touch-min);
-}
-.round:focus-visible {
-  outline: 2px solid var(--brand-primary);
-  outline-offset: 2px;
 }
 
 .tabs {
@@ -83,64 +75,107 @@
 .tab,
 .tabActive {
   display: flex;
+  align-items: center;
   justify-content: center;
+  min-height: var(--touch-min);
   padding: 8px 0;
   color: var(--brand-dark);
-  min-height: var(--touch-min);
-  align-items: center;
-}
-.tab:focus-visible,
-.tabActive:focus-visible {
-  outline: 2px solid var(--brand-primary);
-  outline-offset: -2px;
-  border-radius: 4px;
 }
 
 .tabActive {
   color: var(--brand-primary);
 }
 
-/* ── Desktop adjustments ── */
+.menuBtn:focus-visible,
+.desktopSearch:focus-visible,
+.round:focus-visible,
+.tab:focus-visible,
+.tabActive:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-btn);
+}
+
 @media (min-width: 1024px) {
   .row {
-    padding: 10px 24px 4px;
-    max-width: 100%;
+    display: grid;
+    grid-template-columns: minmax(260px, 1fr) minmax(320px, 560px) minmax(260px, 1fr);
+    gap: 24px;
+    min-height: 60px;
+    padding: 6px 24px;
   }
 
-  .menuBtn {
+  .menuBtn,
+  .tabs {
     display: none;
+  }
+
+  .leftArea {
+    grid-column: 1;
+    grid-row: 1;
+    gap: 14px;
+  }
+
+  .brand {
+    flex: 0 0 auto;
+    white-space: nowrap;
   }
 
   .desktopSearch {
     display: flex;
     align-items: center;
-    flex: 0 1 320px;
-    height: 36px;
-    background: var(--surface-search);
-    border-radius: var(--radius-field);
-    padding: 0 12px;
     gap: 8px;
-    margin: 0 16px;
-    text-decoration: none;
+    width: min(100%, 320px);
+    height: 38px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: var(--surface-search);
     color: var(--ink-muted);
     font-size: 14px;
   }
-  .desktopSearch:focus-visible {
-    outline: 2px solid var(--brand-primary);
-    outline-offset: 2px;
-  }
+
   .desktopSearchIcon {
     flex-shrink: 0;
-    color: var(--ink-muted);
-  }
-
-  .tabs {
-    display: none;
   }
 
   .desktopTabs {
-    display: flex;
-    gap: 4px;
-    margin: 0 16px;
+    display: grid;
+    grid-column: 2;
+    grid-row: 1;
+    grid-template-columns: repeat(4, 1fr);
+    align-self: stretch;
+  }
+
+  .desktopTabs .tab,
+  .desktopTabs .tabActive {
+    position: relative;
+    min-height: 54px;
+    padding: 0;
+    color: var(--ink-muted);
+  }
+
+  .desktopTabs .tabActive {
+    color: var(--brand-primary);
+  }
+
+  .desktopTabs .tabActive::after {
+    position: absolute;
+    right: 12px;
+    bottom: 0;
+    left: 12px;
+    height: 3px;
+    border-radius: 3px 3px 0 0;
+    background: var(--brand-primary);
+    content: "";
+  }
+
+  .actions {
+    grid-column: 3;
+    grid-row: 1;
+    justify-content: flex-end;
+  }
+
+  .actions .round:first-child {
+    display: none;
   }
 }

@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect, useRef, type ReactNode } from "react";
 import { TopBar } from "./top-bar";
 import { MenuContent } from "@/components/menu/menu-content";
+import { RightSidebar } from "./right-sidebar";
 import styles from "./mobile-shell.module.css";
 
 type ShellUser = {
@@ -10,12 +11,19 @@ type ShellUser = {
   fotoProfil: string | null;
 };
 
+type ShellPerson = {
+  id: number;
+  name: string;
+  fotoProfil: string | null;
+};
+
 type MobileShellProps = {
   user: ShellUser;
+  people: ShellPerson[];
   children: ReactNode;
 };
 
-export function MobileShell({ user, children }: MobileShellProps) {
+export function MobileShell({ user, people, children }: MobileShellProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
@@ -106,6 +114,10 @@ export function MobileShell({ user, children }: MobileShellProps) {
         {/* Main content */}
         <div className={styles.main}>
           <main className={styles.content}>{children}</main>
+        </div>
+
+        <div className={styles.rightSidebar}>
+          <RightSidebar people={people} />
         </div>
       </div>
 
