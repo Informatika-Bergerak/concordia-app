@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect, useRef, type ReactNode } from "react";
 import { TopBar } from "./top-bar";
 import { MenuContent } from "@/components/menu/menu-content";
+import { RightSidebar } from "./right-sidebar";
 import styles from "./mobile-shell.module.css";
 
 type ShellUser = {
@@ -10,12 +11,19 @@ type ShellUser = {
   fotoProfil: string | null;
 };
 
+type ShellPerson = {
+  id: number;
+  name: string;
+  fotoProfil: string | null;
+};
+
 type MobileShellProps = {
   user: ShellUser;
+  people: ShellPerson[];
   children: ReactNode;
 };
 
-export function MobileShell({ user, children }: MobileShellProps) {
+export function MobileShell({ user, people, children }: MobileShellProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
@@ -95,10 +103,23 @@ export function MobileShell({ user, children }: MobileShellProps) {
 
   return (
     <div className={styles.stage}>
-      {/* Desktop sidebar */}
-      <aside className={styles.sidebar} aria-label="Menu">
-        <MenuContent user={user} />
-      </aside>
+      <TopBar userName={user.name} onMenuToggle={handleMenuToggle} />
+
+      <div className={styles.body}>
+        {/* Desktop sidebar */}
+        <aside className={styles.sidebar} aria-label="Menu">
+          <MenuContent user={user} />
+        </aside>
+
+        {/* Main content */}
+        <div className={styles.main}>
+          <main className={styles.content}>{children}</main>
+        </div>
+
+        <div className={styles.rightSidebar}>
+          <RightSidebar people={people} />
+        </div>
+      </div>
 
       {/* Mobile drawer overlay */}
       <div
@@ -117,12 +138,6 @@ export function MobileShell({ user, children }: MobileShellProps) {
         tabIndex={-1}
       >
         <MenuContent user={user} onNavigate={closeDrawer} />
-      </div>
-
-      {/* Main content */}
-      <div className={styles.main}>
-        <TopBar userName={user.name} onMenuToggle={handleMenuToggle} />
-        <main className={styles.content}>{children}</main>
       </div>
     </div>
   );

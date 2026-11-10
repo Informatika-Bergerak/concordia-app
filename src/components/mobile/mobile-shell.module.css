@@ -1,25 +1,25 @@
 .stage {
   min-height: 100dvh;
-  display: flex;
   background: var(--surface-muted);
 }
 
-/* ── Sidebar (desktop only) ── */
-.sidebar {
+.body {
+  min-width: 0;
+}
+
+/* ── Sidebars (desktop only) ── */
+.sidebar,
+.rightSidebar {
   display: none;
 }
 
 /* ── Main column ── */
 .main {
-  flex: 1;
   min-width: 0;
-  display: flex;
-  flex-direction: column;
   min-height: 100dvh;
 }
 
 .content {
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -64,23 +64,54 @@
 
 /* ── Desktop (≥1024) ── */
 @media (min-width: 1024px) {
+  .stage {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .body {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 24px;
+    width: 100%;
+    min-height: 0;
+    padding: 0 24px;
+  }
+
   .sidebar {
     display: flex;
     flex-direction: column;
-    width: var(--sidebar-width);
-    min-width: var(--sidebar-width);
-    height: 100dvh;
-    position: sticky;
-    top: 0;
+    min-width: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
-    background: var(--surface);
-    border-right: 1px solid var(--line);
+  }
+
+  .main {
+    min-width: 0;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .content {
-    max-width: var(--desktop-content-max);
-    padding: 16px 24px 32px;
+    max-width: 640px;
+    padding: 16px 0 32px;
+  }
+
+  @media (min-width: 1280px) {
+    .body {
+      grid-template-columns: 280px minmax(0, 1fr) 300px;
+    }
+
+    .rightSidebar {
+      display: block;
+      min-width: 0;
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
   }
 
   /* Hide drawer on desktop */
@@ -95,6 +126,57 @@
   .content {
     max-width: var(--content-max);
     padding: 12px 16px 32px;
+  }
+}
+
+/* ── Minimal scrollbar (tablet/desktop only) ── */
+@media (min-width: 768px) {
+  :global(html),
+  :global(body),
+  .sidebar,
+  .main,
+  .rightSidebar,
+  .drawer {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(111, 104, 104, 0.48) transparent;
+  }
+
+  :global(html)::-webkit-scrollbar,
+  :global(body)::-webkit-scrollbar,
+  .sidebar::-webkit-scrollbar,
+  .main::-webkit-scrollbar,
+  .rightSidebar::-webkit-scrollbar,
+  .drawer::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  :global(html)::-webkit-scrollbar-track,
+  :global(body)::-webkit-scrollbar-track,
+  .sidebar::-webkit-scrollbar-track,
+  .main::-webkit-scrollbar-track,
+  .rightSidebar::-webkit-scrollbar-track,
+  .drawer::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  :global(html)::-webkit-scrollbar-thumb,
+  :global(body)::-webkit-scrollbar-thumb,
+  .sidebar::-webkit-scrollbar-thumb,
+  .main::-webkit-scrollbar-thumb,
+  .rightSidebar::-webkit-scrollbar-thumb,
+  .drawer::-webkit-scrollbar-thumb {
+    background: rgba(111, 104, 104, 0.48);
+    border-radius: 999px;
+  }
+
+  :global(html)::-webkit-scrollbar-thumb:hover,
+  :global(body)::-webkit-scrollbar-thumb:hover,
+  .sidebar::-webkit-scrollbar-thumb:hover,
+  .main::-webkit-scrollbar-thumb:hover,
+  .rightSidebar::-webkit-scrollbar-thumb:hover,
+  .drawer::-webkit-scrollbar-thumb:hover {
+    background: rgba(78, 72, 72, 0.68);
   }
 }
 
