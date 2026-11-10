@@ -72,41 +72,46 @@
   }
 
   .body {
-    display: flex;
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 24px;
+    width: 100%;
     min-height: 0;
-    justify-content: center;
+    padding: 0 24px;
   }
 
   .sidebar {
     display: flex;
     flex-direction: column;
-    width: var(--sidebar-width);
-    min-width: var(--sidebar-width);
+    min-width: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
   }
 
   .main {
-    flex: 1;
     min-width: 0;
-    max-width: 760px;
-    min-height: 0;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-  }
-
-  .rightSidebar {
-    display: block;
-    width: 280px;
-    min-width: 280px;
     min-height: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
   }
 
   .content {
-    max-width: var(--desktop-content-max);
-    padding: 16px 24px 32px;
+    max-width: 640px;
+    padding: 16px 0 32px;
+  }
+
+  @media (min-width: 1280px) {
+    .body {
+      grid-template-columns: 280px minmax(0, 1fr) 300px;
+    }
+
+    .rightSidebar {
+      display: block;
+      min-width: 0;
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
   }
 
   /* Hide drawer on desktop */
