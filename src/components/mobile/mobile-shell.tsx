@@ -95,10 +95,19 @@ export function MobileShell({ user, children }: MobileShellProps) {
 
   return (
     <div className={styles.stage}>
-      {/* Desktop sidebar */}
-      <aside className={styles.sidebar} aria-label="Menu">
-        <MenuContent user={user} />
-      </aside>
+      <TopBar userName={user.name} onMenuToggle={handleMenuToggle} />
+
+      <div className={styles.body}>
+        {/* Desktop sidebar */}
+        <aside className={styles.sidebar} aria-label="Menu">
+          <MenuContent user={user} />
+        </aside>
+
+        {/* Main content */}
+        <div className={styles.main}>
+          <main className={styles.content}>{children}</main>
+        </div>
+      </div>
 
       {/* Mobile drawer overlay */}
       <div
@@ -117,12 +126,6 @@ export function MobileShell({ user, children }: MobileShellProps) {
         tabIndex={-1}
       >
         <MenuContent user={user} onNavigate={closeDrawer} />
-      </div>
-
-      {/* Main content */}
-      <div className={styles.main}>
-        <TopBar userName={user.name} onMenuToggle={handleMenuToggle} />
-        <main className={styles.content}>{children}</main>
       </div>
     </div>
   );
