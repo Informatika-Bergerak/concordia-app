@@ -30,7 +30,7 @@
   min-height: var(--touch-min);
 }
 .loginLink:hover {
-  background: #9a28b5;
+  background: #9A0B0B;
 }
 .loginLink:focus-visible {
   outline: 2px solid var(--brand-primary);
@@ -51,7 +51,7 @@
 /* ── Desktop ── */
 @media (min-width: 1024px) {
   .landing {
-    background: linear-gradient(135deg, #faf5fc, var(--brand-tint) 60%, #faf5fc);
+    background: linear-gradient(135deg, #fcf5f5, var(--brand-tint) 60%, #fcf5f5);
   }
 
   .logo {
