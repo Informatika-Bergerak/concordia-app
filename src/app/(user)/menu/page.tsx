@@ -6,5 +6,5 @@ export default async function MenuPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
 
-  return <MenuContent user={{ name: user.name, fotoProfil: user.fotoProfil }} />;
+  return <MenuContent user={{ name: user.name, fotoProfil: user.fotoProfil, role: user.role, userType: user.userType }} />;
 }

@@ -1,6 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState, useState } from "react";
+import type { Role } from "@/generated/prisma/enums";
+import { homeByRole } from "@/lib/auth/routes";
 import { Eye, EyeOff } from "lucide-react";
 import { changePasswordAction, type ChangePasswordState } from "./actions";
 import styles from "./change-password.module.css";
@@ -52,7 +55,7 @@ function PasswordField({
   );
 }
 
-export function ChangePasswordForm({ forced }: { forced: boolean }) {
+export function ChangePasswordForm({ forced, role }: { forced: boolean; role: Role }) {
   const [state, formAction, pending] = useActionState(changePasswordAction, initial);
 
   return (
@@ -94,6 +97,7 @@ export function ChangePasswordForm({ forced }: { forced: boolean }) {
       <button type="submit" className={styles.submitBtn} disabled={pending}>
         {pending ? "Menyimpan..." : "Simpan password"}
       </button>
+      {!forced && <Link href={homeByRole[role]} className={styles.backLink}>Kembali</Link>}
     </form>
   );
 }

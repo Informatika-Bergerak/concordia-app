@@ -4,7 +4,7 @@ import { requireRole } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 
 export default async function UserLayout({ children }: { children: ReactNode }) {
-  const { user } = await requireRole(["USER"]);
+  const { user } = await requireRole(["USER", "MODERATOR", "ADMIN"]);
   const people = await prisma.user.findMany({
     where: { role: "USER", isActive: true, id: { not: user.id } },
     select: { id: true, name: true, fotoProfil: true },
@@ -13,7 +13,7 @@ export default async function UserLayout({ children }: { children: ReactNode }) 
   });
 
   return (
-    <MobileShell user={{ name: user.name, fotoProfil: user.fotoProfil }} people={people}>
+    <MobileShell user={{ name: user.name, fotoProfil: user.fotoProfil, role: user.role, userType: user.userType }} people={people}>
       {children}
     </MobileShell>
   );

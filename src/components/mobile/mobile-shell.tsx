@@ -4,11 +4,14 @@ import { useState, useCallback, useEffect, useRef, type ReactNode } from "react"
 import { TopBar } from "./top-bar";
 import { MenuContent } from "@/components/menu/menu-content";
 import { RightSidebar } from "./right-sidebar";
+import type { Role, UserType } from "@/generated/prisma/enums";
 import styles from "./mobile-shell.module.css";
 
 type ShellUser = {
   name: string;
   fotoProfil: string | null;
+  role: Role;
+  userType: UserType | null;
 };
 
 type ShellPerson = {
