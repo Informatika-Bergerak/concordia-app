@@ -16,12 +16,17 @@ import {
   UsersRound,
 } from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
+import { RoleBadge } from "@/components/ui/role-badge";
+import { getStaffSections } from "./menu-config";
+import type { Role, UserType } from "@/generated/prisma/enums";
 import { signOut } from "next-auth/react";
 import styles from "./menu-content.module.css";
 
 type MenuUser = {
   name: string;
   fotoProfil: string | null;
+  role: Role;
+  userType: UserType | null;
 };
 
 type MenuContentProps = {
@@ -30,10 +35,10 @@ type MenuContentProps = {
 };
 
 const tiles = [
+  { href: "/beranda", label: "Threads", Icon: MessageSquare },
   { href: "/teman", label: "Friends", Icon: Users },
   { href: "/grup", label: "Group", Icon: UsersRound },
   { href: "/disukai", label: "Like", Icon: Heart },
-  { href: "/beranda", label: "Threads", Icon: MessageSquare },
   { href: "/event", label: "Event", Icon: CalendarDays },
   { href: "/fjb", label: "Marketplace", Icon: ShoppingCart },
 ] as const;
@@ -55,13 +60,15 @@ function Accordion({
   links,
   pathname,
   onNavigate,
+  defaultOpen = true,
 }: {
   title: string;
   links: ReadonlyArray<{ href: string; label: string }>;
   pathname: string;
   onNavigate?: () => void;
+  defaultOpen?: boolean;
 }) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(defaultOpen);
 
   return (
     <div>
@@ -80,12 +87,12 @@ function Accordion({
       {open && (
         <div className={styles.accordionBody}>
           {links.map(({ href, label }) => {
-            const active = pathname === href;
+            const active = pathname === href || (href !== "/admin" && pathname.startsWith(`${href}/`));
             return (
               <Link
                 key={href}
                 href={href}
-                className={`${styles.accordionLink} ${active ? styles.accordionLinkActive : ""}`}
+                className={`${styles.accordionLink} ${active ? `${styles.accordionLinkActive} active` : ""}`}
                 onClick={onNavigate}
               >
                 {label}
@@ -100,6 +107,8 @@ function Accordion({
 
 export function MenuContent({ user, onNavigate }: MenuContentProps) {
   const pathname = usePathname();
+  const [showAllMenuItems, setShowAllMenuItems] = useState(false);
+  const staffSections = getStaffSections(user.role);
 
   function handleLogout() {
     signOut({ redirectTo: "/login" });
@@ -112,6 +121,7 @@ export function MenuContent({ user, onNavigate }: MenuContentProps) {
         <Avatar name={user.name} size={44} />
         <div className={styles.profileInfo}>
           <div className={styles.profileName}>{user.name}</div>
+          <RoleBadge role={user.role} userType={user.userType} hideStudent={false} />
         </div>
         <Link
           href="/profil"
@@ -131,43 +141,66 @@ export function MenuContent({ user, onNavigate }: MenuContentProps) {
         Buat Postingan
       </Link>
 
-      {/* Tile grid */}
-      <div className={styles.tileGrid}>
-        {tiles.map(({ href, label, Icon }) => {
+      {/* Navigation */}
+      <div className={styles.menuList}>
+        {tiles.map(({ href, label, Icon }, index) => {
           const active = pathname === href || pathname.startsWith(href + "/");
+          const optional = index >= 5;
           return (
             <Link
               key={href}
               href={href}
-              className={`${styles.tile} ${active ? styles.tileActive : ""}`}
+              className={`${styles.menuItem} ${active ? styles.menuItemActive : ""} ${optional ? styles.menuItemOptional : ""} ${showAllMenuItems ? styles.menuItemVisible : ""}`}
               onClick={onNavigate}
             >
-              <span className={styles.tileIcon}>
-                <Icon size={16} />
+              <span className={styles.menuItemIcon}>
+                <Icon size={20} />
               </span>
               {label}
             </Link>
           );
         })}
+        <Link
+          href="/laporan"
+          className={`${styles.menuItem} ${styles.reportItem} ${showAllMenuItems ? styles.menuItemVisible : ""}`}
+          onClick={onNavigate}
+        >
+          <span className={styles.menuItemIcon}>
+            <AlertTriangle size={20} />
+          </span>
+          <span>
+            <span className={styles.reportTitle}>Report A Problem</span>
+            <span className={styles.reportDescription}>
+              Laporkan Masalah Yang Sedang terjadi.
+            </span>
+          </span>
+        </Link>
       </div>
 
-      {/* Report tile */}
-      <Link href="/laporan" className={styles.tileFull} onClick={onNavigate}>
-        <span className={styles.tileIcon}>
-          <AlertTriangle size={16} />
-        </span>
-        <div className={styles.tileFullText}>
-          <div className={styles.tileFullTitle}>Report A Problem</div>
-          <div className={styles.tileFullSub}>
-            Laporkan Masalah Yang Sedang terjadi.
-          </div>
-        </div>
-      </Link>
-
-      {/* See more */}
-      <button type="button" className={styles.seeMore}>
-        See more
+      <button
+        type="button"
+        className={styles.seeMore}
+        onClick={() => setShowAllMenuItems((show) => !show)}
+        aria-expanded={showAllMenuItems}
+      >
+        {showAllMenuItems ? "Lihat lebih sedikit" : "Lihat selengkapnya"}
       </button>
+
+      {staffSections.length > 0 && (
+        <>
+          <hr className={styles.divider} />
+          {staffSections.map((section) => (
+            <Accordion
+              key={section.title}
+              title={section.title}
+              links={section.links}
+              pathname={pathname}
+              onNavigate={onNavigate}
+              defaultOpen
+            />
+          ))}
+        </>
+      )}
 
       <hr className={styles.divider} />
 

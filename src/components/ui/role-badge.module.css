@@ -1,0 +1,35 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  border-radius: 999px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.sm {
+  padding: 3px 6px;
+  font-size: 10px;
+}
+
+.md {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+.admin {
+  background: var(--brand-primary);
+  color: var(--surface);
+}
+
+.moderator {
+  background: var(--brand-tint);
+  border: 1px solid var(--brand-secondary);
+  color: var(--brand-dark);
+}
+
+.dosen,
+.student {
+  background: var(--surface-muted);
+  color: var(--ink);
+}

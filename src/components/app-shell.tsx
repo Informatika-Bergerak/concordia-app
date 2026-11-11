@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { signOut } from "@/auth";
+import { AppShellNavLink } from "./app-shell-nav-link";
 import type { Role, UserType } from "@/generated/prisma/enums";
 
 type AppUser = {
@@ -31,13 +32,13 @@ export function AppShell({ user, children }: Props) {
         <Link href="/" className="brand">ConCordia</Link>
 
         <nav className="nav">
-          {user.role === "USER" && <Link href="/dashboard">Dashboard</Link>}
-          {user.role === "ADMIN" && <Link href="/admin">Dashboard</Link>}
+          <AppShellNavLink href="/beranda">Beranda</AppShellNavLink>
+          {user.role === "ADMIN" && <AppShellNavLink href="/admin">Dashboard</AppShellNavLink>}
           {(user.role === "MODERATOR" || user.role === "ADMIN") && (
-            <Link href="/moderator">Moderasi</Link>
+            <AppShellNavLink href="/moderator">Moderasi</AppShellNavLink>
           )}
-          {user.role === "ADMIN" && <Link href="/admin/users">Kelola Akun</Link>}
-          {user.role === "ADMIN" && <Link href="/admin/audit-logs">Log Aktivitas</Link>}
+          {user.role === "ADMIN" && <AppShellNavLink href="/admin/users">Kelola Akun</AppShellNavLink>}
+          {user.role === "ADMIN" && <AppShellNavLink href="/admin/audit-logs">Log Aktivitas</AppShellNavLink>}
         </nav>
 
         <div className="user-box">
