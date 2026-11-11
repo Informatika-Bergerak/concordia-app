@@ -1,10 +1,56 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 import { changePasswordAction, type ChangePasswordState } from "./actions";
 import styles from "./change-password.module.css";
 
 const initial: ChangePasswordState = {};
+
+function PasswordField({
+  id,
+  name,
+  label,
+  autoComplete,
+}: {
+  id: string;
+  name: string;
+  label: string;
+  autoComplete: string;
+}) {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <div className={styles.field}>
+      <label htmlFor={id} className={styles.label}>
+        {label}
+      </label>
+      <div className={styles.inputWrapper}>
+        <input
+          id={id}
+          name={name}
+          type={visible ? "text" : "password"}
+          autoComplete={autoComplete}
+          className={styles.input}
+          required
+        />
+        <button
+          type="button"
+          className={styles.passwordToggle}
+          onClick={() => setVisible((prev) => !prev)}
+          aria-label={
+            visible
+              ? `Sembunyikan ${label.toLowerCase()}`
+              : `Tampilkan ${label.toLowerCase()}`
+          }
+          aria-pressed={visible}
+        >
+          {visible ? <EyeOff size={18} /> : <Eye size={18} />}
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export function ChangePasswordForm({ forced }: { forced: boolean }) {
   const [state, formAction, pending] = useActionState(changePasswordAction, initial);
@@ -20,47 +66,26 @@ export function ChangePasswordForm({ forced }: { forced: boolean }) {
 
       {state.error && <div className={styles.errorAlert}>{state.error}</div>}
 
-      <div className={styles.field}>
-        <label htmlFor="currentPassword" className={styles.label}>
-          Password lama
-        </label>
-        <input
-          id="currentPassword"
-          name="currentPassword"
-          type="password"
-          autoComplete="current-password"
-          className={styles.input}
-          required
-        />
-      </div>
+      <PasswordField
+        id="currentPassword"
+        name="currentPassword"
+        label="Password lama"
+        autoComplete="current-password"
+      />
 
-      <div className={styles.field}>
-        <label htmlFor="newPassword" className={styles.label}>
-          Password baru
-        </label>
-        <input
-          id="newPassword"
-          name="newPassword"
-          type="password"
-          autoComplete="new-password"
-          className={styles.input}
-          required
-        />
-      </div>
+      <PasswordField
+        id="newPassword"
+        name="newPassword"
+        label="Password baru"
+        autoComplete="new-password"
+      />
 
-      <div className={styles.field}>
-        <label htmlFor="confirmPassword" className={styles.label}>
-          Konfirmasi password baru
-        </label>
-        <input
-          id="confirmPassword"
-          name="confirmPassword"
-          type="password"
-          autoComplete="new-password"
-          className={styles.input}
-          required
-        />
-      </div>
+      <PasswordField
+        id="confirmPassword"
+        name="confirmPassword"
+        label="Konfirmasi password baru"
+        autoComplete="new-password"
+      />
 
       <p className={styles.hint}>
         Minimal 8 karakter, mengandung huruf besar, huruf kecil, angka, dan karakter khusus.
