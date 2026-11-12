@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { Calendar, MapPin, Users, Heart, Check } from "lucide-react";

@@ -20,7 +20,7 @@ export function CancelEventModal({ event, onClose, onConfirm }: CancelEventModal
           </div>
           <h3 id="cancel-title" className={styles.modalTitle} style={{ fontSize: "20px" }}>Batalkan Event Anda?</h3>
           <p style={{ color: "#8A0B0B", fontSize: "14px", margin: "8px 0 24px" }}>
-            Anda yakin ingin membatalkan event <strong>"{event.title}"</strong>? Tindakan ini tidak dapat dibatalkan.
+            Anda yakin ingin membatalkan event <strong>&ldquo;{event.title}&rdquo;</strong>? Tindakan ini tidak dapat dibatalkan.
           </p>
         </div>
 

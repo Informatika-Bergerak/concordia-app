@@ -112,13 +112,13 @@ export function EventCalendarDropdown({
         </div>
 
         <div className={styles.calendarNav}>
-          <button type="button" className={styles.iconBtn} onClick={handlePrevMonth} aria-label="Bulan sebelumnya">
+          <button type="button" className={styles.calendarNavBtn} onClick={handlePrevMonth} aria-label="Bulan sebelumnya">
             <ChevronLeft size={16} />
           </button>
-          <span style={{ fontWeight: 700, fontSize: "14px", color: "#2E0404" }}>
+          <span className={styles.calendarNavTitle}>
             {monthNames[currentMonth]} {currentYear}
           </span>
-          <button type="button" className={styles.iconBtn} onClick={handleNextMonth} aria-label="Bulan berikutnya">
+          <button type="button" className={styles.calendarNavBtn} onClick={handleNextMonth} aria-label="Bulan berikutnya">
             <ChevronRight size={16} />
           </button>
         </div>
@@ -159,21 +159,17 @@ export function EventCalendarDropdown({
           })}
         </div>
 
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "16px", paddingTop: "12px", borderTop: "1px solid #F4DBDB" }}>
+        <div style={{ marginTop: "14px", paddingTop: "12px", borderTop: "1px solid #F4DBDB" }}>
           <button
             type="button"
-            className={styles.btnSecondary}
+            className={styles.resetCalendarBtn}
             onClick={() => {
               onSelectDate(null);
               onClose();
             }}
-            style={{ fontSize: "12px", padding: "6px 12px" }}
           >
-            <RotateCcw size={14} /> Reset Filter Tanggal
+            <RotateCcw size={15} /> Reset Filter Tanggal
           </button>
-          <span style={{ fontSize: "12px", color: "#8A0B0B" }}>
-            {selectedDate ? `Aktif: ${selectedDate}` : "Semua Tanggal"}
-          </span>
         </div>
       </div>
     </div>

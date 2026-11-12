@@ -730,7 +730,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 90vw;
+    width: calc(100vw - 32px);
     max-width: 360px;
   }
 }
@@ -743,14 +743,65 @@
 }
 
 .calendarNav {
-  display: flex;
+  display: grid;
+  grid-template-columns: 38px 1fr 38px;
   align-items: center;
-  justify-content: space-between;
+  gap: 8px;
   margin-bottom: 12px;
   background: #fff9f9;
   padding: 6px 10px;
   border-radius: 8px;
   border: 1px solid #E49F9F;
+}
+
+.calendarNavBtn {
+  background: #ffffff;
+  border: 1px solid #E49F9F;
+  color: #5C0707;
+  border-radius: 8px;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+.calendarNavBtn:hover {
+  background: #F4DBDB;
+  border-color: #CD5656;
+}
+
+.calendarNavTitle {
+  font-weight: 700;
+  font-size: 14px;
+  color: #2E0404;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.resetCalendarBtn {
+  width: 100%;
+  background: #F4DBDB;
+  color: #5C0707;
+  border: 1px solid #E49F9F;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 600;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+
+.resetCalendarBtn:hover {
+  background: #E49F9F;
 }
 
 .calendarWeekdays {

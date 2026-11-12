@@ -23,6 +23,9 @@ const REPORT_REASONS = [
 ];
 
 export function ReportEventModal({ event, currentUser, onClose, onSubmitReport }: ReportEventModalProps) {
+  const [selectedReason, setSelectedReason] = useState<string>(REPORT_REASONS[0]);
+  const [description, setDescription] = useState("");
+
   // Prevent user from reporting their own event
   if (event.creatorId === currentUser.id) {
     return (
@@ -31,7 +34,7 @@ export function ReportEventModal({ event, currentUser, onClose, onSubmitReport }
           <AlertTriangle size={48} color="#B80E0E" style={{ margin: "0 auto 16px" }} />
           <h2 id="report-title" className={styles.modalTitle} style={{ marginBottom: "12px" }}>Tidak Dapat Melaporkan Event Sendiri</h2>
           <p style={{ fontSize: "14px", color: "#5C0707", marginBottom: "20px" }}>
-            Anda adalah pembuat event "{event.title}". Anda tidak dapat melaporkan event milik sendiri.
+            Anda adalah pembuat event &ldquo;{event.title}&rdquo;. Anda tidak dapat melaporkan event milik sendiri.
           </p>
           <button type="button" className={styles.btnPrimary} onClick={onClose} style={{ width: "100%", justifyContent: "center" }}>
             Mengerti
@@ -40,9 +43,6 @@ export function ReportEventModal({ event, currentUser, onClose, onSubmitReport }
       </div>
     );
   }
-
-  const [selectedReason, setSelectedReason] = useState<string>(REPORT_REASONS[0]);
-  const [description, setDescription] = useState("");
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -93,7 +93,7 @@ export function ReportEventModal({ event, currentUser, onClose, onSubmitReport }
         </div>
 
         <p style={{ fontSize: "14px", color: "#5C0707", marginBottom: "16px" }}>
-          Laporkan event <strong>"{event.title}"</strong> jika terdapat informasi atau aktivitas yang melanggar ketentuan Concordia.
+          Laporkan event <strong>&ldquo;{event.title}&rdquo;</strong> jika terdapat informasi atau aktivitas yang melanggar ketentuan Concordia.
         </p>
 
         <form onSubmit={handleSubmit}>

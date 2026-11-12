@@ -234,6 +234,7 @@ export function LogsDataTable({
     }, 300);
 
     return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, currentQuery]);
 
   // Handler dropdown filter aksi (langsung dieksekusi secara realtime)
