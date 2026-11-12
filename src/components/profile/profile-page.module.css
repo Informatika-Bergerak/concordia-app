@@ -1,0 +1,279 @@
+.page {
+  width: 100%;
+  min-height: calc(100dvh - 100px);
+  padding: 4px 0 24px;
+  color: #302c33;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  min-height: 104px;
+  padding: 0 4px;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: #2e0435;
+  border-radius: 10px;
+}
+
+.backButton:hover {
+  background: #f0d7f7;
+}
+
+.logo {
+  justify-self: center;
+  width: 132px;
+  height: auto;
+}
+
+.headerSpacer {
+  width: 44px;
+  height: 44px;
+}
+
+.identityCard,
+.trustCard,
+.detailsCard,
+.editButton {
+  border-radius: 15px;
+  background: #ebd0f4;
+}
+
+.identityCard {
+  padding: 13px 12px 9px;
+}
+
+.identityRow {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  min-width: 0;
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 76px;
+  height: 76px;
+  flex: 0 0 76px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #b331d3;
+  color: #f4dafa;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.identityDetails {
+  min-width: 0;
+  flex: 1;
+}
+
+.identityDetails h1 {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: clamp(19px, 5.2vw, 25px);
+  font-weight: 800;
+  line-height: 1.12;
+}
+
+.identityDetails p {
+  margin: 3px 0 5px;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.identityAccent {
+  display: block;
+  width: 116px;
+  height: 18px;
+  border-radius: 999px;
+  background: #a542b5;
+}
+
+.scoreBar {
+  position: relative;
+  height: 18px;
+  margin-top: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #67236f;
+}
+
+.scoreFill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #a542b5;
+}
+
+.scoreLabel {
+  margin: 4px 8px 0;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.trustCard {
+  margin-top: 23px;
+  padding: 13px 19px 18px;
+}
+
+.trustCard h2 {
+  margin: 0 0 12px;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.indicatorList {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.indicator {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.indicatorIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: #132019;
+}
+
+.complete {
+  background: #27c95d;
+}
+
+.incomplete {
+  background: #ff3d48;
+}
+
+.indicatorLabel {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.indicatorPoints {
+  color: #6d606f;
+  white-space: nowrap;
+}
+
+.trustNote {
+  margin: 18px 0 0;
+  color: #716574;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.detailsCard {
+  margin-top: 24px;
+  padding: 8px 12px;
+}
+
+.detailRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 50px;
+  border-bottom: 1.5px solid #332e34;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+.detailRow:last-child {
+  border-bottom: 0;
+}
+
+.detailRow strong {
+  text-align: right;
+  font-weight: 800;
+}
+
+.editButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  margin-top: 23px;
+  color: inherit;
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.editButton:hover {
+  background: #e3b9ef;
+}
+
+.backButton:focus-visible,
+.editButton:focus-visible {
+  outline: 3px solid #b331d3;
+  outline-offset: 2px;
+}
+
+@media (min-width: 768px) {
+  .page {
+    max-width: 640px;
+    margin: 0 auto;
+    padding-bottom: 40px;
+  }
+
+  .header {
+    min-height: 116px;
+  }
+}
+
+@media (max-width: 380px) {
+  .identityRow {
+    gap: 14px;
+  }
+
+  .avatar {
+    width: 68px;
+    height: 68px;
+    flex-basis: 68px;
+  }
+
+  .indicator {
+    gap: 7px;
+    font-size: 14px;
+  }
+
+  .detailRow {
+    font-size: 17px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backButton,
+  .editButton {
+    transition: none;
+  }
+}
