@@ -38,7 +38,8 @@
 .support { align-self: flex-end; display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding: 0 20px; border: none; border-radius: var(--radius-btn); background: var(--brand-primary); color: #fff; font: inherit; font-size: 13px; font-weight: 800; cursor: pointer; }
 .support:hover { background: var(--brand-secondary); }
 
-/* Tombol tambah laporan */
+/* Tombol tambah laporan (mobile: fixed di pojok layar) */
+.fabDock { display: contents; }
 .fab { position: fixed; right: 16px; bottom: 20px; z-index: 20; display: inline-flex; width: 56px; height: 56px; align-items: center; justify-content: center; border-radius: 50%; color: var(--brand-dark); filter: drop-shadow(0 4px 8px rgba(46, 4, 4, 0.3)); transition: transform var(--transition-fast); }
 .fab:hover { transform: scale(1.06); }
 .fab:focus-visible, .iconBtn:focus-visible, .chip:focus-visible, .support:focus-visible { outline: 2px solid var(--brand-primary); outline-offset: 2px; }
@@ -56,7 +57,7 @@
 .input:focus, .textarea:focus, .select:focus { outline: 2px solid var(--brand-primary); outline-offset: 0; }
 .invalid { border-color: var(--danger); }
 .error { margin: 0; font-size: 12px; color: var(--danger); }
-.radios { display: flex; gap: 20px; }
+.radios { display: flex; flex-wrap: wrap; gap: 4px 20px; }
 .radio { display: inline-flex; align-items: center; gap: 8px; min-height: var(--touch-min); font-size: 14px; color: var(--ink); cursor: pointer; }
 .radio input { accent-color: var(--brand-primary); width: 18px; height: 18px; }
 .uploadBtn { align-self: flex-start; min-height: var(--touch-min); padding: 0 18px; border: none; border-radius: var(--radius-btn); background: var(--brand-dark); color: #fff; font: inherit; font-size: 13px; font-weight: 800; cursor: pointer; }
@@ -73,5 +74,8 @@
 @media (min-width: 768px) {
   .list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .formCard { padding: 24px; }
-  .fab { right: 28px; bottom: 28px; }
+  /* Tablet dan desktop: tombol menempel di bagian bawah kolom konten tengah,
+     bukan di pojok layar, supaya tidak menutupi sidebar kanan. */
+  .fabDock { position: sticky; bottom: 24px; z-index: 20; height: 0; }
+  .fab { position: absolute; right: 8px; bottom: 0; }
 }

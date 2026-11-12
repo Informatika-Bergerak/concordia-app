@@ -24,7 +24,7 @@ export function ReportFeed({ reports }: { reports: ReportItem[] }) {
   }, [reports, query, status]);
 
   const mine = filtered.filter((r) => r.isMine);
-  const latest = filtered.filter((r) => !r.isMine && r.visibility === "PUBLIC");
+  const latest = filtered.filter((r) => !r.isMine && r.visibility !== "PRIVATE");
 
   return (
     <div className={styles.page}>

@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import type { ReportVisibility } from "@/modules/report/types";
 import { CalendarDays } from "lucide-react";
 import { UPLOAD_RULES } from "@/lib/uploads/config";
-import { CATEGORY_OPTIONS } from "@/modules/report/constants";
+import { CATEGORY_OPTIONS, VISIBILITY_HINTS, VISIBILITY_OPTIONS } from "@/modules/report/constants";
 import { createReportSchema } from "@/modules/report/schemas";
 import styles from "./report.module.css";
 
@@ -17,6 +18,7 @@ export function ReportForm() {
   const [notice, setNotice] = useState<string | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [imageError, setImageError] = useState<string | null>(null);
+  const [visibility, setVisibility] = useState<ReportVisibility>("PUBLIC");
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => () => { if (preview) URL.revokeObjectURL(preview); }, [preview]);
@@ -106,9 +108,20 @@ export function ReportForm() {
       <fieldset className={styles.field} style={{ border: "none", padding: 0, margin: 0 }}>
         <legend className={styles.label}>Visibilitas</legend>
         <div className={styles.radios}>
-          <label className={styles.radio}><input type="radio" name="visibility" value="PUBLIC" defaultChecked /> Public</label>
-          <label className={styles.radio}><input type="radio" name="visibility" value="PRIVATE" /> Private</label>
+          {VISIBILITY_OPTIONS.map(([value, label]) => (
+            <label key={value} className={styles.radio}>
+              <input
+                type="radio"
+                name="visibility"
+                value={value}
+                checked={visibility === value}
+                onChange={() => setVisibility(value)}
+              />
+              {label}
+            </label>
+          ))}
         </div>
+        <p className={styles.formHint}>{VISIBILITY_HINTS[visibility]}</p>
       </fieldset>
 
       <div className={styles.field}>
