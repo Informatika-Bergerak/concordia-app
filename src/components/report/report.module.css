@@ -76,6 +76,6 @@
   .formCard { padding: 24px; }
   /* Tablet dan desktop: tombol menempel di bagian bawah kolom konten tengah,
      bukan di pojok layar, supaya tidak menutupi sidebar kanan. */
-  .fabDock { position: sticky; bottom: 24px; z-index: 20; height: 0; }
-  .fab { position: absolute; right: 8px; bottom: 0; }
+  .fabDock { display: block; position: sticky; bottom: 24px; z-index: 20; height: 0; }
+  .fab { position: absolute; right: 12px; bottom: 0; }
 }
