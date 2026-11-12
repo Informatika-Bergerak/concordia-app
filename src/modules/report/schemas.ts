@@ -31,7 +31,7 @@ export const createReportSchema = z.object({
     .regex(/^\d{4}-\d{2}-\d{2}$/, "Tanggal tidak valid")
     .refine((v) => !Number.isNaN(Date.parse(v)), "Tanggal tidak valid")
     .refine((v) => Date.parse(v) <= Date.now(), "Tanggal tidak boleh di masa depan"),
-  visibility: z.enum(["PUBLIC", "PRIVATE"]),
+  visibility: z.enum(["PUBLIC", "ANONYMOUS", "PRIVATE"]),
 });
 
 export type CreateReportInput = z.infer<typeof createReportSchema>;

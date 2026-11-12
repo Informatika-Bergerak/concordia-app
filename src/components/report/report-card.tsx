@@ -1,5 +1,5 @@
 import { CalendarDays, MapPin, UserRound } from "lucide-react";
-import { CATEGORY_LABELS, STATUS_LABELS } from "@/modules/report/constants";
+import { CATEGORY_LABELS, STATUS_LABELS, VISIBILITY_LABELS } from "@/modules/report/constants";
 import type { ReportItem } from "@/modules/report/types";
 import styles from "./report.module.css";
 
@@ -11,6 +11,10 @@ const dateFormat = new Intl.DateTimeFormat("id-ID", {
 });
 
 export function ReportCard({ report }: { report: ReportItem }) {
+  // Identitas pelapor hanya tampil bila laporan berstatus Public.
+  const authorLabel =
+    report.visibility === "PUBLIC" && report.authorName ? report.authorName : "Anonymous";
+
   return (
     <article className={styles.card}>
       <div className={styles.cardTop}>
@@ -20,7 +24,7 @@ export function ReportCard({ report }: { report: ReportItem }) {
             {STATUS_LABELS[report.status]}
           </span>
           <span className={styles.visibility}>
-            • {report.visibility === "PUBLIC" ? "Public" : "Private"}
+            • {VISIBILITY_LABELS[report.visibility]}
           </span>
         </div>
       </div>
@@ -47,12 +51,12 @@ export function ReportCard({ report }: { report: ReportItem }) {
             {dateFormat.format(new Date(report.occurredAt))}
           </strong>
           <span className={styles.author}>
-            Dibuat oleh {report.authorName ?? "Anonymous"} <UserRound size={13} aria-hidden />
+            Dibuat oleh {authorLabel} <UserRound size={13} aria-hidden />
           </span>
         </div>
       </div>
 
-      {!report.isMine && report.visibility === "PUBLIC" && (
+      {!report.isMine && report.visibility !== "PRIVATE" && (
         <button type="button" className={styles.support} disabled title="Fitur dukungan menyusul">
           Bantu Laporan{report.supportCount > 0 ? ` (${report.supportCount})` : ""}
         </button>

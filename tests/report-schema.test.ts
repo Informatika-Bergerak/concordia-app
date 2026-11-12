@@ -27,6 +27,10 @@ describe("createReportSchema", () => {
     expect(createReportSchema.safeParse({ ...valid, occurredAt: "2999-01-01" }).success).toBe(false);
   });
 
+  it("menerima visibilitas Anonymous", () => {
+    expect(createReportSchema.safeParse({ ...valid, visibility: "ANONYMOUS" }).success).toBe(true);
+  });
+
   it("menolak visibilitas yang tidak dikenal", () => {
     expect(createReportSchema.safeParse({ ...valid, visibility: "SECRET" }).success).toBe(false);
   });
