@@ -1,10 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import type { ReportVisibility } from "@/modules/report/types";
 import { CalendarDays } from "lucide-react";
 import { UPLOAD_RULES } from "@/lib/uploads/config";
+import { uploadFile } from "@/lib/uploads/client";
+import { createReportAction } from "@/modules/report/actions";
 import { CATEGORY_OPTIONS, VISIBILITY_HINTS, VISIBILITY_OPTIONS } from "@/modules/report/constants";
 import { createReportSchema } from "@/modules/report/schemas";
 import styles from "./report.module.css";
@@ -14,8 +17,11 @@ type Errors = Partial<Record<string, string>>;
 const today = () => new Date().toISOString().slice(0, 10);
 
 export function ReportForm() {
+  const router = useRouter();
+  const [file, setFile] = useState<File | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [errors, setErrors] = useState<Errors>({});
-  const [notice, setNotice] = useState<string | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [imageError, setImageError] = useState<string | null>(null);
   const [visibility, setVisibility] = useState<ReportVisibility>("PUBLIC");
@@ -35,11 +41,15 @@ export function ReportForm() {
       setImageError(`Ukuran gambar maksimal ${rule.maxBytes / 1024 / 1024} MB`);
       return;
     }
+    setFile(file);
     setPreview(URL.createObjectURL(file));
   }
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (submitting) return;
+    setSubmitError(null);
+
     const data = Object.fromEntries(new FormData(e.currentTarget));
     const parsed = createReportSchema.safeParse(data);
 
@@ -50,13 +60,38 @@ export function ReportForm() {
         next[key] ??= issue.message;
       }
       setErrors(next);
-      setNotice(null);
       return;
     }
 
     setErrors({});
-    // TODO (Tugas 2 dan 3): panggil server action createReport dan uploadFile("reports").
-    setNotice("Data valid. Penyimpanan laporan akan dihubungkan ke backend pada tahap berikutnya.");
+    setSubmitting(true);
+    try {
+      // 1) Unggah foto ke Cloudinary (jika ada), 2) simpan laporan beserta metadata foto.
+      const photo = file ? await uploadFile(file, "reports") : null;
+      const result = await createReportAction({
+        ...parsed.data,
+        photo: photo && {
+          url: photo.url,
+          publicId: photo.publicId,
+          format: photo.format,
+          bytes: photo.bytes,
+          width: photo.width,
+          height: photo.height,
+        },
+      });
+
+      if (!result.ok) {
+        setErrors(result.fieldErrors ?? {});
+        setSubmitError(result.error);
+        return;
+      }
+      router.push("/laporan");
+      router.refresh();
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : "Gagal mengirim laporan");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   const cls = (name: string, base: string) => `${base} ${errors[name] ? styles.invalid : ""}`;
@@ -139,11 +174,13 @@ export function ReportForm() {
         </div>
       </div>
 
-      {notice && <p className={styles.notice} role="status">{notice}</p>}
+      {submitError && <p className={styles.error} role="alert">{submitError}</p>}
 
       <div className={styles.formActions}>
         <Link href="/laporan" className={styles.back}>Kembali</Link>
-        <button type="submit" className={styles.submit}>Kirim Laporan</button>
+        <button type="submit" className={styles.submit} disabled={submitting}>
+          {submitting ? "Mengirim..." : "Kirim Laporan"}
+        </button>
       </div>
     </form>
   );

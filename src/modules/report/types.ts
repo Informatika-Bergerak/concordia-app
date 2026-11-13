@@ -15,6 +15,14 @@ export type ReportCategory =
  */
 export type ReportVisibility = "PUBLIC" | "ANONYMOUS" | "PRIVATE";
 
+export type ReportHistoryEntry = {
+  fromStatus: ReportStatus | null;
+  toStatus: ReportStatus;
+  note: string | null;
+  /** ISO datetime */
+  createdAt: string;
+};
+
 export type ReportItem = {
   id: string;
   title: string;
@@ -31,4 +39,20 @@ export type ReportItem = {
   /** true bila laporan dibuat oleh pengguna yang sedang login */
   isMine: boolean;
   supportCount: number;
+};
+
+export type ReportDetail = ReportItem & {
+  photos: string[];
+  /** Alasan penolakan; hanya diisi untuk pelapor dan admin */
+  rejectionReason: string | null;
+  /** Riwayat status; hanya diisi untuk pelapor dan admin */
+  history: ReportHistoryEntry[];
+};
+
+/** Tampilan untuk admin: identitas pelapor selalu terlihat agar dapat ditindaklanjuti. */
+export type AdminReportItem = ReportItem & {
+  authorName: string;
+  authorUsername: string;
+  createdAt: string;
+  rejectionReason: string | null;
 };

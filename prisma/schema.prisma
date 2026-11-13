@@ -32,6 +32,27 @@ enum AuditAction {
   SESSION_REVOKED
 }
 
+enum ReportCategory {
+  FASILITAS
+  KEBERSIHAN
+  KEAMANAN
+  KEHILANGAN
+  KEBIJAKAN
+  LAINNYA
+}
+
+enum ReportStatus {
+  UNVERIFIED
+  VERIFIED
+  REJECTED
+}
+
+enum ReportVisibility {
+  PUBLIC
+  ANONYMOUS
+  PRIVATE
+}
+
 model User {
   id           Int       @id @default(autoincrement())
   username     String    @unique
@@ -51,6 +72,9 @@ model User {
   activeSessionId String?
   lastSeenAt      DateTime?
   activeDevice    String?
+
+  reports       Report[]
+  statusChanges ReportStatusHistory[] @relation("ReportStatusChangedBy")
 }
 
 model LoginThrottle {
@@ -76,4 +100,62 @@ model AuditLog {
   @@index([createdAt])
   @@index([action])
   @@index([actorId])
+}
+
+// ── SafeCampus ──────────────────────────────────────────────
+
+model Report {
+  id              Int              @id @default(autoincrement())
+  title           String
+  description     String
+  location        String
+  category        ReportCategory
+  status          ReportStatus     @default(UNVERIFIED)
+  visibility      ReportVisibility @default(PUBLIC)
+  occurredAt      DateTime         @db.Date
+  rejectionReason String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  // Identitas pelapor selalu disimpan, termasuk untuk laporan ANONYMOUS,
+  // agar moderator/admin dapat menindaklanjuti penyalahgunaan.
+  // Penyembunyian nama dilakukan pada lapisan query (lihat src/modules/report/rules.ts).
+  authorId Int
+  author   User @relation(fields: [authorId], references: [id], onDelete: Restrict)
+
+  photos  ReportPhoto[]
+  history ReportStatusHistory[]
+
+  @@index([authorId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model ReportPhoto {
+  id        Int      @id @default(autoincrement())
+  reportId  Int
+  report    Report   @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  url       String
+  publicId  String   @unique
+  format    String?
+  bytes     Int?
+  width     Int?
+  height    Int?
+  createdAt DateTime @default(now())
+
+  @@index([reportId])
+}
+
+model ReportStatusHistory {
+  id          Int           @id @default(autoincrement())
+  reportId    Int
+  report      Report        @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  fromStatus  ReportStatus?
+  toStatus    ReportStatus
+  note        String?
+  changedById Int?
+  changedBy   User?         @relation("ReportStatusChangedBy", fields: [changedById], references: [id], onDelete: SetNull)
+  createdAt   DateTime      @default(now())
+
+  @@index([reportId])
 }

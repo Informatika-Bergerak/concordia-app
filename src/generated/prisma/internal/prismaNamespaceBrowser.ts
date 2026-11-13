@@ -53,7 +53,10 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   LoginThrottle: 'LoginThrottle',
-  AuditLog: 'AuditLog'
+  AuditLog: 'AuditLog',
+  Report: 'Report',
+  ReportPhoto: 'ReportPhoto',
+  ReportStatusHistory: 'ReportStatusHistory'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -119,6 +122,52 @@ export const AuditLogScalarFieldEnum = {
 } as const
 
 export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
+
+
+export const ReportScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  location: 'location',
+  category: 'category',
+  status: 'status',
+  visibility: 'visibility',
+  occurredAt: 'occurredAt',
+  rejectionReason: 'rejectionReason',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  authorId: 'authorId'
+} as const
+
+export type ReportScalarFieldEnum = (typeof ReportScalarFieldEnum)[keyof typeof ReportScalarFieldEnum]
+
+
+export const ReportPhotoScalarFieldEnum = {
+  id: 'id',
+  reportId: 'reportId',
+  url: 'url',
+  publicId: 'publicId',
+  format: 'format',
+  bytes: 'bytes',
+  width: 'width',
+  height: 'height',
+  createdAt: 'createdAt'
+} as const
+
+export type ReportPhotoScalarFieldEnum = (typeof ReportPhotoScalarFieldEnum)[keyof typeof ReportPhotoScalarFieldEnum]
+
+
+export const ReportStatusHistoryScalarFieldEnum = {
+  id: 'id',
+  reportId: 'reportId',
+  fromStatus: 'fromStatus',
+  toStatus: 'toStatus',
+  note: 'note',
+  changedById: 'changedById',
+  createdAt: 'createdAt'
+} as const
+
+export type ReportStatusHistoryScalarFieldEnum = (typeof ReportStatusHistoryScalarFieldEnum)[keyof typeof ReportStatusHistoryScalarFieldEnum]
 
 
 export const SortOrder = {

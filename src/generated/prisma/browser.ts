@@ -32,3 +32,18 @@ export type LoginThrottle = Prisma.LoginThrottleModel
  * 
  */
 export type AuditLog = Prisma.AuditLogModel
+/**
+ * Model Report
+ * 
+ */
+export type Report = Prisma.ReportModel
+/**
+ * Model ReportPhoto
+ * 
+ */
+export type ReportPhoto = Prisma.ReportPhotoModel
+/**
+ * Model ReportStatusHistory
+ * 
+ */
+export type ReportStatusHistory = Prisma.ReportStatusHistoryModel

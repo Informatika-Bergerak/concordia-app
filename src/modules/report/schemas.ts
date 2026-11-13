@@ -35,3 +35,33 @@ export const createReportSchema = z.object({
 });
 
 export type CreateReportInput = z.infer<typeof createReportSchema>;
+
+// Metadata foto hasil POST /api/upload. Dikirim dari browser, jadi divalidasi ketat
+// agar pengguna tidak bisa menautkan URL atau berkas milik pihak lain.
+export const reportPhotoSchema = z
+  .object({
+    url: z.string().url().startsWith("https://res.cloudinary.com/"),
+    publicId: z.string().regex(/^concordia\/reports\/[A-Za-z0-9-]{36}$/, "Foto tidak valid"),
+    format: z.string().max(10).optional(),
+    bytes: z.number().int().positive().max(4 * 1024 * 1024).optional(),
+    width: z.number().int().positive().optional(),
+    height: z.number().int().positive().optional(),
+  })
+  .refine((p) => p.url.includes(p.publicId), { message: "Foto tidak valid" });
+
+export const createReportInputSchema = createReportSchema.extend({
+  photo: reportPhotoSchema.nullish(),
+});
+
+export type CreateReportActionInput = z.infer<typeof createReportInputSchema>;
+
+export const updateReportStatusSchema = z
+  .object({
+    reportId: z.number().int().positive(),
+    status: z.enum(["UNVERIFIED", "VERIFIED", "REJECTED"]),
+    note: z.string().trim().max(500, "Alasan maksimal 500 karakter").optional(),
+  })
+  .refine((v) => v.status !== "REJECTED" || (v.note && v.note.length >= 5), {
+    path: ["note"],
+    message: "Alasan penolakan wajib diisi (minimal 5 karakter)",
+  });
