@@ -41,3 +41,33 @@ export const AuditAction = {
 } as const
 
 export type AuditAction = (typeof AuditAction)[keyof typeof AuditAction]
+
+
+export const ReportCategory = {
+  FASILITAS: 'FASILITAS',
+  KEBERSIHAN: 'KEBERSIHAN',
+  KEAMANAN: 'KEAMANAN',
+  KEHILANGAN: 'KEHILANGAN',
+  KEBIJAKAN: 'KEBIJAKAN',
+  LAINNYA: 'LAINNYA'
+} as const
+
+export type ReportCategory = (typeof ReportCategory)[keyof typeof ReportCategory]
+
+
+export const ReportStatus = {
+  UNVERIFIED: 'UNVERIFIED',
+  VERIFIED: 'VERIFIED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type ReportStatus = (typeof ReportStatus)[keyof typeof ReportStatus]
+
+
+export const ReportVisibility = {
+  PUBLIC: 'PUBLIC',
+  ANONYMOUS: 'ANONYMOUS',
+  PRIVATE: 'PRIVATE'
+} as const
+
+export type ReportVisibility = (typeof ReportVisibility)[keyof typeof ReportVisibility]

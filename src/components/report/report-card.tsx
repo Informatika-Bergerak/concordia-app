@@ -1,14 +1,10 @@
+import Link from "next/link";
 import { CalendarDays, MapPin, UserRound } from "lucide-react";
-import { CATEGORY_LABELS, STATUS_LABELS, VISIBILITY_LABELS } from "@/modules/report/constants";
+import { CATEGORY_LABELS, VISIBILITY_LABELS } from "@/modules/report/constants";
+import { formatReportDate } from "@/modules/report/format";
 import type { ReportItem } from "@/modules/report/types";
 import styles from "./report.module.css";
-
-const dateFormat = new Intl.DateTimeFormat("id-ID", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-  timeZone: "UTC",
-});
+import { StatusBadge } from "./status-badge";
 
 export function ReportCard({ report }: { report: ReportItem }) {
   // Identitas pelapor hanya tampil bila laporan berstatus Public.
@@ -18,11 +14,13 @@ export function ReportCard({ report }: { report: ReportItem }) {
   return (
     <article className={styles.card}>
       <div className={styles.cardTop}>
-        <h3 className={styles.cardTitle}>{report.title}</h3>
+        <h3 className={styles.cardTitle}>
+          <Link href={`/laporan/${report.id}`} className={styles.cardLink}>
+            {report.title}
+          </Link>
+        </h3>
         <div className={styles.badgeCol}>
-          <span className={`${styles.status} ${styles[`status${report.status}`]}`}>
-            {STATUS_LABELS[report.status]}
-          </span>
+          <StatusBadge status={report.status} />
           <span className={styles.visibility}>
             • {VISIBILITY_LABELS[report.visibility]}
           </span>
@@ -48,7 +46,7 @@ export function ReportCard({ report }: { report: ReportItem }) {
         <div className={styles.metaRight}>
           <strong className={styles.author}>
             <CalendarDays size={13} aria-hidden />
-            {dateFormat.format(new Date(report.occurredAt))}
+            {formatReportDate(report.occurredAt)}
           </strong>
           <span className={styles.author}>
             Dibuat oleh {authorLabel} <UserRound size={13} aria-hidden />
