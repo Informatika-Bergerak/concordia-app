@@ -49,10 +49,13 @@ export type ReportDetail = ReportItem & {
   history: ReportHistoryEntry[];
 };
 
-/** Tampilan untuk admin: identitas pelapor selalu terlihat agar dapat ditindaklanjuti. */
-export type AdminReportItem = ReportItem & {
-  authorName: string;
-  authorUsername: string;
+/**
+ * Tampilan untuk petugas (moderator dan admin). Identitas pelapor laporan Anonymous
+ * hanya terlihat oleh admin; bagi moderator nama dan username bernilai null.
+ */
+export type StaffReportItem = ReportItem & {
+  authorName: string | null;
+  authorUsername: string | null;
   createdAt: string;
   rejectionReason: string | null;
 };

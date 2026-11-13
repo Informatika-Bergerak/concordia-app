@@ -6,36 +6,37 @@ import styles from "@/components/report/report.module.css";
 import { requireRole } from "@/lib/auth/guards";
 import { CATEGORY_LABELS, STATUS_OPTIONS, VISIBILITY_LABELS } from "@/modules/report/constants";
 import { formatReportDate } from "@/modules/report/format";
-import { getAdminReports } from "@/modules/report/queries";
+import { getStaffReports } from "@/modules/report/queries";
 import type { ReportStatus } from "@/modules/report/types";
 
 const VALID: ReportStatus[] = ["UNVERIFIED", "VERIFIED", "REJECTED"];
 
-export default async function AdminReportsPage({
+export default async function StaffReportsPage({
   searchParams,
 }: {
   searchParams: Promise<{ status?: string }>;
 }) {
-  const { user: admin } = await requireRole(["ADMIN"]);
+  const { user: staff } = await requireRole(["MODERATOR", "ADMIN"]);
   const { status: raw } = await searchParams;
   const status = VALID.find((s) => s === raw);
 
-  const reports = await getAdminReports(status);
+  const reports = await getStaffReports(status);
 
   return (
-    <AppShell user={admin}>
+    <AppShell user={staff}>
       <div className={styles.page} style={{ maxWidth: 960, margin: "0 auto", padding: "16px" }}>
         <div>
           <h1 className="page-title">Verifikasi Laporan</h1>
           <p className="page-sub">
             Tinjau laporan kampus, ubah statusnya, dan beri alasan bila laporan ditolak.
+            {staff.role !== "ADMIN" && " Identitas pelapor laporan Anonymous hanya terlihat oleh admin."}
           </p>
         </div>
 
         <div className={styles.filters} role="group" aria-label="Filter status">
-          <Link href="/admin/reports" className={styles.chip} aria-current={!status ? "page" : undefined}>Semua</Link>
+          <Link href="/moderator/laporan" className={styles.chip} aria-current={!status ? "page" : undefined}>Semua</Link>
           {STATUS_OPTIONS.map(([value, label]) => (
-            <Link key={value} href={`/admin/reports?status=${value}`} className={styles.chip} aria-current={status === value ? "page" : undefined}>
+            <Link key={value} href={`/moderator/laporan?status=${value}`} className={styles.chip} aria-current={status === value ? "page" : undefined}>
               {label}
             </Link>
           ))}
@@ -62,7 +63,11 @@ export default async function AdminReportsPage({
                   <span>{r.location}</span>
                   <span>{CATEGORY_LABELS[r.category]}</span>
                   <span>{formatReportDate(r.occurredAt)}</span>
-                  <span>Pelapor: {r.authorName} (@{r.authorUsername})</span>
+                  <span>
+                    {r.authorName
+                      ? `Pelapor: ${r.authorName} (@${r.authorUsername})`
+                      : "Pelapor: Anonymous (identitas hanya untuk admin)"}
+                  </span>
                   <span>
                     {r.visibility === "ANONYMOUS" ? (
                       <span className={styles.anonTag}>Anonymous ke publik</span>

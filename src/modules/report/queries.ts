@@ -3,11 +3,11 @@ import { getCurrentUser } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import {
   canViewReport,
-  toAdminReportItem,
+  toStaffReportItem,
   toReportDetail,
   toReportItem,
 } from "./rules";
-import type { AdminReportItem, ReportDetail, ReportItem, ReportStatus } from "./types";
+import type { ReportDetail, ReportItem, ReportStatus, StaffReportItem } from "./types";
 
 const listSelect = {
   id: true,
@@ -76,10 +76,11 @@ export async function getReportById(id: number): Promise<ReportDetail | null> {
   return toReportDetail(row, user);
 }
 
-// Daftar untuk panel admin: semua laporan, termasuk Private, dengan identitas pelapor.
-export async function getAdminReports(status?: ReportStatus): Promise<AdminReportItem[]> {
+// Daftar untuk panel verifikasi (moderator dan admin): semua laporan termasuk Private.
+// Identitas pelapor laporan Anonymous hanya terlihat oleh admin.
+export async function getStaffReports(status?: ReportStatus): Promise<StaffReportItem[]> {
   const user = await getCurrentUser();
-  if (!user || user.role !== "ADMIN") return [];
+  if (!user || user.role === "USER") return [];
 
   const rows = await prisma.report.findMany({
     where: status ? { status } : undefined,
@@ -93,5 +94,12 @@ export async function getAdminReports(status?: ReportStatus): Promise<AdminRepor
     },
   });
 
-  return rows.map((row) => toAdminReportItem(row, user.id));
+  return rows.map((row) => toStaffReportItem(row, user));
+}
+
+// Jumlah laporan yang menunggu verifikasi, untuk kartu di panel moderasi.
+export async function countUnverifiedReports(): Promise<number> {
+  const user = await getCurrentUser();
+  if (!user || user.role === "USER") return 0;
+  return prisma.report.count({ where: { status: "UNVERIFIED" } });
 }

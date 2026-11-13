@@ -73,9 +73,9 @@ export async function createReportAction(input: unknown): Promise<ActionResult<{
   }
 }
 
-// Mengubah status laporan. Hanya admin (petugas) yang boleh memverifikasi atau menolak.
+// Mengubah status laporan. Hanya petugas (moderator dan admin) yang boleh memverifikasi atau menolak.
 export async function updateReportStatusAction(input: unknown): Promise<ActionResult> {
-  const { user } = await requireRole(["ADMIN"]);
+  const { user } = await requireRole(["MODERATOR", "ADMIN"]);
 
   const parsed = updateReportStatusSchema.safeParse(input);
   if (!parsed.success) {

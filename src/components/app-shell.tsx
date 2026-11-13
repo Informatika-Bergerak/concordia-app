@@ -37,8 +37,10 @@ export function AppShell({ user, children }: Props) {
           {(user.role === "MODERATOR" || user.role === "ADMIN") && (
             <AppShellNavLink href="/moderator">Moderasi</AppShellNavLink>
           )}
+          {(user.role === "MODERATOR" || user.role === "ADMIN") && (
+            <AppShellNavLink href="/moderator/laporan">Laporan</AppShellNavLink>
+          )}
           {user.role === "ADMIN" && <AppShellNavLink href="/admin/users">Kelola Akun</AppShellNavLink>}
-          {user.role === "ADMIN" && <AppShellNavLink href="/admin/reports">Laporan</AppShellNavLink>}
           {user.role === "ADMIN" && <AppShellNavLink href="/admin/audit-logs">Log Aktivitas</AppShellNavLink>}
         </nav>
 
