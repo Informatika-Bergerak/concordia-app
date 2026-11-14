@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { ArrowLeft, Check, Minus, UserRound } from "lucide-react";
+import { ArrowLeft, CalendarDays, MoreVertical, UserRound, X } from "lucide-react";
 import type { Role, UserType } from "@/generated/prisma/enums";
-import { Logo } from "@/components/brand/logo";
 import styles from "./profile-page.module.css";
 
 type ProfileUser = {
@@ -10,18 +9,15 @@ type ProfileUser = {
   role: Role;
   userType: UserType | null;
   fotoProfil: string | null;
+  jurusan: string | null;
   trustScore: number;
   isActive: boolean;
+  createdAt: Date;
 };
 
 type ProfilePageProps = {
   user: ProfileUser;
-};
-
-type TrustIndicator = {
-  label: string;
-  points: number;
-  complete: boolean;
+  recommendations: { id: number; name: string; jurusan: string | null; fotoProfil: string | null }[];
 };
 
 function getRoleLabel(role: Role, userType: UserType | null) {
@@ -30,109 +26,107 @@ function getRoleLabel(role: Role, userType: UserType | null) {
   return userType === "DOSEN" ? "Dosen" : "Mahasiswa";
 }
 
-function getTrustIndicators(user: ProfileUser): TrustIndicator[] {
-  return [
-    { label: "NPM Terverifikasi", points: 40, complete: Boolean(user.username) },
-    { label: "Foto Profil Terpasang", points: 20, complete: Boolean(user.fotoProfil) },
-    { label: "Nama Lengkap", points: 20, complete: Boolean(user.name.trim()) },
-    {
-      label: `Skor Reputasi ${Math.max(0, Math.min(100, user.trustScore))}/100`,
-      points: 17,
-      complete: user.trustScore > 0,
-    },
-  ];
-}
-
 function ProfileAvatar({ user }: { user: ProfileUser }) {
   if (user.fotoProfil) {
     return (
       // The URL is validated and stored by the existing upload flow.
       // eslint-disable-next-line @next/next/no-img-element
-      <img className={styles.avatarImage} src={user.fotoProfil} alt="" />
+      <img className={styles.avatarImage} src={user.fotoProfil} alt={`Foto profil ${user.name}`} />
     );
   }
 
-  return <UserRound size={58} strokeWidth={1.8} aria-hidden="true" />;
+  return <UserRound size={66} strokeWidth={1.8} aria-hidden="true" />;
 }
 
-export function ProfilePage({ user }: ProfilePageProps) {
+function formatJoinedDate(date: Date) {
+  return new Intl.DateTimeFormat("id-ID", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(date);
+}
+
+export function ProfilePage({ user, recommendations }: ProfilePageProps) {
   const score = Math.max(0, Math.min(100, user.trustScore));
-  const indicators = getTrustIndicators(user);
+  const roleLabel = getRoleLabel(user.role, user.userType);
+  const profileLine = user.jurusan ? `${roleLabel} - ${user.jurusan}` : roleLabel;
 
   return (
     <div className={styles.page}>
       <header className={styles.header}>
         <Link href="/beranda" className={styles.backButton} aria-label="Kembali ke beranda">
-          <ArrowLeft size={34} strokeWidth={2.2} aria-hidden="true" />
+          <ArrowLeft size={32} strokeWidth={2.5} aria-hidden="true" />
         </Link>
-        <Logo variant="full" size={78} className={styles.logo} />
-        <span className={styles.headerSpacer} aria-hidden="true" />
+        <span className={styles.headerTitle}>Profile</span>
+        <button type="button" className={styles.menuButton} aria-label="Opsi profil" title="Opsi profil">
+          <MoreVertical size={26} aria-hidden="true" />
+        </button>
       </header>
 
-      <section className={styles.identityCard} aria-labelledby="profile-name">
-        <div className={styles.identityRow}>
-          <div className={styles.avatar} aria-hidden="true">
-            <ProfileAvatar user={user} />
+      <main className={styles.profileCard}>
+        <div className={styles.cover} aria-hidden="true" />
+        <div className={styles.profileBody}>
+          <div className={styles.profileTopRow}>
+            <div className={styles.avatar}>
+              <ProfileAvatar user={user} />
+            </div>
+            <Link href="/profil/ubah" className={styles.setupButton}>Set Up Profile</Link>
           </div>
-          <div className={styles.identityDetails}>
+
+          <section className={styles.identity} aria-labelledby="profile-name">
             <h1 id="profile-name">{user.name}</h1>
-            <p>{user.username}</p>
-            <span className={styles.identityAccent} aria-hidden="true" />
+            <p>{profileLine}</p>
+            <p className={styles.joined}><CalendarDays size={18} aria-hidden="true" /> Joined {formatJoinedDate(user.createdAt)}</p>
+          </section>
+
+          <section className={styles.trustSection} aria-labelledby="trust-heading">
+            <div className={styles.trustHeading}>
+              <h2 id="trust-heading">Tingkat Kepercayaan</h2>
+              <span className={styles.trustBadge}>{score >= 70 ? "Terpercaya" : "Berkembang"}</span>
+            </div>
+            <div className={styles.scoreBar} role="progressbar" aria-label="Skor kepercayaan" aria-valuemin={0} aria-valuemax={100} aria-valuenow={score}>
+              <span className={styles.scoreFill} style={{ width: `${score}%` }} />
+            </div>
+            <p className={styles.scoreLabel}>Skor Kepercayaan {score}/100</p>
+          </section>
+        </div>
+
+        <nav className={styles.tabs} aria-label="Konten profil">
+          <Link href="#threads" className={styles.tabActive} aria-current="page">Threads</Link>
+          <Link href="#liked" className={styles.tab}>Liked</Link>
+          <Link href="#replies" className={styles.tab}>Replies</Link>
+          <Link href="#events" className={styles.tab}>Event</Link>
+        </nav>
+
+        <section id="threads" className={styles.emptyState} aria-labelledby="empty-title">
+          <h2 id="empty-title">You haven’t posted<br />yet</h2>
+          <p>When you repost, those posts will show up here.</p>
+        </section>
+
+        <section className={styles.recommendations} aria-labelledby="recommendation-title">
+          <h2 id="recommendation-title">Rekomendasi Grup</h2>
+          <div className={styles.recommendationList}>
+            {recommendations.map((person) => (
+              <div className={styles.recommendation} key={person.id}>
+                <span className={styles.recommendationAvatar} aria-hidden="true">
+                  {person.fotoProfil ? (
+                    // The URL is validated and stored by the existing upload flow.
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={person.fotoProfil} alt="" />
+                  ) : <UserRound size={25} />}
+                </span>
+                <div>
+                  <strong>{person.name}</strong>
+                  <span>{person.jurusan ? `Mahasiswa ${person.jurusan}` : "Mahasiswa"}</span>
+                </div>
+                <button type="button" className={styles.dismissButton} aria-label={`Sembunyikan rekomendasi ${person.name}`}>
+                  <X size={28} strokeWidth={2} aria-hidden="true" />
+                </button>
+              </div>
+            ))}
           </div>
-        </div>
-
-        <div
-          className={styles.scoreBar}
-          role="progressbar"
-          aria-label="Skor kepercayaan"
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-valuenow={score}
-        >
-          <span className={styles.scoreFill} style={{ width: `${score}%` }} />
-        </div>
-        <p className={styles.scoreLabel}>Skor Kepercayaan {score}/100</p>
-      </section>
-
-      <section className={styles.trustCard} aria-labelledby="trust-heading">
-        <h2 id="trust-heading">Tingkat Kepercayaan</h2>
-        <ul className={styles.indicatorList}>
-          {indicators.map((indicator) => (
-            <li key={indicator.label} className={styles.indicator}>
-              <span
-                className={`${styles.indicatorIcon} ${indicator.complete ? styles.complete : styles.incomplete}`}
-                aria-hidden="true"
-              >
-                {indicator.complete ? <Check size={19} strokeWidth={2.5} /> : <Minus size={19} strokeWidth={2.5} />}
-              </span>
-              <span className={styles.indicatorLabel}>{indicator.label}</span>
-              <span className={styles.indicatorPoints}>+{indicator.points}</span>
-            </li>
-          ))}
-        </ul>
-        <p className={styles.trustNote}>
-          Skor reputasi turun jika konten Anda terbukti melanggar saat dimoderasi.
-        </p>
-      </section>
-
-      <section className={styles.detailsCard} aria-label="Informasi akun">
-        <div className={styles.detailRow}>
-          <span>Peran</span>
-          <strong>{getRoleLabel(user.role, user.userType)}</strong>
-        </div>
-        <div className={styles.detailRow}>
-          <span>Status Akun</span>
-          <strong>{user.isActive ? "Aktif" : "Tidak Aktif"}</strong>
-        </div>
-        <div className={styles.detailRow}>
-          <span>Password</span>
-          <strong aria-label="Password disembunyikan">••••••••••</strong>
-        </div>
-      </section>
-
-      <Link href="/profil/ubah" className={styles.editButton}>
-        Ubah Profil
-      </Link>
+        </section>
+      </main>
     </div>
   );
 }

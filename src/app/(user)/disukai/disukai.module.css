@@ -1,0 +1,11 @@
+.page { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+.header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 4px 2px; }
+.title { margin: 0; color: var(--ink); font-size: 20px; font-weight: 800; }
+.count { color: var(--ink-muted); font-size: 13px; }
+.empty { display: grid; justify-items: center; gap: 8px; padding: 48px 20px; border-radius: var(--radius-card); background: var(--surface); box-shadow: var(--shadow-card); text-align: center; }
+.emptyIcon { display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 50%; background: var(--brand-tint); color: var(--brand-primary); }
+.emptyTitle { margin: 4px 0 0; color: var(--ink); font-size: 18px; }
+.emptyText { max-width: 280px; margin: 0; color: var(--ink-muted); font-size: 13px; line-height: 1.5; }
+.link { margin-top: 8px; color: var(--brand-primary); font-size: 13px; font-weight: 800; text-decoration: none; }
+.link:hover { text-decoration: underline; }
+.link:focus-visible { outline: 2px solid var(--brand-primary); outline-offset: 3px; border-radius: var(--radius-btn); }

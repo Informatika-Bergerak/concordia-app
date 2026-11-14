@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect, useRef, type ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import { TopBar } from "./top-bar";
 import { MenuContent } from "@/components/menu/menu-content";
 import { RightSidebar } from "./right-sidebar";
@@ -28,6 +29,9 @@ type MobileShellProps = {
 
 export function MobileShell({ user, people, children }: MobileShellProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const pathname = usePathname();
+  const isProfileRoute = pathname === "/profil" || pathname.startsWith("/profil/");
+  const isSearchRoute = pathname === "/search";
   const drawerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
 
@@ -106,7 +110,7 @@ export function MobileShell({ user, people, children }: MobileShellProps) {
 
   return (
     <div className={styles.stage}>
-      <TopBar userName={user.name} onMenuToggle={handleMenuToggle} />
+      {!isProfileRoute && !isSearchRoute && <TopBar userName={user.name} onMenuToggle={handleMenuToggle} />}
 
       <div className={styles.body}>
         {/* Desktop sidebar */}

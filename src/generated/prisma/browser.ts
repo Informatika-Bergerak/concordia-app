@@ -43,6 +43,36 @@ export type Report = Prisma.ReportModel
  */
 export type ReportPhoto = Prisma.ReportPhotoModel
 /**
+ * Model ForumPost
+ * 
+ */
+export type ForumPost = Prisma.ForumPostModel
+/**
+ * Model ForumPostImage
+ * 
+ */
+export type ForumPostImage = Prisma.ForumPostImageModel
+/**
+ * Model ForumPostAudio
+ * 
+ */
+export type ForumPostAudio = Prisma.ForumPostAudioModel
+/**
+ * Model ForumPostLike
+ * 
+ */
+export type ForumPostLike = Prisma.ForumPostLikeModel
+/**
+ * Model ForumComment
+ * 
+ */
+export type ForumComment = Prisma.ForumCommentModel
+/**
+ * Model FriendRequest
+ * 
+ */
+export type FriendRequest = Prisma.FriendRequestModel
+/**
  * Model ReportStatusHistory
  * 
  */
@@ -52,3 +82,8 @@ export type ReportStatusHistory = Prisma.ReportStatusHistoryModel
  * 
  */
 export type ReportSupport = Prisma.ReportSupportModel
+/**
+ * Model AdminNews
+ * 
+ */
+export type AdminNews = Prisma.AdminNewsModel

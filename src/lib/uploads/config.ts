@@ -1,4 +1,4 @@
-export type UploadKind = "image" | "document";
+export type UploadKind = "image" | "audio" | "document";
 
 export const UPLOAD_RULES: Record<
   UploadKind,
@@ -11,6 +11,11 @@ export const UPLOAD_RULES: Record<
     maxBytes: 4 * 1024 * 1024,
     label: "gambar (JPG, PNG, WEBP)",
   },
+  audio: {
+    mimes: ["audio/mpeg", "audio/wav", "audio/ogg", "audio/mp4", "audio/webm"],
+    maxBytes: 10 * 1024 * 1024,
+    label: "audio (MP3, WAV, OGG, M4A, WEBM)",
+  },
   document: {
     mimes: ["application/pdf"],
     maxBytes: 4 * 1024 * 1024,
@@ -22,7 +27,7 @@ export const UPLOAD_RULES: Record<
 // Tambah entri baru di sini kalau modul baru butuh upload.
 export const UPLOAD_FOLDERS = {
   avatars: ["image"],
-  forum: ["image"],
+  forum: ["image", "audio"],
   reports: ["image", "document"],
   activities: ["image", "document"],
 } as const satisfies Record<string, readonly UploadKind[]>;
