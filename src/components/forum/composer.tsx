@@ -148,24 +148,18 @@ export function Composer() {
           }}
         >
           <form
-            className={styles.modal}
+            className={`${styles.modal} ${imagePreview ? styles.photoModal : ""}`}
             onSubmit={handleSubmit}
             role="dialog"
             aria-modal="true"
-            aria-labelledby="composer-title"
+            aria-label={imagePreview ? "Buat postingan dengan gambar" : "Buat postingan"}
             onMouseDown={(event) => event.stopPropagation()}
           >
-            <div className={styles.modalHeader}>
-              <h2 id="composer-title">Buat Postingan</h2>
-              <button
-                type="button"
-                className={styles.close}
-                onClick={closeComposer}
-                aria-label="Tutup pembuatan postingan"
-              >
-                <X size={22} aria-hidden="true" />
-              </button>
-            </div>
+            {!imagePreview && (
+              <h2 id="composer-title" className={styles.visuallyHidden}>
+                Buat Postingan
+              </h2>
+            )}
 
             {imagePreview && (
               <div className={styles.imagePreview}>
@@ -232,11 +226,16 @@ export function Composer() {
                 >
                   <Music2 size={30} aria-hidden="true" />
                 </button>
+                <button type="submit" className={styles.send} aria-label="Kirim postingan">
+                  <Send size={28} aria-hidden="true" />
+                </button>
               </div>
             </div>
 
             {(image || audio) && (
-              <p className={styles.attachments}>
+              <p
+                className={`${styles.attachments} ${imagePreview ? styles.photoAttachments : ""}`}
+              >
                 {image && `Gambar: ${image.name}`}
                 {image && audio && " · "}
                 {audio && `Audio: ${audio.name}`}
@@ -254,14 +253,6 @@ export function Composer() {
               </p>
             )}
 
-            <div className={styles.modalFooter}>
-              <span className={styles.counter}>
-                {text.length}/{MAX_POST_LENGTH}
-              </span>
-              <button type="submit" className={styles.send} aria-label="Kirim postingan">
-                <Send size={28} aria-hidden="true" />
-              </button>
-            </div>
           </form>
         </div>
       )}

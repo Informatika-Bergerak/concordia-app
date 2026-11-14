@@ -50,45 +50,115 @@
 
 .overlay {
   position: fixed;
-  top: 110px;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 10;
+  inset: 0;
+  z-index: 30;
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: 8px;
+  padding: 110px 16px 8px;
   overflow-y: auto;
   background: rgba(46, 4, 4, 0.28);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
 }
 
 .modal {
-  width: min(100%, 480px);
+  width: min(100%, 560px);
   margin: 0;
-  padding: 14px;
+  padding: 8px;
   border-radius: 18px;
   background: var(--surface);
   box-shadow: 0 12px 32px rgba(46, 4, 4, 0.24);
 }
 
+.photoModal {
+  width: min(100%, 440px);
+  padding: 8px;
+}
+
+.photoModal .imagePreview {
+  height: clamp(220px, 58vw, 360px);
+  margin: 0;
+  border-radius: 10px;
+}
+
+.photoModal .composerBody {
+  margin-top: 8px;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.photoModal .textarea {
+  height: 112px;
+  min-height: 112px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.photoModal .actionRail {
+  height: 112px;
+  min-height: 112px;
+  padding-top: 0;
+  gap: 0;
+  justify-content: space-between;
+}
+
+.photoModal .mediaButton {
+  width: 34px;
+  height: 34px;
+}
+
+.photoModal .mediaButton svg {
+  width: 22px;
+  height: 22px;
+}
+
+.photoModal .send {
+  width: 34px;
+  height: 34px;
+  margin-top: 0;
+}
+
+.photoModal .send svg {
+  width: 23px;
+  height: 23px;
+}
+
+.photoAttachments {
+  display: none;
+}
+
+.photoModal .modalFooter {
+  display: none;
+}
+
 @media (min-width: 768px) {
   .overlay {
-    top: 60px;
-    padding: 16px;
+    padding: 60px 16px 16px;
   }
 
   .modal {
     width: min(100%, 640px);
-    padding: 20px;
-    border-radius: 24px;
+    padding: 10px;
+    border-radius: 20px;
+  }
+
+  .photoModal {
+    width: min(100%, 520px);
+    padding: 10px;
+  }
+
+  .photoModal .imagePreview {
+    height: clamp(240px, 36vw, 320px);
   }
 }
 
 @media (min-width: 1024px) {
   .overlay {
-    left: 304px;
     justify-content: flex-start;
+    padding-left: 328px;
   }
 }
 
@@ -96,21 +166,33 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .modalHeader h2 {
   margin: 0;
   color: var(--ink);
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 800;
 }
 
 .close {
-  width: 40px;
-  height: 40px;
-  flex: 0 0 40px;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
   border-radius: 50%;
   background: var(--surface-muted);
   color: var(--ink);
@@ -123,8 +205,8 @@
 .imagePreview {
   position: relative;
   width: 100%;
-  height: clamp(220px, 42vw, 380px);
-  margin-bottom: 10px;
+  height: clamp(180px, 48vw, 480px);
+  margin-bottom: 8px;
   overflow: hidden;
   border-radius: 14px;
   background: var(--field);
@@ -166,16 +248,17 @@
 
 .textarea {
   width: 100%;
-  min-height: 220px;
-  padding: 18px;
-  resize: vertical;
+  height: 138px;
+  min-height: 0;
+  padding: 12px 14px;
+  resize: none;
   border: 1px solid #665d68;
-  border-radius: 22px;
+  border-radius: 16px;
   outline: none;
   background: #efebf1;
   color: var(--ink);
   font: inherit;
-  font-size: clamp(20px, 4vw, 32px);
+  font-size: clamp(17px, 2.8vw, 24px);
   line-height: 1.35;
 }
 
@@ -184,25 +267,26 @@
   opacity: 1;
 }
 
-.textarea:focus {
+.textarea:focus-visible {
   border-color: var(--brand-primary);
-  box-shadow: 0 0 0 3px rgba(184, 14, 14, 0.16);
+  box-shadow: 0 0 0 2px rgba(184, 14, 14, 0.12);
 }
 
 .actionRail {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: 16px;
+  align-items: center;
+  gap: 10px;
   padding-top: 4px;
 }
 
 .mediaButton {
-  width: 48px;
-  height: 48px;
-  border-radius: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 5px;
   background: var(--brand-dark);
   color: #fff;
+  box-shadow: 0 2px 4px rgba(46, 4, 4, 0.16);
 }
 
 .mediaButton:hover {
@@ -252,11 +336,13 @@
 }
 
 .send {
-  width: 56px;
-  height: 56px;
+  width: 42px;
+  height: 42px;
+  margin-top: 6px;
   border-radius: 50%;
-  background: var(--brand-dark);
+  background: #c40000;
   color: #fff;
+  box-shadow: 0 3px 6px rgba(46, 4, 4, 0.2);
 }
 
 .trigger:focus-visible,
@@ -271,19 +357,57 @@
 
 @media (max-width: 480px) {
   .modal {
-    padding: 14px;
+    padding: 10px;
     border-radius: 18px;
   }
 
   .textarea {
-    min-height: 230px;
-    padding: 14px;
-    border-radius: 18px;
-    font-size: 21px;
+    height: 120px;
+    padding: 11px 12px;
+    border-radius: 14px;
+    font-size: 17px;
   }
 
-  .composerBody {
+  .photoModal {
+    padding: 8px;
+  }
+
+  .photoModal .imagePreview {
+    height: clamp(160px, 52vw, 240px);
+    border-radius: 9px;
+  }
+
+  .photoModal .composerBody {
     gap: 8px;
+  }
+
+  .photoModal .actionRail {
+    height: 96px;
+    min-height: 96px;
+  }
+
+  .photoModal .textarea {
+    height: 96px;
+    min-height: 96px;
+    padding: 9px 10px;
+    border-radius: 9px;
+    font-size: 14px;
+  }
+
+  .photoModal .actionRail {
+    min-height: 96px;
+    gap: 0;
+  }
+
+  .photoModal .mediaButton {
+    width: 28px;
+    height: 28px;
+  }
+
+  .photoModal .send {
+    width: 34px;
+    height: 34px;
+    margin-top: 0;
   }
 
   .actionRail {
@@ -291,8 +415,14 @@
   }
 
   .mediaButton {
-    width: 42px;
-    height: 42px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .send {
+    width: 36px;
+    height: 36px;
+    margin-top: 4px;
   }
 }
 
