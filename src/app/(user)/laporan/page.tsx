@@ -19,7 +19,7 @@ export default async function LaporanPage() {
           <Link href="/admin/laporan" className={styles.noticeLink}>Panel Verifikasi</Link>.
         </p>
       )}
-      <ReportFeed reports={reports} canCreate={canCreate} />
+      <ReportFeed reports={reports} viewerRole={user.role} />
       {canCreate && <AddReportFab />}
     </>
   );

@@ -74,6 +74,7 @@ model User {
   activeDevice    String?
 
   reports       Report[]
+  reportSupports ReportSupport[]
   statusChanges ReportStatusHistory[] @relation("ReportStatusChangedBy")
 }
 
@@ -123,8 +124,9 @@ model Report {
   authorId Int
   author   User @relation(fields: [authorId], references: [id], onDelete: Restrict)
 
-  photos  ReportPhoto[]
-  history ReportStatusHistory[]
+  photos   ReportPhoto[]
+  history  ReportStatusHistory[]
+  supports ReportSupport[]
 
   @@index([authorId])
   @@index([status])
@@ -158,4 +160,17 @@ model ReportStatusHistory {
   createdAt   DateTime      @default(now())
 
   @@index([reportId])
+}
+
+// Dukungan ("Bantu Laporan"): satu pengguna hanya boleh mendukung satu laporan satu kali.
+model ReportSupport {
+  id        Int      @id @default(autoincrement())
+  reportId  Int
+  report    Report   @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([reportId, userId])
+  @@index([userId])
 }

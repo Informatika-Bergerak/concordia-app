@@ -1,12 +1,26 @@
 import Link from "next/link";
 import { CATEGORY_LABELS, VISIBILITY_LABELS } from "@/modules/report/constants";
 import { formatReportDate, formatReportDateTime } from "@/modules/report/format";
+import { supportBlockReason, type ViewerRole } from "@/modules/report/rules";
 import type { ReportDetail as ReportDetailData } from "@/modules/report/types";
 import styles from "./report.module.css";
 import { StatusBadge } from "./status-badge";
+import { SupportButton } from "./support-button";
 
-export function ReportDetail({ report }: { report: ReportDetailData }) {
+export function ReportDetail({
+  report,
+  viewerRole,
+}: {
+  report: ReportDetailData;
+  viewerRole: ViewerRole;
+}) {
   const author = report.authorName ?? "Anonymous";
+  const canSupport =
+    supportBlockReason(viewerRole, {
+      isOwn: report.isMine,
+      visibility: report.visibility,
+      status: report.status,
+    }) === null;
 
   return (
     <article className={styles.detail}>
@@ -22,6 +36,16 @@ export function ReportDetail({ report }: { report: ReportDetailData }) {
       )}
 
       <p className={styles.detailText}>{report.description}</p>
+
+      {canSupport ? (
+        <SupportButton
+          reportId={Number(report.id)}
+          initialSupported={report.supportedByMe ?? false}
+          initialCount={report.supportCount}
+        />
+      ) : (
+        <p className={styles.supportCount}>{report.supportCount} dukungan</p>
+      )}
 
       {report.photos.length > 0 && (
         <div className={styles.gallery}>

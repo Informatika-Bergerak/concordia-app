@@ -37,9 +37,14 @@
 .metaItem svg { flex-shrink: 0; }
 .metaEnd dd { justify-content: flex-end; }
 .ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
-.support { align-self: flex-end; display: inline-flex; align-items: center; justify-content: center; min-height: 34px; padding: 0 16px; border: none; border-radius: var(--radius-btn); background: var(--brand-primary); color: #fff; font: inherit; font-size: 12px; font-weight: 800; cursor: pointer; }
+.support { display: inline-flex; align-items: center; justify-content: center; min-height: 34px; padding: 0 16px; border: none; border-radius: var(--radius-btn); background: var(--brand-primary); color: #fff; font: inherit; font-size: 12px; font-weight: 800; cursor: pointer; }
 .support:hover:not(:disabled) { background: var(--brand-secondary); }
 .support:disabled { opacity: 0.55; cursor: not-allowed; }
+.supportOn { background: var(--surface); color: var(--brand-primary); box-shadow: inset 0 0 0 1.5px var(--brand-primary); gap: 4px; }
+.supportOn:hover:not(:disabled) { background: var(--brand-tint); }
+.supportWrap { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.cardAction { display: flex; justify-content: flex-end; align-items: center; }
+.supportCount { margin: 0; font-size: 12px; color: var(--ink-muted); }
 .count { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; padding: 0 7px; margin-left: 6px; border-radius: 999px; background: var(--brand-tint); color: var(--brand-dark); font-size: 12px; font-weight: 800; vertical-align: 1px; }
 .noticeLink { color: var(--brand-primary); font-weight: 800; }
 .visibility { font-size: 12px; color: var(--ink); }

@@ -402,7 +402,8 @@ export const ModelName = {
   AuditLog: 'AuditLog',
   Report: 'Report',
   ReportPhoto: 'ReportPhoto',
-  ReportStatusHistory: 'ReportStatusHistory'
+  ReportStatusHistory: 'ReportStatusHistory',
+  ReportSupport: 'ReportSupport'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -418,7 +419,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "loginThrottle" | "auditLog" | "report" | "reportPhoto" | "reportStatusHistory"
+    modelProps: "user" | "loginThrottle" | "auditLog" | "report" | "reportPhoto" | "reportStatusHistory" | "reportSupport"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -866,6 +867,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ReportSupport: {
+      payload: Prisma.$ReportSupportPayload<ExtArgs>
+      fields: Prisma.ReportSupportFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ReportSupportFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportSupportPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ReportSupportFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportSupportPayload>
+        }
+        findFirst: {
+          args: Prisma.ReportSupportFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportSupportPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ReportSupportFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportSupportPayload>
+        }
+        findMany: {
+          args: Prisma.ReportSupportFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportSupportPayload>[]
+        }
+        create: {
+          args: Prisma.ReportSupportCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportSupportPayload>
+        }
+        createMany: {
+          args: Prisma.ReportSupportCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ReportSupportCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportSupportPayload>[]
+        }
+        delete: {
+          args: Prisma.ReportSupportDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportSupportPayload>
+        }
+        update: {
+          args: Prisma.ReportSupportUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportSupportPayload>
+        }
+        deleteMany: {
+          args: Prisma.ReportSupportDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ReportSupportUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ReportSupportUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportSupportPayload>[]
+        }
+        upsert: {
+          args: Prisma.ReportSupportUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportSupportPayload>
+        }
+        aggregate: {
+          args: Prisma.ReportSupportAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateReportSupport>
+        }
+        groupBy: {
+          args: Prisma.ReportSupportGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ReportSupportGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ReportSupportCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ReportSupportCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -998,6 +1073,16 @@ export const ReportStatusHistoryScalarFieldEnum = {
 } as const
 
 export type ReportStatusHistoryScalarFieldEnum = (typeof ReportStatusHistoryScalarFieldEnum)[keyof typeof ReportStatusHistoryScalarFieldEnum]
+
+
+export const ReportSupportScalarFieldEnum = {
+  id: 'id',
+  reportId: 'reportId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type ReportSupportScalarFieldEnum = (typeof ReportSupportScalarFieldEnum)[keyof typeof ReportSupportScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1364,6 +1449,7 @@ export type GlobalOmitConfig = {
   report?: Prisma.ReportOmit
   reportPhoto?: Prisma.ReportPhotoOmit
   reportStatusHistory?: Prisma.ReportStatusHistoryOmit
+  reportSupport?: Prisma.ReportSupportOmit
 }
 
 /* Types for Logging */

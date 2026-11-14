@@ -4,6 +4,7 @@ import {
   canViewReport,
   canCreateReport,
   requiresNote,
+  supportBlockReason,
   toAdminReportItem,
   toReportDetail,
   toReportItem,
@@ -12,6 +13,7 @@ import {
 import {
   createReportInputSchema,
   reportPhotoSchema,
+  supportReportSchema,
   updateReportStatusSchema,
 } from "../src/modules/report/schemas";
 
@@ -205,5 +207,54 @@ describe("toReportDetail dan toAdminReportItem", () => {
       author: { ...adminRow.author, userType: "DOSEN" as const },
     };
     expect(toAdminReportItem(dosenAnon, 9).fromLecturer).toBe(true);
+  });
+});
+
+describe("dukungan laporan", () => {
+  const ok = { isOwn: false, visibility: "PUBLIC" as const, status: "UNVERIFIED" as const };
+
+  it("mahasiswa, dosen, dan moderator boleh mendukung laporan orang lain yang Public", () => {
+    expect(supportBlockReason("USER", ok)).toBeNull();
+    expect(supportBlockReason("MODERATOR", ok)).toBeNull();
+  });
+
+  it("laporan Anonymous dan yang sudah terverifikasi tetap dapat didukung", () => {
+    expect(supportBlockReason("USER", { ...ok, visibility: "ANONYMOUS" })).toBeNull();
+    expect(supportBlockReason("USER", { ...ok, status: "VERIFIED" })).toBeNull();
+  });
+
+  it("admin tidak boleh mendukung", () => {
+    expect(supportBlockReason("ADMIN", ok)).not.toBeNull();
+  });
+
+  it("tidak boleh mendukung laporan sendiri", () => {
+    expect(supportBlockReason("USER", { ...ok, isOwn: true })).not.toBeNull();
+  });
+
+  it("tidak boleh mendukung laporan Private atau yang ditolak", () => {
+    expect(supportBlockReason("USER", { ...ok, visibility: "PRIVATE" })).not.toBeNull();
+    expect(supportBlockReason("USER", { ...ok, status: "REJECTED" })).not.toBeNull();
+  });
+
+  it("jumlah dukungan dan status dukungan pengguna dibaca dari baris database", () => {
+    const item = toReportItem({ ...row, _count: { supports: 5 }, supports: [{ userId: 2 }] }, 2);
+    expect(item.supportCount).toBe(5);
+    expect(item.supportedByMe).toBe(true);
+
+    const none = toReportItem({ ...row, _count: { supports: 0 }, supports: [] }, 2);
+    expect(none.supportCount).toBe(0);
+    expect(none.supportedByMe).toBe(false);
+  });
+
+  it("tanpa data dukungan, nilainya 0 dan belum didukung", () => {
+    const item = toReportItem(row, 2);
+    expect(item.supportCount).toBe(0);
+    expect(item.supportedByMe).toBe(false);
+  });
+
+  it("validasi input dukungan", () => {
+    expect(supportReportSchema.safeParse({ reportId: 3 }).success).toBe(true);
+    expect(supportReportSchema.safeParse({ reportId: 0 }).success).toBe(false);
+    expect(supportReportSchema.safeParse({ reportId: "3" }).success).toBe(false);
   });
 });

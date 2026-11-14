@@ -309,6 +309,7 @@ export type UserWhereInput = {
   lastSeenAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   activeDevice?: Prisma.StringNullableFilter<"User"> | string | null
   reports?: Prisma.ReportListRelationFilter
+  reportSupports?: Prisma.ReportSupportListRelationFilter
   statusChanges?: Prisma.ReportStatusHistoryListRelationFilter
 }
 
@@ -330,6 +331,7 @@ export type UserOrderByWithRelationInput = {
   lastSeenAt?: Prisma.SortOrderInput | Prisma.SortOrder
   activeDevice?: Prisma.SortOrderInput | Prisma.SortOrder
   reports?: Prisma.ReportOrderByRelationAggregateInput
+  reportSupports?: Prisma.ReportSupportOrderByRelationAggregateInput
   statusChanges?: Prisma.ReportStatusHistoryOrderByRelationAggregateInput
 }
 
@@ -354,6 +356,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   lastSeenAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   activeDevice?: Prisma.StringNullableFilter<"User"> | string | null
   reports?: Prisma.ReportListRelationFilter
+  reportSupports?: Prisma.ReportSupportListRelationFilter
   statusChanges?: Prisma.ReportStatusHistoryListRelationFilter
 }, "id" | "username">
 
@@ -420,6 +423,7 @@ export type UserCreateInput = {
   lastSeenAt?: Date | string | null
   activeDevice?: string | null
   reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
 }
 
@@ -441,6 +445,7 @@ export type UserUncheckedCreateInput = {
   lastSeenAt?: Date | string | null
   activeDevice?: string | null
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
 }
 
@@ -461,6 +466,7 @@ export type UserUpdateInput = {
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
 }
 
@@ -482,6 +488,7 @@ export type UserUncheckedUpdateInput = {
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
 }
 
@@ -684,6 +691,20 @@ export type UserUpdateOneWithoutStatusChangesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutStatusChangesInput, Prisma.UserUpdateWithoutStatusChangesInput>, Prisma.UserUncheckedUpdateWithoutStatusChangesInput>
 }
 
+export type UserCreateNestedOneWithoutReportSupportsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReportSupportsInput, Prisma.UserUncheckedCreateWithoutReportSupportsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReportSupportsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutReportSupportsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReportSupportsInput, Prisma.UserUncheckedCreateWithoutReportSupportsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReportSupportsInput
+  upsert?: Prisma.UserUpsertWithoutReportSupportsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReportSupportsInput, Prisma.UserUpdateWithoutReportSupportsInput>, Prisma.UserUncheckedUpdateWithoutReportSupportsInput>
+}
+
 export type UserCreateWithoutReportsInput = {
   username: string
   name: string
@@ -700,6 +721,7 @@ export type UserCreateWithoutReportsInput = {
   activeSessionId?: string | null
   lastSeenAt?: Date | string | null
   activeDevice?: string | null
+  reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
 }
 
@@ -720,6 +742,7 @@ export type UserUncheckedCreateWithoutReportsInput = {
   activeSessionId?: string | null
   lastSeenAt?: Date | string | null
   activeDevice?: string | null
+  reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
 }
 
@@ -755,6 +778,7 @@ export type UserUpdateWithoutReportsInput = {
   activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
 }
 
@@ -775,6 +799,7 @@ export type UserUncheckedUpdateWithoutReportsInput = {
   activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
 }
 
@@ -795,6 +820,7 @@ export type UserCreateWithoutStatusChangesInput = {
   lastSeenAt?: Date | string | null
   activeDevice?: string | null
   reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutStatusChangesInput = {
@@ -815,6 +841,7 @@ export type UserUncheckedCreateWithoutStatusChangesInput = {
   lastSeenAt?: Date | string | null
   activeDevice?: string | null
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutStatusChangesInput = {
@@ -850,6 +877,7 @@ export type UserUpdateWithoutStatusChangesInput = {
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStatusChangesInput = {
@@ -870,6 +898,105 @@ export type UserUncheckedUpdateWithoutStatusChangesInput = {
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutReportSupportsInput = {
+  username: string
+  name: string
+  passwordHash: string
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  fotoProfil?: string | null
+  jurusan?: string | null
+  trustScore?: number
+  isActive?: boolean
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activeSessionId?: string | null
+  lastSeenAt?: Date | string | null
+  activeDevice?: string | null
+  reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
+  statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
+}
+
+export type UserUncheckedCreateWithoutReportSupportsInput = {
+  id?: number
+  username: string
+  name: string
+  passwordHash: string
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  fotoProfil?: string | null
+  jurusan?: string | null
+  trustScore?: number
+  isActive?: boolean
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activeSessionId?: string | null
+  lastSeenAt?: Date | string | null
+  activeDevice?: string | null
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
+  statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
+}
+
+export type UserCreateOrConnectWithoutReportSupportsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReportSupportsInput, Prisma.UserUncheckedCreateWithoutReportSupportsInput>
+}
+
+export type UserUpsertWithoutReportSupportsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReportSupportsInput, Prisma.UserUncheckedUpdateWithoutReportSupportsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReportSupportsInput, Prisma.UserUncheckedCreateWithoutReportSupportsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReportSupportsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReportSupportsInput, Prisma.UserUncheckedUpdateWithoutReportSupportsInput>
+}
+
+export type UserUpdateWithoutReportSupportsInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
+  statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReportSupportsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
+  statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
 }
 
 
@@ -879,11 +1006,13 @@ export type UserUncheckedUpdateWithoutStatusChangesInput = {
 
 export type UserCountOutputType = {
   reports: number
+  reportSupports: number
   statusChanges: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   reports?: boolean | UserCountOutputTypeCountReportsArgs
+  reportSupports?: boolean | UserCountOutputTypeCountReportSupportsArgs
   statusChanges?: boolean | UserCountOutputTypeCountStatusChangesArgs
 }
 
@@ -902,6 +1031,13 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
  */
 export type UserCountOutputTypeCountReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ReportWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountReportSupportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReportSupportWhereInput
 }
 
 /**
@@ -930,6 +1066,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   lastSeenAt?: boolean
   activeDevice?: boolean
   reports?: boolean | Prisma.User$reportsArgs<ExtArgs>
+  reportSupports?: boolean | Prisma.User$reportSupportsArgs<ExtArgs>
   statusChanges?: boolean | Prisma.User$statusChangesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -994,6 +1131,7 @@ export type UserSelectScalar = {
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "name" | "passwordHash" | "role" | "userType" | "fotoProfil" | "jurusan" | "trustScore" | "isActive" | "mustChangePassword" | "createdAt" | "updatedAt" | "activeSessionId" | "lastSeenAt" | "activeDevice", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   reports?: boolean | Prisma.User$reportsArgs<ExtArgs>
+  reportSupports?: boolean | Prisma.User$reportSupportsArgs<ExtArgs>
   statusChanges?: boolean | Prisma.User$statusChangesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1004,6 +1142,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     reports: Prisma.$ReportPayload<ExtArgs>[]
+    reportSupports: Prisma.$ReportSupportPayload<ExtArgs>[]
     statusChanges: Prisma.$ReportStatusHistoryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1418,6 +1557,7 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   reports<T extends Prisma.User$reportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reportSupports<T extends Prisma.User$reportSupportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reportSupportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportSupportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   statusChanges<T extends Prisma.User$statusChangesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$statusChangesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportStatusHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1878,6 +2018,30 @@ export type User$reportsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.ReportScalarFieldEnum | Prisma.ReportScalarFieldEnum[]
+}
+
+/**
+ * User.reportSupports
+ */
+export type User$reportSupportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ReportSupport
+   */
+  select?: Prisma.ReportSupportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ReportSupport
+   */
+  omit?: Prisma.ReportSupportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReportSupportInclude<ExtArgs> | null
+  where?: Prisma.ReportSupportWhereInput
+  orderBy?: Prisma.ReportSupportOrderByWithRelationInput | Prisma.ReportSupportOrderByWithRelationInput[]
+  cursor?: Prisma.ReportSupportWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReportSupportScalarFieldEnum | Prisma.ReportSupportScalarFieldEnum[]
 }
 
 /**

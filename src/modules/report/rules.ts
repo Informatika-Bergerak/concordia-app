@@ -28,6 +28,10 @@ export type ReportRow = {
   authorId: number;
   author: { name: string };
   photos: { url: string }[];
+  /** Jumlah dukungan, dari `_count: { select: { supports: true } }` */
+  _count?: { supports: number };
+  /** Dukungan milik pengguna yang melihat (difilter pada query) */
+  supports?: { userId: number }[];
 };
 
 /**
@@ -48,7 +52,8 @@ export function toReportItem(row: ReportRow, viewerId: number): ReportItem {
     coverImage: row.photos[0]?.url ?? null,
     authorName: row.visibility === "PUBLIC" ? row.author.name : null,
     isMine: row.authorId === viewerId,
-    supportCount: 0,
+    supportCount: row._count?.supports ?? 0,
+    supportedByMe: (row.supports?.length ?? 0) > 0,
   };
 }
 
@@ -64,6 +69,22 @@ export function canViewReport(
 /** Status boleh berubah ke status lain, asalkan bukan status yang sama. */
 export function canChangeStatus(from: ReportStatus, to: ReportStatus): boolean {
   return from !== to;
+}
+
+/**
+ * Alasan sebuah laporan tidak dapat didukung oleh pengguna ini, atau null bila boleh.
+ * Dipakai server (menolak aksi) dan tampilan (menyembunyikan tombol) agar aturannya sama.
+ * Berlaku untuk menambah dukungan; mencabut dukungan selalu diizinkan.
+ */
+export function supportBlockReason(
+  role: ViewerRole,
+  report: { isOwn: boolean; visibility: ReportVisibility; status: ReportStatus },
+): string | null {
+  if (role === "ADMIN") return "Admin tidak mendukung laporan";
+  if (report.isOwn) return "Tidak dapat mendukung laporan sendiri";
+  if (report.visibility === "PRIVATE") return "Laporan Private tidak dapat didukung";
+  if (report.status === "REJECTED") return "Laporan yang ditolak tidak dapat didukung";
+  return null;
 }
 
 /** Penolakan wajib disertai alasan agar pelapor tahu penyebabnya. */

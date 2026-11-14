@@ -31,6 +31,7 @@ function AdminReportCard({ r }: { r: AdminReportItem }) {
         <span>{CATEGORY_LABELS[r.category]}</span>
         <span>{formatReportDate(r.occurredAt)}</span>
         <span>Pelapor: {r.authorName} (@{r.authorUsername})</span>
+        <span><strong>{r.supportCount}</strong> dukungan</span>
         <span>
           {r.visibility === "ANONYMOUS" ? (
             <span className={styles.anonTag}>Anonymous ke publik</span>
@@ -50,13 +51,23 @@ function AdminReportCard({ r }: { r: AdminReportItem }) {
 export default async function AdminReportsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ status?: string }>;
+  searchParams: Promise<{ status?: string; sort?: string }>;
 }) {
   const { user: admin } = await requireRole(["ADMIN"]);
-  const { status: raw } = await searchParams;
+  const { status: raw, sort: rawSort } = await searchParams;
   const status = VALID.find((s) => s === raw);
+  const sort = rawSort === "support" ? "support" : "newest";
 
-  const reports = await getAdminReports(status);
+  const reports = await getAdminReports(status, sort);
+
+  // Tautan filter dan urutan saling mempertahankan pilihan satu sama lain.
+  const href = (nextStatus?: ReportStatus, nextSort = sort) => {
+    const params = new URLSearchParams();
+    if (nextStatus) params.set("status", nextStatus);
+    if (nextSort === "support") params.set("sort", "support");
+    const query = params.toString();
+    return query ? `/admin/laporan?${query}` : "/admin/laporan";
+  };
 
   // Laporan dosen yang belum diverifikasi disorot di bagian atas.
   const highlighted =
@@ -87,12 +98,17 @@ export default async function AdminReportsPage({
         </div>
 
         <div className={styles.filters} role="group" aria-label="Filter status">
-          <Link href="/admin/laporan" className={styles.chip} aria-current={!status ? "page" : undefined}>Semua</Link>
+          <Link href={href(undefined)} className={styles.chip} aria-current={!status ? "page" : undefined}>Semua</Link>
           {STATUS_OPTIONS.map(([value, label]) => (
-            <Link key={value} href={`/admin/laporan?status=${value}`} className={styles.chip} aria-current={status === value ? "page" : undefined}>
+            <Link key={value} href={href(value)} className={styles.chip} aria-current={status === value ? "page" : undefined}>
               {label}
             </Link>
           ))}
+        </div>
+
+        <div className={styles.filters} role="group" aria-label="Urutan">
+          <Link href={href(status, "newest")} className={styles.chip} aria-current={sort === "newest" ? "page" : undefined}>Terbaru</Link>
+          <Link href={href(status, "support")} className={styles.chip} aria-current={sort === "support" ? "page" : undefined}>Dukungan terbanyak</Link>
         </div>
 
         {highlighted.length > 0 && (
