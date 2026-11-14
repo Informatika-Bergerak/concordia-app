@@ -65,3 +65,7 @@ export const updateReportStatusSchema = z
     path: ["note"],
     message: "Alasan penolakan wajib diisi (minimal 5 karakter)",
   });
+
+export const supportReportSchema = z.object({
+  reportId: z.number().int().positive(),
+});

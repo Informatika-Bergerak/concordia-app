@@ -39,6 +39,8 @@ export type ReportItem = {
   /** true bila laporan dibuat oleh pengguna yang sedang login */
   isMine: boolean;
   supportCount: number;
+  /** true bila pengguna yang sedang login sudah mendukung laporan ini */
+  supportedByMe?: boolean;
 };
 
 export type ReportDetail = ReportItem & {

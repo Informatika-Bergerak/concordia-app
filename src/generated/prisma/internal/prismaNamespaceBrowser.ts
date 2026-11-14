@@ -56,7 +56,8 @@ export const ModelName = {
   AuditLog: 'AuditLog',
   Report: 'Report',
   ReportPhoto: 'ReportPhoto',
-  ReportStatusHistory: 'ReportStatusHistory'
+  ReportStatusHistory: 'ReportStatusHistory',
+  ReportSupport: 'ReportSupport'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -168,6 +169,16 @@ export const ReportStatusHistoryScalarFieldEnum = {
 } as const
 
 export type ReportStatusHistoryScalarFieldEnum = (typeof ReportStatusHistoryScalarFieldEnum)[keyof typeof ReportStatusHistoryScalarFieldEnum]
+
+
+export const ReportSupportScalarFieldEnum = {
+  id: 'id',
+  reportId: 'reportId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type ReportSupportScalarFieldEnum = (typeof ReportSupportScalarFieldEnum)[keyof typeof ReportSupportScalarFieldEnum]
 
 
 export const SortOrder = {

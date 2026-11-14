@@ -3,8 +3,12 @@
 import { revalidatePath } from "next/cache";
 import { requireRole } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
-import { canChangeStatus, requiresNote } from "./rules";
-import { createReportInputSchema, updateReportStatusSchema } from "./schemas";
+import { canChangeStatus, requiresNote, supportBlockReason } from "./rules";
+import {
+  createReportInputSchema,
+  supportReportSchema,
+  updateReportStatusSchema,
+} from "./schemas";
 
 export type ActionResult<T extends object = object> =
   | ({ ok: true } & T)
@@ -116,4 +120,57 @@ export async function updateReportStatusAction(input: unknown): Promise<ActionRe
 
   revalidatePath("/laporan");
   return { ok: true };
+}
+
+// Mendukung ("Bantu Laporan") atau mencabut dukungan. Satu pengguna satu dukungan per laporan.
+export async function toggleSupportAction(
+  input: unknown,
+): Promise<ActionResult<{ supported: boolean; count: number }>> {
+  const { user } = await requireRole(["USER", "MODERATOR"]);
+
+  const parsed = supportReportSchema.safeParse(input);
+  if (!parsed.success) return { ok: false, error: "Laporan tidak valid" };
+  const { reportId } = parsed.data;
+
+  const report = await prisma.report.findUnique({
+    where: { id: reportId },
+    select: { authorId: true, visibility: true, status: true },
+  });
+  if (!report) return { ok: false, error: "Laporan tidak ditemukan" };
+
+  const existing = await prisma.reportSupport.findUnique({
+    where: { reportId_userId: { reportId, userId: user.id } },
+    select: { id: true },
+  });
+
+  let supported: boolean;
+  if (existing) {
+    // Mencabut dukungan selalu boleh, walaupun laporan sudah ditolak atau menjadi Private.
+    await prisma.reportSupport.deleteMany({ where: { reportId, userId: user.id } });
+    supported = false;
+  } else {
+    const blocked = supportBlockReason(user.role, {
+      isOwn: report.authorId === user.id,
+      visibility: report.visibility,
+      status: report.status,
+    });
+    if (blocked) return { ok: false, error: blocked };
+
+    try {
+      await prisma.reportSupport.create({ data: { reportId, userId: user.id } });
+    } catch (error) {
+      // Klik ganda: dukungan sudah tersimpan oleh permintaan lain (pelanggaran kunci unik).
+      if ((error as { code?: string }).code !== "P2002") {
+        console.error("[report] Gagal menyimpan dukungan:", (error as Error).message);
+        return { ok: false, error: "Gagal menyimpan dukungan, coba lagi" };
+      }
+    }
+    supported = true;
+  }
+
+  const count = await prisma.reportSupport.count({ where: { reportId } });
+
+  revalidatePath("/laporan");
+  revalidatePath(`/laporan/${reportId}`);
+  return { ok: true, supported, count };
 }

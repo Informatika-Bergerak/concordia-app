@@ -2,17 +2,25 @@ import Link from "next/link";
 import { CalendarDays, EyeOff, Globe, Lock, MapPin, UserRound } from "lucide-react";
 import { CATEGORY_LABELS, VISIBILITY_LABELS } from "@/modules/report/constants";
 import { formatReportDateShort } from "@/modules/report/format";
+import { supportBlockReason, type ViewerRole } from "@/modules/report/rules";
 import type { ReportItem, ReportVisibility } from "@/modules/report/types";
 import styles from "./report.module.css";
 import { StatusBadge } from "./status-badge";
+import { SupportButton } from "./support-button";
 
 const VISIBILITY_ICON = { PUBLIC: Globe, ANONYMOUS: EyeOff, PRIVATE: Lock } as const;
 
-export function ReportCard({ report }: { report: ReportItem }) {
+export function ReportCard({ report, viewerRole }: { report: ReportItem; viewerRole: ViewerRole }) {
   // Identitas pelapor hanya tampil bila laporan berstatus Public.
   const author =
     report.visibility === "PUBLIC" && report.authorName ? report.authorName : "Anonymous";
   const VisibilityIcon = VISIBILITY_ICON[report.visibility as ReportVisibility];
+  const canSupport =
+    supportBlockReason(viewerRole, {
+      isOwn: report.isMine,
+      visibility: report.visibility,
+      status: report.status,
+    }) === null;
 
   return (
     <article className={styles.card}>
@@ -56,11 +64,19 @@ export function ReportCard({ report }: { report: ReportItem }) {
           </div>
         </dl>
 
-        {!report.isMine && report.visibility !== "PRIVATE" && (
-          <button type="button" className={styles.support} disabled title="Fitur dukungan menyusul">
-            Bantu Laporan{report.supportCount > 0 ? ` (${report.supportCount})` : ""}
-          </button>
-        )}
+        {canSupport || report.supportCount > 0 ? (
+          <div className={styles.cardAction}>
+            {canSupport ? (
+              <SupportButton
+                reportId={Number(report.id)}
+                initialSupported={report.supportedByMe ?? false}
+                initialCount={report.supportCount}
+              />
+            ) : (
+              <span className={styles.supportCount}>{report.supportCount} dukungan</span>
+            )}
+          </div>
+        ) : null}
       </div>
     </article>
   );

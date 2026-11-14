@@ -3,18 +3,20 @@
 import { useMemo, useState } from "react";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { CATEGORY_LABELS, STATUS_OPTIONS } from "@/modules/report/constants";
+import { canCreateReport, type ViewerRole } from "@/modules/report/rules";
 import type { ReportItem, ReportStatus } from "@/modules/report/types";
 import { ReportCard } from "./report-card";
 import styles from "./report.module.css";
 
 export function ReportFeed({
   reports,
-  canCreate = true,
+  viewerRole,
 }: {
   reports: ReportItem[];
-  /** Admin tidak membuat laporan, jadi seksi "Laporan Saya" disembunyikan. */
-  canCreate?: boolean;
+  viewerRole: ViewerRole;
 }) {
+  // Admin tidak membuat laporan, jadi seksi "Laporan Saya" disembunyikan.
+  const canCreate = canCreateReport(viewerRole);
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState<ReportStatus | null>(null);
   const [showFilters, setShowFilters] = useState(false);
@@ -85,7 +87,7 @@ export function ReportFeed({
             <p className={styles.empty}>Belum ada laporan. Tekan tombol + untuk membuat laporan.</p>
           ) : (
             <div className={styles.list}>
-              {mine.map((r) => <ReportCard key={r.id} report={r} />)}
+              {mine.map((r) => <ReportCard key={r.id} report={r} viewerRole={viewerRole} />)}
             </div>
           )}
         </section>
@@ -100,7 +102,7 @@ export function ReportFeed({
           <p className={styles.empty}>Tidak ada laporan yang cocok.</p>
         ) : (
           <div className={styles.list}>
-            {latest.map((r) => <ReportCard key={r.id} report={r} />)}
+            {latest.map((r) => <ReportCard key={r.id} report={r} viewerRole={viewerRole} />)}
           </div>
         )}
       </section>

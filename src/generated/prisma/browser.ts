@@ -47,3 +47,8 @@ export type ReportPhoto = Prisma.ReportPhotoModel
  * 
  */
 export type ReportStatusHistory = Prisma.ReportStatusHistoryModel
+/**
+ * Model ReportSupport
+ * 
+ */
+export type ReportSupport = Prisma.ReportSupportModel

@@ -279,6 +279,7 @@ export type ReportWhereInput = {
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   photos?: Prisma.ReportPhotoListRelationFilter
   history?: Prisma.ReportStatusHistoryListRelationFilter
+  supports?: Prisma.ReportSupportListRelationFilter
 }
 
 export type ReportOrderByWithRelationInput = {
@@ -297,6 +298,7 @@ export type ReportOrderByWithRelationInput = {
   author?: Prisma.UserOrderByWithRelationInput
   photos?: Prisma.ReportPhotoOrderByRelationAggregateInput
   history?: Prisma.ReportStatusHistoryOrderByRelationAggregateInput
+  supports?: Prisma.ReportSupportOrderByRelationAggregateInput
 }
 
 export type ReportWhereUniqueInput = Prisma.AtLeast<{
@@ -318,6 +320,7 @@ export type ReportWhereUniqueInput = Prisma.AtLeast<{
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   photos?: Prisma.ReportPhotoListRelationFilter
   history?: Prisma.ReportStatusHistoryListRelationFilter
+  supports?: Prisma.ReportSupportListRelationFilter
 }, "id">
 
 export type ReportOrderByWithAggregationInput = {
@@ -372,6 +375,7 @@ export type ReportCreateInput = {
   author: Prisma.UserCreateNestedOneWithoutReportsInput
   photos?: Prisma.ReportPhotoCreateNestedManyWithoutReportInput
   history?: Prisma.ReportStatusHistoryCreateNestedManyWithoutReportInput
+  supports?: Prisma.ReportSupportCreateNestedManyWithoutReportInput
 }
 
 export type ReportUncheckedCreateInput = {
@@ -389,6 +393,7 @@ export type ReportUncheckedCreateInput = {
   authorId: number
   photos?: Prisma.ReportPhotoUncheckedCreateNestedManyWithoutReportInput
   history?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutReportInput
+  supports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutReportInput
 }
 
 export type ReportUpdateInput = {
@@ -405,6 +410,7 @@ export type ReportUpdateInput = {
   author?: Prisma.UserUpdateOneRequiredWithoutReportsNestedInput
   photos?: Prisma.ReportPhotoUpdateManyWithoutReportNestedInput
   history?: Prisma.ReportStatusHistoryUpdateManyWithoutReportNestedInput
+  supports?: Prisma.ReportSupportUpdateManyWithoutReportNestedInput
 }
 
 export type ReportUncheckedUpdateInput = {
@@ -422,6 +428,7 @@ export type ReportUncheckedUpdateInput = {
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   photos?: Prisma.ReportPhotoUncheckedUpdateManyWithoutReportNestedInput
   history?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutReportNestedInput
+  supports?: Prisma.ReportSupportUncheckedUpdateManyWithoutReportNestedInput
 }
 
 export type ReportCreateManyInput = {
@@ -619,6 +626,20 @@ export type ReportUpdateOneRequiredWithoutHistoryNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ReportUpdateToOneWithWhereWithoutHistoryInput, Prisma.ReportUpdateWithoutHistoryInput>, Prisma.ReportUncheckedUpdateWithoutHistoryInput>
 }
 
+export type ReportCreateNestedOneWithoutSupportsInput = {
+  create?: Prisma.XOR<Prisma.ReportCreateWithoutSupportsInput, Prisma.ReportUncheckedCreateWithoutSupportsInput>
+  connectOrCreate?: Prisma.ReportCreateOrConnectWithoutSupportsInput
+  connect?: Prisma.ReportWhereUniqueInput
+}
+
+export type ReportUpdateOneRequiredWithoutSupportsNestedInput = {
+  create?: Prisma.XOR<Prisma.ReportCreateWithoutSupportsInput, Prisma.ReportUncheckedCreateWithoutSupportsInput>
+  connectOrCreate?: Prisma.ReportCreateOrConnectWithoutSupportsInput
+  upsert?: Prisma.ReportUpsertWithoutSupportsInput
+  connect?: Prisma.ReportWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ReportUpdateToOneWithWhereWithoutSupportsInput, Prisma.ReportUpdateWithoutSupportsInput>, Prisma.ReportUncheckedUpdateWithoutSupportsInput>
+}
+
 export type ReportCreateWithoutAuthorInput = {
   title: string
   description: string
@@ -632,6 +653,7 @@ export type ReportCreateWithoutAuthorInput = {
   updatedAt?: Date | string
   photos?: Prisma.ReportPhotoCreateNestedManyWithoutReportInput
   history?: Prisma.ReportStatusHistoryCreateNestedManyWithoutReportInput
+  supports?: Prisma.ReportSupportCreateNestedManyWithoutReportInput
 }
 
 export type ReportUncheckedCreateWithoutAuthorInput = {
@@ -648,6 +670,7 @@ export type ReportUncheckedCreateWithoutAuthorInput = {
   updatedAt?: Date | string
   photos?: Prisma.ReportPhotoUncheckedCreateNestedManyWithoutReportInput
   history?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutReportInput
+  supports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutReportInput
 }
 
 export type ReportCreateOrConnectWithoutAuthorInput = {
@@ -707,6 +730,7 @@ export type ReportCreateWithoutPhotosInput = {
   updatedAt?: Date | string
   author: Prisma.UserCreateNestedOneWithoutReportsInput
   history?: Prisma.ReportStatusHistoryCreateNestedManyWithoutReportInput
+  supports?: Prisma.ReportSupportCreateNestedManyWithoutReportInput
 }
 
 export type ReportUncheckedCreateWithoutPhotosInput = {
@@ -723,6 +747,7 @@ export type ReportUncheckedCreateWithoutPhotosInput = {
   updatedAt?: Date | string
   authorId: number
   history?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutReportInput
+  supports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutReportInput
 }
 
 export type ReportCreateOrConnectWithoutPhotosInput = {
@@ -754,6 +779,7 @@ export type ReportUpdateWithoutPhotosInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   author?: Prisma.UserUpdateOneRequiredWithoutReportsNestedInput
   history?: Prisma.ReportStatusHistoryUpdateManyWithoutReportNestedInput
+  supports?: Prisma.ReportSupportUpdateManyWithoutReportNestedInput
 }
 
 export type ReportUncheckedUpdateWithoutPhotosInput = {
@@ -770,6 +796,7 @@ export type ReportUncheckedUpdateWithoutPhotosInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   history?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutReportNestedInput
+  supports?: Prisma.ReportSupportUncheckedUpdateManyWithoutReportNestedInput
 }
 
 export type ReportCreateWithoutHistoryInput = {
@@ -785,6 +812,7 @@ export type ReportCreateWithoutHistoryInput = {
   updatedAt?: Date | string
   author: Prisma.UserCreateNestedOneWithoutReportsInput
   photos?: Prisma.ReportPhotoCreateNestedManyWithoutReportInput
+  supports?: Prisma.ReportSupportCreateNestedManyWithoutReportInput
 }
 
 export type ReportUncheckedCreateWithoutHistoryInput = {
@@ -801,6 +829,7 @@ export type ReportUncheckedCreateWithoutHistoryInput = {
   updatedAt?: Date | string
   authorId: number
   photos?: Prisma.ReportPhotoUncheckedCreateNestedManyWithoutReportInput
+  supports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutReportInput
 }
 
 export type ReportCreateOrConnectWithoutHistoryInput = {
@@ -832,6 +861,7 @@ export type ReportUpdateWithoutHistoryInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   author?: Prisma.UserUpdateOneRequiredWithoutReportsNestedInput
   photos?: Prisma.ReportPhotoUpdateManyWithoutReportNestedInput
+  supports?: Prisma.ReportSupportUpdateManyWithoutReportNestedInput
 }
 
 export type ReportUncheckedUpdateWithoutHistoryInput = {
@@ -848,6 +878,89 @@ export type ReportUncheckedUpdateWithoutHistoryInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   photos?: Prisma.ReportPhotoUncheckedUpdateManyWithoutReportNestedInput
+  supports?: Prisma.ReportSupportUncheckedUpdateManyWithoutReportNestedInput
+}
+
+export type ReportCreateWithoutSupportsInput = {
+  title: string
+  description: string
+  location: string
+  category: $Enums.ReportCategory
+  status?: $Enums.ReportStatus
+  visibility?: $Enums.ReportVisibility
+  occurredAt: Date | string
+  rejectionReason?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  author: Prisma.UserCreateNestedOneWithoutReportsInput
+  photos?: Prisma.ReportPhotoCreateNestedManyWithoutReportInput
+  history?: Prisma.ReportStatusHistoryCreateNestedManyWithoutReportInput
+}
+
+export type ReportUncheckedCreateWithoutSupportsInput = {
+  id?: number
+  title: string
+  description: string
+  location: string
+  category: $Enums.ReportCategory
+  status?: $Enums.ReportStatus
+  visibility?: $Enums.ReportVisibility
+  occurredAt: Date | string
+  rejectionReason?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  authorId: number
+  photos?: Prisma.ReportPhotoUncheckedCreateNestedManyWithoutReportInput
+  history?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutReportInput
+}
+
+export type ReportCreateOrConnectWithoutSupportsInput = {
+  where: Prisma.ReportWhereUniqueInput
+  create: Prisma.XOR<Prisma.ReportCreateWithoutSupportsInput, Prisma.ReportUncheckedCreateWithoutSupportsInput>
+}
+
+export type ReportUpsertWithoutSupportsInput = {
+  update: Prisma.XOR<Prisma.ReportUpdateWithoutSupportsInput, Prisma.ReportUncheckedUpdateWithoutSupportsInput>
+  create: Prisma.XOR<Prisma.ReportCreateWithoutSupportsInput, Prisma.ReportUncheckedCreateWithoutSupportsInput>
+  where?: Prisma.ReportWhereInput
+}
+
+export type ReportUpdateToOneWithWhereWithoutSupportsInput = {
+  where?: Prisma.ReportWhereInput
+  data: Prisma.XOR<Prisma.ReportUpdateWithoutSupportsInput, Prisma.ReportUncheckedUpdateWithoutSupportsInput>
+}
+
+export type ReportUpdateWithoutSupportsInput = {
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.EnumReportCategoryFieldUpdateOperationsInput | $Enums.ReportCategory
+  status?: Prisma.EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+  visibility?: Prisma.EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+  occurredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  author?: Prisma.UserUpdateOneRequiredWithoutReportsNestedInput
+  photos?: Prisma.ReportPhotoUpdateManyWithoutReportNestedInput
+  history?: Prisma.ReportStatusHistoryUpdateManyWithoutReportNestedInput
+}
+
+export type ReportUncheckedUpdateWithoutSupportsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.EnumReportCategoryFieldUpdateOperationsInput | $Enums.ReportCategory
+  status?: Prisma.EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+  visibility?: Prisma.EnumReportVisibilityFieldUpdateOperationsInput | $Enums.ReportVisibility
+  occurredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  photos?: Prisma.ReportPhotoUncheckedUpdateManyWithoutReportNestedInput
+  history?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutReportNestedInput
 }
 
 export type ReportCreateManyAuthorInput = {
@@ -877,6 +990,7 @@ export type ReportUpdateWithoutAuthorInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   photos?: Prisma.ReportPhotoUpdateManyWithoutReportNestedInput
   history?: Prisma.ReportStatusHistoryUpdateManyWithoutReportNestedInput
+  supports?: Prisma.ReportSupportUpdateManyWithoutReportNestedInput
 }
 
 export type ReportUncheckedUpdateWithoutAuthorInput = {
@@ -893,6 +1007,7 @@ export type ReportUncheckedUpdateWithoutAuthorInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   photos?: Prisma.ReportPhotoUncheckedUpdateManyWithoutReportNestedInput
   history?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutReportNestedInput
+  supports?: Prisma.ReportSupportUncheckedUpdateManyWithoutReportNestedInput
 }
 
 export type ReportUncheckedUpdateManyWithoutAuthorInput = {
@@ -917,11 +1032,13 @@ export type ReportUncheckedUpdateManyWithoutAuthorInput = {
 export type ReportCountOutputType = {
   photos: number
   history: number
+  supports: number
 }
 
 export type ReportCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   photos?: boolean | ReportCountOutputTypeCountPhotosArgs
   history?: boolean | ReportCountOutputTypeCountHistoryArgs
+  supports?: boolean | ReportCountOutputTypeCountSupportsArgs
 }
 
 /**
@@ -948,6 +1065,13 @@ export type ReportCountOutputTypeCountHistoryArgs<ExtArgs extends runtime.Types.
   where?: Prisma.ReportStatusHistoryWhereInput
 }
 
+/**
+ * ReportCountOutputType without action
+ */
+export type ReportCountOutputTypeCountSupportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReportSupportWhereInput
+}
+
 
 export type ReportSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -965,6 +1089,7 @@ export type ReportSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   photos?: boolean | Prisma.Report$photosArgs<ExtArgs>
   history?: boolean | Prisma.Report$historyArgs<ExtArgs>
+  supports?: boolean | Prisma.Report$supportsArgs<ExtArgs>
   _count?: boolean | Prisma.ReportCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["report"]>
 
@@ -1020,6 +1145,7 @@ export type ReportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   photos?: boolean | Prisma.Report$photosArgs<ExtArgs>
   history?: boolean | Prisma.Report$historyArgs<ExtArgs>
+  supports?: boolean | Prisma.Report$supportsArgs<ExtArgs>
   _count?: boolean | Prisma.ReportCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ReportIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1035,6 +1161,7 @@ export type $ReportPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     author: Prisma.$UserPayload<ExtArgs>
     photos: Prisma.$ReportPhotoPayload<ExtArgs>[]
     history: Prisma.$ReportStatusHistoryPayload<ExtArgs>[]
+    supports: Prisma.$ReportSupportPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1446,6 +1573,7 @@ export interface Prisma__ReportClient<T, Null = never, ExtArgs extends runtime.T
   author<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   photos<T extends Prisma.Report$photosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Report$photosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportPhotoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   history<T extends Prisma.Report$historyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Report$historyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportStatusHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  supports<T extends Prisma.Report$supportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Report$supportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportSupportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1933,6 +2061,30 @@ export type Report$historyArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.ReportStatusHistoryScalarFieldEnum | Prisma.ReportStatusHistoryScalarFieldEnum[]
+}
+
+/**
+ * Report.supports
+ */
+export type Report$supportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ReportSupport
+   */
+  select?: Prisma.ReportSupportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ReportSupport
+   */
+  omit?: Prisma.ReportSupportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReportSupportInclude<ExtArgs> | null
+  where?: Prisma.ReportSupportWhereInput
+  orderBy?: Prisma.ReportSupportOrderByWithRelationInput | Prisma.ReportSupportOrderByWithRelationInput[]
+  cursor?: Prisma.ReportSupportWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReportSupportScalarFieldEnum | Prisma.ReportSupportScalarFieldEnum[]
 }
 
 /**

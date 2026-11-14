@@ -22,6 +22,12 @@ const listSelect = {
   photos: { select: { url: true }, orderBy: { id: "asc" as const }, take: 1 },
 };
 
+// Jumlah dukungan dan apakah pengguna ini sudah mendukung.
+const supportSelect = (userId: number) => ({
+  _count: { select: { supports: true } },
+  supports: { where: { userId }, select: { userId: true } },
+});
+
 // Daftar untuk halaman /laporan: laporan milik pengguna sendiri ditambah laporan
 // Public dan Anonymous milik orang lain. Laporan Private orang lain tidak diambil.
 export async function getReports(): Promise<ReportItem[]> {
@@ -46,6 +52,7 @@ export async function getReports(): Promise<ReportItem[]> {
       authorId: true,
       author: { select: { name: true } },
       photos: { select: { url: true }, orderBy: { id: "asc" }, take: 1 },
+      ...supportSelect(user.id),
     },
   });
 
@@ -65,6 +72,7 @@ export async function getReportById(id: number): Promise<ReportDetail | null> {
       rejectionReason: true,
       author: { select: { name: true } },
       photos: { select: { url: true }, orderBy: { id: "asc" } },
+      ...supportSelect(user.id),
       history: {
         select: { fromStatus: true, toStatus: true, note: true, createdAt: true },
         orderBy: { createdAt: "asc" },
@@ -78,19 +86,26 @@ export async function getReportById(id: number): Promise<ReportDetail | null> {
 
 // Daftar untuk panel verifikasi: hanya admin. Semua laporan termasuk Private, dengan
 // identitas pelapor dan penanda laporan dari dosen.
-export async function getAdminReports(status?: ReportStatus): Promise<AdminReportItem[]> {
+export async function getAdminReports(
+  status?: ReportStatus,
+  sort: "newest" | "support" = "newest",
+): Promise<AdminReportItem[]> {
   const user = await getCurrentUser();
   if (!user || user.role !== "ADMIN") return [];
 
   const rows = await prisma.report.findMany({
     where: status ? { status } : undefined,
-    orderBy: { createdAt: "desc" },
+    orderBy:
+      sort === "support"
+        ? [{ supports: { _count: "desc" } }, { createdAt: "desc" }]
+        : [{ createdAt: "desc" }],
     take: 200,
     select: {
       ...listSelect,
       rejectionReason: true,
       createdAt: true,
       author: { select: { name: true, username: true, userType: true } },
+      _count: { select: { supports: true } },
     },
   });
 
