@@ -7,7 +7,14 @@ import type { ReportItem, ReportStatus } from "@/modules/report/types";
 import { ReportCard } from "./report-card";
 import styles from "./report.module.css";
 
-export function ReportFeed({ reports }: { reports: ReportItem[] }) {
+export function ReportFeed({
+  reports,
+  canCreate = true,
+}: {
+  reports: ReportItem[];
+  /** Admin tidak membuat laporan, jadi seksi "Laporan Saya" disembunyikan. */
+  canCreate?: boolean;
+}) {
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState<ReportStatus | null>(null);
   const [showFilters, setShowFilters] = useState(false);
@@ -69,19 +76,25 @@ export function ReportFeed({ reports }: { reports: ReportItem[] }) {
         </div>
       )}
 
-      <section className={styles.section} aria-labelledby="laporan-saya">
-        <h2 id="laporan-saya" className={styles.sectionHead}>Laporan Saya</h2>
-        {mine.length === 0 ? (
-          <p className={styles.empty}>Belum ada laporan.</p>
-        ) : (
-          <div className={styles.list}>
-            {mine.map((r) => <ReportCard key={r.id} report={r} />)}
-          </div>
-        )}
-      </section>
+      {canCreate && (
+        <section className={styles.section} aria-labelledby="laporan-saya">
+          <h2 id="laporan-saya" className={styles.sectionHead}>
+            Laporan Saya <span className={styles.count}>{mine.length}</span>
+          </h2>
+          {mine.length === 0 ? (
+            <p className={styles.empty}>Belum ada laporan. Tekan tombol + untuk membuat laporan.</p>
+          ) : (
+            <div className={styles.list}>
+              {mine.map((r) => <ReportCard key={r.id} report={r} />)}
+            </div>
+          )}
+        </section>
+      )}
 
       <section className={styles.section} aria-labelledby="laporan-terbaru">
-        <h2 id="laporan-terbaru" className={styles.sectionHead}>Terbaru</h2>
+        <h2 id="laporan-terbaru" className={styles.sectionHead}>
+          Terbaru <span className={styles.count}>{latest.length}</span>
+        </h2>
         <p className={styles.sectionHint}>Bantu support laporan orang lain</p>
         {latest.length === 0 ? (
           <p className={styles.empty}>Tidak ada laporan yang cocok.</p>

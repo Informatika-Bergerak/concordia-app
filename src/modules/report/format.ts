@@ -5,6 +5,13 @@ const dateFormat = new Intl.DateTimeFormat("id-ID", {
   timeZone: "UTC",
 });
 
+const shortDateFormat = new Intl.DateTimeFormat("id-ID", {
+  day: "numeric",
+  month: "short",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
 const dateTimeFormat = new Intl.DateTimeFormat("id-ID", {
   day: "numeric",
   month: "short",
@@ -19,3 +26,6 @@ export const formatReportDate = (iso: string) => dateFormat.format(new Date(iso)
 
 /** Waktu perubahan status, ditampilkan dalam WIB. */
 export const formatReportDateTime = (iso: string) => `${dateTimeFormat.format(new Date(iso))} WIB`;
+
+/** Tanggal ringkas untuk kartu, mis. 14 Nov 2026. */
+export const formatReportDateShort = (iso: string) => shortDateFormat.format(new Date(iso));

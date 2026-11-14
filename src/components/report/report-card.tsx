@@ -1,64 +1,67 @@
 import Link from "next/link";
-import { CalendarDays, MapPin, UserRound } from "lucide-react";
+import { CalendarDays, EyeOff, Globe, Lock, MapPin, UserRound } from "lucide-react";
 import { CATEGORY_LABELS, VISIBILITY_LABELS } from "@/modules/report/constants";
-import { formatReportDate } from "@/modules/report/format";
-import type { ReportItem } from "@/modules/report/types";
+import { formatReportDateShort } from "@/modules/report/format";
+import type { ReportItem, ReportVisibility } from "@/modules/report/types";
 import styles from "./report.module.css";
 import { StatusBadge } from "./status-badge";
 
+const VISIBILITY_ICON = { PUBLIC: Globe, ANONYMOUS: EyeOff, PRIVATE: Lock } as const;
+
 export function ReportCard({ report }: { report: ReportItem }) {
   // Identitas pelapor hanya tampil bila laporan berstatus Public.
-  const authorLabel =
+  const author =
     report.visibility === "PUBLIC" && report.authorName ? report.authorName : "Anonymous";
+  const VisibilityIcon = VISIBILITY_ICON[report.visibility as ReportVisibility];
 
   return (
     <article className={styles.card}>
-      <div className={styles.cardTop}>
-        <h3 className={styles.cardTitle}>
-          <Link href={`/laporan/${report.id}`} className={styles.cardLink}>
-            {report.title}
-          </Link>
-        </h3>
-        <div className={styles.badgeCol}>
-          <StatusBadge status={report.status} />
-          <span className={styles.visibility}>
-            • {VISIBILITY_LABELS[report.visibility]}
-          </span>
-        </div>
+      <div className={styles.cardHead}>
+        <span className={styles.category}>{CATEGORY_LABELS[report.category]}</span>
+        <StatusBadge status={report.status} />
       </div>
 
-      <p className={styles.desc}>{report.description}</p>
-
-      {report.coverImage && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img className={styles.cover} src={report.coverImage} alt={`Foto laporan ${report.title}`} />
-      )}
-
-      <hr className={styles.divider} />
-
-      <div className={styles.meta}>
-        <div className={styles.metaLeft}>
-          <span className={styles.author}>
-            <MapPin size={13} aria-hidden /> {report.location}
-          </span>
-          <span>• {CATEGORY_LABELS[report.category]}</span>
+      <div className={styles.cardBody}>
+        <div className={styles.cardText}>
+          <h3 className={styles.cardTitle}>
+            <Link href={`/laporan/${report.id}`} className={styles.cardLink}>
+              {report.title}
+            </Link>
+          </h3>
+          <p className={styles.desc}>{report.description}</p>
         </div>
-        <div className={styles.metaRight}>
-          <strong className={styles.author}>
-            <CalendarDays size={13} aria-hidden />
-            {formatReportDate(report.occurredAt)}
-          </strong>
-          <span className={styles.author}>
-            Dibuat oleh {authorLabel} <UserRound size={13} aria-hidden />
-          </span>
-        </div>
+        {report.coverImage && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img className={styles.thumb} src={report.coverImage} alt={`Foto laporan ${report.title}`} />
+        )}
       </div>
 
-      {!report.isMine && report.visibility !== "PRIVATE" && (
-        <button type="button" className={styles.support} disabled title="Fitur dukungan menyusul">
-          Bantu Laporan{report.supportCount > 0 ? ` (${report.supportCount})` : ""}
-        </button>
-      )}
+      <div className={styles.cardFoot}>
+        <dl className={styles.metaGrid}>
+          <div className={styles.metaItem}>
+            <dt className={styles.srOnly}>Lokasi</dt>
+            <dd><MapPin size={13} aria-hidden /><span className={styles.ellipsis}>{report.location}</span></dd>
+          </div>
+          <div className={`${styles.metaItem} ${styles.metaEnd}`}>
+            <dt className={styles.srOnly}>Tanggal kejadian</dt>
+            <dd><CalendarDays size={13} aria-hidden />{formatReportDateShort(report.occurredAt)}</dd>
+          </div>
+          <div className={styles.metaItem}>
+            <dt className={styles.srOnly}>Dibuat oleh</dt>
+            <dd><UserRound size={13} aria-hidden /><span className={styles.ellipsis}>{author}</span></dd>
+          </div>
+          <div className={`${styles.metaItem} ${styles.metaEnd}`}>
+            <dt className={styles.srOnly}>Visibilitas</dt>
+            <dd><VisibilityIcon size={13} aria-hidden />{VISIBILITY_LABELS[report.visibility]}</dd>
+          </div>
+        </dl>
+
+        {!report.isMine && report.visibility !== "PRIVATE" && (
+          <button type="button" className={styles.support} disabled title="Fitur dukungan menyusul">
+            Bantu Laporan{report.supportCount > 0 ? ` (${report.supportCount})` : ""}
+          </button>
+        )}
+      </div>
     </article>
   );
 }

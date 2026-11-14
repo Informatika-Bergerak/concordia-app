@@ -1,5 +1,5 @@
 import type {
-  StaffReportItem,
+  AdminReportItem,
   ReportDetail,
   ReportItem,
   ReportStatus,
@@ -10,9 +10,9 @@ import type {
 
 export type ViewerRole = "USER" | "MODERATOR" | "ADMIN";
 
-/** Petugas yang boleh meninjau dan memverifikasi laporan. */
-export function isStaff(role: ViewerRole): boolean {
-  return role === "MODERATOR" || role === "ADMIN";
+/** Hanya mahasiswa, dosen, dan moderator yang membuat laporan; admin hanya memverifikasi. */
+export function canCreateReport(role: ViewerRole): boolean {
+  return role !== "ADMIN";
 }
 
 /** Bentuk baris dari Prisma yang dibutuhkan untuk membuat ReportItem. */
@@ -52,13 +52,13 @@ export function toReportItem(row: ReportRow, viewerId: number): ReportItem {
   };
 }
 
-/** Laporan PRIVATE hanya boleh dilihat pelapor dan petugas (moderator dan admin). */
+/** Laporan PRIVATE hanya boleh dilihat pelapor dan admin. */
 export function canViewReport(
   viewer: { id: number; role: ViewerRole },
   report: { visibility: ReportVisibility; authorId: number },
 ): boolean {
   if (report.visibility !== "PRIVATE") return true;
-  return isStaff(viewer.role) || report.authorId === viewer.id;
+  return viewer.role === "ADMIN" || report.authorId === viewer.id;
 }
 
 /** Status boleh berubah ke status lain, asalkan bukan status yang sama. */
@@ -84,14 +84,14 @@ export type ReportDetailRow = ReportRow & {
 
 /**
  * Detail laporan. Alasan penolakan dan riwayat status hanya dikirim ke pelapor
- * dan petugas; pengguna lain hanya melihat isi laporan.
+ * dan admin; pengguna lain hanya melihat isi laporan.
  */
 export function toReportDetail(
   row: ReportDetailRow,
   viewer: { id: number; role: ViewerRole },
 ): ReportDetail {
   const base = toReportItem(row, viewer.id);
-  const privileged = base.isMine || isStaff(viewer.role);
+  const privileged = base.isMine || viewer.role === "ADMIN";
   return {
     ...base,
     photos: row.photos.map((p) => p.url),
@@ -107,25 +107,19 @@ export function toReportDetail(
   };
 }
 
-export type StaffReportRow = ReportRow & {
+export type AdminReportRow = ReportRow & {
   rejectionReason: string | null;
   createdAt: Date;
-  author: { name: string; username: string };
+  author: { name: string; username: string; userType: "MAHASISWA" | "DOSEN" | null };
 };
 
-/**
- * Untuk panel verifikasi. Identitas pelapor laporan Anonymous hanya diberikan kepada
- * admin (untuk menindaklanjuti penyalahgunaan); moderator menerima null.
- */
-export function toStaffReportItem(
-  row: StaffReportRow,
-  viewer: { id: number; role: ViewerRole },
-): StaffReportItem {
-  const showIdentity = row.visibility !== "ANONYMOUS" || viewer.role === "ADMIN";
+/** Khusus admin: identitas pelapor selalu disertakan dan laporan dosen ditandai. */
+export function toAdminReportItem(row: AdminReportRow, viewerId: number): AdminReportItem {
   return {
-    ...toReportItem(row, viewer.id),
-    authorName: showIdentity ? row.author.name : null,
-    authorUsername: showIdentity ? row.author.username : null,
+    ...toReportItem(row, viewerId),
+    authorName: row.author.name,
+    authorUsername: row.author.username,
+    fromLecturer: row.author.userType === "DOSEN",
     createdAt: row.createdAt.toISOString(),
     rejectionReason: row.rejectionReason,
   };
