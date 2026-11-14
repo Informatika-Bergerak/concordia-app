@@ -2,8 +2,9 @@ import { describe, expect, it } from "vitest";
 import {
   canChangeStatus,
   canViewReport,
+  isStaff,
   requiresNote,
-  toAdminReportItem,
+  toStaffReportItem,
   toReportDetail,
   toReportItem,
   type ReportRow,
@@ -59,11 +60,12 @@ describe("toReportItem", () => {
 
 describe("canViewReport", () => {
   const priv = { visibility: "PRIVATE" as const, authorId: 1 };
-  it("Private hanya untuk pelapor dan admin", () => {
+  it("Private hanya untuk pelapor dan petugas (moderator dan admin)", () => {
     expect(canViewReport({ id: 1, role: "USER" }, priv)).toBe(true);
     expect(canViewReport({ id: 2, role: "ADMIN" }, priv)).toBe(true);
     expect(canViewReport({ id: 2, role: "USER" }, priv)).toBe(false);
-    expect(canViewReport({ id: 3, role: "MODERATOR" }, priv)).toBe(false);
+    expect(canViewReport({ id: 3, role: "MODERATOR" }, priv)).toBe(true);
+    expect(canViewReport({ id: 4, role: "USER" }, priv)).toBe(false);
   });
 
   it("Public dan Anonymous terlihat oleh semua pengguna", () => {
@@ -125,7 +127,7 @@ describe("validasi foto laporan", () => {
   });
 });
 
-describe("toReportDetail dan toAdminReportItem", () => {
+describe("toReportDetail dan toStaffReportItem", () => {
   const detailRow = {
     ...row,
     rejectionReason: "Foto tidak sesuai",
@@ -140,7 +142,7 @@ describe("toReportDetail dan toAdminReportItem", () => {
     ],
   };
 
-  it("pelapor dan admin melihat alasan penolakan dan riwayat status", () => {
+  it("pelapor dan petugas melihat alasan penolakan dan riwayat status", () => {
     const own = toReportDetail(detailRow, { id: 1, role: "USER" });
     expect(own.rejectionReason).toBe("Foto tidak sesuai");
     expect(own.history).toHaveLength(1);
@@ -148,6 +150,10 @@ describe("toReportDetail dan toAdminReportItem", () => {
     const admin = toReportDetail(detailRow, { id: 9, role: "ADMIN" });
     expect(admin.rejectionReason).toBe("Foto tidak sesuai");
     expect(admin.history).toHaveLength(1);
+
+    const moderator = toReportDetail(detailRow, { id: 8, role: "MODERATOR" });
+    expect(moderator.rejectionReason).toBe("Foto tidak sesuai");
+    expect(moderator.history).toHaveLength(1);
   });
 
   it("pengguna lain tidak menerima alasan penolakan maupun riwayat", () => {
@@ -162,19 +168,37 @@ describe("toReportDetail dan toAdminReportItem", () => {
     expect(JSON.stringify(toReportDetail(anon, { id: 1, role: "USER" }))).not.toContain("Gilang");
   });
 
+  const staffRow = {
+    ...row,
+    rejectionReason: null,
+    createdAt: new Date("2026-10-11T03:00:00.000Z"),
+    author: { name: "Muhamad Gilang", username: "2113231092" },
+  };
+
   it("admin melihat identitas pelapor laporan Anonymous", () => {
-    const item = toAdminReportItem(
-      {
-        ...row,
-        visibility: "ANONYMOUS",
-        rejectionReason: null,
-        createdAt: new Date("2026-10-11T03:00:00.000Z"),
-        author: { name: "Muhamad Gilang", username: "2113231092" },
-      },
-      9,
-    );
+    const item = toStaffReportItem({ ...staffRow, visibility: "ANONYMOUS" }, { id: 9, role: "ADMIN" });
     expect(item.authorName).toBe("Muhamad Gilang");
     expect(item.authorUsername).toBe("2113231092");
-    expect(item.visibility).toBe("ANONYMOUS");
+  });
+
+  it("moderator tidak melihat identitas pelapor laporan Anonymous", () => {
+    const item = toStaffReportItem({ ...staffRow, visibility: "ANONYMOUS" }, { id: 8, role: "MODERATOR" });
+    expect(item.authorName).toBeNull();
+    expect(item.authorUsername).toBeNull();
+    expect(JSON.stringify(item)).not.toContain("Gilang");
+    expect(JSON.stringify(item)).not.toContain("2113231092");
+  });
+
+  it("moderator melihat identitas pelapor laporan Public dan Private", () => {
+    for (const visibility of ["PUBLIC", "PRIVATE"] as const) {
+      const item = toStaffReportItem({ ...staffRow, visibility }, { id: 8, role: "MODERATOR" });
+      expect(item.authorName).toBe("Muhamad Gilang");
+    }
+  });
+
+  it("isStaff hanya benar untuk moderator dan admin", () => {
+    expect(isStaff("USER")).toBe(false);
+    expect(isStaff("MODERATOR")).toBe(true);
+    expect(isStaff("ADMIN")).toBe(true);
   });
 });
