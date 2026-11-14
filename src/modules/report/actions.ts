@@ -19,9 +19,9 @@ function collectFieldErrors(issues: { path: PropertyKey[]; message: string }[]) 
   return fieldErrors;
 }
 
-// Membuat laporan baru. Semua pengguna yang sudah login boleh melapor.
+// Membuat laporan baru. Mahasiswa, dosen, dan moderator boleh melapor; admin tidak.
 export async function createReportAction(input: unknown): Promise<ActionResult<{ id: number }>> {
-  const { user } = await requireRole(["USER", "MODERATOR", "ADMIN"]);
+  const { user } = await requireRole(["USER", "MODERATOR"]);
 
   const parsed = createReportInputSchema.safeParse(input);
   if (!parsed.success) {
@@ -73,9 +73,9 @@ export async function createReportAction(input: unknown): Promise<ActionResult<{
   }
 }
 
-// Mengubah status laporan. Hanya petugas (moderator dan admin) yang boleh memverifikasi atau menolak.
+// Mengubah status laporan. Hanya admin yang boleh memverifikasi atau menolak.
 export async function updateReportStatusAction(input: unknown): Promise<ActionResult> {
-  const { user } = await requireRole(["MODERATOR", "ADMIN"]);
+  const { user } = await requireRole(["ADMIN"]);
 
   const parsed = updateReportStatusSchema.safeParse(input);
   if (!parsed.success) {

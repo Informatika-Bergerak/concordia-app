@@ -50,12 +50,14 @@ export type ReportDetail = ReportItem & {
 };
 
 /**
- * Tampilan untuk petugas (moderator dan admin). Identitas pelapor laporan Anonymous
- * hanya terlihat oleh admin; bagi moderator nama dan username bernilai null.
+ * Tampilan untuk admin (satu-satunya peran yang memverifikasi laporan). Identitas pelapor
+ * selalu terlihat, termasuk untuk laporan Anonymous, agar dapat ditindaklanjuti.
  */
-export type StaffReportItem = ReportItem & {
-  authorName: string | null;
-  authorUsername: string | null;
+export type AdminReportItem = ReportItem & {
+  authorName: string;
+  authorUsername: string;
+  /** Pelapor berstatus dosen; laporan seperti ini disorot di panel admin */
+  fromLecturer: boolean;
   createdAt: string;
   rejectionReason: string | null;
 };

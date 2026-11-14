@@ -2,9 +2,9 @@ import { describe, expect, it } from "vitest";
 import {
   canChangeStatus,
   canViewReport,
-  isStaff,
+  canCreateReport,
   requiresNote,
-  toStaffReportItem,
+  toAdminReportItem,
   toReportDetail,
   toReportItem,
   type ReportRow,
@@ -60,17 +60,25 @@ describe("toReportItem", () => {
 
 describe("canViewReport", () => {
   const priv = { visibility: "PRIVATE" as const, authorId: 1 };
-  it("Private hanya untuk pelapor dan petugas (moderator dan admin)", () => {
+  it("Private hanya untuk pelapor dan admin", () => {
     expect(canViewReport({ id: 1, role: "USER" }, priv)).toBe(true);
     expect(canViewReport({ id: 2, role: "ADMIN" }, priv)).toBe(true);
     expect(canViewReport({ id: 2, role: "USER" }, priv)).toBe(false);
-    expect(canViewReport({ id: 3, role: "MODERATOR" }, priv)).toBe(true);
-    expect(canViewReport({ id: 4, role: "USER" }, priv)).toBe(false);
+    expect(canViewReport({ id: 3, role: "MODERATOR" }, priv)).toBe(false);
+    expect(canViewReport({ id: 1, role: "MODERATOR" }, priv)).toBe(true);
   });
 
   it("Public dan Anonymous terlihat oleh semua pengguna", () => {
     expect(canViewReport({ id: 2, role: "USER" }, { visibility: "PUBLIC", authorId: 1 })).toBe(true);
     expect(canViewReport({ id: 2, role: "USER" }, { visibility: "ANONYMOUS", authorId: 1 })).toBe(true);
+  });
+});
+
+describe("canCreateReport", () => {
+  it("mahasiswa, dosen (USER), dan moderator boleh membuat laporan; admin tidak", () => {
+    expect(canCreateReport("USER")).toBe(true);
+    expect(canCreateReport("MODERATOR")).toBe(true);
+    expect(canCreateReport("ADMIN")).toBe(false);
   });
 });
 
@@ -127,7 +135,7 @@ describe("validasi foto laporan", () => {
   });
 });
 
-describe("toReportDetail dan toStaffReportItem", () => {
+describe("toReportDetail dan toAdminReportItem", () => {
   const detailRow = {
     ...row,
     rejectionReason: "Foto tidak sesuai",
@@ -142,7 +150,7 @@ describe("toReportDetail dan toStaffReportItem", () => {
     ],
   };
 
-  it("pelapor dan petugas melihat alasan penolakan dan riwayat status", () => {
+  it("pelapor dan admin melihat alasan penolakan dan riwayat status", () => {
     const own = toReportDetail(detailRow, { id: 1, role: "USER" });
     expect(own.rejectionReason).toBe("Foto tidak sesuai");
     expect(own.history).toHaveLength(1);
@@ -151,15 +159,14 @@ describe("toReportDetail dan toStaffReportItem", () => {
     expect(admin.rejectionReason).toBe("Foto tidak sesuai");
     expect(admin.history).toHaveLength(1);
 
-    const moderator = toReportDetail(detailRow, { id: 8, role: "MODERATOR" });
-    expect(moderator.rejectionReason).toBe("Foto tidak sesuai");
-    expect(moderator.history).toHaveLength(1);
   });
 
-  it("pengguna lain tidak menerima alasan penolakan maupun riwayat", () => {
-    const other = toReportDetail(detailRow, { id: 2, role: "USER" });
-    expect(other.rejectionReason).toBeNull();
-    expect(other.history).toEqual([]);
+  it("pengguna lain dan moderator bukan pelapor tidak menerima alasan penolakan maupun riwayat", () => {
+    for (const role of ["USER", "MODERATOR"] as const) {
+      const other = toReportDetail(detailRow, { id: 2, role });
+      expect(other.rejectionReason).toBeNull();
+      expect(other.history).toEqual([]);
+    }
   });
 
   it("detail laporan Anonymous tidak membocorkan nama pelapor", () => {
@@ -168,37 +175,35 @@ describe("toReportDetail dan toStaffReportItem", () => {
     expect(JSON.stringify(toReportDetail(anon, { id: 1, role: "USER" }))).not.toContain("Gilang");
   });
 
-  const staffRow = {
+  const adminRow = {
     ...row,
     rejectionReason: null,
     createdAt: new Date("2026-10-11T03:00:00.000Z"),
-    author: { name: "Muhamad Gilang", username: "2113231092" },
+    author: { name: "Muhamad Gilang", username: "2113231092", userType: "MAHASISWA" as const },
   };
 
-  it("admin melihat identitas pelapor laporan Anonymous", () => {
-    const item = toStaffReportItem({ ...staffRow, visibility: "ANONYMOUS" }, { id: 9, role: "ADMIN" });
+  it("admin melihat identitas pelapor, termasuk laporan Anonymous", () => {
+    const item = toAdminReportItem({ ...adminRow, visibility: "ANONYMOUS" }, 9);
     expect(item.authorName).toBe("Muhamad Gilang");
     expect(item.authorUsername).toBe("2113231092");
+    expect(item.visibility).toBe("ANONYMOUS");
   });
 
-  it("moderator tidak melihat identitas pelapor laporan Anonymous", () => {
-    const item = toStaffReportItem({ ...staffRow, visibility: "ANONYMOUS" }, { id: 8, role: "MODERATOR" });
-    expect(item.authorName).toBeNull();
-    expect(item.authorUsername).toBeNull();
-    expect(JSON.stringify(item)).not.toContain("Gilang");
-    expect(JSON.stringify(item)).not.toContain("2113231092");
+  it("laporan dari dosen ditandai fromLecturer", () => {
+    const dosen = { ...adminRow, author: { ...adminRow.author, userType: "DOSEN" as const } };
+    expect(toAdminReportItem(dosen, 9).fromLecturer).toBe(true);
+    expect(toAdminReportItem(adminRow, 9).fromLecturer).toBe(false);
+    expect(
+      toAdminReportItem({ ...adminRow, author: { ...adminRow.author, userType: null } }, 9).fromLecturer,
+    ).toBe(false);
   });
 
-  it("moderator melihat identitas pelapor laporan Public dan Private", () => {
-    for (const visibility of ["PUBLIC", "PRIVATE"] as const) {
-      const item = toStaffReportItem({ ...staffRow, visibility }, { id: 8, role: "MODERATOR" });
-      expect(item.authorName).toBe("Muhamad Gilang");
-    }
-  });
-
-  it("isStaff hanya benar untuk moderator dan admin", () => {
-    expect(isStaff("USER")).toBe(false);
-    expect(isStaff("MODERATOR")).toBe(true);
-    expect(isStaff("ADMIN")).toBe(true);
+  it("laporan dosen yang Anonymous tetap ditandai bagi admin", () => {
+    const dosenAnon = {
+      ...adminRow,
+      visibility: "ANONYMOUS" as const,
+      author: { ...adminRow.author, userType: "DOSEN" as const },
+    };
+    expect(toAdminReportItem(dosenAnon, 9).fromLecturer).toBe(true);
   });
 });

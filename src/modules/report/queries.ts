@@ -3,11 +3,11 @@ import { getCurrentUser } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import {
   canViewReport,
-  toStaffReportItem,
+  toAdminReportItem,
   toReportDetail,
   toReportItem,
 } from "./rules";
-import type { ReportDetail, ReportItem, ReportStatus, StaffReportItem } from "./types";
+import type { AdminReportItem, ReportDetail, ReportItem, ReportStatus } from "./types";
 
 const listSelect = {
   id: true,
@@ -76,11 +76,11 @@ export async function getReportById(id: number): Promise<ReportDetail | null> {
   return toReportDetail(row, user);
 }
 
-// Daftar untuk panel verifikasi (moderator dan admin): semua laporan termasuk Private.
-// Identitas pelapor laporan Anonymous hanya terlihat oleh admin.
-export async function getStaffReports(status?: ReportStatus): Promise<StaffReportItem[]> {
+// Daftar untuk panel verifikasi: hanya admin. Semua laporan termasuk Private, dengan
+// identitas pelapor dan penanda laporan dari dosen.
+export async function getAdminReports(status?: ReportStatus): Promise<AdminReportItem[]> {
   const user = await getCurrentUser();
-  if (!user || user.role === "USER") return [];
+  if (!user || user.role !== "ADMIN") return [];
 
   const rows = await prisma.report.findMany({
     where: status ? { status } : undefined,
@@ -90,16 +90,9 @@ export async function getStaffReports(status?: ReportStatus): Promise<StaffRepor
       ...listSelect,
       rejectionReason: true,
       createdAt: true,
-      author: { select: { name: true, username: true } },
+      author: { select: { name: true, username: true, userType: true } },
     },
   });
 
-  return rows.map((row) => toStaffReportItem(row, user));
-}
-
-// Jumlah laporan yang menunggu verifikasi, untuk kartu di panel moderasi.
-export async function countUnverifiedReports(): Promise<number> {
-  const user = await getCurrentUser();
-  if (!user || user.role === "USER") return 0;
-  return prisma.report.count({ where: { status: "UNVERIFIED" } });
+  return rows.map((row) => toAdminReportItem(row, user.id));
 }
