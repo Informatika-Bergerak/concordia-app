@@ -112,16 +112,31 @@
 .reportItem {
   display: none;
 }
-.menuItemOptional.menuItemVisible,
-.reportItem.menuItemVisible {
+.menuItemOptional.menuItemVisible {
   display: flex;
 }
-.reportTitle,
-.reportDescription {
-  display: block;
+
+/* Kartu Report A Problem: ikon di kiri, judul dan keterangan bertumpuk di kanan (sidebar desktop) */
+.reportItem.menuItemVisible {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 12px;
+  row-gap: 2px;
+  align-items: center;
+}
+.reportItem .menuItemIcon {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+.reportTitle {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
 }
 .reportDescription {
-  margin-top: 2px;
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
   color: var(--ink-muted);
   font-size: 11px;
   font-weight: 400;
@@ -162,7 +177,6 @@
   .reportItem,
   .menuItemOptional.menuItemVisible,
   .reportItem.menuItemVisible {
-    display: flex;
     gap: 10px;
     padding: 12px;
     background: var(--surface-muted);
@@ -170,6 +184,36 @@
     border-radius: var(--radius-btn);
     font-size: 13px;
     font-weight: 700;
+  }
+  .menuItem,
+  .menuItemOptional,
+  .menuItemOptional.menuItemVisible {
+    display: flex;
+  }
+  /* Sesuai desain Figma: kartu selebar dua kolom; ikon dan judul satu baris, keterangan di bawahnya */
+  .reportItem,
+  .reportItem.menuItemVisible {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: auto 1fr;
+    column-gap: 10px;
+    row-gap: 6px;
+    align-items: center;
+  }
+  .reportItem .menuItemIcon {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .reportTitle {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+  }
+  .reportDescription {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    align-self: start;
+    font-size: 11px;
   }
   .menuItemIcon {
     width: 28px;

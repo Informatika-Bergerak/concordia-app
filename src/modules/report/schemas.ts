@@ -69,3 +69,8 @@ export const updateReportStatusSchema = z
 export const supportReportSchema = z.object({
   reportId: z.number().int().positive(),
 });
+
+// Mengubah laporan. `photo`: tidak dikirim = foto tetap, null = hapus foto, objek = ganti foto.
+export const updateReportInputSchema = createReportInputSchema.extend({
+  reportId: z.number().int().positive(),
+});
