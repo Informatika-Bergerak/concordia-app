@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CalendarDays, EyeOff, Globe, Lock, MapPin, Pencil, UserRound } from "lucide-react";
+import { CalendarDays, EyeOff, Globe, Info, Lock, MapPin, Pencil, UserRound } from "lucide-react";
 import { CATEGORY_LABELS, VISIBILITY_LABELS } from "@/modules/report/constants";
 import { formatReportDate, formatReportDateTime } from "@/modules/report/format";
 import { editBlockReason, supportBlockReason, type ViewerRole } from "@/modules/report/rules";
@@ -43,7 +43,6 @@ export function ReportDetail({
       {report.status === "REJECTED" && report.rejectionReason && (
         <p className={styles.reason}>
           <strong>Alasan penolakan:</strong> {report.rejectionReason}
-          {canEdit && " Perbaiki laporan lalu simpan untuk mengajukannya ulang."}
         </p>
       )}
 
@@ -63,21 +62,14 @@ export function ReportDetail({
       )}
 
       <div className={styles.detailActions}>
-        <div>
-          {canSupport ? (
-            <SupportButton
-              reportId={Number(report.id)}
-              initialSupported={report.supportedByMe ?? false}
-              initialCount={report.supportCount}
-            />
-          ) : (
-            <p className={styles.supportCount}>{report.supportCount} dukungan</p>
-          )}
-        </div>
-        {canEdit && (
-          <Link href={`/laporan/${report.id}/edit`} className={styles.editBtn}>
-            <Pencil size={14} aria-hidden /> Edit Laporan
-          </Link>
+        {canSupport ? (
+          <SupportButton
+            reportId={Number(report.id)}
+            initialSupported={report.supportedByMe ?? false}
+            initialCount={report.supportCount}
+          />
+        ) : (
+          <p className={styles.supportCount}>{report.supportCount} dukungan</p>
         )}
       </div>
 
@@ -115,8 +107,20 @@ export function ReportDetail({
         </section>
       )}
 
+      {canEdit && report.status === "REJECTED" && (
+        <p className={styles.hint}>
+          <Info size={16} aria-hidden />
+          Perbaiki laporan lalu simpan untuk mengajukannya ulang.
+        </p>
+      )}
+
       <div className={styles.formActions}>
         <Link href="/laporan" className={styles.back}>Kembali</Link>
+        {canEdit && (
+          <Link href={`/laporan/${report.id}/edit`} className={styles.editBtn}>
+            <Pencil size={14} aria-hidden /> Edit Laporan
+          </Link>
+        )}
       </div>
     </article>
   );
