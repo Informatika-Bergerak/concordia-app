@@ -1,8 +1,12 @@
-import { Heart, MessageSquare, MoreVertical, Send, Share2, Smile } from "lucide-react";
+import Link from "next/link";
+import { MessageSquare, MoreVertical } from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
 import { RoleBadge } from "@/components/ui/role-badge";
 import type { Role } from "@/generated/prisma/enums";
 import type { FeedPost } from "@/modules/forum/types";
+import { PostLikeButton } from "./post-like-button";
+import { PostComments } from "./post-comments";
+import { PostShareButton } from "./post-share-button";
 import styles from "./post-card.module.css";
 
 export function PostCard({ post, viewerRole }: { post: FeedPost; viewerRole?: Role }) {
@@ -35,35 +39,44 @@ export function PostCard({ post, viewerRole }: { post: FeedPost; viewerRole?: Ro
         {post.tag && <><br /><span className={styles.tag}>#{post.tag}</span></>}
       </p>
 
-      {post.hasImage && <div className={styles.image} role="img" aria-label="Foto postingan (contoh)">Foto</div>}
+      {post.imageUrl && (
+        <div className={styles.image}>
+          {/* URL berasal dari metadata media yang sudah divalidasi server. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={post.imageUrl} alt={`Foto postingan dari ${post.authorName}`} />
+        </div>
+      )}
+
+      {post.audioUrl && (
+        <audio className={styles.audio} controls preload="metadata">
+          <source src={post.audioUrl} />
+          Browser Anda tidak mendukung pemutar audio.
+        </audio>
+      )}
 
       <div className={styles.actions}>
-        <span className={styles.stat}><Heart size={20} /> {post.likes}</span>
-        <span className={styles.stat}><MessageSquare size={20} /> {post.commentCount}</span>
-        <span className={styles.share}><Share2 size={20} /> Bagikan</span>
+        <PostLikeButton
+          postId={Number(post.id)}
+          initialLiked={post.likedByViewer ?? false}
+          initialCount={post.likes}
+        />
+        <Link
+          href={`/beranda/post/${post.id}`}
+          className={`${styles.stat} ${styles.commentLink}`}
+          aria-label={`Lihat ${post.commentCount} komentar`}
+        >
+          <MessageSquare size={20} aria-hidden="true" /> {post.commentCount}
+        </Link>
+        <PostShareButton postId={Number(post.id)} text={post.text} />
       </div>
 
       <hr className={styles.divider} />
 
-      {post.comments.map((c) => (
-        <div className={styles.comment} key={c.id}>
-          <Avatar name={c.authorName} size={26} />
-          <div>
-            <div className={styles.authorName}>
-              <strong>{c.authorName}</strong>
-              <RoleBadge role={c.authorRole ?? "USER"} userType={c.authorType} />
-              <span className={styles.time}>{c.timeAgo}</span>
-            </div>
-            <p>{c.text}</p>
-          </div>
-        </div>
-      ))}
-
-      <div className={styles.reply}>
-        <Smile size={20} />
-        <input placeholder="Tulis Komentar...." readOnly aria-label="Tulis komentar" />
-        <Send size={20} />
-      </div>
+      <PostComments
+        postId={Number(post.id)}
+        initialComments={post.comments}
+        initialCount={post.commentCount}
+      />
     </article>
   );
 }

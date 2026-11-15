@@ -20,19 +20,41 @@
 .text { margin: 0; font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.4; }
 .tag { color: var(--brand-primary); }
 .image {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
   aspect-ratio: 4 / 3;
   border-radius: 12px;
-  background: linear-gradient(135deg, var(--brand-tint), var(--brand-soft));
-  color: var(--brand-dark);
-  font-weight: 800;
-  opacity: 0.8;
+  background: var(--field);
+}
+.image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.audio {
+  width: 100%;
+  min-height: 40px;
 }
 .actions { display: flex; align-items: center; gap: 18px; color: var(--ink); font-size: 14px; font-weight: 700; }
 .stat, .share { display: inline-flex; align-items: center; gap: 6px; }
+.commentLink { color: inherit; text-decoration: none; }
+.commentLink:hover { color: var(--brand-primary); }
+.commentLink:focus-visible, .backLink:focus-visible { outline: 2px solid var(--brand-primary); outline-offset: 2px; border-radius: var(--radius-btn); }
+.backLink { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; color: var(--ink-muted); font-size: 13px; font-weight: 700; text-decoration: none; }
+.backLink:hover { color: var(--brand-primary); }
+.detailCard { gap: 14px; }
+.likeWrap { display: flex; flex-direction: column; gap: 2px; }
+.likeButton { display: inline-flex; align-items: center; gap: 6px; min-width: var(--touch-min); min-height: var(--touch-min); padding: 0; border: none; background: none; color: inherit; font: inherit; font-weight: 700; cursor: pointer; }
+.likeButton:hover:not(:disabled), .likeButtonOn { color: var(--brand-primary); }
+.likeButton:disabled { cursor: wait; opacity: 0.6; }
+.likeButton:focus-visible { outline: 2px solid var(--brand-primary); outline-offset: 2px; border-radius: var(--radius-btn); }
+.likeError { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 .share { margin-left: auto; color: var(--ink-muted); }
+.shareWrap { position: relative; display: inline-flex; margin-left: auto; }
+.shareButton { display: inline-flex; align-items: center; gap: 6px; min-height: var(--touch-min); padding: 0; border: none; background: none; color: var(--ink-muted); font: inherit; font-weight: 700; cursor: pointer; }
+.shareButton:hover { color: var(--brand-primary); }
+.shareButton:focus-visible { outline: 2px solid var(--brand-primary); outline-offset: 2px; border-radius: var(--radius-btn); }
+.shareNotice { position: absolute; right: 0; bottom: calc(100% + 6px); z-index: 2; padding: 6px 9px; border-radius: var(--radius-btn); background: var(--ink); color: var(--surface); font-size: 11px; font-weight: 700; white-space: nowrap; }
 .divider { width: 100%; margin: 0; border: none; border-top: 1px solid var(--ink); }
 .comment { display: flex; gap: 8px; font-size: 12px; color: var(--ink); }
 .comment p { margin: 2px 0 0; }
@@ -45,4 +67,11 @@
   background: var(--field);
   color: var(--ink-muted);
 }
-.reply input { flex: 1; border: none; background: none; font: inherit; font-size: 13px; outline: none; }
+.reply input { flex: 1; min-width: 0; border: none; background: none; font: inherit; font-size: 13px; outline: none; }
+.reply input:focus-visible { outline: 2px solid var(--brand-primary); outline-offset: 2px; border-radius: 4px; }
+.replySubmit { display: inline-flex; align-items: center; justify-content: center; min-width: var(--touch-min); min-height: var(--touch-min); padding: 0; border: none; background: none; color: var(--brand-primary); cursor: pointer; }
+.replySubmit:hover:not(:disabled) { color: var(--brand-secondary); }
+.replySubmit:disabled { cursor: wait; opacity: 0.5; }
+.replySubmit:focus-visible { outline: 2px solid var(--brand-primary); outline-offset: 2px; border-radius: var(--radius-btn); }
+.commentError { margin: -4px 0 0; font-size: 12px; color: var(--danger); }
+.visuallyHidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
