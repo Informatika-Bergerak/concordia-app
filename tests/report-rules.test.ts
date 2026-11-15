@@ -264,14 +264,15 @@ describe("dukungan laporan", () => {
 describe("edit laporan", () => {
   const own = { isOwn: true, status: "UNVERIFIED" as const };
 
-  it("pelapor boleh mengubah laporan yang belum terverifikasi atau yang ditolak", () => {
+  it("pelapor hanya boleh mengubah laporan yang masih Belum Terverifikasi", () => {
     expect(editBlockReason("USER", own)).toBeNull();
     expect(editBlockReason("MODERATOR", own)).toBeNull();
-    expect(editBlockReason("USER", { ...own, status: "REJECTED" })).toBeNull();
   });
 
-  it("laporan yang sudah terverifikasi dikunci", () => {
+  it("laporan yang terverifikasi atau ditolak dikunci", () => {
     expect(editBlockReason("USER", { ...own, status: "VERIFIED" })).not.toBeNull();
+    expect(editBlockReason("USER", { ...own, status: "REJECTED" })).not.toBeNull();
+    expect(editBlockReason("MODERATOR", { ...own, status: "REJECTED" })).not.toBeNull();
   });
 
   it("hanya pelapor yang boleh mengubah, admin tidak", () => {

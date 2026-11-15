@@ -14,7 +14,7 @@ export default async function EditLaporanPage({ params }: { params: Promise<{ id
   const report = await getReportById(reportId);
   if (!report) notFound();
 
-  // Bukan laporan sendiri atau sudah terverifikasi: kembali ke halaman detail.
+  // Bukan laporan sendiri atau sudah diverifikasi/ditolak: kembali ke halaman detail.
   if (editBlockReason(user.role, { isOwn: report.isMine, status: report.status }) !== null) {
     redirect(`/laporan/${reportId}`);
   }
@@ -30,7 +30,6 @@ export default async function EditLaporanPage({ params }: { params: Promise<{ id
         occurredAt: report.occurredAt,
         visibility: report.visibility,
         photoUrl: report.photos[0] ?? null,
-        resubmit: report.status === "REJECTED",
       }}
     />
   );

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CalendarDays, EyeOff, Globe, Lock, MapPin, ThumbsUp, UserRound } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { PhotoViewer } from "@/components/report/photo-viewer";
 import { ReviewForm } from "@/components/report/review-form";
@@ -11,44 +12,73 @@ import { getAdminReports } from "@/modules/report/queries";
 import type { AdminReportItem, ReportStatus } from "@/modules/report/types";
 
 const VALID: ReportStatus[] = ["UNVERIFIED", "VERIFIED", "REJECTED"];
+const VISIBILITY_ICON = { PUBLIC: Globe, ANONYMOUS: EyeOff, PRIVATE: Lock } as const;
 
 function AdminReportCard({ r }: { r: AdminReportItem }) {
+  const VisibilityIcon = VISIBILITY_ICON[r.visibility];
+
   return (
     <article className={`${styles.adminItem} ${r.fromLecturer ? styles.isLecturer : ""}`}>
-      <div className={styles.cardTop}>
-        <h3 className={styles.cardTitle}>
-          <Link href={`/laporan/${r.id}`} className={styles.cardLink}>{r.title}</Link>
-        </h3>
+      <header className={styles.adminHead}>
+        <div className={styles.adminTitleBlock}>
+          <div className={styles.adminTags}>
+            <span className={styles.category}>{CATEGORY_LABELS[r.category]}</span>
+            {r.fromLecturer && <span className={styles.lecturerTag}>Laporan dari dosen</span>}
+            {r.visibility === "ANONYMOUS" && <span className={styles.anonTag}>Anonymous ke publik</span>}
+            {r.visibility === "PRIVATE" && <span className={styles.privTag}>Private</span>}
+          </div>
+          <h3 className={styles.adminTitle}>
+            <Link href={`/laporan/${r.id}`} className={styles.cardLink}>{r.title}</Link>
+          </h3>
+          <p className={styles.adminReporter}>
+            <UserRound size={13} aria-hidden />
+            Pelapor: <strong>{r.authorName}</strong> (@{r.authorUsername})
+          </p>
+        </div>
         <StatusBadge status={r.status} />
-      </div>
-      {r.fromLecturer && <span className={styles.lecturerTag}>Laporan dari dosen</span>}
-      <p className={styles.desc}>{r.description}</p>
-      {r.coverImage && (
-        <PhotoViewer
-          src={r.coverImage}
-          alt={`Foto laporan ${r.title}`}
-          className={styles.adminThumb}
-          buttonClassName={styles.thumbBtn}
-        />
-      )}
-      <div className={styles.adminMeta}>
-        <span>{r.location}</span>
-        <span>{CATEGORY_LABELS[r.category]}</span>
-        <span>{formatReportDate(r.occurredAt)}</span>
-        <span>Pelapor: {r.authorName} (@{r.authorUsername})</span>
-        <span><strong>{r.supportCount}</strong> dukungan</span>
-        <span>
-          {r.visibility === "ANONYMOUS" ? (
-            <span className={styles.anonTag}>Anonymous ke publik</span>
-          ) : (
-            VISIBILITY_LABELS[r.visibility]
+      </header>
+
+      <div className={styles.adminBody}>
+        <div className={styles.adminText}>
+          <p className={styles.adminDesc}>{r.description}</p>
+
+          {r.status === "REJECTED" && r.rejectionReason && (
+            <p className={styles.reason}><strong>Alasan penolakan:</strong> {r.rejectionReason}</p>
           )}
-        </span>
+
+          <dl className={styles.adminFacts}>
+            <div className={styles.adminFact}>
+              <dt><MapPin size={12} aria-hidden /> Lokasi</dt>
+              <dd>{r.location}</dd>
+            </div>
+            <div className={styles.adminFact}>
+              <dt><CalendarDays size={12} aria-hidden /> Tanggal kejadian</dt>
+              <dd>{formatReportDate(r.occurredAt)}</dd>
+            </div>
+            <div className={styles.adminFact}>
+              <dt><VisibilityIcon size={12} aria-hidden /> Visibilitas</dt>
+              <dd>{VISIBILITY_LABELS[r.visibility]}</dd>
+            </div>
+            <div className={styles.adminFact}>
+              <dt><ThumbsUp size={12} aria-hidden /> Dukungan</dt>
+              <dd><strong>{r.supportCount}</strong></dd>
+            </div>
+          </dl>
+        </div>
+
+        {r.coverImage && (
+          <PhotoViewer
+            src={r.coverImage}
+            alt={`Foto laporan ${r.title}`}
+            className={styles.adminThumb}
+            buttonClassName={styles.adminThumbBtn}
+          />
+        )}
       </div>
-      {r.status === "REJECTED" && r.rejectionReason && (
-        <p className={styles.reason}><strong>Alasan:</strong> {r.rejectionReason}</p>
-      )}
-      <ReviewForm reportId={Number(r.id)} current={r.status} />
+
+      <footer className={styles.adminReview}>
+        <ReviewForm reportId={Number(r.id)} current={r.status} />
+      </footer>
     </article>
   );
 }
@@ -84,7 +114,7 @@ export default async function AdminReportsPage({
 
   return (
     <AppShell user={admin}>
-      <div className={styles.page} style={{ maxWidth: 960, margin: "0 auto", padding: "16px" }}>
+      <div className={styles.adminPage}>
         <div>
           <h1 className="page-title">Verifikasi Laporan</h1>
           <p className="page-sub">
@@ -92,28 +122,38 @@ export default async function AdminReportsPage({
           </p>
         </div>
 
-        <div className={styles.summary}>
-          <span className={styles.pill}>Ditampilkan: <strong>{reports.length}</strong></span>
-          <span className={styles.pill}>Menunggu verifikasi: <strong>{waiting}</strong></span>
+        <div className={styles.statGrid}>
+          <div className={styles.stat}>
+            <span className={styles.statLabel}>Ditampilkan</span>
+            <span className={styles.statValue}>{reports.length}</span>
+          </div>
+          <div className={styles.stat}>
+            <span className={styles.statLabel}>Menunggu verifikasi</span>
+            <span className={styles.statValue}>{waiting}</span>
+          </div>
           {highlighted.length > 0 && (
-            <span className={`${styles.pill} ${styles.pillAlert}`}>
-              Dari dosen, menunggu: <strong>{highlighted.length}</strong>
-            </span>
+            <div className={`${styles.stat} ${styles.statAlert}`}>
+              <span className={styles.statLabel}>Dari dosen, menunggu</span>
+              <span className={styles.statValue}>{highlighted.length}</span>
+            </div>
           )}
         </div>
 
-        <div className={styles.filters} role="group" aria-label="Filter status">
-          <Link href={href(undefined)} className={styles.chip} aria-current={!status ? "page" : undefined}>Semua</Link>
-          {STATUS_OPTIONS.map(([value, label]) => (
-            <Link key={value} href={href(value)} className={styles.chip} aria-current={status === value ? "page" : undefined}>
-              {label}
-            </Link>
-          ))}
-        </div>
-
-        <div className={styles.filters} role="group" aria-label="Urutan">
-          <Link href={href(status, "newest")} className={styles.chip} aria-current={sort === "newest" ? "page" : undefined}>Terbaru</Link>
-          <Link href={href(status, "support")} className={styles.chip} aria-current={sort === "support" ? "page" : undefined}>Dukungan terbanyak</Link>
+        <div className={styles.adminToolbar}>
+          <div className={styles.toolbarGroup} role="group" aria-label="Filter status">
+            <span className={styles.toolbarLabel}>Status</span>
+            <Link href={href(undefined)} className={styles.chip} aria-current={!status ? "page" : undefined}>Semua</Link>
+            {STATUS_OPTIONS.map(([value, label]) => (
+              <Link key={value} href={href(value)} className={styles.chip} aria-current={status === value ? "page" : undefined}>
+                {label}
+              </Link>
+            ))}
+          </div>
+          <div className={styles.toolbarGroup} role="group" aria-label="Urutan">
+            <span className={styles.toolbarLabel}>Urutkan</span>
+            <Link href={href(status, "newest")} className={styles.chip} aria-current={sort === "newest" ? "page" : undefined}>Terbaru</Link>
+            <Link href={href(status, "support")} className={styles.chip} aria-current={sort === "support" ? "page" : undefined}>Dukungan terbanyak</Link>
+          </div>
         </div>
 
         {highlighted.length > 0 && (

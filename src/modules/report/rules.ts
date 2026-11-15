@@ -89,9 +89,8 @@ export function supportBlockReason(
 
 /**
  * Alasan laporan tidak dapat diubah oleh pengguna ini, atau null bila boleh.
- * Hanya pelapor yang mengubah laporannya (admin tidak). Laporan yang sudah terverifikasi
- * dikunci agar isi yang telah diverifikasi tidak berubah; laporan yang ditolak boleh
- * diperbaiki dan akan diajukan ulang.
+ * Hanya pelapor yang mengubah laporannya (admin tidak), dan hanya selama laporan masih
+ * Belum Terverifikasi. Setelah diverifikasi atau ditolak, isinya dikunci.
  */
 export function editBlockReason(
   role: ViewerRole,
@@ -100,6 +99,7 @@ export function editBlockReason(
   if (role === "ADMIN") return "Admin tidak mengubah laporan";
   if (!report.isOwn) return "Hanya pelapor yang dapat mengubah laporan";
   if (report.status === "VERIFIED") return "Laporan yang sudah terverifikasi tidak dapat diubah";
+  if (report.status === "REJECTED") return "Laporan yang ditolak tidak dapat diubah";
   return null;
 }
 
