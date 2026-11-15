@@ -53,7 +53,7 @@ export function ReviewForm({ reportId, current }: { reportId: number; current: R
       <button type="submit" className={styles.submit} disabled={saving || status === current}>
         {saving ? "Menyimpan..." : "Simpan"}
       </button>
-      {error && <p className={styles.error} role="alert" style={{ flexBasis: "100%" }}>{error}</p>}
+      {error && <p className={styles.error} role="alert">{error}</p>}
     </form>
   );
 }
