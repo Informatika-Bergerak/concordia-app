@@ -41,6 +41,7 @@ export type GroupMinAggregateOutputType = {
   name: string | null
   description: string | null
   photo: string | null
+  visibility: $Enums.GroupVisibility | null
   createdAt: Date | null
   updatedAt: Date | null
   creatorId: number | null
@@ -51,6 +52,7 @@ export type GroupMaxAggregateOutputType = {
   name: string | null
   description: string | null
   photo: string | null
+  visibility: $Enums.GroupVisibility | null
   createdAt: Date | null
   updatedAt: Date | null
   creatorId: number | null
@@ -61,6 +63,7 @@ export type GroupCountAggregateOutputType = {
   name: number
   description: number
   photo: number
+  visibility: number
   createdAt: number
   updatedAt: number
   creatorId: number
@@ -83,6 +86,7 @@ export type GroupMinAggregateInputType = {
   name?: true
   description?: true
   photo?: true
+  visibility?: true
   createdAt?: true
   updatedAt?: true
   creatorId?: true
@@ -93,6 +97,7 @@ export type GroupMaxAggregateInputType = {
   name?: true
   description?: true
   photo?: true
+  visibility?: true
   createdAt?: true
   updatedAt?: true
   creatorId?: true
@@ -103,6 +108,7 @@ export type GroupCountAggregateInputType = {
   name?: true
   description?: true
   photo?: true
+  visibility?: true
   createdAt?: true
   updatedAt?: true
   creatorId?: true
@@ -200,6 +206,7 @@ export type GroupGroupByOutputType = {
   name: string
   description: string | null
   photo: string | null
+  visibility: $Enums.GroupVisibility
   createdAt: Date
   updatedAt: Date
   creatorId: number
@@ -233,11 +240,14 @@ export type GroupWhereInput = {
   name?: Prisma.StringFilter<"Group"> | string
   description?: Prisma.StringNullableFilter<"Group"> | string | null
   photo?: Prisma.StringNullableFilter<"Group"> | string | null
+  visibility?: Prisma.EnumGroupVisibilityFilter<"Group"> | $Enums.GroupVisibility
   createdAt?: Prisma.DateTimeFilter<"Group"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Group"> | Date | string
   creatorId?: Prisma.IntFilter<"Group"> | number
+  creator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   members?: Prisma.GroupMemberListRelationFilter
   messages?: Prisma.GroupMessageListRelationFilter
+  reports?: Prisma.ReportListRelationFilter
 }
 
 export type GroupOrderByWithRelationInput = {
@@ -245,11 +255,14 @@ export type GroupOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   photo?: Prisma.SortOrderInput | Prisma.SortOrder
+  visibility?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   creatorId?: Prisma.SortOrder
+  creator?: Prisma.UserOrderByWithRelationInput
   members?: Prisma.GroupMemberOrderByRelationAggregateInput
   messages?: Prisma.GroupMessageOrderByRelationAggregateInput
+  reports?: Prisma.ReportOrderByRelationAggregateInput
 }
 
 export type GroupWhereUniqueInput = Prisma.AtLeast<{
@@ -260,11 +273,14 @@ export type GroupWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Group"> | string
   description?: Prisma.StringNullableFilter<"Group"> | string | null
   photo?: Prisma.StringNullableFilter<"Group"> | string | null
+  visibility?: Prisma.EnumGroupVisibilityFilter<"Group"> | $Enums.GroupVisibility
   createdAt?: Prisma.DateTimeFilter<"Group"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Group"> | Date | string
   creatorId?: Prisma.IntFilter<"Group"> | number
+  creator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   members?: Prisma.GroupMemberListRelationFilter
   messages?: Prisma.GroupMessageListRelationFilter
+  reports?: Prisma.ReportListRelationFilter
 }, "id">
 
 export type GroupOrderByWithAggregationInput = {
@@ -272,6 +288,7 @@ export type GroupOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   photo?: Prisma.SortOrderInput | Prisma.SortOrder
+  visibility?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   creatorId?: Prisma.SortOrder
@@ -290,6 +307,7 @@ export type GroupScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"Group"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Group"> | string | null
   photo?: Prisma.StringNullableWithAggregatesFilter<"Group"> | string | null
+  visibility?: Prisma.EnumGroupVisibilityWithAggregatesFilter<"Group"> | $Enums.GroupVisibility
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Group"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Group"> | Date | string
   creatorId?: Prisma.IntWithAggregatesFilter<"Group"> | number
@@ -299,11 +317,13 @@ export type GroupCreateInput = {
   name: string
   description?: string | null
   photo?: string | null
+  visibility?: $Enums.GroupVisibility
   createdAt?: Date | string
   updatedAt?: Date | string
-  creatorId: number
+  creator: Prisma.UserCreateNestedOneWithoutCreatedGroupsInput
   members?: Prisma.GroupMemberCreateNestedManyWithoutGroupInput
   messages?: Prisma.GroupMessageCreateNestedManyWithoutGroupInput
+  reports?: Prisma.ReportCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateInput = {
@@ -311,22 +331,26 @@ export type GroupUncheckedCreateInput = {
   name: string
   description?: string | null
   photo?: string | null
+  visibility?: $Enums.GroupVisibility
   createdAt?: Date | string
   updatedAt?: Date | string
   creatorId: number
   members?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutGroupInput
   messages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutGroupInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.EnumGroupVisibilityFieldUpdateOperationsInput | $Enums.GroupVisibility
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  creatorId?: Prisma.IntFieldUpdateOperationsInput | number
+  creator?: Prisma.UserUpdateOneRequiredWithoutCreatedGroupsNestedInput
   members?: Prisma.GroupMemberUpdateManyWithoutGroupNestedInput
   messages?: Prisma.GroupMessageUpdateManyWithoutGroupNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateInput = {
@@ -334,11 +358,13 @@ export type GroupUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.EnumGroupVisibilityFieldUpdateOperationsInput | $Enums.GroupVisibility
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creatorId?: Prisma.IntFieldUpdateOperationsInput | number
   members?: Prisma.GroupMemberUncheckedUpdateManyWithoutGroupNestedInput
   messages?: Prisma.GroupMessageUncheckedUpdateManyWithoutGroupNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupCreateManyInput = {
@@ -346,6 +372,7 @@ export type GroupCreateManyInput = {
   name: string
   description?: string | null
   photo?: string | null
+  visibility?: $Enums.GroupVisibility
   createdAt?: Date | string
   updatedAt?: Date | string
   creatorId: number
@@ -355,9 +382,9 @@ export type GroupUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.EnumGroupVisibilityFieldUpdateOperationsInput | $Enums.GroupVisibility
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  creatorId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type GroupUncheckedUpdateManyInput = {
@@ -365,9 +392,25 @@ export type GroupUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.EnumGroupVisibilityFieldUpdateOperationsInput | $Enums.GroupVisibility
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creatorId?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
+export type GroupListRelationFilter = {
+  every?: Prisma.GroupWhereInput
+  some?: Prisma.GroupWhereInput
+  none?: Prisma.GroupWhereInput
+}
+
+export type GroupOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type GroupNullableScalarRelationFilter = {
+  is?: Prisma.GroupWhereInput | null
+  isNot?: Prisma.GroupWhereInput | null
 }
 
 export type GroupCountOrderByAggregateInput = {
@@ -375,6 +418,7 @@ export type GroupCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   photo?: Prisma.SortOrder
+  visibility?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   creatorId?: Prisma.SortOrder
@@ -390,6 +434,7 @@ export type GroupMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   photo?: Prisma.SortOrder
+  visibility?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   creatorId?: Prisma.SortOrder
@@ -400,6 +445,7 @@ export type GroupMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   photo?: Prisma.SortOrder
+  visibility?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   creatorId?: Prisma.SortOrder
@@ -413,6 +459,68 @@ export type GroupSumOrderByAggregateInput = {
 export type GroupScalarRelationFilter = {
   is?: Prisma.GroupWhereInput
   isNot?: Prisma.GroupWhereInput
+}
+
+export type GroupCreateNestedManyWithoutCreatorInput = {
+  create?: Prisma.XOR<Prisma.GroupCreateWithoutCreatorInput, Prisma.GroupUncheckedCreateWithoutCreatorInput> | Prisma.GroupCreateWithoutCreatorInput[] | Prisma.GroupUncheckedCreateWithoutCreatorInput[]
+  connectOrCreate?: Prisma.GroupCreateOrConnectWithoutCreatorInput | Prisma.GroupCreateOrConnectWithoutCreatorInput[]
+  createMany?: Prisma.GroupCreateManyCreatorInputEnvelope
+  connect?: Prisma.GroupWhereUniqueInput | Prisma.GroupWhereUniqueInput[]
+}
+
+export type GroupUncheckedCreateNestedManyWithoutCreatorInput = {
+  create?: Prisma.XOR<Prisma.GroupCreateWithoutCreatorInput, Prisma.GroupUncheckedCreateWithoutCreatorInput> | Prisma.GroupCreateWithoutCreatorInput[] | Prisma.GroupUncheckedCreateWithoutCreatorInput[]
+  connectOrCreate?: Prisma.GroupCreateOrConnectWithoutCreatorInput | Prisma.GroupCreateOrConnectWithoutCreatorInput[]
+  createMany?: Prisma.GroupCreateManyCreatorInputEnvelope
+  connect?: Prisma.GroupWhereUniqueInput | Prisma.GroupWhereUniqueInput[]
+}
+
+export type GroupUpdateManyWithoutCreatorNestedInput = {
+  create?: Prisma.XOR<Prisma.GroupCreateWithoutCreatorInput, Prisma.GroupUncheckedCreateWithoutCreatorInput> | Prisma.GroupCreateWithoutCreatorInput[] | Prisma.GroupUncheckedCreateWithoutCreatorInput[]
+  connectOrCreate?: Prisma.GroupCreateOrConnectWithoutCreatorInput | Prisma.GroupCreateOrConnectWithoutCreatorInput[]
+  upsert?: Prisma.GroupUpsertWithWhereUniqueWithoutCreatorInput | Prisma.GroupUpsertWithWhereUniqueWithoutCreatorInput[]
+  createMany?: Prisma.GroupCreateManyCreatorInputEnvelope
+  set?: Prisma.GroupWhereUniqueInput | Prisma.GroupWhereUniqueInput[]
+  disconnect?: Prisma.GroupWhereUniqueInput | Prisma.GroupWhereUniqueInput[]
+  delete?: Prisma.GroupWhereUniqueInput | Prisma.GroupWhereUniqueInput[]
+  connect?: Prisma.GroupWhereUniqueInput | Prisma.GroupWhereUniqueInput[]
+  update?: Prisma.GroupUpdateWithWhereUniqueWithoutCreatorInput | Prisma.GroupUpdateWithWhereUniqueWithoutCreatorInput[]
+  updateMany?: Prisma.GroupUpdateManyWithWhereWithoutCreatorInput | Prisma.GroupUpdateManyWithWhereWithoutCreatorInput[]
+  deleteMany?: Prisma.GroupScalarWhereInput | Prisma.GroupScalarWhereInput[]
+}
+
+export type GroupUncheckedUpdateManyWithoutCreatorNestedInput = {
+  create?: Prisma.XOR<Prisma.GroupCreateWithoutCreatorInput, Prisma.GroupUncheckedCreateWithoutCreatorInput> | Prisma.GroupCreateWithoutCreatorInput[] | Prisma.GroupUncheckedCreateWithoutCreatorInput[]
+  connectOrCreate?: Prisma.GroupCreateOrConnectWithoutCreatorInput | Prisma.GroupCreateOrConnectWithoutCreatorInput[]
+  upsert?: Prisma.GroupUpsertWithWhereUniqueWithoutCreatorInput | Prisma.GroupUpsertWithWhereUniqueWithoutCreatorInput[]
+  createMany?: Prisma.GroupCreateManyCreatorInputEnvelope
+  set?: Prisma.GroupWhereUniqueInput | Prisma.GroupWhereUniqueInput[]
+  disconnect?: Prisma.GroupWhereUniqueInput | Prisma.GroupWhereUniqueInput[]
+  delete?: Prisma.GroupWhereUniqueInput | Prisma.GroupWhereUniqueInput[]
+  connect?: Prisma.GroupWhereUniqueInput | Prisma.GroupWhereUniqueInput[]
+  update?: Prisma.GroupUpdateWithWhereUniqueWithoutCreatorInput | Prisma.GroupUpdateWithWhereUniqueWithoutCreatorInput[]
+  updateMany?: Prisma.GroupUpdateManyWithWhereWithoutCreatorInput | Prisma.GroupUpdateManyWithWhereWithoutCreatorInput[]
+  deleteMany?: Prisma.GroupScalarWhereInput | Prisma.GroupScalarWhereInput[]
+}
+
+export type GroupCreateNestedOneWithoutReportsInput = {
+  create?: Prisma.XOR<Prisma.GroupCreateWithoutReportsInput, Prisma.GroupUncheckedCreateWithoutReportsInput>
+  connectOrCreate?: Prisma.GroupCreateOrConnectWithoutReportsInput
+  connect?: Prisma.GroupWhereUniqueInput
+}
+
+export type GroupUpdateOneWithoutReportsNestedInput = {
+  create?: Prisma.XOR<Prisma.GroupCreateWithoutReportsInput, Prisma.GroupUncheckedCreateWithoutReportsInput>
+  connectOrCreate?: Prisma.GroupCreateOrConnectWithoutReportsInput
+  upsert?: Prisma.GroupUpsertWithoutReportsInput
+  disconnect?: Prisma.GroupWhereInput | boolean
+  delete?: Prisma.GroupWhereInput | boolean
+  connect?: Prisma.GroupWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.GroupUpdateToOneWithWhereWithoutReportsInput, Prisma.GroupUpdateWithoutReportsInput>, Prisma.GroupUncheckedUpdateWithoutReportsInput>
+}
+
+export type EnumGroupVisibilityFieldUpdateOperationsInput = {
+  set?: $Enums.GroupVisibility
 }
 
 export type GroupCreateNestedOneWithoutMembersInput = {
@@ -443,14 +551,147 @@ export type GroupUpdateOneRequiredWithoutMessagesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.GroupUpdateToOneWithWhereWithoutMessagesInput, Prisma.GroupUpdateWithoutMessagesInput>, Prisma.GroupUncheckedUpdateWithoutMessagesInput>
 }
 
+export type GroupCreateWithoutCreatorInput = {
+  name: string
+  description?: string | null
+  photo?: string | null
+  visibility?: $Enums.GroupVisibility
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.GroupMemberCreateNestedManyWithoutGroupInput
+  messages?: Prisma.GroupMessageCreateNestedManyWithoutGroupInput
+  reports?: Prisma.ReportCreateNestedManyWithoutGroupInput
+}
+
+export type GroupUncheckedCreateWithoutCreatorInput = {
+  id?: number
+  name: string
+  description?: string | null
+  photo?: string | null
+  visibility?: $Enums.GroupVisibility
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutGroupInput
+  messages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutGroupInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutGroupInput
+}
+
+export type GroupCreateOrConnectWithoutCreatorInput = {
+  where: Prisma.GroupWhereUniqueInput
+  create: Prisma.XOR<Prisma.GroupCreateWithoutCreatorInput, Prisma.GroupUncheckedCreateWithoutCreatorInput>
+}
+
+export type GroupCreateManyCreatorInputEnvelope = {
+  data: Prisma.GroupCreateManyCreatorInput | Prisma.GroupCreateManyCreatorInput[]
+  skipDuplicates?: boolean
+}
+
+export type GroupUpsertWithWhereUniqueWithoutCreatorInput = {
+  where: Prisma.GroupWhereUniqueInput
+  update: Prisma.XOR<Prisma.GroupUpdateWithoutCreatorInput, Prisma.GroupUncheckedUpdateWithoutCreatorInput>
+  create: Prisma.XOR<Prisma.GroupCreateWithoutCreatorInput, Prisma.GroupUncheckedCreateWithoutCreatorInput>
+}
+
+export type GroupUpdateWithWhereUniqueWithoutCreatorInput = {
+  where: Prisma.GroupWhereUniqueInput
+  data: Prisma.XOR<Prisma.GroupUpdateWithoutCreatorInput, Prisma.GroupUncheckedUpdateWithoutCreatorInput>
+}
+
+export type GroupUpdateManyWithWhereWithoutCreatorInput = {
+  where: Prisma.GroupScalarWhereInput
+  data: Prisma.XOR<Prisma.GroupUpdateManyMutationInput, Prisma.GroupUncheckedUpdateManyWithoutCreatorInput>
+}
+
+export type GroupScalarWhereInput = {
+  AND?: Prisma.GroupScalarWhereInput | Prisma.GroupScalarWhereInput[]
+  OR?: Prisma.GroupScalarWhereInput[]
+  NOT?: Prisma.GroupScalarWhereInput | Prisma.GroupScalarWhereInput[]
+  id?: Prisma.IntFilter<"Group"> | number
+  name?: Prisma.StringFilter<"Group"> | string
+  description?: Prisma.StringNullableFilter<"Group"> | string | null
+  photo?: Prisma.StringNullableFilter<"Group"> | string | null
+  visibility?: Prisma.EnumGroupVisibilityFilter<"Group"> | $Enums.GroupVisibility
+  createdAt?: Prisma.DateTimeFilter<"Group"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Group"> | Date | string
+  creatorId?: Prisma.IntFilter<"Group"> | number
+}
+
+export type GroupCreateWithoutReportsInput = {
+  name: string
+  description?: string | null
+  photo?: string | null
+  visibility?: $Enums.GroupVisibility
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  creator: Prisma.UserCreateNestedOneWithoutCreatedGroupsInput
+  members?: Prisma.GroupMemberCreateNestedManyWithoutGroupInput
+  messages?: Prisma.GroupMessageCreateNestedManyWithoutGroupInput
+}
+
+export type GroupUncheckedCreateWithoutReportsInput = {
+  id?: number
+  name: string
+  description?: string | null
+  photo?: string | null
+  visibility?: $Enums.GroupVisibility
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  creatorId: number
+  members?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutGroupInput
+  messages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutGroupInput
+}
+
+export type GroupCreateOrConnectWithoutReportsInput = {
+  where: Prisma.GroupWhereUniqueInput
+  create: Prisma.XOR<Prisma.GroupCreateWithoutReportsInput, Prisma.GroupUncheckedCreateWithoutReportsInput>
+}
+
+export type GroupUpsertWithoutReportsInput = {
+  update: Prisma.XOR<Prisma.GroupUpdateWithoutReportsInput, Prisma.GroupUncheckedUpdateWithoutReportsInput>
+  create: Prisma.XOR<Prisma.GroupCreateWithoutReportsInput, Prisma.GroupUncheckedCreateWithoutReportsInput>
+  where?: Prisma.GroupWhereInput
+}
+
+export type GroupUpdateToOneWithWhereWithoutReportsInput = {
+  where?: Prisma.GroupWhereInput
+  data: Prisma.XOR<Prisma.GroupUpdateWithoutReportsInput, Prisma.GroupUncheckedUpdateWithoutReportsInput>
+}
+
+export type GroupUpdateWithoutReportsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.EnumGroupVisibilityFieldUpdateOperationsInput | $Enums.GroupVisibility
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creator?: Prisma.UserUpdateOneRequiredWithoutCreatedGroupsNestedInput
+  members?: Prisma.GroupMemberUpdateManyWithoutGroupNestedInput
+  messages?: Prisma.GroupMessageUpdateManyWithoutGroupNestedInput
+}
+
+export type GroupUncheckedUpdateWithoutReportsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.EnumGroupVisibilityFieldUpdateOperationsInput | $Enums.GroupVisibility
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creatorId?: Prisma.IntFieldUpdateOperationsInput | number
+  members?: Prisma.GroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+  messages?: Prisma.GroupMessageUncheckedUpdateManyWithoutGroupNestedInput
+}
+
 export type GroupCreateWithoutMembersInput = {
   name: string
   description?: string | null
   photo?: string | null
+  visibility?: $Enums.GroupVisibility
   createdAt?: Date | string
   updatedAt?: Date | string
-  creatorId: number
+  creator: Prisma.UserCreateNestedOneWithoutCreatedGroupsInput
   messages?: Prisma.GroupMessageCreateNestedManyWithoutGroupInput
+  reports?: Prisma.ReportCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateWithoutMembersInput = {
@@ -458,10 +699,12 @@ export type GroupUncheckedCreateWithoutMembersInput = {
   name: string
   description?: string | null
   photo?: string | null
+  visibility?: $Enums.GroupVisibility
   createdAt?: Date | string
   updatedAt?: Date | string
   creatorId: number
   messages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutGroupInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupCreateOrConnectWithoutMembersInput = {
@@ -484,10 +727,12 @@ export type GroupUpdateWithoutMembersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.EnumGroupVisibilityFieldUpdateOperationsInput | $Enums.GroupVisibility
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  creatorId?: Prisma.IntFieldUpdateOperationsInput | number
+  creator?: Prisma.UserUpdateOneRequiredWithoutCreatedGroupsNestedInput
   messages?: Prisma.GroupMessageUpdateManyWithoutGroupNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateWithoutMembersInput = {
@@ -495,20 +740,24 @@ export type GroupUncheckedUpdateWithoutMembersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.EnumGroupVisibilityFieldUpdateOperationsInput | $Enums.GroupVisibility
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creatorId?: Prisma.IntFieldUpdateOperationsInput | number
   messages?: Prisma.GroupMessageUncheckedUpdateManyWithoutGroupNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupCreateWithoutMessagesInput = {
   name: string
   description?: string | null
   photo?: string | null
+  visibility?: $Enums.GroupVisibility
   createdAt?: Date | string
   updatedAt?: Date | string
-  creatorId: number
+  creator: Prisma.UserCreateNestedOneWithoutCreatedGroupsInput
   members?: Prisma.GroupMemberCreateNestedManyWithoutGroupInput
+  reports?: Prisma.ReportCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateWithoutMessagesInput = {
@@ -516,10 +765,12 @@ export type GroupUncheckedCreateWithoutMessagesInput = {
   name: string
   description?: string | null
   photo?: string | null
+  visibility?: $Enums.GroupVisibility
   createdAt?: Date | string
   updatedAt?: Date | string
   creatorId: number
   members?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutGroupInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupCreateOrConnectWithoutMessagesInput = {
@@ -542,10 +793,12 @@ export type GroupUpdateWithoutMessagesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.EnumGroupVisibilityFieldUpdateOperationsInput | $Enums.GroupVisibility
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  creatorId?: Prisma.IntFieldUpdateOperationsInput | number
+  creator?: Prisma.UserUpdateOneRequiredWithoutCreatedGroupsNestedInput
   members?: Prisma.GroupMemberUpdateManyWithoutGroupNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateWithoutMessagesInput = {
@@ -553,10 +806,57 @@ export type GroupUncheckedUpdateWithoutMessagesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.EnumGroupVisibilityFieldUpdateOperationsInput | $Enums.GroupVisibility
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creatorId?: Prisma.IntFieldUpdateOperationsInput | number
   members?: Prisma.GroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutGroupNestedInput
+}
+
+export type GroupCreateManyCreatorInput = {
+  id?: number
+  name: string
+  description?: string | null
+  photo?: string | null
+  visibility?: $Enums.GroupVisibility
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type GroupUpdateWithoutCreatorInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.EnumGroupVisibilityFieldUpdateOperationsInput | $Enums.GroupVisibility
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.GroupMemberUpdateManyWithoutGroupNestedInput
+  messages?: Prisma.GroupMessageUpdateManyWithoutGroupNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutGroupNestedInput
+}
+
+export type GroupUncheckedUpdateWithoutCreatorInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.EnumGroupVisibilityFieldUpdateOperationsInput | $Enums.GroupVisibility
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.GroupMemberUncheckedUpdateManyWithoutGroupNestedInput
+  messages?: Prisma.GroupMessageUncheckedUpdateManyWithoutGroupNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutGroupNestedInput
+}
+
+export type GroupUncheckedUpdateManyWithoutCreatorInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  visibility?: Prisma.EnumGroupVisibilityFieldUpdateOperationsInput | $Enums.GroupVisibility
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -567,11 +867,13 @@ export type GroupUncheckedUpdateWithoutMessagesInput = {
 export type GroupCountOutputType = {
   members: number
   messages: number
+  reports: number
 }
 
 export type GroupCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   members?: boolean | GroupCountOutputTypeCountMembersArgs
   messages?: boolean | GroupCountOutputTypeCountMessagesArgs
+  reports?: boolean | GroupCountOutputTypeCountReportsArgs
 }
 
 /**
@@ -598,17 +900,27 @@ export type GroupCountOutputTypeCountMessagesArgs<ExtArgs extends runtime.Types.
   where?: Prisma.GroupMessageWhereInput
 }
 
+/**
+ * GroupCountOutputType without action
+ */
+export type GroupCountOutputTypeCountReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReportWhereInput
+}
+
 
 export type GroupSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
   description?: boolean
   photo?: boolean
+  visibility?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   creatorId?: boolean
+  creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   members?: boolean | Prisma.Group$membersArgs<ExtArgs>
   messages?: boolean | Prisma.Group$messagesArgs<ExtArgs>
+  reports?: boolean | Prisma.Group$reportsArgs<ExtArgs>
   _count?: boolean | Prisma.GroupCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["group"]>
 
@@ -617,9 +929,11 @@ export type GroupSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   name?: boolean
   description?: boolean
   photo?: boolean
+  visibility?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   creatorId?: boolean
+  creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["group"]>
 
 export type GroupSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -627,9 +941,11 @@ export type GroupSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   name?: boolean
   description?: boolean
   photo?: boolean
+  visibility?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   creatorId?: boolean
+  creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["group"]>
 
 export type GroupSelectScalar = {
@@ -637,31 +953,41 @@ export type GroupSelectScalar = {
   name?: boolean
   description?: boolean
   photo?: boolean
+  visibility?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   creatorId?: boolean
 }
 
-export type GroupOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "photo" | "createdAt" | "updatedAt" | "creatorId", ExtArgs["result"]["group"]>
+export type GroupOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "photo" | "visibility" | "createdAt" | "updatedAt" | "creatorId", ExtArgs["result"]["group"]>
 export type GroupInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   members?: boolean | Prisma.Group$membersArgs<ExtArgs>
   messages?: boolean | Prisma.Group$messagesArgs<ExtArgs>
+  reports?: boolean | Prisma.Group$reportsArgs<ExtArgs>
   _count?: boolean | Prisma.GroupCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type GroupIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type GroupIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type GroupIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type GroupIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
 
 export type $GroupPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Group"
   objects: {
+    creator: Prisma.$UserPayload<ExtArgs>
     members: Prisma.$GroupMemberPayload<ExtArgs>[]
     messages: Prisma.$GroupMessagePayload<ExtArgs>[]
+    reports: Prisma.$ReportPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     name: string
     description: string | null
     photo: string | null
+    visibility: $Enums.GroupVisibility
     createdAt: Date
     updatedAt: Date
     creatorId: number
@@ -1059,8 +1385,10 @@ readonly fields: GroupFieldRefs;
  */
 export interface Prisma__GroupClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  creator<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   members<T extends Prisma.Group$membersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Group$membersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GroupMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   messages<T extends Prisma.Group$messagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Group$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GroupMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reports<T extends Prisma.Group$reportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Group$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1094,6 +1422,7 @@ export interface GroupFieldRefs {
   readonly name: Prisma.FieldRef<"Group", 'String'>
   readonly description: Prisma.FieldRef<"Group", 'String'>
   readonly photo: Prisma.FieldRef<"Group", 'String'>
+  readonly visibility: Prisma.FieldRef<"Group", 'GroupVisibility'>
   readonly createdAt: Prisma.FieldRef<"Group", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Group", 'DateTime'>
   readonly creatorId: Prisma.FieldRef<"Group", 'Int'>
@@ -1351,6 +1680,10 @@ export type GroupCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extension
    */
   data: Prisma.GroupCreateManyInput | Prisma.GroupCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GroupIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1421,6 +1754,10 @@ export type GroupUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many Groups to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GroupIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1535,6 +1872,30 @@ export type Group$messagesArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.GroupMessageScalarFieldEnum | Prisma.GroupMessageScalarFieldEnum[]
+}
+
+/**
+ * Group.reports
+ */
+export type Group$reportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Report
+   */
+  select?: Prisma.ReportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Report
+   */
+  omit?: Prisma.ReportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReportInclude<ExtArgs> | null
+  where?: Prisma.ReportWhereInput
+  orderBy?: Prisma.ReportOrderByWithRelationInput | Prisma.ReportOrderByWithRelationInput[]
+  cursor?: Prisma.ReportWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReportScalarFieldEnum | Prisma.ReportScalarFieldEnum[]
 }
 
 /**

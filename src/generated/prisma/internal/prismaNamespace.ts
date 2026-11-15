@@ -1266,7 +1266,8 @@ export const ReportScalarFieldEnum = {
   rejectionReason: 'rejectionReason',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  authorId: 'authorId'
+  authorId: 'authorId',
+  groupId: 'groupId'
 } as const
 
 export type ReportScalarFieldEnum = (typeof ReportScalarFieldEnum)[keyof typeof ReportScalarFieldEnum]
@@ -1315,6 +1316,7 @@ export const GroupScalarFieldEnum = {
   name: 'name',
   description: 'description',
   photo: 'photo',
+  visibility: 'visibility',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   creatorId: 'creatorId'
@@ -1538,6 +1540,20 @@ export type EnumReportVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<
  * Reference to a field of type 'ReportVisibility[]'
  */
 export type ListEnumReportVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportVisibility[]'>
+    
+
+
+/**
+ * Reference to a field of type 'GroupVisibility'
+ */
+export type EnumGroupVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GroupVisibility'>
+    
+
+
+/**
+ * Reference to a field of type 'GroupVisibility[]'
+ */
+export type ListEnumGroupVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GroupVisibility[]'>
     
 
 

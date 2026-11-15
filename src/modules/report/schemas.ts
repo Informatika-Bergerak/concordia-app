@@ -7,6 +7,7 @@ export const reportCategories = [
   "KEHILANGAN",
   "KEBIJAKAN",
   "LAINNYA",
+  "LAPORAN_GRUP",
 ] as const;
 
 export const createReportSchema = z.object({
@@ -32,6 +33,7 @@ export const createReportSchema = z.object({
     .refine((v) => !Number.isNaN(Date.parse(v)), "Tanggal tidak valid")
     .refine((v) => Date.parse(v) <= Date.now(), "Tanggal tidak boleh di masa depan"),
   visibility: z.enum(["PUBLIC", "ANONYMOUS", "PRIVATE"]),
+  groupId: z.number().int().positive().optional(),
 });
 
 export type CreateReportInput = z.infer<typeof createReportSchema>;

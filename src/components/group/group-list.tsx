@@ -2,6 +2,7 @@
 
 import { useState, useRef, useTransition, useCallback, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
   Plus,
@@ -9,11 +10,13 @@ import {
   Users,
   UsersRound,
   MessageCircle,
+  UserPlus,
   Camera,
   X,
 } from "lucide-react";
 import { createGroupAction } from "@/modules/group/actions";
 import type { GroupListItem } from "@/modules/group/types";
+import { GroupDiscovery } from "./group-discovery";
 import styles from "./group.module.css";
 
 type GroupListProps = {
@@ -50,6 +53,7 @@ function CreateGroupModal({
 }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [visibility, setVisibility] = useState<"PUBLIC" | "PRIVATE">("PUBLIC");
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isPending, startTransition] = useTransition();
@@ -76,6 +80,7 @@ function CreateGroupModal({
       const result = await createGroupAction({
         name: name.trim(),
         description: description.trim() || undefined,
+        visibility,
       });
       if (result.ok) {
         onCreated(result.id);
@@ -110,7 +115,7 @@ function CreateGroupModal({
         <div className={styles.avatarUpload}>
           <div className={styles.avatarPreview}>
             {photoPreview ? (
-              <img src={photoPreview} alt="Preview foto grup" />
+              <Image src={photoPreview} alt="Preview foto grup" width={64} height={64} unoptimized />
             ) : (
               <Camera size={24} />
             )}
@@ -170,6 +175,12 @@ function CreateGroupModal({
 
         {errors.form && <p className={styles.error}>{errors.form}</p>}
 
+        <div className={styles.privacyField}>
+          <span className={styles.label}>Privasi Grup</span>
+          <label className={styles.privacyOption}><input type="radio" name="group-visibility" checked={visibility === "PUBLIC"} onChange={() => setVisibility("PUBLIC")} /> Publik <small>Dapat ditemukan di Ikuti Grup.</small></label>
+          <label className={styles.privacyOption}><input type="radio" name="group-visibility" checked={visibility === "PRIVATE"} onChange={() => setVisibility("PRIVATE")} /> Privat <small>Hanya dapat dimasuki melalui penambahan anggota.</small></label>
+        </div>
+
         {/* Actions */}
         <div className={styles.formActions}>
           <button
@@ -198,29 +209,14 @@ function GroupCard({ group }: { group: GroupListItem }) {
     <Link href={`/grup/${group.id}`} className={styles.card}>
       <div className={styles.cardAvatar}>
         {group.photo ? (
-          <img src={group.photo} alt={group.name} />
+          <Image src={group.photo} alt={group.name} width={46} height={46} unoptimized />
         ) : (
           getInitials(group.name)
         )}
       </div>
       <div className={styles.cardBody}>
         <h3 className={styles.cardName}>{group.name}</h3>
-        <p className={styles.cardPreview}>
-          {group.lastMessage
-            ? `${group.lastMessage.senderName}: ${group.lastMessage.content}`
-            : group.description || "Belum ada pesan"}
-        </p>
-      </div>
-      <div className={styles.cardMeta}>
-        {group.lastMessage && (
-          <span className={styles.cardTime}>
-            {formatTime(group.lastMessage.createdAt)}
-          </span>
-        )}
-        <span className={styles.cardMembers}>
-          <Users size={12} />
-          {group.memberCount}
-        </span>
+        <p className={styles.cardPreview}>{group.description || "Belum ada deskripsi grup."}</p>
       </div>
     </Link>
   );
@@ -228,6 +224,7 @@ function GroupCard({ group }: { group: GroupListItem }) {
 
 export function GroupListPage({ groups }: GroupListProps) {
   const [showForm, setShowForm] = useState(false);
+  const [showDiscovery, setShowDiscovery] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
 
@@ -245,18 +242,10 @@ export function GroupListPage({ groups }: GroupListProps) {
 
   return (
     <div className={styles.page}>
-      {/* Header */}
-      <div className={styles.header}>
-        <h1 className={styles.headerTitle}>Grup Saya</h1>
-        <button
-          type="button"
-          className={styles.createBtn}
-          onClick={() => setShowForm(true)}
-        >
-          <Plus size={16} />
-          Buat Grup
-        </button>
-      </div>
+      <div className={styles.pageIntro}><h1 className={styles.headerTitle}>Group Kampus</h1><p>Temukan, ikuti, dan bergabung dengan berbagai grup komunitas di lingkungan Concordia.</p></div>
+      <div className={styles.toolbar}><button type="button" className={styles.createBtn} onClick={() => setShowForm(true)}><Plus size={16} />Buat Grup</button><button type="button" className={styles.followBtn} onClick={() => setShowDiscovery(true)}><UserPlus size={16} />Ikuti Grup</button></div>
+
+      {showDiscovery && <div className={styles.discoveryOverlay}><div className={styles.discoveryModal}><button className={styles.discoveryClose} onClick={() => setShowDiscovery(false)} aria-label="Tutup">×</button><GroupDiscovery initialGroups={[]} /></div></div>}
 
       {/* Search */}
       <div className={styles.searchRow}>

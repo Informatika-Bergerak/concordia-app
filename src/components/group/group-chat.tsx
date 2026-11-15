@@ -2,16 +2,22 @@
 
 import { useState, useRef, useEffect, useTransition, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Send, Users, MessageCircle, MoreVertical } from "lucide-react";
+import { ArrowLeft, Send, MessageCircle, MoreVertical, X, Check } from "lucide-react";
 import { sendGroupMessageAction, editGroupMessageAction, deleteGroupMessageAction } from "@/modules/group/actions";
 import type { GroupDetail, GroupChatMessage } from "@/modules/group/types";
+import { MessageContextMenu } from "./message-context-menu";
+import { GroupInformation } from "./group-information";
+import type { GroupMemberListItem } from "@/modules/group/types";
 import styles from "./group.module.css";
 
 type GroupChatProps = {
   group: GroupDetail;
   messages: GroupChatMessage[];
   currentUserId: number;
+  members: GroupMemberListItem[];
+  canManage: boolean;
 };
 
 function getInitials(name: string): string {
@@ -50,11 +56,14 @@ function isSameDay(a: Date, b: Date): boolean {
   );
 }
 
-export function GroupChat({ group, messages: initialMessages, currentUserId }: GroupChatProps) {
+export function GroupChat({ group, messages: initialMessages, currentUserId, members, canManage }: GroupChatProps) {
   const [messages, setMessages] = useState(initialMessages);
   const [text, setText] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editingText, setEditingText] = useState("");
+  const [menuOpenId, setMenuOpenId] = useState<number | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<number | null>(null);
+  const [showMembers, setShowMembers] = useState(false);
   const [isPending, startTransition] = useTransition();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -120,19 +129,17 @@ export function GroupChat({ group, messages: initialMessages, currentUserId }: G
         </Link>
         <div className={styles.chatAvatar}>
           {group.photo ? (
-            <img src={group.photo} alt={group.name} />
+            <Image src={group.photo} alt={group.name} width={46} height={46} unoptimized />
           ) : (
             getInitials(group.name)
           )}
         </div>
         <div className={styles.chatHeaderInfo}>
-          <h1 className={styles.chatHeaderName}>{group.name}</h1>
-          <p className={styles.chatHeaderMembers}>
-            <Users size={12} style={{ display: "inline", verticalAlign: "-2px", marginRight: 4 }} />
-            {group.memberCount} anggota
-          </p>
+          <button type="button" className={styles.chatHeaderName} onClick={() => setShowMembers(true)}>{group.name}</button>
         </div>
       </div>
+
+      {showMembers && <GroupInformation group={group} members={members} currentUserId={currentUserId} canManage={canManage} onClose={() => setShowMembers(false)} onUpdated={() => router.refresh()} />}
 
       {/* Messages */}
       <div className={styles.messages}>
@@ -169,30 +176,58 @@ export function GroupChat({ group, messages: initialMessages, currentUserId }: G
                     {formatDateSeparator(msg.createdAt)}
                   </div>
                 )}
-                <div
-                  className={`${styles.msgBubble} ${isOwn ? styles.msgOwn : styles.msgOther}`}
-                >
+                <div className={`${styles.msgRow} ${isOwn ? styles.msgRowOwn : styles.msgRowOther}`}>
+                <div className={`${styles.msgBubble} ${isOwn ? styles.msgOwn : styles.msgOther}`}>
                   {showSender && (
                     <span className={styles.msgSender}>{msg.senderName}</span>
                   )}
                   {editingId === msg.id ? (
-                    <form onSubmit={(e) => { e.preventDefault(); const content = editingText.trim(); if (!content) return; startTransition(async () => { const result = await editGroupMessageAction({ groupId: group.id, messageId: msg.id, content }); if (result.ok) { setEditingId(null); router.refresh(); } }); }}>
-                      <input value={editingText} onChange={(e) => setEditingText(e.target.value)} maxLength={2000} autoFocus />
-                      <button type="submit">Simpan</button>
-                      <button type="button" onClick={() => setEditingId(null)}>Batal</button>
+                    <form
+                      className={styles.editForm}
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        const content = editingText.trim();
+                        if (!content) return;
+                        startTransition(async () => {
+                          const result = await editGroupMessageAction({ groupId: group.id, messageId: msg.id, content });
+                          if (result.ok) {
+                            setEditingId(null);
+                            router.refresh();
+                          }
+                        });
+                      }}
+                    >
+                      <textarea
+                        className={styles.editTextarea}
+                        value={editingText}
+                        onChange={(e) => setEditingText(e.target.value)}
+                        maxLength={2000}
+                        autoFocus
+                        rows={1}
+                        onInput={(e) => {
+                          const target = e.target as HTMLTextAreaElement;
+                          target.style.height = "auto";
+                          target.style.height = `${target.scrollHeight}px`;
+                        }}
+                      />
+                      <div className={styles.editActions}>
+                        <button type="submit" className={styles.saveBtn} disabled={isPending}>
+                          <Check size={14} /> Simpan
+                        </button>
+                        <button type="button" className={styles.cancelEditBtn} onClick={() => setEditingId(null)} disabled={isPending}>
+                          <X size={14} /> Batal
+                        </button>
+                      </div>
                     </form>
                   ) : (
-                    <>{msg.content}{msg.updatedAt && new Date(msg.updatedAt).getTime() !== new Date(msg.createdAt).getTime() ? <small> (diedit)</small> : null}</>
+                    <>{msg.content}{msg.updatedAt && new Date(msg.updatedAt).getTime() !== new Date(msg.createdAt).getTime() ? <small className={styles.editedLabel}> (diedit)</small> : null}</>
                   )}
-                  {isOwn && editingId !== msg.id && (
-                    <span className={styles.msgActions}>
-                      <button type="button" aria-label="Menu pesan" onClick={() => { if (window.confirm("Hapus pesan ini?")) startTransition(async () => { const result = await deleteGroupMessageAction({ groupId: group.id, messageId: msg.id }); if (result.ok) setMessages((prev) => prev.filter((item) => item.id !== msg.id)); }); }}><MoreVertical size={14} /></button>
-                      <button type="button" onClick={() => { setEditingId(msg.id); setEditingText(msg.content); }}>Edit</button>
-                    </span>
-                  )}
-                  <span className={styles.msgTime}>
-                    {formatTime(msg.createdAt)}
-                  </span>
+                  <span className={styles.msgTime}>{formatTime(msg.createdAt)}</span>
+                </div>
+                {isOwn && editingId !== msg.id && <div className={styles.msgActionRail}>
+                  <button type="button" className={styles.msgActionsBtn} aria-label="Menu pesan" onClick={() => setMenuOpenId(menuOpenId === msg.id ? null : msg.id)}><MoreVertical size={16} /></button>
+                  {menuOpenId === msg.id && <MessageContextMenu onEdit={() => { setEditingId(msg.id); setEditingText(msg.content); setMenuOpenId(null); }} onDelete={() => { setDeleteTarget(msg.id); setMenuOpenId(null); }} onClose={() => setMenuOpenId(null)} />}
+                </div>}
                 </div>
               </div>
             );
@@ -200,6 +235,8 @@ export function GroupChat({ group, messages: initialMessages, currentUserId }: G
         )}
         <div ref={messagesEndRef} />
       </div>
+
+      {deleteTarget !== null && <div className={styles.confirmOverlay} role="dialog" aria-modal="true"><div className={styles.confirmModal}><h2>Hapus Pesan?</h2><p>Apakah Anda yakin ingin menghapus pesan ini? Pesan yang dihapus tidak akan ditampilkan lagi dalam percakapan.</p><div className={styles.confirmActions}><button type="button" className={styles.cancelBtn} onClick={() => setDeleteTarget(null)}>Batal</button><button type="button" className={styles.dangerBtn} disabled={isPending} onClick={() => { const id = deleteTarget; startTransition(async () => { const result = await deleteGroupMessageAction({ groupId: group.id, messageId: id }); if (result.ok) setMessages((prev) => prev.filter((item) => item.id !== id)); setDeleteTarget(null); }); }}>Hapus Pesan</button></div></div></div>}
 
       {/* Input */}
       <form className={styles.chatInput} onSubmit={handleSend}>

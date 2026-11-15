@@ -17,8 +17,20 @@ export type GroupDetail = {
   name: string;
   description: string | null;
   photo: string | null;
+  visibility: "PUBLIC" | "PRIVATE";
   creatorId: number;
+  creatorName: string;
   memberCount: number;
+};
+
+
+export type GroupMemberListItem = {
+  id: number;
+  userId: number;
+  name: string;
+  role: string;
+  photo: string | null;
+  joinedAt: Date;
 };
 
 export type GroupChatMessage = {
@@ -31,11 +43,3 @@ export type GroupChatMessage = {
   senderName: string;
 };
 
-export type GroupMemberListItem = {
-  id: number;
-  userId: number;
-  name: string;
-  role: string;
-  photo: string | null;
-  joinedAt: Date;
-};

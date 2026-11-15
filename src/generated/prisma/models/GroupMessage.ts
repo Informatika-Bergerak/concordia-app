@@ -241,6 +241,7 @@ export type GroupMessageWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"GroupMessage"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"GroupMessage"> | Date | string | null
   group?: Prisma.XOR<Prisma.GroupScalarRelationFilter, Prisma.GroupWhereInput>
+  sender?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type GroupMessageOrderByWithRelationInput = {
@@ -252,6 +253,7 @@ export type GroupMessageOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   group?: Prisma.GroupOrderByWithRelationInput
+  sender?: Prisma.UserOrderByWithRelationInput
 }
 
 export type GroupMessageWhereUniqueInput = Prisma.AtLeast<{
@@ -266,6 +268,7 @@ export type GroupMessageWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"GroupMessage"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"GroupMessage"> | Date | string | null
   group?: Prisma.XOR<Prisma.GroupScalarRelationFilter, Prisma.GroupWhereInput>
+  sender?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
 export type GroupMessageOrderByWithAggregationInput = {
@@ -297,12 +300,12 @@ export type GroupMessageScalarWhereWithAggregatesInput = {
 }
 
 export type GroupMessageCreateInput = {
-  senderId: number
   content: string
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   group: Prisma.GroupCreateNestedOneWithoutMessagesInput
+  sender: Prisma.UserCreateNestedOneWithoutGroupMessagesInput
 }
 
 export type GroupMessageUncheckedCreateInput = {
@@ -316,12 +319,12 @@ export type GroupMessageUncheckedCreateInput = {
 }
 
 export type GroupMessageUpdateInput = {
-  senderId?: Prisma.IntFieldUpdateOperationsInput | number
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   group?: Prisma.GroupUpdateOneRequiredWithoutMessagesNestedInput
+  sender?: Prisma.UserUpdateOneRequiredWithoutGroupMessagesNestedInput
 }
 
 export type GroupMessageUncheckedUpdateInput = {
@@ -345,7 +348,6 @@ export type GroupMessageCreateManyInput = {
 }
 
 export type GroupMessageUpdateManyMutationInput = {
-  senderId?: Prisma.IntFieldUpdateOperationsInput | number
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -414,6 +416,48 @@ export type GroupMessageSumOrderByAggregateInput = {
   senderId?: Prisma.SortOrder
 }
 
+export type GroupMessageCreateNestedManyWithoutSenderInput = {
+  create?: Prisma.XOR<Prisma.GroupMessageCreateWithoutSenderInput, Prisma.GroupMessageUncheckedCreateWithoutSenderInput> | Prisma.GroupMessageCreateWithoutSenderInput[] | Prisma.GroupMessageUncheckedCreateWithoutSenderInput[]
+  connectOrCreate?: Prisma.GroupMessageCreateOrConnectWithoutSenderInput | Prisma.GroupMessageCreateOrConnectWithoutSenderInput[]
+  createMany?: Prisma.GroupMessageCreateManySenderInputEnvelope
+  connect?: Prisma.GroupMessageWhereUniqueInput | Prisma.GroupMessageWhereUniqueInput[]
+}
+
+export type GroupMessageUncheckedCreateNestedManyWithoutSenderInput = {
+  create?: Prisma.XOR<Prisma.GroupMessageCreateWithoutSenderInput, Prisma.GroupMessageUncheckedCreateWithoutSenderInput> | Prisma.GroupMessageCreateWithoutSenderInput[] | Prisma.GroupMessageUncheckedCreateWithoutSenderInput[]
+  connectOrCreate?: Prisma.GroupMessageCreateOrConnectWithoutSenderInput | Prisma.GroupMessageCreateOrConnectWithoutSenderInput[]
+  createMany?: Prisma.GroupMessageCreateManySenderInputEnvelope
+  connect?: Prisma.GroupMessageWhereUniqueInput | Prisma.GroupMessageWhereUniqueInput[]
+}
+
+export type GroupMessageUpdateManyWithoutSenderNestedInput = {
+  create?: Prisma.XOR<Prisma.GroupMessageCreateWithoutSenderInput, Prisma.GroupMessageUncheckedCreateWithoutSenderInput> | Prisma.GroupMessageCreateWithoutSenderInput[] | Prisma.GroupMessageUncheckedCreateWithoutSenderInput[]
+  connectOrCreate?: Prisma.GroupMessageCreateOrConnectWithoutSenderInput | Prisma.GroupMessageCreateOrConnectWithoutSenderInput[]
+  upsert?: Prisma.GroupMessageUpsertWithWhereUniqueWithoutSenderInput | Prisma.GroupMessageUpsertWithWhereUniqueWithoutSenderInput[]
+  createMany?: Prisma.GroupMessageCreateManySenderInputEnvelope
+  set?: Prisma.GroupMessageWhereUniqueInput | Prisma.GroupMessageWhereUniqueInput[]
+  disconnect?: Prisma.GroupMessageWhereUniqueInput | Prisma.GroupMessageWhereUniqueInput[]
+  delete?: Prisma.GroupMessageWhereUniqueInput | Prisma.GroupMessageWhereUniqueInput[]
+  connect?: Prisma.GroupMessageWhereUniqueInput | Prisma.GroupMessageWhereUniqueInput[]
+  update?: Prisma.GroupMessageUpdateWithWhereUniqueWithoutSenderInput | Prisma.GroupMessageUpdateWithWhereUniqueWithoutSenderInput[]
+  updateMany?: Prisma.GroupMessageUpdateManyWithWhereWithoutSenderInput | Prisma.GroupMessageUpdateManyWithWhereWithoutSenderInput[]
+  deleteMany?: Prisma.GroupMessageScalarWhereInput | Prisma.GroupMessageScalarWhereInput[]
+}
+
+export type GroupMessageUncheckedUpdateManyWithoutSenderNestedInput = {
+  create?: Prisma.XOR<Prisma.GroupMessageCreateWithoutSenderInput, Prisma.GroupMessageUncheckedCreateWithoutSenderInput> | Prisma.GroupMessageCreateWithoutSenderInput[] | Prisma.GroupMessageUncheckedCreateWithoutSenderInput[]
+  connectOrCreate?: Prisma.GroupMessageCreateOrConnectWithoutSenderInput | Prisma.GroupMessageCreateOrConnectWithoutSenderInput[]
+  upsert?: Prisma.GroupMessageUpsertWithWhereUniqueWithoutSenderInput | Prisma.GroupMessageUpsertWithWhereUniqueWithoutSenderInput[]
+  createMany?: Prisma.GroupMessageCreateManySenderInputEnvelope
+  set?: Prisma.GroupMessageWhereUniqueInput | Prisma.GroupMessageWhereUniqueInput[]
+  disconnect?: Prisma.GroupMessageWhereUniqueInput | Prisma.GroupMessageWhereUniqueInput[]
+  delete?: Prisma.GroupMessageWhereUniqueInput | Prisma.GroupMessageWhereUniqueInput[]
+  connect?: Prisma.GroupMessageWhereUniqueInput | Prisma.GroupMessageWhereUniqueInput[]
+  update?: Prisma.GroupMessageUpdateWithWhereUniqueWithoutSenderInput | Prisma.GroupMessageUpdateWithWhereUniqueWithoutSenderInput[]
+  updateMany?: Prisma.GroupMessageUpdateManyWithWhereWithoutSenderInput | Prisma.GroupMessageUpdateManyWithWhereWithoutSenderInput[]
+  deleteMany?: Prisma.GroupMessageScalarWhereInput | Prisma.GroupMessageScalarWhereInput[]
+}
+
 export type GroupMessageCreateNestedManyWithoutGroupInput = {
   create?: Prisma.XOR<Prisma.GroupMessageCreateWithoutGroupInput, Prisma.GroupMessageUncheckedCreateWithoutGroupInput> | Prisma.GroupMessageCreateWithoutGroupInput[] | Prisma.GroupMessageUncheckedCreateWithoutGroupInput[]
   connectOrCreate?: Prisma.GroupMessageCreateOrConnectWithoutGroupInput | Prisma.GroupMessageCreateOrConnectWithoutGroupInput[]
@@ -456,12 +500,68 @@ export type GroupMessageUncheckedUpdateManyWithoutGroupNestedInput = {
   deleteMany?: Prisma.GroupMessageScalarWhereInput | Prisma.GroupMessageScalarWhereInput[]
 }
 
-export type GroupMessageCreateWithoutGroupInput = {
-  senderId: number
+export type GroupMessageCreateWithoutSenderInput = {
   content: string
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  group: Prisma.GroupCreateNestedOneWithoutMessagesInput
+}
+
+export type GroupMessageUncheckedCreateWithoutSenderInput = {
+  id?: number
+  groupId: number
+  content: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+}
+
+export type GroupMessageCreateOrConnectWithoutSenderInput = {
+  where: Prisma.GroupMessageWhereUniqueInput
+  create: Prisma.XOR<Prisma.GroupMessageCreateWithoutSenderInput, Prisma.GroupMessageUncheckedCreateWithoutSenderInput>
+}
+
+export type GroupMessageCreateManySenderInputEnvelope = {
+  data: Prisma.GroupMessageCreateManySenderInput | Prisma.GroupMessageCreateManySenderInput[]
+  skipDuplicates?: boolean
+}
+
+export type GroupMessageUpsertWithWhereUniqueWithoutSenderInput = {
+  where: Prisma.GroupMessageWhereUniqueInput
+  update: Prisma.XOR<Prisma.GroupMessageUpdateWithoutSenderInput, Prisma.GroupMessageUncheckedUpdateWithoutSenderInput>
+  create: Prisma.XOR<Prisma.GroupMessageCreateWithoutSenderInput, Prisma.GroupMessageUncheckedCreateWithoutSenderInput>
+}
+
+export type GroupMessageUpdateWithWhereUniqueWithoutSenderInput = {
+  where: Prisma.GroupMessageWhereUniqueInput
+  data: Prisma.XOR<Prisma.GroupMessageUpdateWithoutSenderInput, Prisma.GroupMessageUncheckedUpdateWithoutSenderInput>
+}
+
+export type GroupMessageUpdateManyWithWhereWithoutSenderInput = {
+  where: Prisma.GroupMessageScalarWhereInput
+  data: Prisma.XOR<Prisma.GroupMessageUpdateManyMutationInput, Prisma.GroupMessageUncheckedUpdateManyWithoutSenderInput>
+}
+
+export type GroupMessageScalarWhereInput = {
+  AND?: Prisma.GroupMessageScalarWhereInput | Prisma.GroupMessageScalarWhereInput[]
+  OR?: Prisma.GroupMessageScalarWhereInput[]
+  NOT?: Prisma.GroupMessageScalarWhereInput | Prisma.GroupMessageScalarWhereInput[]
+  id?: Prisma.IntFilter<"GroupMessage"> | number
+  groupId?: Prisma.IntFilter<"GroupMessage"> | number
+  senderId?: Prisma.IntFilter<"GroupMessage"> | number
+  content?: Prisma.StringFilter<"GroupMessage"> | string
+  createdAt?: Prisma.DateTimeFilter<"GroupMessage"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"GroupMessage"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"GroupMessage"> | Date | string | null
+}
+
+export type GroupMessageCreateWithoutGroupInput = {
+  content: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  sender: Prisma.UserCreateNestedOneWithoutGroupMessagesInput
 }
 
 export type GroupMessageUncheckedCreateWithoutGroupInput = {
@@ -499,17 +599,39 @@ export type GroupMessageUpdateManyWithWhereWithoutGroupInput = {
   data: Prisma.XOR<Prisma.GroupMessageUpdateManyMutationInput, Prisma.GroupMessageUncheckedUpdateManyWithoutGroupInput>
 }
 
-export type GroupMessageScalarWhereInput = {
-  AND?: Prisma.GroupMessageScalarWhereInput | Prisma.GroupMessageScalarWhereInput[]
-  OR?: Prisma.GroupMessageScalarWhereInput[]
-  NOT?: Prisma.GroupMessageScalarWhereInput | Prisma.GroupMessageScalarWhereInput[]
-  id?: Prisma.IntFilter<"GroupMessage"> | number
-  groupId?: Prisma.IntFilter<"GroupMessage"> | number
-  senderId?: Prisma.IntFilter<"GroupMessage"> | number
-  content?: Prisma.StringFilter<"GroupMessage"> | string
-  createdAt?: Prisma.DateTimeFilter<"GroupMessage"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"GroupMessage"> | Date | string
-  deletedAt?: Prisma.DateTimeNullableFilter<"GroupMessage"> | Date | string | null
+export type GroupMessageCreateManySenderInput = {
+  id?: number
+  groupId: number
+  content: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+}
+
+export type GroupMessageUpdateWithoutSenderInput = {
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  group?: Prisma.GroupUpdateOneRequiredWithoutMessagesNestedInput
+}
+
+export type GroupMessageUncheckedUpdateWithoutSenderInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  groupId?: Prisma.IntFieldUpdateOperationsInput | number
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type GroupMessageUncheckedUpdateManyWithoutSenderInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  groupId?: Prisma.IntFieldUpdateOperationsInput | number
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type GroupMessageCreateManyGroupInput = {
@@ -522,11 +644,11 @@ export type GroupMessageCreateManyGroupInput = {
 }
 
 export type GroupMessageUpdateWithoutGroupInput = {
-  senderId?: Prisma.IntFieldUpdateOperationsInput | number
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sender?: Prisma.UserUpdateOneRequiredWithoutGroupMessagesNestedInput
 }
 
 export type GroupMessageUncheckedUpdateWithoutGroupInput = {
@@ -558,6 +680,7 @@ export type GroupMessageSelect<ExtArgs extends runtime.Types.Extensions.Internal
   updatedAt?: boolean
   deletedAt?: boolean
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
+  sender?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["groupMessage"]>
 
 export type GroupMessageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -569,6 +692,7 @@ export type GroupMessageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   updatedAt?: boolean
   deletedAt?: boolean
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
+  sender?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["groupMessage"]>
 
 export type GroupMessageSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -580,6 +704,7 @@ export type GroupMessageSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   updatedAt?: boolean
   deletedAt?: boolean
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
+  sender?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["groupMessage"]>
 
 export type GroupMessageSelectScalar = {
@@ -595,18 +720,22 @@ export type GroupMessageSelectScalar = {
 export type GroupMessageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "groupId" | "senderId" | "content" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["groupMessage"]>
 export type GroupMessageInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
+  sender?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type GroupMessageIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
+  sender?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type GroupMessageIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
+  sender?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $GroupMessagePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "GroupMessage"
   objects: {
     group: Prisma.$GroupPayload<ExtArgs>
+    sender: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1011,6 +1140,7 @@ readonly fields: GroupMessageFieldRefs;
 export interface Prisma__GroupMessageClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   group<T extends Prisma.GroupDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GroupDefaultArgs<ExtArgs>>): Prisma.Prisma__GroupClient<runtime.Types.Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  sender<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

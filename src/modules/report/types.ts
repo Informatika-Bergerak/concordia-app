@@ -6,7 +6,8 @@ export type ReportCategory =
   | "KEAMANAN"
   | "KEHILANGAN"
   | "KEBIJAKAN"
-  | "LAINNYA";
+  | "LAINNYA"
+  | "LAPORAN_GRUP";
 
 /**
  * PUBLIC    : terlihat semua pengguna, identitas pelapor ditampilkan

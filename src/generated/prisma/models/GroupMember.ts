@@ -225,6 +225,7 @@ export type GroupMemberWhereInput = {
   role?: Prisma.EnumGroupMemberRoleFilter<"GroupMember"> | $Enums.GroupMemberRole
   joinedAt?: Prisma.DateTimeFilter<"GroupMember"> | Date | string
   group?: Prisma.XOR<Prisma.GroupScalarRelationFilter, Prisma.GroupWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type GroupMemberOrderByWithRelationInput = {
@@ -234,6 +235,7 @@ export type GroupMemberOrderByWithRelationInput = {
   role?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   group?: Prisma.GroupOrderByWithRelationInput
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type GroupMemberWhereUniqueInput = Prisma.AtLeast<{
@@ -247,6 +249,7 @@ export type GroupMemberWhereUniqueInput = Prisma.AtLeast<{
   role?: Prisma.EnumGroupMemberRoleFilter<"GroupMember"> | $Enums.GroupMemberRole
   joinedAt?: Prisma.DateTimeFilter<"GroupMember"> | Date | string
   group?: Prisma.XOR<Prisma.GroupScalarRelationFilter, Prisma.GroupWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "groupId_userId">
 
 export type GroupMemberOrderByWithAggregationInput = {
@@ -274,10 +277,10 @@ export type GroupMemberScalarWhereWithAggregatesInput = {
 }
 
 export type GroupMemberCreateInput = {
-  userId: number
   role?: $Enums.GroupMemberRole
   joinedAt?: Date | string
   group: Prisma.GroupCreateNestedOneWithoutMembersInput
+  user: Prisma.UserCreateNestedOneWithoutGroupMembershipsInput
 }
 
 export type GroupMemberUncheckedCreateInput = {
@@ -289,10 +292,10 @@ export type GroupMemberUncheckedCreateInput = {
 }
 
 export type GroupMemberUpdateInput = {
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
   role?: Prisma.EnumGroupMemberRoleFieldUpdateOperationsInput | $Enums.GroupMemberRole
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   group?: Prisma.GroupUpdateOneRequiredWithoutMembersNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutGroupMembershipsNestedInput
 }
 
 export type GroupMemberUncheckedUpdateInput = {
@@ -312,7 +315,6 @@ export type GroupMemberCreateManyInput = {
 }
 
 export type GroupMemberUpdateManyMutationInput = {
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
   role?: Prisma.EnumGroupMemberRoleFieldUpdateOperationsInput | $Enums.GroupMemberRole
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -376,6 +378,48 @@ export type GroupMemberSumOrderByAggregateInput = {
   userId?: Prisma.SortOrder
 }
 
+export type GroupMemberCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.GroupMemberCreateWithoutUserInput, Prisma.GroupMemberUncheckedCreateWithoutUserInput> | Prisma.GroupMemberCreateWithoutUserInput[] | Prisma.GroupMemberUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.GroupMemberCreateOrConnectWithoutUserInput | Prisma.GroupMemberCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.GroupMemberCreateManyUserInputEnvelope
+  connect?: Prisma.GroupMemberWhereUniqueInput | Prisma.GroupMemberWhereUniqueInput[]
+}
+
+export type GroupMemberUncheckedCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.GroupMemberCreateWithoutUserInput, Prisma.GroupMemberUncheckedCreateWithoutUserInput> | Prisma.GroupMemberCreateWithoutUserInput[] | Prisma.GroupMemberUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.GroupMemberCreateOrConnectWithoutUserInput | Prisma.GroupMemberCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.GroupMemberCreateManyUserInputEnvelope
+  connect?: Prisma.GroupMemberWhereUniqueInput | Prisma.GroupMemberWhereUniqueInput[]
+}
+
+export type GroupMemberUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.GroupMemberCreateWithoutUserInput, Prisma.GroupMemberUncheckedCreateWithoutUserInput> | Prisma.GroupMemberCreateWithoutUserInput[] | Prisma.GroupMemberUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.GroupMemberCreateOrConnectWithoutUserInput | Prisma.GroupMemberCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.GroupMemberUpsertWithWhereUniqueWithoutUserInput | Prisma.GroupMemberUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.GroupMemberCreateManyUserInputEnvelope
+  set?: Prisma.GroupMemberWhereUniqueInput | Prisma.GroupMemberWhereUniqueInput[]
+  disconnect?: Prisma.GroupMemberWhereUniqueInput | Prisma.GroupMemberWhereUniqueInput[]
+  delete?: Prisma.GroupMemberWhereUniqueInput | Prisma.GroupMemberWhereUniqueInput[]
+  connect?: Prisma.GroupMemberWhereUniqueInput | Prisma.GroupMemberWhereUniqueInput[]
+  update?: Prisma.GroupMemberUpdateWithWhereUniqueWithoutUserInput | Prisma.GroupMemberUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.GroupMemberUpdateManyWithWhereWithoutUserInput | Prisma.GroupMemberUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.GroupMemberScalarWhereInput | Prisma.GroupMemberScalarWhereInput[]
+}
+
+export type GroupMemberUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.GroupMemberCreateWithoutUserInput, Prisma.GroupMemberUncheckedCreateWithoutUserInput> | Prisma.GroupMemberCreateWithoutUserInput[] | Prisma.GroupMemberUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.GroupMemberCreateOrConnectWithoutUserInput | Prisma.GroupMemberCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.GroupMemberUpsertWithWhereUniqueWithoutUserInput | Prisma.GroupMemberUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.GroupMemberCreateManyUserInputEnvelope
+  set?: Prisma.GroupMemberWhereUniqueInput | Prisma.GroupMemberWhereUniqueInput[]
+  disconnect?: Prisma.GroupMemberWhereUniqueInput | Prisma.GroupMemberWhereUniqueInput[]
+  delete?: Prisma.GroupMemberWhereUniqueInput | Prisma.GroupMemberWhereUniqueInput[]
+  connect?: Prisma.GroupMemberWhereUniqueInput | Prisma.GroupMemberWhereUniqueInput[]
+  update?: Prisma.GroupMemberUpdateWithWhereUniqueWithoutUserInput | Prisma.GroupMemberUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.GroupMemberUpdateManyWithWhereWithoutUserInput | Prisma.GroupMemberUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.GroupMemberScalarWhereInput | Prisma.GroupMemberScalarWhereInput[]
+}
+
 export type GroupMemberCreateNestedManyWithoutGroupInput = {
   create?: Prisma.XOR<Prisma.GroupMemberCreateWithoutGroupInput, Prisma.GroupMemberUncheckedCreateWithoutGroupInput> | Prisma.GroupMemberCreateWithoutGroupInput[] | Prisma.GroupMemberUncheckedCreateWithoutGroupInput[]
   connectOrCreate?: Prisma.GroupMemberCreateOrConnectWithoutGroupInput | Prisma.GroupMemberCreateOrConnectWithoutGroupInput[]
@@ -422,10 +466,60 @@ export type EnumGroupMemberRoleFieldUpdateOperationsInput = {
   set?: $Enums.GroupMemberRole
 }
 
-export type GroupMemberCreateWithoutGroupInput = {
-  userId: number
+export type GroupMemberCreateWithoutUserInput = {
   role?: $Enums.GroupMemberRole
   joinedAt?: Date | string
+  group: Prisma.GroupCreateNestedOneWithoutMembersInput
+}
+
+export type GroupMemberUncheckedCreateWithoutUserInput = {
+  id?: number
+  groupId: number
+  role?: $Enums.GroupMemberRole
+  joinedAt?: Date | string
+}
+
+export type GroupMemberCreateOrConnectWithoutUserInput = {
+  where: Prisma.GroupMemberWhereUniqueInput
+  create: Prisma.XOR<Prisma.GroupMemberCreateWithoutUserInput, Prisma.GroupMemberUncheckedCreateWithoutUserInput>
+}
+
+export type GroupMemberCreateManyUserInputEnvelope = {
+  data: Prisma.GroupMemberCreateManyUserInput | Prisma.GroupMemberCreateManyUserInput[]
+  skipDuplicates?: boolean
+}
+
+export type GroupMemberUpsertWithWhereUniqueWithoutUserInput = {
+  where: Prisma.GroupMemberWhereUniqueInput
+  update: Prisma.XOR<Prisma.GroupMemberUpdateWithoutUserInput, Prisma.GroupMemberUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.GroupMemberCreateWithoutUserInput, Prisma.GroupMemberUncheckedCreateWithoutUserInput>
+}
+
+export type GroupMemberUpdateWithWhereUniqueWithoutUserInput = {
+  where: Prisma.GroupMemberWhereUniqueInput
+  data: Prisma.XOR<Prisma.GroupMemberUpdateWithoutUserInput, Prisma.GroupMemberUncheckedUpdateWithoutUserInput>
+}
+
+export type GroupMemberUpdateManyWithWhereWithoutUserInput = {
+  where: Prisma.GroupMemberScalarWhereInput
+  data: Prisma.XOR<Prisma.GroupMemberUpdateManyMutationInput, Prisma.GroupMemberUncheckedUpdateManyWithoutUserInput>
+}
+
+export type GroupMemberScalarWhereInput = {
+  AND?: Prisma.GroupMemberScalarWhereInput | Prisma.GroupMemberScalarWhereInput[]
+  OR?: Prisma.GroupMemberScalarWhereInput[]
+  NOT?: Prisma.GroupMemberScalarWhereInput | Prisma.GroupMemberScalarWhereInput[]
+  id?: Prisma.IntFilter<"GroupMember"> | number
+  groupId?: Prisma.IntFilter<"GroupMember"> | number
+  userId?: Prisma.IntFilter<"GroupMember"> | number
+  role?: Prisma.EnumGroupMemberRoleFilter<"GroupMember"> | $Enums.GroupMemberRole
+  joinedAt?: Prisma.DateTimeFilter<"GroupMember"> | Date | string
+}
+
+export type GroupMemberCreateWithoutGroupInput = {
+  role?: $Enums.GroupMemberRole
+  joinedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutGroupMembershipsInput
 }
 
 export type GroupMemberUncheckedCreateWithoutGroupInput = {
@@ -461,15 +555,31 @@ export type GroupMemberUpdateManyWithWhereWithoutGroupInput = {
   data: Prisma.XOR<Prisma.GroupMemberUpdateManyMutationInput, Prisma.GroupMemberUncheckedUpdateManyWithoutGroupInput>
 }
 
-export type GroupMemberScalarWhereInput = {
-  AND?: Prisma.GroupMemberScalarWhereInput | Prisma.GroupMemberScalarWhereInput[]
-  OR?: Prisma.GroupMemberScalarWhereInput[]
-  NOT?: Prisma.GroupMemberScalarWhereInput | Prisma.GroupMemberScalarWhereInput[]
-  id?: Prisma.IntFilter<"GroupMember"> | number
-  groupId?: Prisma.IntFilter<"GroupMember"> | number
-  userId?: Prisma.IntFilter<"GroupMember"> | number
-  role?: Prisma.EnumGroupMemberRoleFilter<"GroupMember"> | $Enums.GroupMemberRole
-  joinedAt?: Prisma.DateTimeFilter<"GroupMember"> | Date | string
+export type GroupMemberCreateManyUserInput = {
+  id?: number
+  groupId: number
+  role?: $Enums.GroupMemberRole
+  joinedAt?: Date | string
+}
+
+export type GroupMemberUpdateWithoutUserInput = {
+  role?: Prisma.EnumGroupMemberRoleFieldUpdateOperationsInput | $Enums.GroupMemberRole
+  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  group?: Prisma.GroupUpdateOneRequiredWithoutMembersNestedInput
+}
+
+export type GroupMemberUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  groupId?: Prisma.IntFieldUpdateOperationsInput | number
+  role?: Prisma.EnumGroupMemberRoleFieldUpdateOperationsInput | $Enums.GroupMemberRole
+  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type GroupMemberUncheckedUpdateManyWithoutUserInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  groupId?: Prisma.IntFieldUpdateOperationsInput | number
+  role?: Prisma.EnumGroupMemberRoleFieldUpdateOperationsInput | $Enums.GroupMemberRole
+  joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type GroupMemberCreateManyGroupInput = {
@@ -480,9 +590,9 @@ export type GroupMemberCreateManyGroupInput = {
 }
 
 export type GroupMemberUpdateWithoutGroupInput = {
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
   role?: Prisma.EnumGroupMemberRoleFieldUpdateOperationsInput | $Enums.GroupMemberRole
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutGroupMembershipsNestedInput
 }
 
 export type GroupMemberUncheckedUpdateWithoutGroupInput = {
@@ -508,6 +618,7 @@ export type GroupMemberSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   role?: boolean
   joinedAt?: boolean
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["groupMember"]>
 
 export type GroupMemberSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -517,6 +628,7 @@ export type GroupMemberSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   role?: boolean
   joinedAt?: boolean
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["groupMember"]>
 
 export type GroupMemberSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -526,6 +638,7 @@ export type GroupMemberSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   role?: boolean
   joinedAt?: boolean
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["groupMember"]>
 
 export type GroupMemberSelectScalar = {
@@ -539,18 +652,22 @@ export type GroupMemberSelectScalar = {
 export type GroupMemberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "groupId" | "userId" | "role" | "joinedAt", ExtArgs["result"]["groupMember"]>
 export type GroupMemberInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type GroupMemberIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type GroupMemberIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $GroupMemberPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "GroupMember"
   objects: {
     group: Prisma.$GroupPayload<ExtArgs>
+    user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -953,6 +1070,7 @@ readonly fields: GroupMemberFieldRefs;
 export interface Prisma__GroupMemberClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   group<T extends Prisma.GroupDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GroupDefaultArgs<ExtArgs>>): Prisma.Prisma__GroupClient<runtime.Types.Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

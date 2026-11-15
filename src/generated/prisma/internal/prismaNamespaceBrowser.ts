@@ -140,7 +140,8 @@ export const ReportScalarFieldEnum = {
   rejectionReason: 'rejectionReason',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  authorId: 'authorId'
+  authorId: 'authorId',
+  groupId: 'groupId'
 } as const
 
 export type ReportScalarFieldEnum = (typeof ReportScalarFieldEnum)[keyof typeof ReportScalarFieldEnum]
@@ -189,6 +190,7 @@ export const GroupScalarFieldEnum = {
   name: 'name',
   description: 'description',
   photo: 'photo',
+  visibility: 'visibility',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   creatorId: 'creatorId'

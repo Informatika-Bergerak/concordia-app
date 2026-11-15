@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { requireRole } from "@/lib/auth/guards";
-import { getGroupDetail, getGroupMessages } from "@/modules/group/queries";
+import { getGroupDetail, getGroupMessages, getGroupMembers } from "@/modules/group/queries";
 import { GroupChat } from "@/components/group/group-chat";
 
 type Props = {
@@ -17,7 +17,12 @@ export default async function GroupChatPage({ params }: Props) {
   const group = await getGroupDetail(groupId, user.id);
   if (!group) notFound();
 
-  const messages = await getGroupMessages(groupId, user.id);
+  const [messages, members] = await Promise.all([
+    getGroupMessages(groupId, user.id),
+    getGroupMembers(groupId, user.id),
+  ]);
+  const currentMember = members.find((member) => member.userId === user.id);
+  const canManage = currentMember?.role === "OWNER" || currentMember?.role === "ADMIN";
 
-  return <GroupChat group={group} messages={messages} currentUserId={user.id} />;
+  return <GroupChat group={group} messages={messages} currentUserId={user.id} members={members} canManage={canManage} />;
 }

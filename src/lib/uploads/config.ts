@@ -22,6 +22,7 @@ export const UPLOAD_RULES: Record<
 // Tambah entri baru di sini kalau modul baru butuh upload.
 export const UPLOAD_FOLDERS = {
   avatars: ["image"],
+  groups: ["image"],
   forum: ["image"],
   reports: ["image", "document"],
   activities: ["image", "document"],
