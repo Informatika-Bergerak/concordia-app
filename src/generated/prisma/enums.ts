@@ -71,3 +71,12 @@ export const ReportVisibility = {
 } as const
 
 export type ReportVisibility = (typeof ReportVisibility)[keyof typeof ReportVisibility]
+
+
+export const GroupMemberRole = {
+  OWNER: 'OWNER',
+  ADMIN: 'ADMIN',
+  MEMBER: 'MEMBER'
+} as const
+
+export type GroupMemberRole = (typeof GroupMemberRole)[keyof typeof GroupMemberRole]

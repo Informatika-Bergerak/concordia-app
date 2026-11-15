@@ -57,7 +57,10 @@ export const ModelName = {
   Report: 'Report',
   ReportPhoto: 'ReportPhoto',
   ReportStatusHistory: 'ReportStatusHistory',
-  ReportSupport: 'ReportSupport'
+  ReportSupport: 'ReportSupport',
+  Group: 'Group',
+  GroupMember: 'GroupMember',
+  GroupMessage: 'GroupMessage'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -179,6 +182,43 @@ export const ReportSupportScalarFieldEnum = {
 } as const
 
 export type ReportSupportScalarFieldEnum = (typeof ReportSupportScalarFieldEnum)[keyof typeof ReportSupportScalarFieldEnum]
+
+
+export const GroupScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  photo: 'photo',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  creatorId: 'creatorId'
+} as const
+
+export type GroupScalarFieldEnum = (typeof GroupScalarFieldEnum)[keyof typeof GroupScalarFieldEnum]
+
+
+export const GroupMemberScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  userId: 'userId',
+  role: 'role',
+  joinedAt: 'joinedAt'
+} as const
+
+export type GroupMemberScalarFieldEnum = (typeof GroupMemberScalarFieldEnum)[keyof typeof GroupMemberScalarFieldEnum]
+
+
+export const GroupMessageScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  senderId: 'senderId',
+  content: 'content',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+} as const
+
+export type GroupMessageScalarFieldEnum = (typeof GroupMessageScalarFieldEnum)[keyof typeof GroupMessageScalarFieldEnum]
 
 
 export const SortOrder = {
