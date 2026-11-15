@@ -87,6 +87,22 @@ export function supportBlockReason(
   return null;
 }
 
+/**
+ * Alasan laporan tidak dapat diubah oleh pengguna ini, atau null bila boleh.
+ * Hanya pelapor yang mengubah laporannya (admin tidak). Laporan yang sudah terverifikasi
+ * dikunci agar isi yang telah diverifikasi tidak berubah; laporan yang ditolak boleh
+ * diperbaiki dan akan diajukan ulang.
+ */
+export function editBlockReason(
+  role: ViewerRole,
+  report: { isOwn: boolean; status: ReportStatus },
+): string | null {
+  if (role === "ADMIN") return "Admin tidak mengubah laporan";
+  if (!report.isOwn) return "Hanya pelapor yang dapat mengubah laporan";
+  if (report.status === "VERIFIED") return "Laporan yang sudah terverifikasi tidak dapat diubah";
+  return null;
+}
+
 /** Penolakan wajib disertai alasan agar pelapor tahu penyebabnya. */
 export function requiresNote(to: ReportStatus): boolean {
   return to === "REJECTED";

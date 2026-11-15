@@ -14,5 +14,5 @@ test("MODERATOR hanya memiliki menu moderasi", () => {
 
 test("ADMIN memiliki seluruh tautan staf", () => {
   const links = getStaffSections("ADMIN").flatMap((section) => section.links).map((link) => link.href);
-  expect(links).toEqual(expect.arrayContaining(["/moderator", "/admin", "/admin/users", "/admin/audit-logs"]));
+  expect(links).toEqual(expect.arrayContaining(["/moderator", "/admin", "/admin/laporan", "/admin/users", "/admin/audit-logs"]));
 });

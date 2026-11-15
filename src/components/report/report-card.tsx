@@ -5,6 +5,7 @@ import { formatReportDateShort } from "@/modules/report/format";
 import { supportBlockReason, type ViewerRole } from "@/modules/report/rules";
 import type { ReportItem, ReportVisibility } from "@/modules/report/types";
 import styles from "./report.module.css";
+import { PhotoViewer } from "./photo-viewer";
 import { StatusBadge } from "./status-badge";
 import { SupportButton } from "./support-button";
 
@@ -39,8 +40,12 @@ export function ReportCard({ report, viewerRole }: { report: ReportItem; viewerR
           <p className={styles.desc}>{report.description}</p>
         </div>
         {report.coverImage && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img className={styles.thumb} src={report.coverImage} alt={`Foto laporan ${report.title}`} />
+          <PhotoViewer
+            src={report.coverImage}
+            alt={`Foto laporan ${report.title}`}
+            className={styles.thumb}
+            buttonClassName={styles.thumbBtn}
+          />
         )}
       </div>
 

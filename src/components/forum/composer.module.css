@@ -360,6 +360,7 @@
   to {
     transform: rotate(360deg);
   }
+
 }
 
 .trigger:focus-visible,
@@ -393,7 +394,6 @@
     height: clamp(160px, 52vw, 240px);
     border-radius: 9px;
   }
-
   .photoModal .composerBody {
     gap: 8px;
   }

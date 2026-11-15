@@ -168,11 +168,9 @@ export function MenuContent({ user, onNavigate }: MenuContentProps) {
           <span className={styles.menuItemIcon}>
             <AlertTriangle size={20} />
           </span>
-          <span>
-            <span className={styles.reportTitle}>Report A Problem</span>
-            <span className={styles.reportDescription}>
-              Laporkan Masalah Yang Sedang terjadi.
-            </span>
+          <span className={styles.reportTitle}>Report A Problem</span>
+          <span className={styles.reportDescription}>
+            Laporkan Masalah Yang Sedang terjadi.
           </span>
         </Link>
       </div>
