@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   canChangeStatus,
   canViewReport,
+  editBlockReason,
   canCreateReport,
   requiresNote,
   supportBlockReason,
@@ -14,6 +15,7 @@ import {
   createReportInputSchema,
   reportPhotoSchema,
   supportReportSchema,
+  updateReportInputSchema,
   updateReportStatusSchema,
 } from "../src/modules/report/schemas";
 
@@ -256,5 +258,52 @@ describe("dukungan laporan", () => {
     expect(supportReportSchema.safeParse({ reportId: 3 }).success).toBe(true);
     expect(supportReportSchema.safeParse({ reportId: 0 }).success).toBe(false);
     expect(supportReportSchema.safeParse({ reportId: "3" }).success).toBe(false);
+  });
+});
+
+describe("edit laporan", () => {
+  const own = { isOwn: true, status: "UNVERIFIED" as const };
+
+  it("pelapor boleh mengubah laporan yang belum terverifikasi atau yang ditolak", () => {
+    expect(editBlockReason("USER", own)).toBeNull();
+    expect(editBlockReason("MODERATOR", own)).toBeNull();
+    expect(editBlockReason("USER", { ...own, status: "REJECTED" })).toBeNull();
+  });
+
+  it("laporan yang sudah terverifikasi dikunci", () => {
+    expect(editBlockReason("USER", { ...own, status: "VERIFIED" })).not.toBeNull();
+  });
+
+  it("hanya pelapor yang boleh mengubah, admin tidak", () => {
+    expect(editBlockReason("USER", { ...own, isOwn: false })).not.toBeNull();
+    expect(editBlockReason("MODERATOR", { ...own, isOwn: false })).not.toBeNull();
+    expect(editBlockReason("ADMIN", own)).not.toBeNull();
+  });
+
+  describe("updateReportInputSchema", () => {
+    const base = {
+      reportId: 4,
+      title: "Lampu koridor mati",
+      description: "Lampu di koridor lantai 2 mati sejak kemarin",
+      location: "Gedung A",
+      category: "FASILITAS",
+      occurredAt: "2026-10-11",
+      visibility: "PUBLIC",
+    };
+
+    it("foto boleh tidak dikirim (tetap), null (hapus), atau objek (ganti)", () => {
+      const parsedKeep = updateReportInputSchema.safeParse(base);
+      expect(parsedKeep.success).toBe(true);
+      expect(parsedKeep.success && "photo" in parsedKeep.data && parsedKeep.data.photo).toBeFalsy();
+      expect("photo" in (parsedKeep.success ? parsedKeep.data : {})).toBe(false);
+
+      const parsedRemove = updateReportInputSchema.safeParse({ ...base, photo: null });
+      expect(parsedRemove.success && parsedRemove.data.photo).toBeNull();
+    });
+
+    it("menolak reportId yang tidak valid dan data yang melanggar aturan laporan", () => {
+      expect(updateReportInputSchema.safeParse({ ...base, reportId: 0 }).success).toBe(false);
+      expect(updateReportInputSchema.safeParse({ ...base, title: "abc" }).success).toBe(false);
+    });
   });
 });

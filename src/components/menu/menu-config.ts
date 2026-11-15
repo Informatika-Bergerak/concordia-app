@@ -16,6 +16,7 @@ export function getStaffSections(role: Role): StaffSection[] {
       links: [
         { href: "/admin", label: "Dashboard" },
         ...moderation.links,
+        { href: "/admin/laporan", label: "Verifikasi Laporan" },
         { href: "/admin/users", label: "Kelola Akun" },
         { href: "/admin/audit-logs", label: "Log Aktivitas" },
       ],

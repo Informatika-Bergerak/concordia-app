@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AppShell } from "@/components/app-shell";
+import { PhotoViewer } from "@/components/report/photo-viewer";
 import { ReviewForm } from "@/components/report/review-form";
 import { StatusBadge } from "@/components/report/status-badge";
 import styles from "@/components/report/report.module.css";
@@ -23,8 +24,12 @@ function AdminReportCard({ r }: { r: AdminReportItem }) {
       {r.fromLecturer && <span className={styles.lecturerTag}>Laporan dari dosen</span>}
       <p className={styles.desc}>{r.description}</p>
       {r.coverImage && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img className={styles.adminThumb} src={r.coverImage} alt={`Foto laporan ${r.title}`} />
+        <PhotoViewer
+          src={r.coverImage}
+          alt={`Foto laporan ${r.title}`}
+          className={styles.adminThumb}
+          buttonClassName={styles.thumbBtn}
+        />
       )}
       <div className={styles.adminMeta}>
         <span>{r.location}</span>

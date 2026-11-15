@@ -3,10 +3,12 @@
 import { revalidatePath } from "next/cache";
 import { requireRole } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
-import { canChangeStatus, requiresNote, supportBlockReason } from "./rules";
+import { deleteAsset } from "@/lib/cloudinary/upload";
+import { canChangeStatus, editBlockReason, requiresNote, supportBlockReason } from "./rules";
 import {
   createReportInputSchema,
   supportReportSchema,
+  updateReportInputSchema,
   updateReportStatusSchema,
 } from "./schemas";
 
@@ -173,4 +175,106 @@ export async function toggleSupportAction(
   revalidatePath("/laporan");
   revalidatePath(`/laporan/${reportId}`);
   return { ok: true, supported, count };
+}
+
+// Mengubah laporan milik sendiri. Laporan yang ditolak akan diajukan ulang (kembali Belum
+// Terverifikasi); laporan yang sudah terverifikasi tidak dapat diubah.
+export async function updateReportAction(input: unknown): Promise<ActionResult<{ id: number }>> {
+  const { user } = await requireRole(["USER", "MODERATOR"]);
+
+  const parsed = updateReportInputSchema.safeParse(input);
+  if (!parsed.success) {
+    return {
+      ok: false,
+      error: parsed.error.issues[0].message,
+      fieldErrors: collectFieldErrors(parsed.error.issues),
+    };
+  }
+  const { reportId, photo, occurredAt, ...data } = parsed.data;
+
+  const report = await prisma.report.findUnique({
+    where: { id: reportId },
+    select: {
+      authorId: true,
+      status: true,
+      photos: { select: { publicId: true } },
+    },
+  });
+  if (!report) return { ok: false, error: "Laporan tidak ditemukan" };
+
+  const blocked = editBlockReason(user.role, {
+    isOwn: report.authorId === user.id,
+    status: report.status,
+  });
+  if (blocked) return { ok: false, error: blocked };
+
+  const cloud = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  if (photo && cloud && !photo.url.startsWith(`https://res.cloudinary.com/${cloud}/`)) {
+    return { ok: false, error: "Foto tidak valid" };
+  }
+
+  const resubmit = report.status === "REJECTED";
+
+  try {
+    await prisma.$transaction(async (tx) => {
+      // photo === undefined: foto tidak diubah. null: dihapus. objek: diganti.
+      if (photo !== undefined) {
+        await tx.reportPhoto.deleteMany({ where: { reportId } });
+        if (photo) {
+          await tx.reportPhoto.create({
+            data: {
+              reportId,
+              url: photo.url,
+              publicId: photo.publicId,
+              format: photo.format,
+              bytes: photo.bytes,
+              width: photo.width,
+              height: photo.height,
+            },
+          });
+        }
+      }
+
+      await tx.report.update({
+        where: { id: reportId },
+        data: {
+          ...data,
+          occurredAt: new Date(`${occurredAt}T00:00:00.000Z`),
+          ...(resubmit ? { status: "UNVERIFIED" as const, rejectionReason: null } : {}),
+        },
+      });
+
+      if (resubmit) {
+        await tx.reportStatusHistory.create({
+          data: {
+            reportId,
+            fromStatus: "REJECTED",
+            toStatus: "UNVERIFIED",
+            note: "Laporan diperbarui dan diajukan ulang oleh pelapor",
+            changedById: user.id,
+          },
+        });
+      }
+    });
+  } catch (error) {
+    console.error("[report] Gagal memperbarui laporan:", (error as Error).message);
+    return { ok: false, error: "Gagal menyimpan perubahan, coba lagi" };
+  }
+
+  // Hapus berkas lama di Cloudinary setelah database berhasil diperbarui (upaya terbaik).
+  if (photo !== undefined) {
+    for (const old of report.photos) {
+      if (old.publicId === photo?.publicId) continue;
+      try {
+        await deleteAsset(old.publicId);
+      } catch (error) {
+        console.error("[report] Gagal menghapus foto lama:", (error as Error).message);
+      }
+    }
+  }
+
+  revalidatePath("/laporan");
+  revalidatePath(`/laporan/${reportId}`);
+  revalidatePath("/admin/laporan");
+  return { ok: true, id: reportId };
 }
