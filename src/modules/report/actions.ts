@@ -38,7 +38,14 @@ export async function createReportAction(input: unknown): Promise<ActionResult<{
     };
   }
 
-  const { photo, occurredAt, ...data } = parsed.data;
+  const { photo, occurredAt, groupId, ...data } = parsed.data;
+  let groupData: { groupId: number } | undefined;
+  if (groupId !== undefined) {
+    const group = await prisma.group.findUnique({ where: { id: groupId }, select: { id: true, visibility: true } });
+    const membership = await prisma.groupMember.findUnique({ where: { groupId_userId: { groupId, userId: user.id } }, select: { id: true } });
+    if (!group || !membership) return { ok: false, error: "Grup tidak ditemukan atau kamu bukan anggotanya" };
+    groupData = { groupId: group.id };
+  }
 
   // Bila nama cloud dikonfigurasi, foto harus berasal dari akun Cloudinary kita.
   const cloud = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
@@ -50,6 +57,7 @@ export async function createReportAction(input: unknown): Promise<ActionResult<{
     const report = await prisma.report.create({
       data: {
         ...data,
+        ...groupData,
         occurredAt: new Date(`${occurredAt}T00:00:00.000Z`),
         authorId: user.id,
         photos: photo

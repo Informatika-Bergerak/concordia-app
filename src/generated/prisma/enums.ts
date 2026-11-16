@@ -58,7 +58,8 @@ export const ReportCategory = {
   KEAMANAN: 'KEAMANAN',
   KEHILANGAN: 'KEHILANGAN',
   KEBIJAKAN: 'KEBIJAKAN',
-  LAINNYA: 'LAINNYA'
+  LAINNYA: 'LAINNYA',
+  LAPORAN_GRUP: 'LAPORAN_GRUP'
 } as const
 
 export type ReportCategory = (typeof ReportCategory)[keyof typeof ReportCategory]
@@ -80,3 +81,20 @@ export const ReportVisibility = {
 } as const
 
 export type ReportVisibility = (typeof ReportVisibility)[keyof typeof ReportVisibility]
+
+
+export const GroupMemberRole = {
+  OWNER: 'OWNER',
+  ADMIN: 'ADMIN',
+  MEMBER: 'MEMBER'
+} as const
+
+export type GroupMemberRole = (typeof GroupMemberRole)[keyof typeof GroupMemberRole]
+
+
+export const GroupVisibility = {
+  PUBLIC: 'PUBLIC',
+  PRIVATE: 'PRIVATE'
+} as const
+
+export type GroupVisibility = (typeof GroupVisibility)[keyof typeof GroupVisibility]

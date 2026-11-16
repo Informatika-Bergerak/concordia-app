@@ -64,6 +64,9 @@ export const ModelName = {
   FriendRequest: 'FriendRequest',
   ReportStatusHistory: 'ReportStatusHistory',
   ReportSupport: 'ReportSupport',
+  Group: 'Group',
+  GroupMember: 'GroupMember',
+  GroupMessage: 'GroupMessage',
   AdminNews: 'AdminNews'
 } as const
 
@@ -145,7 +148,8 @@ export const ReportScalarFieldEnum = {
   rejectionReason: 'rejectionReason',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  authorId: 'authorId'
+  authorId: 'authorId',
+  groupId: 'groupId'
 } as const
 
 export type ReportScalarFieldEnum = (typeof ReportScalarFieldEnum)[keyof typeof ReportScalarFieldEnum]
@@ -259,6 +263,44 @@ export const ReportSupportScalarFieldEnum = {
 } as const
 
 export type ReportSupportScalarFieldEnum = (typeof ReportSupportScalarFieldEnum)[keyof typeof ReportSupportScalarFieldEnum]
+
+
+export const GroupScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  photo: 'photo',
+  visibility: 'visibility',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  creatorId: 'creatorId'
+} as const
+
+export type GroupScalarFieldEnum = (typeof GroupScalarFieldEnum)[keyof typeof GroupScalarFieldEnum]
+
+
+export const GroupMemberScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  userId: 'userId',
+  role: 'role',
+  joinedAt: 'joinedAt'
+} as const
+
+export type GroupMemberScalarFieldEnum = (typeof GroupMemberScalarFieldEnum)[keyof typeof GroupMemberScalarFieldEnum]
+
+
+export const GroupMessageScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  senderId: 'senderId',
+  content: 'content',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+} as const
+
+export type GroupMessageScalarFieldEnum = (typeof GroupMessageScalarFieldEnum)[keyof typeof GroupMessageScalarFieldEnum]
 
 
 export const AdminNewsScalarFieldEnum = {

@@ -107,6 +107,21 @@ export type ReportStatusHistory = Prisma.ReportStatusHistoryModel
  */
 export type ReportSupport = Prisma.ReportSupportModel
 /**
+ * Model Group
+ * 
+ */
+export type Group = Prisma.GroupModel
+/**
+ * Model GroupMember
+ * 
+ */
+export type GroupMember = Prisma.GroupMemberModel
+/**
+ * Model GroupMessage
+ * 
+ */
+export type GroupMessage = Prisma.GroupMessageModel
+/**
  * Model AdminNews
  * 
  */

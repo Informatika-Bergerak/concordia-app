@@ -27,7 +27,9 @@ export const UPLOAD_RULES: Record<
 // Tambah entri baru di sini kalau modul baru butuh upload.
 export const UPLOAD_FOLDERS = {
   avatars: ["image"],
-  forum: ["image", "audio"],
+  groups: ["image"],
+  forum: ["image"],
+
   reports: ["image", "document"],
   activities: ["image", "document"],
 } as const satisfies Record<string, readonly UploadKind[]>;

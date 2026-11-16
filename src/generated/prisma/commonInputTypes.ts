@@ -389,6 +389,40 @@ export type EnumReportStatusNullableWithAggregatesFilter<$PrismaModel = never> =
   _max?: Prisma.NestedEnumReportStatusNullableFilter<$PrismaModel>
 }
 
+export type EnumGroupVisibilityFilter<$PrismaModel = never> = {
+  equals?: $Enums.GroupVisibility | Prisma.EnumGroupVisibilityFieldRefInput<$PrismaModel>
+  in?: $Enums.GroupVisibility[] | Prisma.ListEnumGroupVisibilityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.GroupVisibility[] | Prisma.ListEnumGroupVisibilityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumGroupVisibilityFilter<$PrismaModel> | $Enums.GroupVisibility
+}
+
+export type EnumGroupVisibilityWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.GroupVisibility | Prisma.EnumGroupVisibilityFieldRefInput<$PrismaModel>
+  in?: $Enums.GroupVisibility[] | Prisma.ListEnumGroupVisibilityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.GroupVisibility[] | Prisma.ListEnumGroupVisibilityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumGroupVisibilityWithAggregatesFilter<$PrismaModel> | $Enums.GroupVisibility
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumGroupVisibilityFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumGroupVisibilityFilter<$PrismaModel>
+}
+
+export type EnumGroupMemberRoleFilter<$PrismaModel = never> = {
+  equals?: $Enums.GroupMemberRole | Prisma.EnumGroupMemberRoleFieldRefInput<$PrismaModel>
+  in?: $Enums.GroupMemberRole[] | Prisma.ListEnumGroupMemberRoleFieldRefInput<$PrismaModel>
+  notIn?: $Enums.GroupMemberRole[] | Prisma.ListEnumGroupMemberRoleFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumGroupMemberRoleFilter<$PrismaModel> | $Enums.GroupMemberRole
+}
+
+export type EnumGroupMemberRoleWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.GroupMemberRole | Prisma.EnumGroupMemberRoleFieldRefInput<$PrismaModel>
+  in?: $Enums.GroupMemberRole[] | Prisma.ListEnumGroupMemberRoleFieldRefInput<$PrismaModel>
+  notIn?: $Enums.GroupMemberRole[] | Prisma.ListEnumGroupMemberRoleFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumGroupMemberRoleWithAggregatesFilter<$PrismaModel> | $Enums.GroupMemberRole
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumGroupMemberRoleFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumGroupMemberRoleFilter<$PrismaModel>
+}
+
 export type NestedIntFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
   in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
@@ -748,6 +782,40 @@ export type NestedEnumReportStatusNullableWithAggregatesFilter<$PrismaModel = ne
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedEnumReportStatusNullableFilter<$PrismaModel>
   _max?: Prisma.NestedEnumReportStatusNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumGroupVisibilityFilter<$PrismaModel = never> = {
+  equals?: $Enums.GroupVisibility | Prisma.EnumGroupVisibilityFieldRefInput<$PrismaModel>
+  in?: $Enums.GroupVisibility[] | Prisma.ListEnumGroupVisibilityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.GroupVisibility[] | Prisma.ListEnumGroupVisibilityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumGroupVisibilityFilter<$PrismaModel> | $Enums.GroupVisibility
+}
+
+export type NestedEnumGroupVisibilityWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.GroupVisibility | Prisma.EnumGroupVisibilityFieldRefInput<$PrismaModel>
+  in?: $Enums.GroupVisibility[] | Prisma.ListEnumGroupVisibilityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.GroupVisibility[] | Prisma.ListEnumGroupVisibilityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumGroupVisibilityWithAggregatesFilter<$PrismaModel> | $Enums.GroupVisibility
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumGroupVisibilityFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumGroupVisibilityFilter<$PrismaModel>
+}
+
+export type NestedEnumGroupMemberRoleFilter<$PrismaModel = never> = {
+  equals?: $Enums.GroupMemberRole | Prisma.EnumGroupMemberRoleFieldRefInput<$PrismaModel>
+  in?: $Enums.GroupMemberRole[] | Prisma.ListEnumGroupMemberRoleFieldRefInput<$PrismaModel>
+  notIn?: $Enums.GroupMemberRole[] | Prisma.ListEnumGroupMemberRoleFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumGroupMemberRoleFilter<$PrismaModel> | $Enums.GroupMemberRole
+}
+
+export type NestedEnumGroupMemberRoleWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.GroupMemberRole | Prisma.EnumGroupMemberRoleFieldRefInput<$PrismaModel>
+  in?: $Enums.GroupMemberRole[] | Prisma.ListEnumGroupMemberRoleFieldRefInput<$PrismaModel>
+  notIn?: $Enums.GroupMemberRole[] | Prisma.ListEnumGroupMemberRoleFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumGroupMemberRoleWithAggregatesFilter<$PrismaModel> | $Enums.GroupMemberRole
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumGroupMemberRoleFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumGroupMemberRoleFilter<$PrismaModel>
 }
 
 
