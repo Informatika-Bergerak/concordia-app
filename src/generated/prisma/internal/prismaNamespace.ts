@@ -412,7 +412,8 @@ export const ModelName = {
   ReportSupport: 'ReportSupport',
   Group: 'Group',
   GroupMember: 'GroupMember',
-  GroupMessage: 'GroupMessage'
+  GroupMessage: 'GroupMessage',
+  AdminNews: 'AdminNews'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -428,7 +429,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "loginThrottle" | "auditLog" | "report" | "reportPhoto" | "reportStatusHistory" | "reportSupport" | "group" | "groupMember" | "groupMessage"
+    modelProps: "user" | "loginThrottle" | "auditLog" | "report" | "reportPhoto" | "forumPost" | "forumPostImage" | "forumPostAudio" | "forumPostLike" | "forumComment" | "friendRequest" | "reportStatusHistory" | "reportSupport" | "group" | "groupMember" | "groupMessage" | "adminNews"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1616,6 +1617,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    AdminNews: {
+      payload: Prisma.$AdminNewsPayload<ExtArgs>
+      fields: Prisma.AdminNewsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AdminNewsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminNewsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AdminNewsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminNewsPayload>
+        }
+        findFirst: {
+          args: Prisma.AdminNewsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminNewsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AdminNewsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminNewsPayload>
+        }
+        findMany: {
+          args: Prisma.AdminNewsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminNewsPayload>[]
+        }
+        create: {
+          args: Prisma.AdminNewsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminNewsPayload>
+        }
+        createMany: {
+          args: Prisma.AdminNewsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AdminNewsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminNewsPayload>[]
+        }
+        delete: {
+          args: Prisma.AdminNewsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminNewsPayload>
+        }
+        update: {
+          args: Prisma.AdminNewsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminNewsPayload>
+        }
+        deleteMany: {
+          args: Prisma.AdminNewsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AdminNewsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AdminNewsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminNewsPayload>[]
+        }
+        upsert: {
+          args: Prisma.AdminNewsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminNewsPayload>
+        }
+        aggregate: {
+          args: Prisma.AdminNewsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAdminNews>
+        }
+        groupBy: {
+          args: Prisma.AdminNewsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AdminNewsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AdminNewsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AdminNewsCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1872,6 +1947,17 @@ export const GroupMessageScalarFieldEnum = {
 export type GroupMessageScalarFieldEnum = (typeof GroupMessageScalarFieldEnum)[keyof typeof GroupMessageScalarFieldEnum]
 
 
+export const AdminNewsScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  content: 'content',
+  authorId: 'authorId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AdminNewsScalarFieldEnum = (typeof AdminNewsScalarFieldEnum)[keyof typeof AdminNewsScalarFieldEnum]
+
 
 export const SortOrder = {
   asc: 'asc',
@@ -2068,6 +2154,20 @@ export type ListEnumReportVisibilityFieldRefInput<$PrismaModel> = FieldRefInputT
 
 
 /**
+ * Reference to a field of type 'FriendRequestStatus'
+ */
+export type EnumFriendRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FriendRequestStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'FriendRequestStatus[]'
+ */
+export type ListEnumFriendRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FriendRequestStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'GroupVisibility'
  */
 export type EnumGroupVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GroupVisibility'>
@@ -2092,7 +2192,6 @@ export type EnumGroupMemberRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$
  * Reference to a field of type 'GroupMemberRole[]'
  */
 export type ListEnumGroupMemberRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GroupMemberRole[]'>
-
     
 
 
@@ -2276,7 +2375,7 @@ export type GlobalOmitConfig = {
   group?: Prisma.GroupOmit
   groupMember?: Prisma.GroupMemberOmit
   groupMessage?: Prisma.GroupMessageOmit
-
+  adminNews?: Prisma.AdminNewsOmit
 }
 
 /* Types for Logging */

@@ -66,8 +66,8 @@ export const ModelName = {
   ReportSupport: 'ReportSupport',
   Group: 'Group',
   GroupMember: 'GroupMember',
-  GroupMessage: 'GroupMessage'
-
+  GroupMessage: 'GroupMessage',
+  AdminNews: 'AdminNews'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -302,6 +302,17 @@ export const GroupMessageScalarFieldEnum = {
 
 export type GroupMessageScalarFieldEnum = (typeof GroupMessageScalarFieldEnum)[keyof typeof GroupMessageScalarFieldEnum]
 
+
+export const AdminNewsScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  content: 'content',
+  authorId: 'authorId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AdminNewsScalarFieldEnum = (typeof AdminNewsScalarFieldEnum)[keyof typeof AdminNewsScalarFieldEnum]
 
 
 export const SortOrder = {

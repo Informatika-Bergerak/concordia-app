@@ -24,5 +24,5 @@ export type * from './models/ReportSupport'
 export type * from './models/Group'
 export type * from './models/GroupMember'
 export type * from './models/GroupMessage'
-
+export type * from './models/AdminNews'
 export type * from './commonInputTypes'

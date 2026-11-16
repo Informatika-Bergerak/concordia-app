@@ -121,4 +121,8 @@ export type GroupMember = Prisma.GroupMemberModel
  * 
  */
 export type GroupMessage = Prisma.GroupMessageModel
-
+/**
+ * Model AdminNews
+ * 
+ */
+export type AdminNews = Prisma.AdminNewsModel

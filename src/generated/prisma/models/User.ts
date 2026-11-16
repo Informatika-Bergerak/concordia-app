@@ -860,6 +860,48 @@ export type UserUpdateOneRequiredWithoutReportSupportsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReportSupportsInput, Prisma.UserUpdateWithoutReportSupportsInput>, Prisma.UserUncheckedUpdateWithoutReportSupportsInput>
 }
 
+export type UserCreateNestedOneWithoutCreatedGroupsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedGroupsInput, Prisma.UserUncheckedCreateWithoutCreatedGroupsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedGroupsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCreatedGroupsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedGroupsInput, Prisma.UserUncheckedCreateWithoutCreatedGroupsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedGroupsInput
+  upsert?: Prisma.UserUpsertWithoutCreatedGroupsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCreatedGroupsInput, Prisma.UserUpdateWithoutCreatedGroupsInput>, Prisma.UserUncheckedUpdateWithoutCreatedGroupsInput>
+}
+
+export type UserCreateNestedOneWithoutGroupMembershipsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutGroupMembershipsInput, Prisma.UserUncheckedCreateWithoutGroupMembershipsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGroupMembershipsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutGroupMembershipsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutGroupMembershipsInput, Prisma.UserUncheckedCreateWithoutGroupMembershipsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGroupMembershipsInput
+  upsert?: Prisma.UserUpsertWithoutGroupMembershipsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutGroupMembershipsInput, Prisma.UserUpdateWithoutGroupMembershipsInput>, Prisma.UserUncheckedUpdateWithoutGroupMembershipsInput>
+}
+
+export type UserCreateNestedOneWithoutGroupMessagesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutGroupMessagesInput, Prisma.UserUncheckedCreateWithoutGroupMessagesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGroupMessagesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutGroupMessagesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutGroupMessagesInput, Prisma.UserUncheckedCreateWithoutGroupMessagesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGroupMessagesInput
+  upsert?: Prisma.UserUpsertWithoutGroupMessagesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutGroupMessagesInput, Prisma.UserUpdateWithoutGroupMessagesInput>, Prisma.UserUncheckedUpdateWithoutGroupMessagesInput>
+}
+
 export type UserCreateNestedOneWithoutAdminNewsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutAdminNewsInput, Prisma.UserUncheckedCreateWithoutAdminNewsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdminNewsInput
@@ -892,6 +934,9 @@ export type UserCreateWithoutReportsInput = {
   lastSeenAt?: Date | string | null
   activeDevice?: string | null
   reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
@@ -920,6 +965,9 @@ export type UserUncheckedCreateWithoutReportsInput = {
   lastSeenAt?: Date | string | null
   activeDevice?: string | null
   reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
@@ -963,6 +1011,9 @@ export type UserUpdateWithoutReportsInput = {
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
@@ -991,6 +1042,9 @@ export type UserUncheckedUpdateWithoutReportsInput = {
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
@@ -1019,6 +1073,9 @@ export type UserCreateWithoutForumPostsInput = {
   activeDevice?: string | null
   reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
   reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
   forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
@@ -1047,6 +1104,9 @@ export type UserUncheckedCreateWithoutForumPostsInput = {
   activeDevice?: string | null
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
   reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
   forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
@@ -1090,6 +1150,9 @@ export type UserUpdateWithoutForumPostsInput = {
   activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
   reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
   forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
@@ -1118,6 +1181,9 @@ export type UserUncheckedUpdateWithoutForumPostsInput = {
   activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
   reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
   forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
@@ -1145,6 +1211,9 @@ export type UserCreateWithoutForumLikesInput = {
   activeDevice?: string | null
   reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
   reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
   forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
@@ -1173,6 +1242,9 @@ export type UserUncheckedCreateWithoutForumLikesInput = {
   activeDevice?: string | null
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
   reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
   forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
@@ -1216,6 +1288,9 @@ export type UserUpdateWithoutForumLikesInput = {
   activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
   reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
   forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
@@ -1244,6 +1319,9 @@ export type UserUncheckedUpdateWithoutForumLikesInput = {
   activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
   reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
   forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
@@ -1271,6 +1349,9 @@ export type UserCreateWithoutForumCommentsInput = {
   activeDevice?: string | null
   reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
   reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
@@ -1299,6 +1380,9 @@ export type UserUncheckedCreateWithoutForumCommentsInput = {
   activeDevice?: string | null
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
   reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
@@ -1342,6 +1426,9 @@ export type UserUpdateWithoutForumCommentsInput = {
   activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
   reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
@@ -1370,6 +1457,9 @@ export type UserUncheckedUpdateWithoutForumCommentsInput = {
   activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
   reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
@@ -1397,6 +1487,9 @@ export type UserCreateWithoutSentFriendRequestsInput = {
   activeDevice?: string | null
   reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
   reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
@@ -1425,6 +1518,9 @@ export type UserUncheckedCreateWithoutSentFriendRequestsInput = {
   activeDevice?: string | null
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
   reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
@@ -1457,6 +1553,9 @@ export type UserCreateWithoutReceivedFriendRequestsInput = {
   activeDevice?: string | null
   reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
   reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
@@ -1485,6 +1584,9 @@ export type UserUncheckedCreateWithoutReceivedFriendRequestsInput = {
   activeDevice?: string | null
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
   reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
@@ -1528,6 +1630,9 @@ export type UserUpdateWithoutSentFriendRequestsInput = {
   activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
   reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
@@ -1556,6 +1661,9 @@ export type UserUncheckedUpdateWithoutSentFriendRequestsInput = {
   activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
   reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
@@ -1594,6 +1702,9 @@ export type UserUpdateWithoutReceivedFriendRequestsInput = {
   activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
   reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
@@ -1602,50 +1713,38 @@ export type UserUpdateWithoutReceivedFriendRequestsInput = {
   adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
 }
 
-export type UserCreateNestedOneWithoutCreatedGroupsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedGroupsInput, Prisma.UserUncheckedCreateWithoutCreatedGroupsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedGroupsInput
-  connect?: Prisma.UserWhereUniqueInput
+export type UserUncheckedUpdateWithoutReceivedFriendRequestsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
+  statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
+  forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
+  forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
+  adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
-export type UserUpdateOneRequiredWithoutCreatedGroupsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedGroupsInput, Prisma.UserUncheckedCreateWithoutCreatedGroupsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedGroupsInput
-  upsert?: Prisma.UserUpsertWithoutCreatedGroupsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCreatedGroupsInput, Prisma.UserUpdateWithoutCreatedGroupsInput>, Prisma.UserUncheckedUpdateWithoutCreatedGroupsInput>
-}
-
-export type UserCreateNestedOneWithoutGroupMembershipsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutGroupMembershipsInput, Prisma.UserUncheckedCreateWithoutGroupMembershipsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGroupMembershipsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutGroupMembershipsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutGroupMembershipsInput, Prisma.UserUncheckedCreateWithoutGroupMembershipsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGroupMembershipsInput
-  upsert?: Prisma.UserUpsertWithoutGroupMembershipsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutGroupMembershipsInput, Prisma.UserUpdateWithoutGroupMembershipsInput>, Prisma.UserUncheckedUpdateWithoutGroupMembershipsInput>
-}
-
-export type UserCreateNestedOneWithoutGroupMessagesInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutGroupMessagesInput, Prisma.UserUncheckedCreateWithoutGroupMessagesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGroupMessagesInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutGroupMessagesNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutGroupMessagesInput, Prisma.UserUncheckedCreateWithoutGroupMessagesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGroupMessagesInput
-  upsert?: Prisma.UserUpsertWithoutGroupMessagesInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutGroupMessagesInput, Prisma.UserUpdateWithoutGroupMessagesInput>, Prisma.UserUncheckedUpdateWithoutGroupMessagesInput>
-}
-
-export type UserCreateWithoutReportsInput = {
-
+export type UserCreateWithoutStatusChangesInput = {
   username: string
   name: string
   passwordHash: string
@@ -1667,8 +1766,12 @@ export type UserCreateWithoutReportsInput = {
   createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
-  statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
-
+  forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
+  forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
+  forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
+  adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutStatusChangesInput = {
@@ -1694,8 +1797,12 @@ export type UserUncheckedCreateWithoutStatusChangesInput = {
   createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
-  statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
-
+  forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
+  forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
+  forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
+  adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutStatusChangesInput = {
@@ -1736,8 +1843,12 @@ export type UserUpdateWithoutStatusChangesInput = {
   createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
-  statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
-
+  forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
+  forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
+  forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
+  adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStatusChangesInput = {
@@ -1763,8 +1874,12 @@ export type UserUncheckedUpdateWithoutStatusChangesInput = {
   createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
-  statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
-
+  forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
+  forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
+  adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutReportSupportsInput = {
@@ -1785,11 +1900,16 @@ export type UserCreateWithoutReportSupportsInput = {
   lastSeenAt?: Date | string | null
   activeDevice?: string | null
   reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
-  reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
-
+  statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
+  forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
+  forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
+  forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
+  adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
 }
 
 export type UserUncheckedCreateWithoutReportSupportsInput = {
@@ -1811,11 +1931,16 @@ export type UserUncheckedCreateWithoutReportSupportsInput = {
   lastSeenAt?: Date | string | null
   activeDevice?: string | null
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
-  reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
-
+  statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
+  forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
+  forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
+  forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
+  adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
 }
 
 export type UserCreateOrConnectWithoutReportSupportsInput = {
@@ -1852,11 +1977,16 @@ export type UserUpdateWithoutReportSupportsInput = {
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
-  reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
-
+  statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
+  forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
+  forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
+  forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
+  adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReportSupportsInput = {
@@ -1878,11 +2008,430 @@ export type UserUncheckedUpdateWithoutReportSupportsInput = {
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
-  reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
+  statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
+  forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
+  forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
+  adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
+}
 
+export type UserCreateWithoutCreatedGroupsInput = {
+  username: string
+  name: string
+  passwordHash: string
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  fotoProfil?: string | null
+  jurusan?: string | null
+  bio?: string | null
+  trustScore?: number
+  isActive?: boolean
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activeSessionId?: string | null
+  lastSeenAt?: Date | string | null
+  activeDevice?: string | null
+  reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
+  statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
+  forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
+  forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
+  forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
+  adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
+}
+
+export type UserUncheckedCreateWithoutCreatedGroupsInput = {
+  id?: number
+  username: string
+  name: string
+  passwordHash: string
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  fotoProfil?: string | null
+  jurusan?: string | null
+  bio?: string | null
+  trustScore?: number
+  isActive?: boolean
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activeSessionId?: string | null
+  lastSeenAt?: Date | string | null
+  activeDevice?: string | null
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
+  statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
+  forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
+  forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
+  forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
+  adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
+}
+
+export type UserCreateOrConnectWithoutCreatedGroupsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedGroupsInput, Prisma.UserUncheckedCreateWithoutCreatedGroupsInput>
+}
+
+export type UserUpsertWithoutCreatedGroupsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCreatedGroupsInput, Prisma.UserUncheckedUpdateWithoutCreatedGroupsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedGroupsInput, Prisma.UserUncheckedCreateWithoutCreatedGroupsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCreatedGroupsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCreatedGroupsInput, Prisma.UserUncheckedUpdateWithoutCreatedGroupsInput>
+}
+
+export type UserUpdateWithoutCreatedGroupsInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
+  statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
+  forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
+  forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
+  forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
+  adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCreatedGroupsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
+  statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
+  forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
+  forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
+  adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserCreateWithoutGroupMembershipsInput = {
+  username: string
+  name: string
+  passwordHash: string
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  fotoProfil?: string | null
+  jurusan?: string | null
+  bio?: string | null
+  trustScore?: number
+  isActive?: boolean
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activeSessionId?: string | null
+  lastSeenAt?: Date | string | null
+  activeDevice?: string | null
+  reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
+  groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
+  statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
+  forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
+  forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
+  forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
+  adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
+}
+
+export type UserUncheckedCreateWithoutGroupMembershipsInput = {
+  id?: number
+  username: string
+  name: string
+  passwordHash: string
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  fotoProfil?: string | null
+  jurusan?: string | null
+  bio?: string | null
+  trustScore?: number
+  isActive?: boolean
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activeSessionId?: string | null
+  lastSeenAt?: Date | string | null
+  activeDevice?: string | null
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
+  groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
+  statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
+  forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
+  forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
+  forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
+  adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
+}
+
+export type UserCreateOrConnectWithoutGroupMembershipsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutGroupMembershipsInput, Prisma.UserUncheckedCreateWithoutGroupMembershipsInput>
+}
+
+export type UserUpsertWithoutGroupMembershipsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutGroupMembershipsInput, Prisma.UserUncheckedUpdateWithoutGroupMembershipsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutGroupMembershipsInput, Prisma.UserUncheckedCreateWithoutGroupMembershipsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutGroupMembershipsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutGroupMembershipsInput, Prisma.UserUncheckedUpdateWithoutGroupMembershipsInput>
+}
+
+export type UserUpdateWithoutGroupMembershipsInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
+  groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
+  statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
+  forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
+  forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
+  forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
+  adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutGroupMembershipsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
+  groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
+  statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
+  forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
+  forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
+  adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserCreateWithoutGroupMessagesInput = {
+  username: string
+  name: string
+  passwordHash: string
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  fotoProfil?: string | null
+  jurusan?: string | null
+  bio?: string | null
+  trustScore?: number
+  isActive?: boolean
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activeSessionId?: string | null
+  lastSeenAt?: Date | string | null
+  activeDevice?: string | null
+  reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
+  forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
+  forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
+  forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
+  adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
+}
+
+export type UserUncheckedCreateWithoutGroupMessagesInput = {
+  id?: number
+  username: string
+  name: string
+  passwordHash: string
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  fotoProfil?: string | null
+  jurusan?: string | null
+  bio?: string | null
+  trustScore?: number
+  isActive?: boolean
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activeSessionId?: string | null
+  lastSeenAt?: Date | string | null
+  activeDevice?: string | null
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
+  forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
+  forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
+  forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
+  adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
+}
+
+export type UserCreateOrConnectWithoutGroupMessagesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutGroupMessagesInput, Prisma.UserUncheckedCreateWithoutGroupMessagesInput>
+}
+
+export type UserUpsertWithoutGroupMessagesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutGroupMessagesInput, Prisma.UserUncheckedUpdateWithoutGroupMessagesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutGroupMessagesInput, Prisma.UserUncheckedCreateWithoutGroupMessagesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutGroupMessagesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutGroupMessagesInput, Prisma.UserUncheckedUpdateWithoutGroupMessagesInput>
+}
+
+export type UserUpdateWithoutGroupMessagesInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
+  forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
+  forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
+  forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
+  adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutGroupMessagesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
+  forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
+  forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
+  adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
 export type UserCreateWithoutAdminNewsInput = {
@@ -1903,10 +2452,10 @@ export type UserCreateWithoutAdminNewsInput = {
   lastSeenAt?: Date | string | null
   activeDevice?: string | null
   reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
-
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
@@ -1934,10 +2483,10 @@ export type UserUncheckedCreateWithoutAdminNewsInput = {
   lastSeenAt?: Date | string | null
   activeDevice?: string | null
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
-
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
@@ -1980,10 +2529,10 @@ export type UserUpdateWithoutAdminNewsInput = {
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
-
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
@@ -2011,340 +2560,10 @@ export type UserUncheckedUpdateWithoutAdminNewsInput = {
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
-  createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
-  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
-  groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
-  statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
-}
-
-export type UserCreateWithoutCreatedGroupsInput = {
-  username: string
-  name: string
-  passwordHash: string
-  role?: $Enums.Role
-  userType?: $Enums.UserType | null
-  fotoProfil?: string | null
-  jurusan?: string | null
-  trustScore?: number
-  isActive?: boolean
-  mustChangePassword?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  activeSessionId?: string | null
-  lastSeenAt?: Date | string | null
-  activeDevice?: string | null
-  reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
-  reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
-  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
-  groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
-  statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
-}
-
-export type UserUncheckedCreateWithoutCreatedGroupsInput = {
-  id?: number
-  username: string
-  name: string
-  passwordHash: string
-  role?: $Enums.Role
-  userType?: $Enums.UserType | null
-  fotoProfil?: string | null
-  jurusan?: string | null
-  trustScore?: number
-  isActive?: boolean
-  mustChangePassword?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  activeSessionId?: string | null
-  lastSeenAt?: Date | string | null
-  activeDevice?: string | null
-  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
-  reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
-  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
-  groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
-  statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
-}
-
-export type UserCreateOrConnectWithoutCreatedGroupsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedGroupsInput, Prisma.UserUncheckedCreateWithoutCreatedGroupsInput>
-}
-
-export type UserUpsertWithoutCreatedGroupsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutCreatedGroupsInput, Prisma.UserUncheckedUpdateWithoutCreatedGroupsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedGroupsInput, Prisma.UserUncheckedCreateWithoutCreatedGroupsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutCreatedGroupsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutCreatedGroupsInput, Prisma.UserUncheckedUpdateWithoutCreatedGroupsInput>
-}
-
-export type UserUpdateWithoutCreatedGroupsInput = {
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
-  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
-  reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
-  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
-  groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
-  statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
-}
-
-export type UserUncheckedUpdateWithoutCreatedGroupsInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
-  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
-  reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
-  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
-  groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
-  statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
-}
-
-export type UserCreateWithoutGroupMembershipsInput = {
-  username: string
-  name: string
-  passwordHash: string
-  role?: $Enums.Role
-  userType?: $Enums.UserType | null
-  fotoProfil?: string | null
-  jurusan?: string | null
-  trustScore?: number
-  isActive?: boolean
-  mustChangePassword?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  activeSessionId?: string | null
-  lastSeenAt?: Date | string | null
-  activeDevice?: string | null
-  reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
-  reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
-  createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
-  groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
-  statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
-}
-
-export type UserUncheckedCreateWithoutGroupMembershipsInput = {
-  id?: number
-  username: string
-  name: string
-  passwordHash: string
-  role?: $Enums.Role
-  userType?: $Enums.UserType | null
-  fotoProfil?: string | null
-  jurusan?: string | null
-  trustScore?: number
-  isActive?: boolean
-  mustChangePassword?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  activeSessionId?: string | null
-  lastSeenAt?: Date | string | null
-  activeDevice?: string | null
-  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
-  reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
-  createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
-  groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
-  statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
-}
-
-export type UserCreateOrConnectWithoutGroupMembershipsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutGroupMembershipsInput, Prisma.UserUncheckedCreateWithoutGroupMembershipsInput>
-}
-
-export type UserUpsertWithoutGroupMembershipsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutGroupMembershipsInput, Prisma.UserUncheckedUpdateWithoutGroupMembershipsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutGroupMembershipsInput, Prisma.UserUncheckedCreateWithoutGroupMembershipsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutGroupMembershipsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutGroupMembershipsInput, Prisma.UserUncheckedUpdateWithoutGroupMembershipsInput>
-}
-
-export type UserUpdateWithoutGroupMembershipsInput = {
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
-  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
-  reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
-  createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
-  groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
-  statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
-}
-
-export type UserUncheckedUpdateWithoutGroupMembershipsInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
-  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
-  reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
-  createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
-  groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
-  statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
-}
-
-export type UserCreateWithoutGroupMessagesInput = {
-  username: string
-  name: string
-  passwordHash: string
-  role?: $Enums.Role
-  userType?: $Enums.UserType | null
-  fotoProfil?: string | null
-  jurusan?: string | null
-  trustScore?: number
-  isActive?: boolean
-  mustChangePassword?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  activeSessionId?: string | null
-  lastSeenAt?: Date | string | null
-  activeDevice?: string | null
-  reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
-  reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
-  createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
-  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
-  statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
-}
-
-export type UserUncheckedCreateWithoutGroupMessagesInput = {
-  id?: number
-  username: string
-  name: string
-  passwordHash: string
-  role?: $Enums.Role
-  userType?: $Enums.UserType | null
-  fotoProfil?: string | null
-  jurusan?: string | null
-  trustScore?: number
-  isActive?: boolean
-  mustChangePassword?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  activeSessionId?: string | null
-  lastSeenAt?: Date | string | null
-  activeDevice?: string | null
-  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
-  reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
-  createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
-  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
-  statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
-}
-
-export type UserCreateOrConnectWithoutGroupMessagesInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutGroupMessagesInput, Prisma.UserUncheckedCreateWithoutGroupMessagesInput>
-}
-
-export type UserUpsertWithoutGroupMessagesInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutGroupMessagesInput, Prisma.UserUncheckedUpdateWithoutGroupMessagesInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutGroupMessagesInput, Prisma.UserUncheckedCreateWithoutGroupMessagesInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutGroupMessagesInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutGroupMessagesInput, Prisma.UserUncheckedUpdateWithoutGroupMessagesInput>
-}
-
-export type UserUpdateWithoutGroupMessagesInput = {
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
-  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
-  reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
-  createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
-  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
-  statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
-}
-
-export type UserUncheckedUpdateWithoutGroupMessagesInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
-  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
   reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
-
+  groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
