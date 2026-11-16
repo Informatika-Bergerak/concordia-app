@@ -19,7 +19,10 @@ export type FeedPost = {
   text: string;
   tag?: string;
   hasImage: boolean;
+  imageUrl?: string;
+  audioUrl?: string;
   likes: number;
+  likedByViewer?: boolean;
   commentCount: number;
   comments: FeedComment[];
 };

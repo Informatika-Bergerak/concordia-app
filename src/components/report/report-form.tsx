@@ -26,8 +26,6 @@ export type ReportFormInitial = {
   occurredAt: string;
   visibility: ReportVisibility;
   photoUrl: string | null;
-  /** Laporan sebelumnya ditolak; menyimpan akan mengajukannya ulang */
-  resubmit: boolean;
 };
 
 export function ReportForm({ initial }: { initial?: ReportFormInitial }) {
@@ -147,11 +145,6 @@ export function ReportForm({ initial }: { initial?: ReportFormInitial }) {
         </p>
       </div>
 
-      {initial?.resubmit && (
-        <p className={styles.notice} role="status">
-          Laporan ini sebelumnya ditolak. Setelah disimpan, laporan akan diajukan ulang untuk diverifikasi.
-        </p>
-      )}
 
       <div className={styles.field}>
         <label className={styles.label} htmlFor="title">Topik Masalah</label>

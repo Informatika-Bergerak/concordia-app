@@ -18,6 +18,13 @@ function detectMime(b: Buffer): string | null {
 
   if (b.length >= 5 && b.toString("ascii", 0, 5) === "%PDF-") return "application/pdf";
 
+  if (b.length >= 3 && b.toString("ascii", 0, 3) === "ID3") return "audio/mpeg";
+  if (b.length >= 2 && b[0] === 0xff && (b[1] & 0xe0) === 0xe0) return "audio/mpeg";
+  if (b.length >= 12 && b.toString("ascii", 0, 4) === "RIFF" && b.toString("ascii", 8, 12) === "WAVE") return "audio/wav";
+  if (b.length >= 4 && b.toString("ascii", 0, 4) === "OggS") return "audio/ogg";
+  if (b.length >= 8 && b.toString("ascii", 4, 8) === "ftyp") return "audio/mp4";
+  if (b.length >= 4 && b.toString("ascii", 0, 4) === "\u001aEß£") return "audio/webm";
+
   return null;
 }
 

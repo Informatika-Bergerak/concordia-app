@@ -185,8 +185,7 @@ export async function toggleSupportAction(
   return { ok: true, supported, count };
 }
 
-// Mengubah laporan milik sendiri. Laporan yang ditolak akan diajukan ulang (kembali Belum
-// Terverifikasi); laporan yang sudah terverifikasi tidak dapat diubah.
+// Mengubah laporan milik sendiri selama masih Belum Terverifikasi.
 export async function updateReportAction(input: unknown): Promise<ActionResult<{ id: number }>> {
   const { user } = await requireRole(["USER", "MODERATOR"]);
 
@@ -221,10 +220,16 @@ export async function updateReportAction(input: unknown): Promise<ActionResult<{
     return { ok: false, error: "Foto tidak valid" };
   }
 
-  const resubmit = report.status === "REJECTED";
-
   try {
     await prisma.$transaction(async (tx) => {
+      // Pembaruan bersyarat: hanya berhasil bila laporan masih Belum Terverifikasi. Ini
+      // mencegah perubahan yang masuk tepat setelah admin memverifikasi atau menolak.
+      const { count } = await tx.report.updateMany({
+        where: { id: reportId, status: "UNVERIFIED" },
+        data: { ...data, occurredAt: new Date(`${occurredAt}T00:00:00.000Z`) },
+      });
+      if (count === 0) throw new Error("STATUS_CHANGED");
+
       // photo === undefined: foto tidak diubah. null: dihapus. objek: diganti.
       if (photo !== undefined) {
         await tx.reportPhoto.deleteMany({ where: { reportId } });
@@ -242,29 +247,11 @@ export async function updateReportAction(input: unknown): Promise<ActionResult<{
           });
         }
       }
-
-      await tx.report.update({
-        where: { id: reportId },
-        data: {
-          ...data,
-          occurredAt: new Date(`${occurredAt}T00:00:00.000Z`),
-          ...(resubmit ? { status: "UNVERIFIED" as const, rejectionReason: null } : {}),
-        },
-      });
-
-      if (resubmit) {
-        await tx.reportStatusHistory.create({
-          data: {
-            reportId,
-            fromStatus: "REJECTED",
-            toStatus: "UNVERIFIED",
-            note: "Laporan diperbarui dan diajukan ulang oleh pelapor",
-            changedById: user.id,
-          },
-        });
-      }
     });
   } catch (error) {
+    if ((error as Error).message === "STATUS_CHANGED") {
+      return { ok: false, error: "Status laporan sudah berubah, muat ulang halaman" };
+    }
     console.error("[report] Gagal memperbarui laporan:", (error as Error).message);
     return { ok: false, error: "Gagal menyimpan perubahan, coba lagi" };
   }

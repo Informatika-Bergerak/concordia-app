@@ -32,8 +32,10 @@ export const getCurrentUser = cache(async () => {
       userType: true,
       fotoProfil: true,
       jurusan: true,
+      bio: true,
       trustScore: true,
       isActive: true,
+      createdAt: true,
       mustChangePassword: true,
       // Kolom sesi — hanya untuk validasi, tidak dikembalikan ke pemanggil
       activeSessionId: true,
@@ -71,8 +73,10 @@ export const getCurrentUser = cache(async () => {
     userType: user.userType,
     fotoProfil: user.fotoProfil,
     jurusan: user.jurusan,
+    bio: user.bio,
     trustScore: user.trustScore,
     isActive: user.isActive,
+    createdAt: user.createdAt,
     mustChangePassword: user.mustChangePassword,
   };
 });

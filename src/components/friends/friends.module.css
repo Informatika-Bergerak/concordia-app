@@ -1,0 +1,20 @@
+.personList { display: grid; gap: 10px; }
+.person { display: grid; grid-template-columns: 46px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 12px; border-radius: var(--radius-card); background: var(--surface); box-shadow: var(--shadow-card); }
+.avatar { display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; overflow: hidden; border-radius: 50%; background: var(--brand-tint); color: var(--brand-primary); font-size: 15px; font-weight: 800; }
+.avatarImage { width: 100%; height: 100%; object-fit: cover; }
+.copy { min-width: 0; }
+.copy strong, .copy span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.copy strong { color: var(--ink); font-size: 14px; }
+.copy span { margin-top: 3px; color: var(--ink-muted); font-size: 12px; }
+.primaryButton, .secondaryButton { display: inline-flex; align-items: center; justify-content: center; gap: 5px; min-height: 36px; padding: 0 10px; border-radius: var(--radius-btn); font: inherit; font-size: 12px; font-weight: 800; cursor: pointer; }
+.primaryButton { border: 1px solid var(--brand-primary); background: var(--brand-primary); color: #fff; }
+.secondaryButton { border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.primaryButton:hover:not(:disabled) { background: var(--brand-secondary); }
+.secondaryButton:hover:not(:disabled) { border-color: var(--brand-primary); color: var(--brand-primary); }
+.primaryButton:disabled, .secondaryButton:disabled { cursor: wait; opacity: .6; }
+.primaryButton:focus-visible, .secondaryButton:focus-visible { outline: 2px solid var(--brand-primary); outline-offset: 2px; }
+.requestControl, .responseControl { display: flex; align-items: center; justify-content: flex-end; gap: 6px; flex-wrap: wrap; }
+.responseControl { max-width: 190px; }
+.inlineError { flex-basis: 100%; color: var(--danger); font-size: 11px; text-align: right; }
+.resultText { color: var(--success); font-size: 12px; font-weight: 800; }
+@media (max-width: 460px) { .person { grid-template-columns: 40px minmax(0, 1fr); }.avatar { width: 40px; height: 40px; }.requestControl, .responseControl { grid-column: 2; justify-content: flex-start; }.inlineError { text-align: left; } }

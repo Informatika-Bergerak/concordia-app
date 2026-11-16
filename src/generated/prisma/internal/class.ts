@@ -21,6 +21,7 @@ const config: runtime.GetPrismaClientConfig = {
   "engineVersion": "d1b3f377ca835d73fd50954a5e22128b9ebdd6b8",
   "activeProvider": "postgresql",
   "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nenum Role {\n  USER\n  MODERATOR\n  ADMIN\n}\n\nenum UserType {\n  MAHASISWA\n  DOSEN\n}\n\nenum AuditAction {\n  LOGIN_SUCCESS\n  LOGIN_FAILED\n  LOGIN_LOCKED\n  LOGIN_DEVICE_REJECTED\n  LOGOUT\n  PASSWORD_CHANGED\n  PASSWORD_RESET\n  ACCOUNT_CREATED\n  ACCOUNT_ACTIVATED\n  ACCOUNT_DEACTIVATED\n  SESSION_REVOKED\n}\n\nenum ReportCategory {\n  FASILITAS\n  KEBERSIHAN\n  KEAMANAN\n  KEHILANGAN\n  KEBIJAKAN\n  LAINNYA\n  LAPORAN_GRUP\n}\n\nenum ReportStatus {\n  UNVERIFIED\n  VERIFIED\n  REJECTED\n}\n\nenum ReportVisibility {\n  PUBLIC\n  ANONYMOUS\n  PRIVATE\n}\n\nmodel User {\n  id                 Int       @id @default(autoincrement())\n  username           String    @unique\n  name               String\n  passwordHash       String\n  role               Role      @default(USER)\n  userType           UserType?\n  fotoProfil         String?\n  jurusan            String?\n  trustScore         Int       @default(0)\n  isActive           Boolean   @default(true)\n  mustChangePassword Boolean   @default(true)\n  createdAt          DateTime  @default(now())\n  updatedAt          DateTime  @updatedAt\n\n  // Kolom baru untuk fitur single-device session (nullable — tidak memengaruhi data lama)\n  activeSessionId String?\n  lastSeenAt      DateTime?\n  activeDevice    String?\n\n  reports          Report[]\n  reportSupports   ReportSupport[]\n  createdGroups    Group[]               @relation(\"GroupCreator\")\n  groupMemberships GroupMember[]         @relation(\"GroupMembershipUser\")\n  groupMessages    GroupMessage[]        @relation(\"GroupMessageSender\")\n  statusChanges    ReportStatusHistory[] @relation(\"ReportStatusChangedBy\")\n}\n\nmodel LoginThrottle {\n  key         String    @id\n  attempts    Int       @default(0)\n  windowStart DateTime  @default(now())\n  lockedUntil DateTime?\n  updatedAt   DateTime  @updatedAt\n}\n\nmodel AuditLog {\n  id             Int         @id @default(autoincrement())\n  createdAt      DateTime    @default(now())\n  action         AuditAction\n  actorId        Int?\n  actorUsername  String?\n  targetId       Int?\n  targetUsername String?\n  ip             String?\n  userAgent      String?\n  metadata       Json?\n\n  @@index([createdAt])\n  @@index([action])\n  @@index([actorId])\n}\n\n// ── SafeCampus ──────────────────────────────────────────────\n\nmodel Report {\n  id              Int              @id @default(autoincrement())\n  title           String\n  description     String\n  location        String\n  category        ReportCategory\n  status          ReportStatus     @default(UNVERIFIED)\n  visibility      ReportVisibility @default(PUBLIC)\n  occurredAt      DateTime         @db.Date\n  rejectionReason String?\n  createdAt       DateTime         @default(now())\n  updatedAt       DateTime         @updatedAt\n\n  // Identitas pelapor selalu disimpan, termasuk untuk laporan ANONYMOUS,\n  // agar moderator/admin dapat menindaklanjuti penyalahgunaan.\n  // Penyembunyian nama dilakukan pada lapisan query (lihat src/modules/report/rules.ts).\n  authorId Int\n  author   User   @relation(fields: [authorId], references: [id], onDelete: Restrict)\n  groupId  Int?\n  group    Group? @relation(fields: [groupId], references: [id], onDelete: SetNull)\n\n  photos   ReportPhoto[]\n  history  ReportStatusHistory[]\n  supports ReportSupport[]\n\n  @@index([groupId])\n  @@index([authorId])\n  @@index([status])\n  @@index([createdAt])\n}\n\nmodel ReportPhoto {\n  id        Int      @id @default(autoincrement())\n  reportId  Int\n  report    Report   @relation(fields: [reportId], references: [id], onDelete: Cascade)\n  url       String\n  publicId  String   @unique\n  format    String?\n  bytes     Int?\n  width     Int?\n  height    Int?\n  createdAt DateTime @default(now())\n\n  @@index([reportId])\n}\n\nmodel ReportStatusHistory {\n  id          Int           @id @default(autoincrement())\n  reportId    Int\n  report      Report        @relation(fields: [reportId], references: [id], onDelete: Cascade)\n  fromStatus  ReportStatus?\n  toStatus    ReportStatus\n  note        String?\n  changedById Int?\n  changedBy   User?         @relation(\"ReportStatusChangedBy\", fields: [changedById], references: [id], onDelete: SetNull)\n  createdAt   DateTime      @default(now())\n\n  @@index([reportId])\n}\n\n// Dukungan (\"Bantu Laporan\"): satu pengguna hanya boleh mendukung satu laporan satu kali.\nmodel ReportSupport {\n  id        Int      @id @default(autoincrement())\n  reportId  Int\n  report    Report   @relation(fields: [reportId], references: [id], onDelete: Cascade)\n  userId    Int\n  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  createdAt DateTime @default(now())\n\n  @@unique([reportId, userId])\n  @@index([userId])\n}\n\n// ── Grup ─────────────────────────────────────────────────────\n\nenum GroupMemberRole {\n  OWNER\n  ADMIN\n  MEMBER\n}\n\nenum GroupVisibility {\n  PUBLIC\n  PRIVATE\n}\n\nmodel Group {\n  id          Int             @id @default(autoincrement())\n  name        String\n  description String?\n  photo       String?\n  visibility  GroupVisibility @default(PRIVATE)\n  createdAt   DateTime        @default(now())\n  updatedAt   DateTime        @updatedAt\n\n  creatorId Int\n  creator   User @relation(\"GroupCreator\", fields: [creatorId], references: [id], onDelete: Restrict)\n\n  members  GroupMember[]\n  messages GroupMessage[]\n  reports  Report[]\n\n  @@index([creatorId])\n}\n\nmodel GroupMember {\n  id       Int             @id @default(autoincrement())\n  groupId  Int\n  group    Group           @relation(fields: [groupId], references: [id], onDelete: Cascade)\n  userId   Int\n  user     User            @relation(\"GroupMembershipUser\", fields: [userId], references: [id], onDelete: Cascade)\n  role     GroupMemberRole @default(MEMBER)\n  joinedAt DateTime        @default(now())\n\n  @@unique([groupId, userId])\n  @@index([userId])\n}\n\nmodel GroupMessage {\n  id        Int       @id @default(autoincrement())\n  groupId   Int\n  group     Group     @relation(fields: [groupId], references: [id], onDelete: Cascade)\n  senderId  Int\n  sender    User      @relation(\"GroupMessageSender\", fields: [senderId], references: [id], onDelete: Cascade)\n  content   String\n  createdAt DateTime  @default(now())\n  updatedAt DateTime  @default(now()) @updatedAt\n  deletedAt DateTime?\n\n  @@index([groupId, createdAt])\n  @@index([senderId])\n}\n",
+
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -237,6 +238,66 @@ export interface PrismaClient<
     * ```
     */
   get reportPhoto(): Prisma.ReportPhotoDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.forumPost`: Exposes CRUD operations for the **ForumPost** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ForumPosts
+    * const forumPosts = await prisma.forumPost.findMany()
+    * ```
+    */
+  get forumPost(): Prisma.ForumPostDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.forumPostImage`: Exposes CRUD operations for the **ForumPostImage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ForumPostImages
+    * const forumPostImages = await prisma.forumPostImage.findMany()
+    * ```
+    */
+  get forumPostImage(): Prisma.ForumPostImageDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.forumPostAudio`: Exposes CRUD operations for the **ForumPostAudio** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ForumPostAudios
+    * const forumPostAudios = await prisma.forumPostAudio.findMany()
+    * ```
+    */
+  get forumPostAudio(): Prisma.ForumPostAudioDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.forumPostLike`: Exposes CRUD operations for the **ForumPostLike** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ForumPostLikes
+    * const forumPostLikes = await prisma.forumPostLike.findMany()
+    * ```
+    */
+  get forumPostLike(): Prisma.ForumPostLikeDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.forumComment`: Exposes CRUD operations for the **ForumComment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ForumComments
+    * const forumComments = await prisma.forumComment.findMany()
+    * ```
+    */
+  get forumComment(): Prisma.ForumCommentDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.friendRequest`: Exposes CRUD operations for the **FriendRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more FriendRequests
+    * const friendRequests = await prisma.friendRequest.findMany()
+    * ```
+    */
+  get friendRequest(): Prisma.FriendRequestDelegate<ExtArgs, { omit: OmitOpts }>;
 
   /**
    * `prisma.reportStatusHistory`: Exposes CRUD operations for the **ReportStatusHistory** model.

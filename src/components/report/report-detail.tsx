@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CalendarDays, EyeOff, Globe, Info, Lock, MapPin, Pencil, UserRound } from "lucide-react";
+import { CalendarDays, EyeOff, Globe, Lock, MapPin, Pencil, UserRound } from "lucide-react";
 import { CATEGORY_LABELS, VISIBILITY_LABELS } from "@/modules/report/constants";
 import { formatReportDate, formatReportDateTime } from "@/modules/report/format";
 import { editBlockReason, supportBlockReason, type ViewerRole } from "@/modules/report/rules";
@@ -105,13 +105,6 @@ export function ReportDetail({
             ))}
           </ol>
         </section>
-      )}
-
-      {canEdit && report.status === "REJECTED" && (
-        <p className={styles.hint}>
-          <Info size={16} aria-hidden />
-          Perbaiki laporan lalu simpan untuk mengajukannya ulang.
-        </p>
       )}
 
       <div className={styles.formActions}>

@@ -56,11 +56,18 @@ export const ModelName = {
   AuditLog: 'AuditLog',
   Report: 'Report',
   ReportPhoto: 'ReportPhoto',
+  ForumPost: 'ForumPost',
+  ForumPostImage: 'ForumPostImage',
+  ForumPostAudio: 'ForumPostAudio',
+  ForumPostLike: 'ForumPostLike',
+  ForumComment: 'ForumComment',
+  FriendRequest: 'FriendRequest',
   ReportStatusHistory: 'ReportStatusHistory',
   ReportSupport: 'ReportSupport',
   Group: 'Group',
   GroupMember: 'GroupMember',
   GroupMessage: 'GroupMessage'
+
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -88,6 +95,7 @@ export const UserScalarFieldEnum = {
   userType: 'userType',
   fotoProfil: 'fotoProfil',
   jurusan: 'jurusan',
+  bio: 'bio',
   trustScore: 'trustScore',
   isActive: 'isActive',
   mustChangePassword: 'mustChangePassword',
@@ -162,6 +170,78 @@ export const ReportPhotoScalarFieldEnum = {
 export type ReportPhotoScalarFieldEnum = (typeof ReportPhotoScalarFieldEnum)[keyof typeof ReportPhotoScalarFieldEnum]
 
 
+export const ForumPostScalarFieldEnum = {
+  id: 'id',
+  text: 'text',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  authorId: 'authorId'
+} as const
+
+export type ForumPostScalarFieldEnum = (typeof ForumPostScalarFieldEnum)[keyof typeof ForumPostScalarFieldEnum]
+
+
+export const ForumPostImageScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  url: 'url',
+  publicId: 'publicId',
+  format: 'format',
+  bytes: 'bytes',
+  width: 'width',
+  height: 'height',
+  createdAt: 'createdAt'
+} as const
+
+export type ForumPostImageScalarFieldEnum = (typeof ForumPostImageScalarFieldEnum)[keyof typeof ForumPostImageScalarFieldEnum]
+
+
+export const ForumPostAudioScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  url: 'url',
+  publicId: 'publicId',
+  format: 'format',
+  bytes: 'bytes',
+  createdAt: 'createdAt'
+} as const
+
+export type ForumPostAudioScalarFieldEnum = (typeof ForumPostAudioScalarFieldEnum)[keyof typeof ForumPostAudioScalarFieldEnum]
+
+
+export const ForumPostLikeScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type ForumPostLikeScalarFieldEnum = (typeof ForumPostLikeScalarFieldEnum)[keyof typeof ForumPostLikeScalarFieldEnum]
+
+
+export const ForumCommentScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  authorId: 'authorId',
+  text: 'text',
+  createdAt: 'createdAt'
+} as const
+
+export type ForumCommentScalarFieldEnum = (typeof ForumCommentScalarFieldEnum)[keyof typeof ForumCommentScalarFieldEnum]
+
+
+export const FriendRequestScalarFieldEnum = {
+  id: 'id',
+  requesterId: 'requesterId',
+  recipientId: 'recipientId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FriendRequestScalarFieldEnum = (typeof FriendRequestScalarFieldEnum)[keyof typeof FriendRequestScalarFieldEnum]
+
+
 export const ReportStatusHistoryScalarFieldEnum = {
   id: 'id',
   reportId: 'reportId',
@@ -221,6 +301,7 @@ export const GroupMessageScalarFieldEnum = {
 } as const
 
 export type GroupMessageScalarFieldEnum = (typeof GroupMessageScalarFieldEnum)[keyof typeof GroupMessageScalarFieldEnum]
+
 
 
 export const SortOrder = {

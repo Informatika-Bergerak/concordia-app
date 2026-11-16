@@ -18,6 +18,12 @@ enum UserType {
   DOSEN
 }
 
+enum FriendRequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
 enum AuditAction {
   LOGIN_SUCCESS
   LOGIN_FAILED
@@ -63,6 +69,7 @@ model User {
   userType     UserType?
   fotoProfil   String?
   jurusan      String?
+  bio          String?
   trustScore   Int       @default(0)
   isActive           Boolean   @default(true)
   mustChangePassword Boolean   @default(true)
@@ -80,6 +87,12 @@ model User {
   groupMemberships GroupMember[] @relation("GroupMembershipUser")
   groupMessages GroupMessage[] @relation("GroupMessageSender")
   statusChanges ReportStatusHistory[] @relation("ReportStatusChangedBy")
+  forumPosts    ForumPost[]
+  forumLikes    ForumPostLike[]
+  forumComments ForumComment[]
+  sentFriendRequests     FriendRequest[] @relation("FriendRequestRequester")
+  receivedFriendRequests FriendRequest[] @relation("FriendRequestRecipient")
+  adminNews              AdminNews[]
 }
 
 model LoginThrottle {
@@ -153,6 +166,90 @@ model ReportPhoto {
   createdAt DateTime @default(now())
 
   @@index([reportId])
+}
+
+model ForumPost {
+  id          Int       @id @default(autoincrement())
+  text        String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  authorId    Int
+  author      User      @relation(fields: [authorId], references: [id], onDelete: Restrict)
+  images      ForumPostImage[]
+  audios      ForumPostAudio[]
+  likes       ForumPostLike[]
+  comments    ForumComment[]
+
+  @@index([createdAt])
+  @@index([authorId])
+}
+
+model ForumPostImage {
+  id        Int       @id @default(autoincrement())
+  postId    Int
+  post      ForumPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  url       String
+  publicId  String    @unique
+  format    String?
+  bytes     Int?
+  width     Int?
+  height    Int?
+  createdAt DateTime  @default(now())
+
+  @@index([postId])
+}
+
+model ForumPostAudio {
+  id        Int       @id @default(autoincrement())
+  postId    Int
+  post      ForumPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  url       String
+  publicId  String    @unique
+  format    String?
+  bytes     Int?
+  createdAt DateTime  @default(now())
+
+  @@index([postId])
+}
+
+model ForumPostLike {
+  id        Int       @id @default(autoincrement())
+  postId    Int
+  post      ForumPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+
+  @@unique([postId, userId])
+  @@index([userId])
+}
+
+model ForumComment {
+  id        Int       @id @default(autoincrement())
+  postId    Int
+  post      ForumPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorId  Int
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Restrict)
+  text      String
+  createdAt DateTime  @default(now())
+
+  @@index([postId, createdAt])
+  @@index([authorId])
+}
+
+model FriendRequest {
+  id          Int                 @id @default(autoincrement())
+  requesterId Int
+  requester   User                @relation("FriendRequestRequester", fields: [requesterId], references: [id], onDelete: Cascade)
+  recipientId Int
+  recipient   User                @relation("FriendRequestRecipient", fields: [recipientId], references: [id], onDelete: Cascade)
+  status      FriendRequestStatus @default(PENDING)
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  @@unique([requesterId, recipientId])
+  @@index([requesterId, status])
+  @@index([recipientId, status])
 }
 
 model ReportStatusHistory {

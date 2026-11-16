@@ -339,10 +339,28 @@
   width: 42px;
   height: 42px;
   margin-top: 6px;
+  border: none;
   border-radius: 50%;
   background: #c40000;
   color: #fff;
   box-shadow: 0 3px 6px rgba(46, 4, 4, 0.2);
+}
+
+.mediaButton:disabled,
+.send:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.spinner {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+
 }
 
 .trigger:focus-visible,
@@ -376,7 +394,6 @@
     height: clamp(160px, 52vw, 240px);
     border-radius: 9px;
   }
-
   .photoModal .composerBody {
     gap: 8px;
   }

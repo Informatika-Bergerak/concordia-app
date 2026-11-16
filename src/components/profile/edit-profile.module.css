@@ -1,0 +1,40 @@
+.page { width: 100%; color: #393538; }
+.header { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; min-height: 68px; padding: 0 8px; background: #fff; box-shadow: 0 2px 6px rgba(52,39,45,.14); }
+.header h1 { margin: 0; font-size: 22px; }
+.backButton { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: #2e0435; border-radius: 50%; }
+.backButton:hover { background: #f8e6e7; }
+.saveButton { min-width: 153px; min-height: 36px; padding: 0 20px; border: 0; border-radius: 999px; background: #c90008; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+.saveButton:hover:not(:disabled) { background: #a80006; }
+.saveButton:disabled { opacity: .6; cursor: wait; }
+.card { margin: 16px 8px 0; overflow: hidden; background: #fff; border-radius: 15px; box-shadow: 0 2px 8px rgba(52,39,45,.15); }
+.cover { position: relative; height: 195px; margin: 16px 10px 0; border-radius: 15px; background: #e79a9d; }
+.coverUpload { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #fff; cursor: pointer; }
+.coverUpload input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.body { position: relative; padding: 0 24px 36px; }
+.avatar { position: relative; display: flex; align-items: center; justify-content: center; width: 136px; height: 136px; margin-top: -70px; overflow: hidden; border: 3px solid #fff; border-radius: 50%; background: #e79a9d; color: #fff; }
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+.identity { margin-top: 22px; }
+.identity h2 { margin: 0; font-size: 23px; line-height: 1.25; }
+.identity p { margin: 5px 0 0; font-size: 17px; }
+.joined { display: flex; align-items: center; gap: 8px; margin-top: 15px !important; }
+.formSection { display: flex; flex-direction: column; gap: 6px; margin-top: 24px; }
+.formSection h2, .account h2 { margin: 0 0 6px; font-size: 18px; }
+.formSection label { font-size: 15px; font-weight: 700; }
+.formSection input, .formSection textarea { width: 100%; border: 1px solid #393538; border-radius: 10px; background: #fff; color: #393538; font: inherit; font-size: 16px; }
+.formSection input { min-height: 43px; padding: 0 20px; }
+.formSection textarea { min-height: 92px; padding: 12px 20px; resize: vertical; }
+.formSection input:read-only { background: #fafafa; }
+.formSection input:focus-visible, .formSection textarea:focus-visible { outline: 2px solid #c90008; outline-offset: 2px; }
+.error, .notice { margin: 18px 0 0; padding: 10px 12px; border-radius: 8px; font-size: 13px; }
+.error { color: #a80006; background: #ffe8e8; }
+.notice { color: #11642d; background: #e9f8ed; }
+.account { display: flex; flex-direction: column; gap: 12px; margin-top: 30px; }
+.accountLink, .logoutButton { min-height: 48px; padding: 14px 26px; background: #fff; box-shadow: 0 3px 7px rgba(52,39,45,.2); font-size: 15px; font-weight: 700; text-decoration: none; }
+.accountLink { color: #393538; }
+.logoutButton { border: 0; color: #e00000; text-align: left; cursor: pointer; }
+.accountLink:hover, .logoutButton:hover { background: #fff5f5; }
+.backButton:focus-visible, .saveButton:focus-visible, .accountLink:focus-visible, .logoutButton:focus-visible, .coverUpload:focus-within { outline: 3px solid #c90008; outline-offset: 2px; }
+.visuallyHidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+@media (min-width: 768px) { .page { max-width: 640px; margin: 0 auto; } .card { margin-left: 0; margin-right: 0; } .cover { height: 240px; } }
+@media (max-width: 380px) { .header h1 { font-size: 19px; } .saveButton { min-width: 130px; } .body { padding-left: 16px; padding-right: 16px; } }
+@media (prefers-reduced-motion: reduce) { .backButton, .saveButton, .accountLink, .logoutButton { transition: none; } }

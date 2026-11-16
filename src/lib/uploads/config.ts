@@ -1,4 +1,4 @@
-export type UploadKind = "image" | "document";
+export type UploadKind = "image" | "audio" | "document";
 
 export const UPLOAD_RULES: Record<
   UploadKind,
@@ -10,6 +10,11 @@ export const UPLOAD_RULES: Record<
     mimes: ["image/jpeg", "image/png", "image/webp"],
     maxBytes: 4 * 1024 * 1024,
     label: "gambar (JPG, PNG, WEBP)",
+  },
+  audio: {
+    mimes: ["audio/mpeg", "audio/wav", "audio/ogg", "audio/mp4", "audio/webm"],
+    maxBytes: 10 * 1024 * 1024,
+    label: "audio (MP3, WAV, OGG, M4A, WEBM)",
   },
   document: {
     mimes: ["application/pdf"],
@@ -24,6 +29,7 @@ export const UPLOAD_FOLDERS = {
   avatars: ["image"],
   groups: ["image"],
   forum: ["image"],
+
   reports: ["image", "document"],
   activities: ["image", "document"],
 } as const satisfies Record<string, readonly UploadKind[]>;
