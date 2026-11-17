@@ -46,6 +46,9 @@
 .desktopSearch {
   display: none;
 }
+.mobileSearch {
+  display: inline-flex;
+}
 
 .actions {
   display: flex;
@@ -99,10 +102,12 @@
 @media (min-width: 1024px) {
   .row {
     display: grid;
-    grid-template-columns: minmax(260px, 1fr) minmax(320px, 560px) minmax(260px, 1fr);
-    gap: 24px;
+    grid-template-columns: minmax(220px, 1fr) minmax(360px, 680px) minmax(340px, 1fr);
+    gap: 20px;
+    width: min(calc(100% - 48px), 1760px);
     min-height: 60px;
-    padding: 6px 24px;
+    margin: 0 auto;
+    padding: 6px 0;
   }
 
   .menuBtn,
@@ -125,13 +130,18 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    width: min(100%, 320px);
+    width: clamp(180px, 20vw, 300px);
     height: 38px;
     padding: 0 12px;
+    border: 1px solid var(--line);
     border-radius: 999px;
     background: var(--surface-search);
     color: var(--ink-muted);
     font-size: 14px;
+  }
+
+  .mobileSearch {
+    display: none;
   }
 
   .desktopSearchIcon {

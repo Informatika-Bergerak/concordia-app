@@ -39,20 +39,38 @@
 
 .list {
   display: grid;
-  gap: 4px;
+  gap: 8px;
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.personRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
 }
 
 .person {
   display: flex;
   align-items: center;
   gap: 10px;
+  min-width: 0;
   min-height: var(--touch-min);
   color: var(--ink);
   font-size: 14px;
   font-weight: 700;
+}
+
+.person :global([class*="avatar"]) {
+  flex: 0 0 auto;
+}
+
+.personRow :global(button) {
+  min-height: 32px;
+  padding-inline: 9px;
+  font-size: 11px;
 }
 
 .person span {

@@ -16,7 +16,7 @@ export default async function DiSukaiPage() {
       </header>
 
       {posts.length > 0 ? posts.map((post) => (
-        <PostCard key={post.id} post={post} viewerRole={user?.role} />
+        <PostCard key={post.id} post={post} viewerRole={user?.role} viewerId={user?.id} />
       )) : (
         <section className={styles.empty} aria-labelledby="liked-empty-title">
           <span className={styles.emptyIcon} aria-hidden="true"><Heart size={26} /></span>

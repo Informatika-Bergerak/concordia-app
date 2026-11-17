@@ -1,3 +1,4 @@
+import { getDisplayName } from "@/lib/users/display-name";
 import type {
   AdminReportItem,
   ReportDetail,
@@ -26,7 +27,7 @@ export type ReportRow = {
   visibility: ReportVisibility;
   occurredAt: Date;
   authorId: number;
-  author: { name: string };
+  author: { name: string; nickname?: string | null };
   photos: { url: string }[];
   /** Jumlah dukungan, dari `_count: { select: { supports: true } }` */
   _count?: { supports: number };
@@ -50,7 +51,7 @@ export function toReportItem(row: ReportRow, viewerId: number): ReportItem {
     visibility: row.visibility,
     occurredAt: row.occurredAt.toISOString().slice(0, 10),
     coverImage: row.photos[0]?.url ?? null,
-    authorName: row.visibility === "PUBLIC" ? row.author.name : null,
+    authorName: row.visibility === "PUBLIC" ? getDisplayName(row.author.nickname, row.author.name) : null,
     isMine: row.authorId === viewerId,
     supportCount: row._count?.supports ?? 0,
     supportedByMe: (row.supports?.length ?? 0) > 0,
@@ -147,14 +148,14 @@ export function toReportDetail(
 export type AdminReportRow = ReportRow & {
   rejectionReason: string | null;
   createdAt: Date;
-  author: { name: string; username: string; userType: "MAHASISWA" | "DOSEN" | null };
+  author: { name: string; nickname?: string | null; username: string; userType: "MAHASISWA" | "DOSEN" | null };
 };
 
 /** Khusus admin: identitas pelapor selalu disertakan dan laporan dosen ditandai. */
 export function toAdminReportItem(row: AdminReportRow, viewerId: number): AdminReportItem {
   return {
     ...toReportItem(row, viewerId),
-    authorName: row.author.name,
+    authorName: getDisplayName(row.author.nickname, row.author.name),
     authorUsername: row.author.username,
     fromLecturer: row.author.userType === "DOSEN",
     createdAt: row.createdAt.toISOString(),

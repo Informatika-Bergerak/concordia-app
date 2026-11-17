@@ -57,10 +57,15 @@ export const ModelName = {
   Report: 'Report',
   ReportPhoto: 'ReportPhoto',
   ForumPost: 'ForumPost',
+  ForumPostMention: 'ForumPostMention',
+  ForumPoll: 'ForumPoll',
+  ForumPollOption: 'ForumPollOption',
+  ForumPollVote: 'ForumPollVote',
   ForumPostImage: 'ForumPostImage',
   ForumPostAudio: 'ForumPostAudio',
   ForumPostLike: 'ForumPostLike',
   ForumComment: 'ForumComment',
+  ForumCommentMention: 'ForumCommentMention',
   FriendRequest: 'FriendRequest',
   ReportStatusHistory: 'ReportStatusHistory',
   ReportSupport: 'ReportSupport',
@@ -90,6 +95,8 @@ export const UserScalarFieldEnum = {
   id: 'id',
   username: 'username',
   name: 'name',
+  nickname: 'nickname',
+  email: 'email',
   passwordHash: 'passwordHash',
   role: 'role',
   userType: 'userType',
@@ -173,12 +180,63 @@ export type ReportPhotoScalarFieldEnum = (typeof ReportPhotoScalarFieldEnum)[key
 export const ForumPostScalarFieldEnum = {
   id: 'id',
   text: 'text',
+  tag: 'tag',
+  locationLabel: 'locationLabel',
+  locationUrl: 'locationUrl',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  eventTitle: 'eventTitle',
+  eventDate: 'eventDate',
+  eventTime: 'eventTime',
+  eventLocation: 'eventLocation',
+  eventUrl: 'eventUrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   authorId: 'authorId'
 } as const
 
 export type ForumPostScalarFieldEnum = (typeof ForumPostScalarFieldEnum)[keyof typeof ForumPostScalarFieldEnum]
+
+
+export const ForumPostMentionScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type ForumPostMentionScalarFieldEnum = (typeof ForumPostMentionScalarFieldEnum)[keyof typeof ForumPostMentionScalarFieldEnum]
+
+
+export const ForumPollScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  question: 'question',
+  createdAt: 'createdAt'
+} as const
+
+export type ForumPollScalarFieldEnum = (typeof ForumPollScalarFieldEnum)[keyof typeof ForumPollScalarFieldEnum]
+
+
+export const ForumPollOptionScalarFieldEnum = {
+  id: 'id',
+  pollId: 'pollId',
+  text: 'text',
+  createdAt: 'createdAt'
+} as const
+
+export type ForumPollOptionScalarFieldEnum = (typeof ForumPollOptionScalarFieldEnum)[keyof typeof ForumPollOptionScalarFieldEnum]
+
+
+export const ForumPollVoteScalarFieldEnum = {
+  id: 'id',
+  pollId: 'pollId',
+  optionId: 'optionId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type ForumPollVoteScalarFieldEnum = (typeof ForumPollVoteScalarFieldEnum)[keyof typeof ForumPollVoteScalarFieldEnum]
 
 
 export const ForumPostImageScalarFieldEnum = {
@@ -223,11 +281,22 @@ export const ForumCommentScalarFieldEnum = {
   id: 'id',
   postId: 'postId',
   authorId: 'authorId',
+  parentId: 'parentId',
   text: 'text',
   createdAt: 'createdAt'
 } as const
 
 export type ForumCommentScalarFieldEnum = (typeof ForumCommentScalarFieldEnum)[keyof typeof ForumCommentScalarFieldEnum]
+
+
+export const ForumCommentMentionScalarFieldEnum = {
+  id: 'id',
+  commentId: 'commentId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type ForumCommentMentionScalarFieldEnum = (typeof ForumCommentMentionScalarFieldEnum)[keyof typeof ForumCommentMentionScalarFieldEnum]
 
 
 export const FriendRequestScalarFieldEnum = {

@@ -8,6 +8,7 @@ import {
   toReportItem,
 } from "./rules";
 import type { AdminReportItem, ReportDetail, ReportItem, ReportStatus } from "./types";
+import { getDisplayName } from "@/lib/users/display-name";
 
 const listSelect = {
   id: true,
@@ -50,7 +51,7 @@ export async function getReports(): Promise<ReportItem[]> {
       visibility: true,
       occurredAt: true,
       authorId: true,
-      author: { select: { name: true } },
+      author: { select: { name: true, nickname: true } },
       photos: { select: { url: true }, orderBy: { id: "asc" }, take: 1 },
       ...supportSelect(user.id),
     },
@@ -70,7 +71,7 @@ export async function getReportById(id: number): Promise<ReportDetail | null> {
     select: {
       ...listSelect,
       rejectionReason: true,
-      author: { select: { name: true } },
+      author: { select: { name: true, nickname: true } },
       photos: { select: { url: true }, orderBy: { id: "asc" } },
       ...supportSelect(user.id),
       history: {
@@ -104,7 +105,7 @@ export async function getAdminReports(
       ...listSelect,
       rejectionReason: true,
       createdAt: true,
-      author: { select: { name: true, username: true, userType: true } },
+      author: { select: { name: true, nickname: true, username: true, userType: true } },
       _count: { select: { supports: true } },
     },
   });

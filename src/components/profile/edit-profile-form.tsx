@@ -11,7 +11,9 @@ import styles from "./edit-profile.module.css";
 
 type EditProfileUser = {
   name: string;
+  nickname: string | null;
   username: string;
+  email: string | null;
   jurusan: string | null;
   bio: string | null;
   fotoProfil: string | null;
@@ -20,10 +22,11 @@ type EditProfileUser = {
 };
 
 export function EditProfileForm({ user }: { user: EditProfileUser }) {
-  const [name, setName] = useState(user.name);
-  const [jurusan, setJurusan] = useState(user.jurusan ?? "");
+  const [nickname, setNickname] = useState(user.nickname ?? "");
+  const [email, setEmail] = useState(user.email ?? "");
   const [bio, setBio] = useState(user.bio ?? "");
   const [photo, setPhoto] = useState<UploadResult | null>(null);
+  const [committedName, setCommittedName] = useState(user.nickname?.trim() || user.name);
   const [preview, setPreview] = useState(user.fotoProfil);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -64,8 +67,8 @@ export function EditProfileForm({ user }: { user: EditProfileUser }) {
     setNotice(null);
     startTransition(async () => {
       const result = await updateProfileAction({
-        name,
-        jurusan,
+        nickname,
+        email,
         bio,
         fotoProfil: photo?.url,
       });
@@ -73,6 +76,7 @@ export function EditProfileForm({ user }: { user: EditProfileUser }) {
         setError(result.error);
         return;
       }
+      setCommittedName(nickname.trim() || user.name);
       setNotice("Profil berhasil disimpan.");
       window.setTimeout(() => { window.location.href = "/profil"; }, 400);
     });
@@ -101,13 +105,13 @@ export function EditProfileForm({ user }: { user: EditProfileUser }) {
             {preview ? (
               // URL is returned by the validated upload endpoint or existing profile data.
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={preview} alt={`Foto profil ${name}`} />
+              <img src={preview} alt={`Foto profil ${committedName}`} />
             ) : <UserRound size={68} aria-hidden="true" />}
           </div>
 
           <section className={styles.identity} aria-labelledby="edit-profile-name">
-            <h2 id="edit-profile-name">{name || "Nama pengguna"}</h2>
-            <p>{user.userType === "DOSEN" ? "Dosen" : "Mahasiswa"}{jurusan ? ` - ${jurusan}` : ""}</p>
+            <h2 id="edit-profile-name">{committedName || "Nama pengguna"}</h2>
+            <p>{user.userType === "DOSEN" ? "Dosen" : "Mahasiswa"}{user.jurusan ? ` - ${user.jurusan}` : ""}</p>
             <p className={styles.joined}><CalendarDays size={18} aria-hidden="true" /> Joined {new Intl.DateTimeFormat("id-ID", { day: "numeric", month: "long", year: "numeric" }).format(user.createdAt)}</p>
           </section>
 
@@ -119,16 +123,18 @@ export function EditProfileForm({ user }: { user: EditProfileUser }) {
 
           <section className={styles.formSection} aria-labelledby="detail-title">
             <h2 id="detail-title">Detail Pribadi</h2>
+            <label htmlFor="nickname">Nickname</label>
+            <input id="nickname" value={nickname} onChange={(event) => setNickname(event.target.value)} disabled={pending} maxLength={50} placeholder="Nama yang ingin ditampilkan" />
             <label htmlFor="name">Nama Lengkap</label>
-            <input id="name" value={name} onChange={(event) => setName(event.target.value)} disabled={pending} />
-            <label htmlFor="nim">NIM</label>
+            <input id="name" value={user.name} readOnly aria-readonly="true" />
+            <label htmlFor="nim">NPM / NIM</label>
             <input id="nim" value={user.username} readOnly aria-readonly="true" />
             <label htmlFor="status">Status</label>
             <input id="status" value={user.userType === "DOSEN" ? "Dosen" : "Mahasiswa"} readOnly aria-readonly="true" />
             <label htmlFor="jurusan">Jurusan</label>
-            <input id="jurusan" value={jurusan} onChange={(event) => setJurusan(event.target.value)} disabled={pending} />
+            <input id="jurusan" value={user.jurusan ?? "-"} readOnly aria-readonly="true" />
             <label htmlFor="email">Email</label>
-            <input id="email" value={`${user.username}@concordia.local`} readOnly aria-readonly="true" />
+            <input id="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} disabled={pending} maxLength={254} placeholder="nama@email.com" />
           </section>
 
           {error && <p className={styles.error} role="alert">{error}</p>}

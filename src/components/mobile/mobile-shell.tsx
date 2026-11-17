@@ -6,6 +6,7 @@ import { TopBar } from "./top-bar";
 import { MenuContent } from "@/components/menu/menu-content";
 import { RightSidebar } from "./right-sidebar";
 import type { Role, UserType } from "@/generated/prisma/enums";
+import type { FriendPerson } from "@/modules/friends/types";
 import styles from "./mobile-shell.module.css";
 
 type ShellUser = {
@@ -15,11 +16,7 @@ type ShellUser = {
   userType: UserType | null;
 };
 
-type ShellPerson = {
-  id: number;
-  name: string;
-  fotoProfil: string | null;
-};
+type ShellPerson = Pick<FriendPerson, "id" | "name" | "fotoProfil" | "relation">;
 
 type MobileShellProps = {
   user: ShellUser;

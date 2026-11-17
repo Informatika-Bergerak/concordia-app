@@ -13,6 +13,7 @@ import { loginSchema } from "@/lib/validations/auth";
 import { logAudit } from "@/lib/audit/log";
 import { metaFromRequest } from "@/lib/audit/request-meta";
 import { SESSION_IDLE_MINUTES } from "@/lib/auth/session-config";
+import { getDisplayName } from "@/lib/users/display-name";
 
 // Dibedakan dari "password salah" supaya halaman login bisa menampilkan pesan tepat
 class RateLimitedError extends CredentialsSignin {
@@ -130,7 +131,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         return {
           id: String(user.id),
-          name: user.name,
+          name: getDisplayName(user.nickname, user.name),
           username: user.username,
           role: user.role,
           userType: user.userType,

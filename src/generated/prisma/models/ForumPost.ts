@@ -28,17 +28,31 @@ export type AggregateForumPost = {
 
 export type ForumPostAvgAggregateOutputType = {
   id: number | null
+  latitude: number | null
+  longitude: number | null
   authorId: number | null
 }
 
 export type ForumPostSumAggregateOutputType = {
   id: number | null
+  latitude: number | null
+  longitude: number | null
   authorId: number | null
 }
 
 export type ForumPostMinAggregateOutputType = {
   id: number | null
   text: string | null
+  tag: string | null
+  locationLabel: string | null
+  locationUrl: string | null
+  latitude: number | null
+  longitude: number | null
+  eventTitle: string | null
+  eventDate: string | null
+  eventTime: string | null
+  eventLocation: string | null
+  eventUrl: string | null
   createdAt: Date | null
   updatedAt: Date | null
   authorId: number | null
@@ -47,6 +61,16 @@ export type ForumPostMinAggregateOutputType = {
 export type ForumPostMaxAggregateOutputType = {
   id: number | null
   text: string | null
+  tag: string | null
+  locationLabel: string | null
+  locationUrl: string | null
+  latitude: number | null
+  longitude: number | null
+  eventTitle: string | null
+  eventDate: string | null
+  eventTime: string | null
+  eventLocation: string | null
+  eventUrl: string | null
   createdAt: Date | null
   updatedAt: Date | null
   authorId: number | null
@@ -55,6 +79,16 @@ export type ForumPostMaxAggregateOutputType = {
 export type ForumPostCountAggregateOutputType = {
   id: number
   text: number
+  tag: number
+  locationLabel: number
+  locationUrl: number
+  latitude: number
+  longitude: number
+  eventTitle: number
+  eventDate: number
+  eventTime: number
+  eventLocation: number
+  eventUrl: number
   createdAt: number
   updatedAt: number
   authorId: number
@@ -64,17 +98,31 @@ export type ForumPostCountAggregateOutputType = {
 
 export type ForumPostAvgAggregateInputType = {
   id?: true
+  latitude?: true
+  longitude?: true
   authorId?: true
 }
 
 export type ForumPostSumAggregateInputType = {
   id?: true
+  latitude?: true
+  longitude?: true
   authorId?: true
 }
 
 export type ForumPostMinAggregateInputType = {
   id?: true
   text?: true
+  tag?: true
+  locationLabel?: true
+  locationUrl?: true
+  latitude?: true
+  longitude?: true
+  eventTitle?: true
+  eventDate?: true
+  eventTime?: true
+  eventLocation?: true
+  eventUrl?: true
   createdAt?: true
   updatedAt?: true
   authorId?: true
@@ -83,6 +131,16 @@ export type ForumPostMinAggregateInputType = {
 export type ForumPostMaxAggregateInputType = {
   id?: true
   text?: true
+  tag?: true
+  locationLabel?: true
+  locationUrl?: true
+  latitude?: true
+  longitude?: true
+  eventTitle?: true
+  eventDate?: true
+  eventTime?: true
+  eventLocation?: true
+  eventUrl?: true
   createdAt?: true
   updatedAt?: true
   authorId?: true
@@ -91,6 +149,16 @@ export type ForumPostMaxAggregateInputType = {
 export type ForumPostCountAggregateInputType = {
   id?: true
   text?: true
+  tag?: true
+  locationLabel?: true
+  locationUrl?: true
+  latitude?: true
+  longitude?: true
+  eventTitle?: true
+  eventDate?: true
+  eventTime?: true
+  eventLocation?: true
+  eventUrl?: true
   createdAt?: true
   updatedAt?: true
   authorId?: true
@@ -186,6 +254,16 @@ export type ForumPostGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 export type ForumPostGroupByOutputType = {
   id: number
   text: string
+  tag: string | null
+  locationLabel: string | null
+  locationUrl: string | null
+  latitude: number | null
+  longitude: number | null
+  eventTitle: string | null
+  eventDate: string | null
+  eventTime: string | null
+  eventLocation: string | null
+  eventUrl: string | null
   createdAt: Date
   updatedAt: Date
   authorId: number
@@ -217,6 +295,16 @@ export type ForumPostWhereInput = {
   NOT?: Prisma.ForumPostWhereInput | Prisma.ForumPostWhereInput[]
   id?: Prisma.IntFilter<"ForumPost"> | number
   text?: Prisma.StringFilter<"ForumPost"> | string
+  tag?: Prisma.StringNullableFilter<"ForumPost"> | string | null
+  locationLabel?: Prisma.StringNullableFilter<"ForumPost"> | string | null
+  locationUrl?: Prisma.StringNullableFilter<"ForumPost"> | string | null
+  latitude?: Prisma.FloatNullableFilter<"ForumPost"> | number | null
+  longitude?: Prisma.FloatNullableFilter<"ForumPost"> | number | null
+  eventTitle?: Prisma.StringNullableFilter<"ForumPost"> | string | null
+  eventDate?: Prisma.StringNullableFilter<"ForumPost"> | string | null
+  eventTime?: Prisma.StringNullableFilter<"ForumPost"> | string | null
+  eventLocation?: Prisma.StringNullableFilter<"ForumPost"> | string | null
+  eventUrl?: Prisma.StringNullableFilter<"ForumPost"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ForumPost"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ForumPost"> | Date | string
   authorId?: Prisma.IntFilter<"ForumPost"> | number
@@ -225,11 +313,23 @@ export type ForumPostWhereInput = {
   audios?: Prisma.ForumPostAudioListRelationFilter
   likes?: Prisma.ForumPostLikeListRelationFilter
   comments?: Prisma.ForumCommentListRelationFilter
+  mentions?: Prisma.ForumPostMentionListRelationFilter
+  poll?: Prisma.XOR<Prisma.ForumPollNullableScalarRelationFilter, Prisma.ForumPollWhereInput> | null
 }
 
 export type ForumPostOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   text?: Prisma.SortOrder
+  tag?: Prisma.SortOrderInput | Prisma.SortOrder
+  locationLabel?: Prisma.SortOrderInput | Prisma.SortOrder
+  locationUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  latitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  longitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  eventTitle?: Prisma.SortOrderInput | Prisma.SortOrder
+  eventDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  eventTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  eventLocation?: Prisma.SortOrderInput | Prisma.SortOrder
+  eventUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
@@ -238,6 +338,8 @@ export type ForumPostOrderByWithRelationInput = {
   audios?: Prisma.ForumPostAudioOrderByRelationAggregateInput
   likes?: Prisma.ForumPostLikeOrderByRelationAggregateInput
   comments?: Prisma.ForumCommentOrderByRelationAggregateInput
+  mentions?: Prisma.ForumPostMentionOrderByRelationAggregateInput
+  poll?: Prisma.ForumPollOrderByWithRelationInput
 }
 
 export type ForumPostWhereUniqueInput = Prisma.AtLeast<{
@@ -246,6 +348,16 @@ export type ForumPostWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ForumPostWhereInput[]
   NOT?: Prisma.ForumPostWhereInput | Prisma.ForumPostWhereInput[]
   text?: Prisma.StringFilter<"ForumPost"> | string
+  tag?: Prisma.StringNullableFilter<"ForumPost"> | string | null
+  locationLabel?: Prisma.StringNullableFilter<"ForumPost"> | string | null
+  locationUrl?: Prisma.StringNullableFilter<"ForumPost"> | string | null
+  latitude?: Prisma.FloatNullableFilter<"ForumPost"> | number | null
+  longitude?: Prisma.FloatNullableFilter<"ForumPost"> | number | null
+  eventTitle?: Prisma.StringNullableFilter<"ForumPost"> | string | null
+  eventDate?: Prisma.StringNullableFilter<"ForumPost"> | string | null
+  eventTime?: Prisma.StringNullableFilter<"ForumPost"> | string | null
+  eventLocation?: Prisma.StringNullableFilter<"ForumPost"> | string | null
+  eventUrl?: Prisma.StringNullableFilter<"ForumPost"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ForumPost"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ForumPost"> | Date | string
   authorId?: Prisma.IntFilter<"ForumPost"> | number
@@ -254,11 +366,23 @@ export type ForumPostWhereUniqueInput = Prisma.AtLeast<{
   audios?: Prisma.ForumPostAudioListRelationFilter
   likes?: Prisma.ForumPostLikeListRelationFilter
   comments?: Prisma.ForumCommentListRelationFilter
+  mentions?: Prisma.ForumPostMentionListRelationFilter
+  poll?: Prisma.XOR<Prisma.ForumPollNullableScalarRelationFilter, Prisma.ForumPollWhereInput> | null
 }, "id">
 
 export type ForumPostOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   text?: Prisma.SortOrder
+  tag?: Prisma.SortOrderInput | Prisma.SortOrder
+  locationLabel?: Prisma.SortOrderInput | Prisma.SortOrder
+  locationUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  latitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  longitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  eventTitle?: Prisma.SortOrderInput | Prisma.SortOrder
+  eventDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  eventTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  eventLocation?: Prisma.SortOrderInput | Prisma.SortOrder
+  eventUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
@@ -275,6 +399,16 @@ export type ForumPostScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ForumPostScalarWhereWithAggregatesInput | Prisma.ForumPostScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"ForumPost"> | number
   text?: Prisma.StringWithAggregatesFilter<"ForumPost"> | string
+  tag?: Prisma.StringNullableWithAggregatesFilter<"ForumPost"> | string | null
+  locationLabel?: Prisma.StringNullableWithAggregatesFilter<"ForumPost"> | string | null
+  locationUrl?: Prisma.StringNullableWithAggregatesFilter<"ForumPost"> | string | null
+  latitude?: Prisma.FloatNullableWithAggregatesFilter<"ForumPost"> | number | null
+  longitude?: Prisma.FloatNullableWithAggregatesFilter<"ForumPost"> | number | null
+  eventTitle?: Prisma.StringNullableWithAggregatesFilter<"ForumPost"> | string | null
+  eventDate?: Prisma.StringNullableWithAggregatesFilter<"ForumPost"> | string | null
+  eventTime?: Prisma.StringNullableWithAggregatesFilter<"ForumPost"> | string | null
+  eventLocation?: Prisma.StringNullableWithAggregatesFilter<"ForumPost"> | string | null
+  eventUrl?: Prisma.StringNullableWithAggregatesFilter<"ForumPost"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ForumPost"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ForumPost"> | Date | string
   authorId?: Prisma.IntWithAggregatesFilter<"ForumPost"> | number
@@ -282,6 +416,16 @@ export type ForumPostScalarWhereWithAggregatesInput = {
 
 export type ForumPostCreateInput = {
   text: string
+  tag?: string | null
+  locationLabel?: string | null
+  locationUrl?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  eventTitle?: string | null
+  eventDate?: string | null
+  eventTime?: string | null
+  eventLocation?: string | null
+  eventUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   author: Prisma.UserCreateNestedOneWithoutForumPostsInput
@@ -289,11 +433,23 @@ export type ForumPostCreateInput = {
   audios?: Prisma.ForumPostAudioCreateNestedManyWithoutPostInput
   likes?: Prisma.ForumPostLikeCreateNestedManyWithoutPostInput
   comments?: Prisma.ForumCommentCreateNestedManyWithoutPostInput
+  mentions?: Prisma.ForumPostMentionCreateNestedManyWithoutPostInput
+  poll?: Prisma.ForumPollCreateNestedOneWithoutPostInput
 }
 
 export type ForumPostUncheckedCreateInput = {
   id?: number
   text: string
+  tag?: string | null
+  locationLabel?: string | null
+  locationUrl?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  eventTitle?: string | null
+  eventDate?: string | null
+  eventTime?: string | null
+  eventLocation?: string | null
+  eventUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   authorId: number
@@ -301,10 +457,22 @@ export type ForumPostUncheckedCreateInput = {
   audios?: Prisma.ForumPostAudioUncheckedCreateNestedManyWithoutPostInput
   likes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutPostInput
   comments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutPostInput
+  mentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutPostInput
+  poll?: Prisma.ForumPollUncheckedCreateNestedOneWithoutPostInput
 }
 
 export type ForumPostUpdateInput = {
   text?: Prisma.StringFieldUpdateOperationsInput | string
+  tag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  eventTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   author?: Prisma.UserUpdateOneRequiredWithoutForumPostsNestedInput
@@ -312,11 +480,23 @@ export type ForumPostUpdateInput = {
   audios?: Prisma.ForumPostAudioUpdateManyWithoutPostNestedInput
   likes?: Prisma.ForumPostLikeUpdateManyWithoutPostNestedInput
   comments?: Prisma.ForumCommentUpdateManyWithoutPostNestedInput
+  mentions?: Prisma.ForumPostMentionUpdateManyWithoutPostNestedInput
+  poll?: Prisma.ForumPollUpdateOneWithoutPostNestedInput
 }
 
 export type ForumPostUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   text?: Prisma.StringFieldUpdateOperationsInput | string
+  tag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  eventTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -324,11 +504,23 @@ export type ForumPostUncheckedUpdateInput = {
   audios?: Prisma.ForumPostAudioUncheckedUpdateManyWithoutPostNestedInput
   likes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutPostNestedInput
   comments?: Prisma.ForumCommentUncheckedUpdateManyWithoutPostNestedInput
+  mentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutPostNestedInput
+  poll?: Prisma.ForumPollUncheckedUpdateOneWithoutPostNestedInput
 }
 
 export type ForumPostCreateManyInput = {
   id?: number
   text: string
+  tag?: string | null
+  locationLabel?: string | null
+  locationUrl?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  eventTitle?: string | null
+  eventDate?: string | null
+  eventTime?: string | null
+  eventLocation?: string | null
+  eventUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   authorId: number
@@ -336,6 +528,16 @@ export type ForumPostCreateManyInput = {
 
 export type ForumPostUpdateManyMutationInput = {
   text?: Prisma.StringFieldUpdateOperationsInput | string
+  tag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  eventTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -343,6 +545,16 @@ export type ForumPostUpdateManyMutationInput = {
 export type ForumPostUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   text?: Prisma.StringFieldUpdateOperationsInput | string
+  tag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  eventTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -361,6 +573,16 @@ export type ForumPostOrderByRelationAggregateInput = {
 export type ForumPostCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   text?: Prisma.SortOrder
+  tag?: Prisma.SortOrder
+  locationLabel?: Prisma.SortOrder
+  locationUrl?: Prisma.SortOrder
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
+  eventTitle?: Prisma.SortOrder
+  eventDate?: Prisma.SortOrder
+  eventTime?: Prisma.SortOrder
+  eventLocation?: Prisma.SortOrder
+  eventUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
@@ -368,12 +590,24 @@ export type ForumPostCountOrderByAggregateInput = {
 
 export type ForumPostAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
 }
 
 export type ForumPostMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   text?: Prisma.SortOrder
+  tag?: Prisma.SortOrder
+  locationLabel?: Prisma.SortOrder
+  locationUrl?: Prisma.SortOrder
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
+  eventTitle?: Prisma.SortOrder
+  eventDate?: Prisma.SortOrder
+  eventTime?: Prisma.SortOrder
+  eventLocation?: Prisma.SortOrder
+  eventUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
@@ -382,6 +616,16 @@ export type ForumPostMaxOrderByAggregateInput = {
 export type ForumPostMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   text?: Prisma.SortOrder
+  tag?: Prisma.SortOrder
+  locationLabel?: Prisma.SortOrder
+  locationUrl?: Prisma.SortOrder
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
+  eventTitle?: Prisma.SortOrder
+  eventDate?: Prisma.SortOrder
+  eventTime?: Prisma.SortOrder
+  eventLocation?: Prisma.SortOrder
+  eventUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
@@ -389,6 +633,8 @@ export type ForumPostMinOrderByAggregateInput = {
 
 export type ForumPostSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
 }
 
@@ -437,6 +683,42 @@ export type ForumPostUncheckedUpdateManyWithoutAuthorNestedInput = {
   update?: Prisma.ForumPostUpdateWithWhereUniqueWithoutAuthorInput | Prisma.ForumPostUpdateWithWhereUniqueWithoutAuthorInput[]
   updateMany?: Prisma.ForumPostUpdateManyWithWhereWithoutAuthorInput | Prisma.ForumPostUpdateManyWithWhereWithoutAuthorInput[]
   deleteMany?: Prisma.ForumPostScalarWhereInput | Prisma.ForumPostScalarWhereInput[]
+}
+
+export type NullableFloatFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type ForumPostCreateNestedOneWithoutMentionsInput = {
+  create?: Prisma.XOR<Prisma.ForumPostCreateWithoutMentionsInput, Prisma.ForumPostUncheckedCreateWithoutMentionsInput>
+  connectOrCreate?: Prisma.ForumPostCreateOrConnectWithoutMentionsInput
+  connect?: Prisma.ForumPostWhereUniqueInput
+}
+
+export type ForumPostUpdateOneRequiredWithoutMentionsNestedInput = {
+  create?: Prisma.XOR<Prisma.ForumPostCreateWithoutMentionsInput, Prisma.ForumPostUncheckedCreateWithoutMentionsInput>
+  connectOrCreate?: Prisma.ForumPostCreateOrConnectWithoutMentionsInput
+  upsert?: Prisma.ForumPostUpsertWithoutMentionsInput
+  connect?: Prisma.ForumPostWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ForumPostUpdateToOneWithWhereWithoutMentionsInput, Prisma.ForumPostUpdateWithoutMentionsInput>, Prisma.ForumPostUncheckedUpdateWithoutMentionsInput>
+}
+
+export type ForumPostCreateNestedOneWithoutPollInput = {
+  create?: Prisma.XOR<Prisma.ForumPostCreateWithoutPollInput, Prisma.ForumPostUncheckedCreateWithoutPollInput>
+  connectOrCreate?: Prisma.ForumPostCreateOrConnectWithoutPollInput
+  connect?: Prisma.ForumPostWhereUniqueInput
+}
+
+export type ForumPostUpdateOneRequiredWithoutPollNestedInput = {
+  create?: Prisma.XOR<Prisma.ForumPostCreateWithoutPollInput, Prisma.ForumPostUncheckedCreateWithoutPollInput>
+  connectOrCreate?: Prisma.ForumPostCreateOrConnectWithoutPollInput
+  upsert?: Prisma.ForumPostUpsertWithoutPollInput
+  connect?: Prisma.ForumPostWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ForumPostUpdateToOneWithWhereWithoutPollInput, Prisma.ForumPostUpdateWithoutPollInput>, Prisma.ForumPostUncheckedUpdateWithoutPollInput>
 }
 
 export type ForumPostCreateNestedOneWithoutImagesInput = {
@@ -497,23 +779,47 @@ export type ForumPostUpdateOneRequiredWithoutCommentsNestedInput = {
 
 export type ForumPostCreateWithoutAuthorInput = {
   text: string
+  tag?: string | null
+  locationLabel?: string | null
+  locationUrl?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  eventTitle?: string | null
+  eventDate?: string | null
+  eventTime?: string | null
+  eventLocation?: string | null
+  eventUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   images?: Prisma.ForumPostImageCreateNestedManyWithoutPostInput
   audios?: Prisma.ForumPostAudioCreateNestedManyWithoutPostInput
   likes?: Prisma.ForumPostLikeCreateNestedManyWithoutPostInput
   comments?: Prisma.ForumCommentCreateNestedManyWithoutPostInput
+  mentions?: Prisma.ForumPostMentionCreateNestedManyWithoutPostInput
+  poll?: Prisma.ForumPollCreateNestedOneWithoutPostInput
 }
 
 export type ForumPostUncheckedCreateWithoutAuthorInput = {
   id?: number
   text: string
+  tag?: string | null
+  locationLabel?: string | null
+  locationUrl?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  eventTitle?: string | null
+  eventDate?: string | null
+  eventTime?: string | null
+  eventLocation?: string | null
+  eventUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   images?: Prisma.ForumPostImageUncheckedCreateNestedManyWithoutPostInput
   audios?: Prisma.ForumPostAudioUncheckedCreateNestedManyWithoutPostInput
   likes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutPostInput
   comments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutPostInput
+  mentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutPostInput
+  poll?: Prisma.ForumPollUncheckedCreateNestedOneWithoutPostInput
 }
 
 export type ForumPostCreateOrConnectWithoutAuthorInput = {
@@ -548,30 +854,276 @@ export type ForumPostScalarWhereInput = {
   NOT?: Prisma.ForumPostScalarWhereInput | Prisma.ForumPostScalarWhereInput[]
   id?: Prisma.IntFilter<"ForumPost"> | number
   text?: Prisma.StringFilter<"ForumPost"> | string
+  tag?: Prisma.StringNullableFilter<"ForumPost"> | string | null
+  locationLabel?: Prisma.StringNullableFilter<"ForumPost"> | string | null
+  locationUrl?: Prisma.StringNullableFilter<"ForumPost"> | string | null
+  latitude?: Prisma.FloatNullableFilter<"ForumPost"> | number | null
+  longitude?: Prisma.FloatNullableFilter<"ForumPost"> | number | null
+  eventTitle?: Prisma.StringNullableFilter<"ForumPost"> | string | null
+  eventDate?: Prisma.StringNullableFilter<"ForumPost"> | string | null
+  eventTime?: Prisma.StringNullableFilter<"ForumPost"> | string | null
+  eventLocation?: Prisma.StringNullableFilter<"ForumPost"> | string | null
+  eventUrl?: Prisma.StringNullableFilter<"ForumPost"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ForumPost"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ForumPost"> | Date | string
   authorId?: Prisma.IntFilter<"ForumPost"> | number
 }
 
+export type ForumPostCreateWithoutMentionsInput = {
+  text: string
+  tag?: string | null
+  locationLabel?: string | null
+  locationUrl?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  eventTitle?: string | null
+  eventDate?: string | null
+  eventTime?: string | null
+  eventLocation?: string | null
+  eventUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  author: Prisma.UserCreateNestedOneWithoutForumPostsInput
+  images?: Prisma.ForumPostImageCreateNestedManyWithoutPostInput
+  audios?: Prisma.ForumPostAudioCreateNestedManyWithoutPostInput
+  likes?: Prisma.ForumPostLikeCreateNestedManyWithoutPostInput
+  comments?: Prisma.ForumCommentCreateNestedManyWithoutPostInput
+  poll?: Prisma.ForumPollCreateNestedOneWithoutPostInput
+}
+
+export type ForumPostUncheckedCreateWithoutMentionsInput = {
+  id?: number
+  text: string
+  tag?: string | null
+  locationLabel?: string | null
+  locationUrl?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  eventTitle?: string | null
+  eventDate?: string | null
+  eventTime?: string | null
+  eventLocation?: string | null
+  eventUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  authorId: number
+  images?: Prisma.ForumPostImageUncheckedCreateNestedManyWithoutPostInput
+  audios?: Prisma.ForumPostAudioUncheckedCreateNestedManyWithoutPostInput
+  likes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutPostInput
+  comments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutPostInput
+  poll?: Prisma.ForumPollUncheckedCreateNestedOneWithoutPostInput
+}
+
+export type ForumPostCreateOrConnectWithoutMentionsInput = {
+  where: Prisma.ForumPostWhereUniqueInput
+  create: Prisma.XOR<Prisma.ForumPostCreateWithoutMentionsInput, Prisma.ForumPostUncheckedCreateWithoutMentionsInput>
+}
+
+export type ForumPostUpsertWithoutMentionsInput = {
+  update: Prisma.XOR<Prisma.ForumPostUpdateWithoutMentionsInput, Prisma.ForumPostUncheckedUpdateWithoutMentionsInput>
+  create: Prisma.XOR<Prisma.ForumPostCreateWithoutMentionsInput, Prisma.ForumPostUncheckedCreateWithoutMentionsInput>
+  where?: Prisma.ForumPostWhereInput
+}
+
+export type ForumPostUpdateToOneWithWhereWithoutMentionsInput = {
+  where?: Prisma.ForumPostWhereInput
+  data: Prisma.XOR<Prisma.ForumPostUpdateWithoutMentionsInput, Prisma.ForumPostUncheckedUpdateWithoutMentionsInput>
+}
+
+export type ForumPostUpdateWithoutMentionsInput = {
+  text?: Prisma.StringFieldUpdateOperationsInput | string
+  tag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  eventTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  author?: Prisma.UserUpdateOneRequiredWithoutForumPostsNestedInput
+  images?: Prisma.ForumPostImageUpdateManyWithoutPostNestedInput
+  audios?: Prisma.ForumPostAudioUpdateManyWithoutPostNestedInput
+  likes?: Prisma.ForumPostLikeUpdateManyWithoutPostNestedInput
+  comments?: Prisma.ForumCommentUpdateManyWithoutPostNestedInput
+  poll?: Prisma.ForumPollUpdateOneWithoutPostNestedInput
+}
+
+export type ForumPostUncheckedUpdateWithoutMentionsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  text?: Prisma.StringFieldUpdateOperationsInput | string
+  tag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  eventTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  images?: Prisma.ForumPostImageUncheckedUpdateManyWithoutPostNestedInput
+  audios?: Prisma.ForumPostAudioUncheckedUpdateManyWithoutPostNestedInput
+  likes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutPostNestedInput
+  comments?: Prisma.ForumCommentUncheckedUpdateManyWithoutPostNestedInput
+  poll?: Prisma.ForumPollUncheckedUpdateOneWithoutPostNestedInput
+}
+
+export type ForumPostCreateWithoutPollInput = {
+  text: string
+  tag?: string | null
+  locationLabel?: string | null
+  locationUrl?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  eventTitle?: string | null
+  eventDate?: string | null
+  eventTime?: string | null
+  eventLocation?: string | null
+  eventUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  author: Prisma.UserCreateNestedOneWithoutForumPostsInput
+  images?: Prisma.ForumPostImageCreateNestedManyWithoutPostInput
+  audios?: Prisma.ForumPostAudioCreateNestedManyWithoutPostInput
+  likes?: Prisma.ForumPostLikeCreateNestedManyWithoutPostInput
+  comments?: Prisma.ForumCommentCreateNestedManyWithoutPostInput
+  mentions?: Prisma.ForumPostMentionCreateNestedManyWithoutPostInput
+}
+
+export type ForumPostUncheckedCreateWithoutPollInput = {
+  id?: number
+  text: string
+  tag?: string | null
+  locationLabel?: string | null
+  locationUrl?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  eventTitle?: string | null
+  eventDate?: string | null
+  eventTime?: string | null
+  eventLocation?: string | null
+  eventUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  authorId: number
+  images?: Prisma.ForumPostImageUncheckedCreateNestedManyWithoutPostInput
+  audios?: Prisma.ForumPostAudioUncheckedCreateNestedManyWithoutPostInput
+  likes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutPostInput
+  comments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutPostInput
+  mentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutPostInput
+}
+
+export type ForumPostCreateOrConnectWithoutPollInput = {
+  where: Prisma.ForumPostWhereUniqueInput
+  create: Prisma.XOR<Prisma.ForumPostCreateWithoutPollInput, Prisma.ForumPostUncheckedCreateWithoutPollInput>
+}
+
+export type ForumPostUpsertWithoutPollInput = {
+  update: Prisma.XOR<Prisma.ForumPostUpdateWithoutPollInput, Prisma.ForumPostUncheckedUpdateWithoutPollInput>
+  create: Prisma.XOR<Prisma.ForumPostCreateWithoutPollInput, Prisma.ForumPostUncheckedCreateWithoutPollInput>
+  where?: Prisma.ForumPostWhereInput
+}
+
+export type ForumPostUpdateToOneWithWhereWithoutPollInput = {
+  where?: Prisma.ForumPostWhereInput
+  data: Prisma.XOR<Prisma.ForumPostUpdateWithoutPollInput, Prisma.ForumPostUncheckedUpdateWithoutPollInput>
+}
+
+export type ForumPostUpdateWithoutPollInput = {
+  text?: Prisma.StringFieldUpdateOperationsInput | string
+  tag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  eventTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  author?: Prisma.UserUpdateOneRequiredWithoutForumPostsNestedInput
+  images?: Prisma.ForumPostImageUpdateManyWithoutPostNestedInput
+  audios?: Prisma.ForumPostAudioUpdateManyWithoutPostNestedInput
+  likes?: Prisma.ForumPostLikeUpdateManyWithoutPostNestedInput
+  comments?: Prisma.ForumCommentUpdateManyWithoutPostNestedInput
+  mentions?: Prisma.ForumPostMentionUpdateManyWithoutPostNestedInput
+}
+
+export type ForumPostUncheckedUpdateWithoutPollInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  text?: Prisma.StringFieldUpdateOperationsInput | string
+  tag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  eventTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  images?: Prisma.ForumPostImageUncheckedUpdateManyWithoutPostNestedInput
+  audios?: Prisma.ForumPostAudioUncheckedUpdateManyWithoutPostNestedInput
+  likes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutPostNestedInput
+  comments?: Prisma.ForumCommentUncheckedUpdateManyWithoutPostNestedInput
+  mentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutPostNestedInput
+}
+
 export type ForumPostCreateWithoutImagesInput = {
   text: string
+  tag?: string | null
+  locationLabel?: string | null
+  locationUrl?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  eventTitle?: string | null
+  eventDate?: string | null
+  eventTime?: string | null
+  eventLocation?: string | null
+  eventUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   author: Prisma.UserCreateNestedOneWithoutForumPostsInput
   audios?: Prisma.ForumPostAudioCreateNestedManyWithoutPostInput
   likes?: Prisma.ForumPostLikeCreateNestedManyWithoutPostInput
   comments?: Prisma.ForumCommentCreateNestedManyWithoutPostInput
+  mentions?: Prisma.ForumPostMentionCreateNestedManyWithoutPostInput
+  poll?: Prisma.ForumPollCreateNestedOneWithoutPostInput
 }
 
 export type ForumPostUncheckedCreateWithoutImagesInput = {
   id?: number
   text: string
+  tag?: string | null
+  locationLabel?: string | null
+  locationUrl?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  eventTitle?: string | null
+  eventDate?: string | null
+  eventTime?: string | null
+  eventLocation?: string | null
+  eventUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   authorId: number
   audios?: Prisma.ForumPostAudioUncheckedCreateNestedManyWithoutPostInput
   likes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutPostInput
   comments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutPostInput
+  mentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutPostInput
+  poll?: Prisma.ForumPollUncheckedCreateNestedOneWithoutPostInput
 }
 
 export type ForumPostCreateOrConnectWithoutImagesInput = {
@@ -592,44 +1144,92 @@ export type ForumPostUpdateToOneWithWhereWithoutImagesInput = {
 
 export type ForumPostUpdateWithoutImagesInput = {
   text?: Prisma.StringFieldUpdateOperationsInput | string
+  tag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  eventTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   author?: Prisma.UserUpdateOneRequiredWithoutForumPostsNestedInput
   audios?: Prisma.ForumPostAudioUpdateManyWithoutPostNestedInput
   likes?: Prisma.ForumPostLikeUpdateManyWithoutPostNestedInput
   comments?: Prisma.ForumCommentUpdateManyWithoutPostNestedInput
+  mentions?: Prisma.ForumPostMentionUpdateManyWithoutPostNestedInput
+  poll?: Prisma.ForumPollUpdateOneWithoutPostNestedInput
 }
 
 export type ForumPostUncheckedUpdateWithoutImagesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   text?: Prisma.StringFieldUpdateOperationsInput | string
+  tag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  eventTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   audios?: Prisma.ForumPostAudioUncheckedUpdateManyWithoutPostNestedInput
   likes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutPostNestedInput
   comments?: Prisma.ForumCommentUncheckedUpdateManyWithoutPostNestedInput
+  mentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutPostNestedInput
+  poll?: Prisma.ForumPollUncheckedUpdateOneWithoutPostNestedInput
 }
 
 export type ForumPostCreateWithoutAudiosInput = {
   text: string
+  tag?: string | null
+  locationLabel?: string | null
+  locationUrl?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  eventTitle?: string | null
+  eventDate?: string | null
+  eventTime?: string | null
+  eventLocation?: string | null
+  eventUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   author: Prisma.UserCreateNestedOneWithoutForumPostsInput
   images?: Prisma.ForumPostImageCreateNestedManyWithoutPostInput
   likes?: Prisma.ForumPostLikeCreateNestedManyWithoutPostInput
   comments?: Prisma.ForumCommentCreateNestedManyWithoutPostInput
+  mentions?: Prisma.ForumPostMentionCreateNestedManyWithoutPostInput
+  poll?: Prisma.ForumPollCreateNestedOneWithoutPostInput
 }
 
 export type ForumPostUncheckedCreateWithoutAudiosInput = {
   id?: number
   text: string
+  tag?: string | null
+  locationLabel?: string | null
+  locationUrl?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  eventTitle?: string | null
+  eventDate?: string | null
+  eventTime?: string | null
+  eventLocation?: string | null
+  eventUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   authorId: number
   images?: Prisma.ForumPostImageUncheckedCreateNestedManyWithoutPostInput
   likes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutPostInput
   comments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutPostInput
+  mentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutPostInput
+  poll?: Prisma.ForumPollUncheckedCreateNestedOneWithoutPostInput
 }
 
 export type ForumPostCreateOrConnectWithoutAudiosInput = {
@@ -650,44 +1250,92 @@ export type ForumPostUpdateToOneWithWhereWithoutAudiosInput = {
 
 export type ForumPostUpdateWithoutAudiosInput = {
   text?: Prisma.StringFieldUpdateOperationsInput | string
+  tag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  eventTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   author?: Prisma.UserUpdateOneRequiredWithoutForumPostsNestedInput
   images?: Prisma.ForumPostImageUpdateManyWithoutPostNestedInput
   likes?: Prisma.ForumPostLikeUpdateManyWithoutPostNestedInput
   comments?: Prisma.ForumCommentUpdateManyWithoutPostNestedInput
+  mentions?: Prisma.ForumPostMentionUpdateManyWithoutPostNestedInput
+  poll?: Prisma.ForumPollUpdateOneWithoutPostNestedInput
 }
 
 export type ForumPostUncheckedUpdateWithoutAudiosInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   text?: Prisma.StringFieldUpdateOperationsInput | string
+  tag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  eventTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   images?: Prisma.ForumPostImageUncheckedUpdateManyWithoutPostNestedInput
   likes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutPostNestedInput
   comments?: Prisma.ForumCommentUncheckedUpdateManyWithoutPostNestedInput
+  mentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutPostNestedInput
+  poll?: Prisma.ForumPollUncheckedUpdateOneWithoutPostNestedInput
 }
 
 export type ForumPostCreateWithoutLikesInput = {
   text: string
+  tag?: string | null
+  locationLabel?: string | null
+  locationUrl?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  eventTitle?: string | null
+  eventDate?: string | null
+  eventTime?: string | null
+  eventLocation?: string | null
+  eventUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   author: Prisma.UserCreateNestedOneWithoutForumPostsInput
   images?: Prisma.ForumPostImageCreateNestedManyWithoutPostInput
   audios?: Prisma.ForumPostAudioCreateNestedManyWithoutPostInput
   comments?: Prisma.ForumCommentCreateNestedManyWithoutPostInput
+  mentions?: Prisma.ForumPostMentionCreateNestedManyWithoutPostInput
+  poll?: Prisma.ForumPollCreateNestedOneWithoutPostInput
 }
 
 export type ForumPostUncheckedCreateWithoutLikesInput = {
   id?: number
   text: string
+  tag?: string | null
+  locationLabel?: string | null
+  locationUrl?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  eventTitle?: string | null
+  eventDate?: string | null
+  eventTime?: string | null
+  eventLocation?: string | null
+  eventUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   authorId: number
   images?: Prisma.ForumPostImageUncheckedCreateNestedManyWithoutPostInput
   audios?: Prisma.ForumPostAudioUncheckedCreateNestedManyWithoutPostInput
   comments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutPostInput
+  mentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutPostInput
+  poll?: Prisma.ForumPollUncheckedCreateNestedOneWithoutPostInput
 }
 
 export type ForumPostCreateOrConnectWithoutLikesInput = {
@@ -708,44 +1356,92 @@ export type ForumPostUpdateToOneWithWhereWithoutLikesInput = {
 
 export type ForumPostUpdateWithoutLikesInput = {
   text?: Prisma.StringFieldUpdateOperationsInput | string
+  tag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  eventTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   author?: Prisma.UserUpdateOneRequiredWithoutForumPostsNestedInput
   images?: Prisma.ForumPostImageUpdateManyWithoutPostNestedInput
   audios?: Prisma.ForumPostAudioUpdateManyWithoutPostNestedInput
   comments?: Prisma.ForumCommentUpdateManyWithoutPostNestedInput
+  mentions?: Prisma.ForumPostMentionUpdateManyWithoutPostNestedInput
+  poll?: Prisma.ForumPollUpdateOneWithoutPostNestedInput
 }
 
 export type ForumPostUncheckedUpdateWithoutLikesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   text?: Prisma.StringFieldUpdateOperationsInput | string
+  tag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  eventTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   images?: Prisma.ForumPostImageUncheckedUpdateManyWithoutPostNestedInput
   audios?: Prisma.ForumPostAudioUncheckedUpdateManyWithoutPostNestedInput
   comments?: Prisma.ForumCommentUncheckedUpdateManyWithoutPostNestedInput
+  mentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutPostNestedInput
+  poll?: Prisma.ForumPollUncheckedUpdateOneWithoutPostNestedInput
 }
 
 export type ForumPostCreateWithoutCommentsInput = {
   text: string
+  tag?: string | null
+  locationLabel?: string | null
+  locationUrl?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  eventTitle?: string | null
+  eventDate?: string | null
+  eventTime?: string | null
+  eventLocation?: string | null
+  eventUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   author: Prisma.UserCreateNestedOneWithoutForumPostsInput
   images?: Prisma.ForumPostImageCreateNestedManyWithoutPostInput
   audios?: Prisma.ForumPostAudioCreateNestedManyWithoutPostInput
   likes?: Prisma.ForumPostLikeCreateNestedManyWithoutPostInput
+  mentions?: Prisma.ForumPostMentionCreateNestedManyWithoutPostInput
+  poll?: Prisma.ForumPollCreateNestedOneWithoutPostInput
 }
 
 export type ForumPostUncheckedCreateWithoutCommentsInput = {
   id?: number
   text: string
+  tag?: string | null
+  locationLabel?: string | null
+  locationUrl?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  eventTitle?: string | null
+  eventDate?: string | null
+  eventTime?: string | null
+  eventLocation?: string | null
+  eventUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   authorId: number
   images?: Prisma.ForumPostImageUncheckedCreateNestedManyWithoutPostInput
   audios?: Prisma.ForumPostAudioUncheckedCreateNestedManyWithoutPostInput
   likes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutPostInput
+  mentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutPostInput
+  poll?: Prisma.ForumPollUncheckedCreateNestedOneWithoutPostInput
 }
 
 export type ForumPostCreateOrConnectWithoutCommentsInput = {
@@ -766,56 +1462,124 @@ export type ForumPostUpdateToOneWithWhereWithoutCommentsInput = {
 
 export type ForumPostUpdateWithoutCommentsInput = {
   text?: Prisma.StringFieldUpdateOperationsInput | string
+  tag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  eventTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   author?: Prisma.UserUpdateOneRequiredWithoutForumPostsNestedInput
   images?: Prisma.ForumPostImageUpdateManyWithoutPostNestedInput
   audios?: Prisma.ForumPostAudioUpdateManyWithoutPostNestedInput
   likes?: Prisma.ForumPostLikeUpdateManyWithoutPostNestedInput
+  mentions?: Prisma.ForumPostMentionUpdateManyWithoutPostNestedInput
+  poll?: Prisma.ForumPollUpdateOneWithoutPostNestedInput
 }
 
 export type ForumPostUncheckedUpdateWithoutCommentsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   text?: Prisma.StringFieldUpdateOperationsInput | string
+  tag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  eventTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
   images?: Prisma.ForumPostImageUncheckedUpdateManyWithoutPostNestedInput
   audios?: Prisma.ForumPostAudioUncheckedUpdateManyWithoutPostNestedInput
   likes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutPostNestedInput
+  mentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutPostNestedInput
+  poll?: Prisma.ForumPollUncheckedUpdateOneWithoutPostNestedInput
 }
 
 export type ForumPostCreateManyAuthorInput = {
   id?: number
   text: string
+  tag?: string | null
+  locationLabel?: string | null
+  locationUrl?: string | null
+  latitude?: number | null
+  longitude?: number | null
+  eventTitle?: string | null
+  eventDate?: string | null
+  eventTime?: string | null
+  eventLocation?: string | null
+  eventUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type ForumPostUpdateWithoutAuthorInput = {
   text?: Prisma.StringFieldUpdateOperationsInput | string
+  tag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  eventTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.ForumPostImageUpdateManyWithoutPostNestedInput
   audios?: Prisma.ForumPostAudioUpdateManyWithoutPostNestedInput
   likes?: Prisma.ForumPostLikeUpdateManyWithoutPostNestedInput
   comments?: Prisma.ForumCommentUpdateManyWithoutPostNestedInput
+  mentions?: Prisma.ForumPostMentionUpdateManyWithoutPostNestedInput
+  poll?: Prisma.ForumPollUpdateOneWithoutPostNestedInput
 }
 
 export type ForumPostUncheckedUpdateWithoutAuthorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   text?: Prisma.StringFieldUpdateOperationsInput | string
+  tag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  eventTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   images?: Prisma.ForumPostImageUncheckedUpdateManyWithoutPostNestedInput
   audios?: Prisma.ForumPostAudioUncheckedUpdateManyWithoutPostNestedInput
   likes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutPostNestedInput
   comments?: Prisma.ForumCommentUncheckedUpdateManyWithoutPostNestedInput
+  mentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutPostNestedInput
+  poll?: Prisma.ForumPollUncheckedUpdateOneWithoutPostNestedInput
 }
 
 export type ForumPostUncheckedUpdateManyWithoutAuthorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   text?: Prisma.StringFieldUpdateOperationsInput | string
+  tag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  eventTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  eventUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -830,6 +1594,7 @@ export type ForumPostCountOutputType = {
   audios: number
   likes: number
   comments: number
+  mentions: number
 }
 
 export type ForumPostCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -837,6 +1602,7 @@ export type ForumPostCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensi
   audios?: boolean | ForumPostCountOutputTypeCountAudiosArgs
   likes?: boolean | ForumPostCountOutputTypeCountLikesArgs
   comments?: boolean | ForumPostCountOutputTypeCountCommentsArgs
+  mentions?: boolean | ForumPostCountOutputTypeCountMentionsArgs
 }
 
 /**
@@ -877,10 +1643,27 @@ export type ForumPostCountOutputTypeCountCommentsArgs<ExtArgs extends runtime.Ty
   where?: Prisma.ForumCommentWhereInput
 }
 
+/**
+ * ForumPostCountOutputType without action
+ */
+export type ForumPostCountOutputTypeCountMentionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ForumPostMentionWhereInput
+}
+
 
 export type ForumPostSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   text?: boolean
+  tag?: boolean
+  locationLabel?: boolean
+  locationUrl?: boolean
+  latitude?: boolean
+  longitude?: boolean
+  eventTitle?: boolean
+  eventDate?: boolean
+  eventTime?: boolean
+  eventLocation?: boolean
+  eventUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   authorId?: boolean
@@ -889,12 +1672,24 @@ export type ForumPostSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   audios?: boolean | Prisma.ForumPost$audiosArgs<ExtArgs>
   likes?: boolean | Prisma.ForumPost$likesArgs<ExtArgs>
   comments?: boolean | Prisma.ForumPost$commentsArgs<ExtArgs>
+  mentions?: boolean | Prisma.ForumPost$mentionsArgs<ExtArgs>
+  poll?: boolean | Prisma.ForumPost$pollArgs<ExtArgs>
   _count?: boolean | Prisma.ForumPostCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["forumPost"]>
 
 export type ForumPostSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   text?: boolean
+  tag?: boolean
+  locationLabel?: boolean
+  locationUrl?: boolean
+  latitude?: boolean
+  longitude?: boolean
+  eventTitle?: boolean
+  eventDate?: boolean
+  eventTime?: boolean
+  eventLocation?: boolean
+  eventUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   authorId?: boolean
@@ -904,6 +1699,16 @@ export type ForumPostSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type ForumPostSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   text?: boolean
+  tag?: boolean
+  locationLabel?: boolean
+  locationUrl?: boolean
+  latitude?: boolean
+  longitude?: boolean
+  eventTitle?: boolean
+  eventDate?: boolean
+  eventTime?: boolean
+  eventLocation?: boolean
+  eventUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   authorId?: boolean
@@ -913,18 +1718,30 @@ export type ForumPostSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type ForumPostSelectScalar = {
   id?: boolean
   text?: boolean
+  tag?: boolean
+  locationLabel?: boolean
+  locationUrl?: boolean
+  latitude?: boolean
+  longitude?: boolean
+  eventTitle?: boolean
+  eventDate?: boolean
+  eventTime?: boolean
+  eventLocation?: boolean
+  eventUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   authorId?: boolean
 }
 
-export type ForumPostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "text" | "createdAt" | "updatedAt" | "authorId", ExtArgs["result"]["forumPost"]>
+export type ForumPostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "text" | "tag" | "locationLabel" | "locationUrl" | "latitude" | "longitude" | "eventTitle" | "eventDate" | "eventTime" | "eventLocation" | "eventUrl" | "createdAt" | "updatedAt" | "authorId", ExtArgs["result"]["forumPost"]>
 export type ForumPostInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   images?: boolean | Prisma.ForumPost$imagesArgs<ExtArgs>
   audios?: boolean | Prisma.ForumPost$audiosArgs<ExtArgs>
   likes?: boolean | Prisma.ForumPost$likesArgs<ExtArgs>
   comments?: boolean | Prisma.ForumPost$commentsArgs<ExtArgs>
+  mentions?: boolean | Prisma.ForumPost$mentionsArgs<ExtArgs>
+  poll?: boolean | Prisma.ForumPost$pollArgs<ExtArgs>
   _count?: boolean | Prisma.ForumPostCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ForumPostIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -942,10 +1759,22 @@ export type $ForumPostPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     audios: Prisma.$ForumPostAudioPayload<ExtArgs>[]
     likes: Prisma.$ForumPostLikePayload<ExtArgs>[]
     comments: Prisma.$ForumCommentPayload<ExtArgs>[]
+    mentions: Prisma.$ForumPostMentionPayload<ExtArgs>[]
+    poll: Prisma.$ForumPollPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     text: string
+    tag: string | null
+    locationLabel: string | null
+    locationUrl: string | null
+    latitude: number | null
+    longitude: number | null
+    eventTitle: string | null
+    eventDate: string | null
+    eventTime: string | null
+    eventLocation: string | null
+    eventUrl: string | null
     createdAt: Date
     updatedAt: Date
     authorId: number
@@ -1348,6 +2177,8 @@ export interface Prisma__ForumPostClient<T, Null = never, ExtArgs extends runtim
   audios<T extends Prisma.ForumPost$audiosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ForumPost$audiosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ForumPostAudioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   likes<T extends Prisma.ForumPost$likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ForumPost$likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ForumPostLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   comments<T extends Prisma.ForumPost$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ForumPost$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ForumCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  mentions<T extends Prisma.ForumPost$mentionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ForumPost$mentionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ForumPostMentionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  poll<T extends Prisma.ForumPost$pollArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ForumPost$pollArgs<ExtArgs>>): Prisma.Prisma__ForumPollClient<runtime.Types.Result.GetResult<Prisma.$ForumPollPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1379,6 +2210,16 @@ export interface Prisma__ForumPostClient<T, Null = never, ExtArgs extends runtim
 export interface ForumPostFieldRefs {
   readonly id: Prisma.FieldRef<"ForumPost", 'Int'>
   readonly text: Prisma.FieldRef<"ForumPost", 'String'>
+  readonly tag: Prisma.FieldRef<"ForumPost", 'String'>
+  readonly locationLabel: Prisma.FieldRef<"ForumPost", 'String'>
+  readonly locationUrl: Prisma.FieldRef<"ForumPost", 'String'>
+  readonly latitude: Prisma.FieldRef<"ForumPost", 'Float'>
+  readonly longitude: Prisma.FieldRef<"ForumPost", 'Float'>
+  readonly eventTitle: Prisma.FieldRef<"ForumPost", 'String'>
+  readonly eventDate: Prisma.FieldRef<"ForumPost", 'String'>
+  readonly eventTime: Prisma.FieldRef<"ForumPost", 'String'>
+  readonly eventLocation: Prisma.FieldRef<"ForumPost", 'String'>
+  readonly eventUrl: Prisma.FieldRef<"ForumPost", 'String'>
   readonly createdAt: Prisma.FieldRef<"ForumPost", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ForumPost", 'DateTime'>
   readonly authorId: Prisma.FieldRef<"ForumPost", 'Int'>
@@ -1876,6 +2717,49 @@ export type ForumPost$commentsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.ForumCommentScalarFieldEnum | Prisma.ForumCommentScalarFieldEnum[]
+}
+
+/**
+ * ForumPost.mentions
+ */
+export type ForumPost$mentionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ForumPostMention
+   */
+  select?: Prisma.ForumPostMentionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ForumPostMention
+   */
+  omit?: Prisma.ForumPostMentionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ForumPostMentionInclude<ExtArgs> | null
+  where?: Prisma.ForumPostMentionWhereInput
+  orderBy?: Prisma.ForumPostMentionOrderByWithRelationInput | Prisma.ForumPostMentionOrderByWithRelationInput[]
+  cursor?: Prisma.ForumPostMentionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ForumPostMentionScalarFieldEnum | Prisma.ForumPostMentionScalarFieldEnum[]
+}
+
+/**
+ * ForumPost.poll
+ */
+export type ForumPost$pollArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ForumPoll
+   */
+  select?: Prisma.ForumPollSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ForumPoll
+   */
+  omit?: Prisma.ForumPollOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ForumPollInclude<ExtArgs> | null
+  where?: Prisma.ForumPollWhereInput
 }
 
 /**

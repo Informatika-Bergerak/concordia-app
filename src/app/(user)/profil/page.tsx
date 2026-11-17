@@ -9,17 +9,18 @@ export default async function ProfilPage() {
 
   const recommendations = await prisma.user.findMany({
     where: { id: { not: user.id }, isActive: true, role: "USER" },
-    select: { id: true, name: true, jurusan: true, fotoProfil: true },
+    select: { id: true, name: true, nickname: true, jurusan: true, fotoProfil: true },
     orderBy: { name: "asc" },
     take: 3,
   });
 
   return (
     <ProfilePage
-      recommendations={recommendations}
+      recommendations={recommendations.map((person) => ({ ...person, name: person.nickname?.trim() || person.name }))}
       user={{
         username: user.username,
-        name: user.name,
+        name: user.officialName,
+        nickname: user.nickname,
         role: user.role,
         userType: user.userType,
         fotoProfil: user.fotoProfil,

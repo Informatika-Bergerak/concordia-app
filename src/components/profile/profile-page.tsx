@@ -6,6 +6,7 @@ import styles from "./profile-page.module.css";
 type ProfileUser = {
   username: string;
   name: string;
+  nickname: string | null;
   role: Role;
   userType: UserType | null;
   fotoProfil: string | null;
@@ -48,6 +49,7 @@ function formatJoinedDate(date: Date) {
 
 export function ProfilePage({ user, recommendations }: ProfilePageProps) {
   const score = Math.max(0, Math.min(100, user.trustScore));
+  const displayName = user.nickname?.trim() || user.name;
   const roleLabel = getRoleLabel(user.role, user.userType);
   const profileLine = user.jurusan ? `${roleLabel} - ${user.jurusan}` : roleLabel;
 
@@ -68,13 +70,13 @@ export function ProfilePage({ user, recommendations }: ProfilePageProps) {
         <div className={styles.profileBody}>
           <div className={styles.profileTopRow}>
             <div className={styles.avatar}>
-              <ProfileAvatar user={user} />
+              <ProfileAvatar user={{ ...user, name: displayName }} />
             </div>
             <Link href="/profil/ubah" className={styles.setupButton}>Set Up Profile</Link>
           </div>
 
           <section className={styles.identity} aria-labelledby="profile-name">
-            <h1 id="profile-name">{user.name}</h1>
+            <h1 id="profile-name">{displayName}</h1>
             <p>{profileLine}</p>
             <p className={styles.joined}><CalendarDays size={18} aria-hidden="true" /> Joined {formatJoinedDate(user.createdAt)}</p>
           </section>

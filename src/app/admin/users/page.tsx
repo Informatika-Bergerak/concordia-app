@@ -2,6 +2,7 @@ import { AppShell } from "@/components/app-shell";
 import { requireRole } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import { toggleActiveAction } from "./actions";
+import { EditUserForm } from "./edit-user-form";
 import { CreateUserForm } from "./create-user-form";
 import { ResetPasswordButton } from "./reset-password-button";
 import { SearchInput } from "@/components/admin/search-input";
@@ -34,6 +35,7 @@ function searchWhere(q: string | undefined) {
     OR: [
       { username: { contains: s, mode: "insensitive" as const } },
       { name: { contains: s, mode: "insensitive" as const } },
+      { nickname: { contains: s, mode: "insensitive" as const } },
     ],
   };
 }
@@ -49,6 +51,8 @@ type UserRow = {
   id: number;
   username: string;
   name: string;
+  nickname: string | null;
+  jurusan: string | null;
   role: string;
   userType: string | null;
   isActive: boolean;
@@ -115,6 +119,7 @@ function UserTable({
                 </td>
                 <td>
                   <div className="actions-cell">
+                    <EditUserForm user={{ id: u.id, name: u.name, nickname: u.nickname, username: u.username, userType: u.userType as "MAHASISWA" | "DOSEN" | null, jurusan: u.jurusan }} />
                     <ResetPasswordButton userId={u.id} username={u.username} />
                     <form action={toggleActiveAction}>
                       <input type="hidden" name="userId" value={u.id} />
@@ -141,6 +146,8 @@ const SELECT = {
   id: true,
   username: true,
   name: true,
+  nickname: true,
+  jurusan: true,
   role: true,
   userType: true,
   isActive: true,

@@ -45,10 +45,6 @@ export function TopBar({ userName, onMenuToggle }: TopBarProps) {
           <Link href="/beranda" className={styles.brand}>
             Concordia
           </Link>
-          <Link href="/search" className={styles.desktopSearch}>
-            <Search size={16} className={styles.desktopSearchIcon} />
-            <span>Cari...</span>
-          </Link>
         </div>
 
         {/* Desktop inline tabs */}
@@ -70,7 +66,11 @@ export function TopBar({ userName, onMenuToggle }: TopBarProps) {
         </nav>
 
         <div className={styles.actions}>
-          <Link href="/search" aria-label="Cari" className={styles.round}>
+          <Link href="/search" className={styles.desktopSearch}>
+            <Search size={16} className={styles.desktopSearchIcon} />
+            <span>Cari...</span>
+          </Link>
+          <Link href="/search" aria-label="Cari" className={`${styles.round} ${styles.mobileSearch}`}>
             <Search size={16} />
           </Link>
           <Link href="/notifikasi" aria-label="Notifikasi" className={styles.round}>
