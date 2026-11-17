@@ -9,6 +9,7 @@ import { UPLOAD_RULES } from "@/lib/uploads/config";
 import { uploadFile } from "@/lib/uploads/client";
 import { createReportAction, updateReportAction } from "@/modules/report/actions";
 import { CATEGORY_OPTIONS, VISIBILITY_HINTS, VISIBILITY_OPTIONS } from "@/modules/report/constants";
+import { allowedVisibilities, type ViewerRole } from "@/modules/report/rules";
 import { createReportSchema } from "@/modules/report/schemas";
 import styles from "./report.module.css";
 
@@ -19,6 +20,7 @@ const today = () => new Date().toISOString().slice(0, 10);
 /** Data awal bila form dipakai untuk mengubah laporan yang sudah ada. */
 export type ReportFormInitial = {
   id: number;
+  slug: string;
   title: string;
   description: string;
   location: string;
@@ -28,9 +30,31 @@ export type ReportFormInitial = {
   photoUrl: string | null;
 };
 
-export function ReportForm({ initial }: { initial?: ReportFormInitial }) {
+/** Tanda bintang untuk isian yang wajib diisi. */
+function Required() {
+  return <span className={styles.required} aria-hidden="true"> *</span>;
+}
+
+export function ReportForm({
+  initial,
+  viewerRole,
+}: {
+  initial?: ReportFormInitial;
+  viewerRole: ViewerRole;
+}) {
   const router = useRouter();
   const editing = initial !== undefined;
+  const isGroupReport = initial?.category === "LAPORAN_GRUP";
+
+  // Moderator hanya boleh membuat laporan Public. Laporan grup tidak ikut aturan ini.
+  const allowed = isGroupReport
+    ? allowedVisibilities("USER")
+    : allowedVisibilities(viewerRole);
+  const visibilityOptions = VISIBILITY_OPTIONS.filter(([value]) => allowed.includes(value));
+  // Kategori Laporan Grup hanya dibuat dari halaman grup, jadi tidak ditawarkan di form ini.
+  const categoryOptions = CATEGORY_OPTIONS.filter(
+    ([value]) => value !== "LAPORAN_GRUP" || isGroupReport,
+  );
   const [existingPhoto, setExistingPhoto] = useState<string | null>(initial?.photoUrl ?? null);
   const [photoRemoved, setPhotoRemoved] = useState(false);
   const [file, setFile] = useState<File | null>(null);
@@ -39,7 +63,9 @@ export function ReportForm({ initial }: { initial?: ReportFormInitial }) {
   const [errors, setErrors] = useState<Errors>({});
   const [preview, setPreview] = useState<string | null>(null);
   const [imageError, setImageError] = useState<string | null>(null);
-  const [visibility, setVisibility] = useState<ReportVisibility>(initial?.visibility ?? "PUBLIC");
+  const [visibility, setVisibility] = useState<ReportVisibility>(
+    initial?.visibility && allowed.includes(initial.visibility) ? initial.visibility : allowed[0],
+  );
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => () => { if (preview) URL.revokeObjectURL(preview); }, [preview]);
@@ -123,7 +149,7 @@ export function ReportForm({ initial }: { initial?: ReportFormInitial }) {
         setSubmitError(result.error);
         return;
       }
-      router.push(initial ? `/laporan/${initial.id}` : "/laporan");
+      router.push(initial ? `/laporan/${initial.slug}` : "/laporan");
       router.refresh();
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : "Gagal menyimpan laporan");
@@ -143,32 +169,34 @@ export function ReportForm({ initial }: { initial?: ReportFormInitial }) {
             ? "Perbarui isi laporanmu."
             : "Jangan takut dengan masalah yang ada, coba laporkan terlebih dahulu."}
         </p>
+        <p className={styles.formHint}>
+          Isian bertanda <span className={styles.required}>*</span> wajib diisi.
+        </p>
       </div>
 
-
       <div className={styles.field}>
-        <label className={styles.label} htmlFor="title">Topik Masalah</label>
-        <input id="title" name="title" defaultValue={initial?.title} className={cls("title", styles.input)} placeholder="Masalah apa yang sedang terjadi ?" maxLength={100} aria-invalid={!!errors.title} />
+        <label className={styles.label} htmlFor="title">Topik Masalah<Required /></label>
+        <input id="title" name="title" aria-required="true" defaultValue={initial?.title} className={cls("title", styles.input)} placeholder="Masalah apa yang sedang terjadi ?" maxLength={100} aria-invalid={!!errors.title} />
         {errors.title && <p className={styles.error}>{errors.title}</p>}
       </div>
 
       <div className={styles.field}>
-        <label className={styles.label} htmlFor="description">Deskripsi Masalah</label>
-        <textarea id="description" name="description" defaultValue={initial?.description} className={cls("description", styles.textarea)} placeholder="Jelaskan masalah yang terjadi" maxLength={1000} aria-invalid={!!errors.description} />
+        <label className={styles.label} htmlFor="description">Deskripsi Masalah<Required /></label>
+        <textarea id="description" name="description" aria-required="true" defaultValue={initial?.description} className={cls("description", styles.textarea)} placeholder="Jelaskan masalah yang terjadi" maxLength={1000} aria-invalid={!!errors.description} />
         {errors.description && <p className={styles.error}>{errors.description}</p>}
       </div>
 
       <div className={styles.field}>
-        <label className={styles.label} htmlFor="location">Lokasi</label>
-        <input id="location" name="location" defaultValue={initial?.location} className={cls("location", styles.input)} placeholder="Dimana hal itu ada atau terjadi ?" maxLength={120} aria-invalid={!!errors.location} />
+        <label className={styles.label} htmlFor="location">Lokasi<Required /></label>
+        <input id="location" name="location" aria-required="true" defaultValue={initial?.location} className={cls("location", styles.input)} placeholder="Dimana hal itu ada atau terjadi ?" maxLength={120} aria-invalid={!!errors.location} />
         {errors.location && <p className={styles.error}>{errors.location}</p>}
       </div>
 
       <div className={styles.field}>
-        <label className={styles.label} htmlFor="category">Kategori Masalah</label>
-        <select id="category" name="category" defaultValue={initial?.category ?? ""} className={cls("category", styles.select)} aria-invalid={!!errors.category}>
+        <label className={styles.label} htmlFor="category">Kategori Masalah<Required /></label>
+        <select id="category" name="category" aria-required="true" defaultValue={initial?.category ?? ""} className={cls("category", styles.select)} aria-invalid={!!errors.category}>
           <option value="" disabled>Termasuk masalah apa ?</option>
-          {CATEGORY_OPTIONS.map(([value, label]) => (
+          {categoryOptions.map(([value, label]) => (
             <option key={value} value={value}>{label}</option>
           ))}
         </select>
@@ -177,33 +205,46 @@ export function ReportForm({ initial }: { initial?: ReportFormInitial }) {
 
       <div className={styles.field}>
         <label className={styles.label} htmlFor="occurredAt">
-          <CalendarDays size={14} aria-hidden style={{ verticalAlign: "-2px" }} /> Tanggal Terjadi atau Terlihat
+          <CalendarDays size={14} aria-hidden style={{ verticalAlign: "-2px" }} /> Tanggal Terjadi atau Terlihat<Required />
         </label>
-        <input id="occurredAt" name="occurredAt" type="date" max={today()} defaultValue={initial?.occurredAt ?? today()} className={cls("occurredAt", styles.input)} aria-invalid={!!errors.occurredAt} />
+        <input id="occurredAt" name="occurredAt" aria-required="true" type="date" max={today()} defaultValue={initial?.occurredAt ?? today()} className={cls("occurredAt", styles.input)} aria-invalid={!!errors.occurredAt} />
         {errors.occurredAt && <p className={styles.error}>{errors.occurredAt}</p>}
       </div>
 
       <fieldset className={styles.field} style={{ border: "none", padding: 0, margin: 0 }}>
         <legend className={styles.label}>Visibilitas</legend>
-        <div className={styles.radios}>
-          {VISIBILITY_OPTIONS.map(([value, label]) => (
-            <label key={value} className={styles.radio}>
-              <input
-                type="radio"
-                name="visibility"
-                value={value}
-                checked={visibility === value}
-                onChange={() => setVisibility(value)}
-              />
-              {label}
-            </label>
-          ))}
-        </div>
-        <p className={styles.formHint}>{VISIBILITY_HINTS[visibility]}</p>
+        {visibilityOptions.length === 1 ? (
+          <>
+            <input type="hidden" name="visibility" value={visibilityOptions[0][0]} />
+            <p className={styles.visibilityFixed}>{visibilityOptions[0][1]}</p>
+            <p className={styles.formHint}>
+              {VISIBILITY_HINTS[visibilityOptions[0][0]]} Laporan moderator selalu Public.
+            </p>
+          </>
+        ) : (
+          <>
+            <div className={styles.radios}>
+              {visibilityOptions.map(([value, label]) => (
+                <label key={value} className={styles.radio}>
+                  <input
+                    type="radio"
+                    name="visibility"
+                    value={value}
+                    checked={visibility === value}
+                    onChange={() => setVisibility(value)}
+                  />
+                  {label}
+                </label>
+              ))}
+            </div>
+            <p className={styles.formHint}>{VISIBILITY_HINTS[visibility]}</p>
+          </>
+        )}
+        {errors.visibility && <p className={styles.error}>{errors.visibility}</p>}
       </fieldset>
 
       <div className={styles.field}>
-        <span className={styles.label}>Cover Image</span>
+        <span className={styles.label}>Cover Image <span className={styles.optional}>(opsional)</span></span>
         <input ref={fileRef} type="file" accept={UPLOAD_RULES.image.mimes.join(",")} className={styles.hiddenInput} onChange={(e) => onPickImage(e.target.files?.[0])} aria-label="Pilih gambar sampul" />
         <div className={styles.photoActions}>
           <button type="button" className={styles.uploadBtn} onClick={() => fileRef.current?.click()}>
@@ -227,7 +268,7 @@ export function ReportForm({ initial }: { initial?: ReportFormInitial }) {
       {submitError && <p className={styles.error} role="alert">{submitError}</p>}
 
       <div className={styles.formActions}>
-        <Link href={initial ? `/laporan/${initial.id}` : "/laporan"} className={styles.back}>Kembali</Link>
+        <Link href={initial ? `/laporan/${initial.slug}` : "/laporan"} className={styles.back}>Kembali</Link>
         <button type="submit" className={styles.submit} disabled={submitting}>
           {submitting ? (editing ? "Menyimpan..." : "Mengirim...") : editing ? "Simpan Perubahan" : "Kirim Laporan"}
         </button>

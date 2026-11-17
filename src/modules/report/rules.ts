@@ -18,6 +18,7 @@ export function canCreateReport(role: ViewerRole): boolean {
 /** Bentuk baris dari Prisma yang dibutuhkan untuk membuat ReportItem. */
 export type ReportRow = {
   id: number;
+  slug: string;
   title: string;
   description: string;
   location: string;
@@ -42,6 +43,7 @@ export type ReportRow = {
 export function toReportItem(row: ReportRow, viewerId: number): ReportItem {
   return {
     id: String(row.id),
+    slug: row.slug,
     title: row.title,
     description: row.description,
     location: row.location,
@@ -69,6 +71,14 @@ export function canViewReport(
 /** Status boleh berubah ke status lain, asalkan bukan status yang sama. */
 export function canChangeStatus(from: ReportStatus, to: ReportStatus): boolean {
   return from !== to;
+}
+
+/**
+ * Visibilitas yang boleh dipilih untuk laporan biasa. Laporan moderator selalu Public
+ * agar pelapornya dapat dipertanggungjawabkan. Laporan grup memakai aturan tersendiri.
+ */
+export function allowedVisibilities(role: ViewerRole): ReportVisibility[] {
+  return role === "MODERATOR" ? ["PUBLIC"] : ["PUBLIC", "ANONYMOUS", "PRIVATE"];
 }
 
 /**
@@ -147,7 +157,12 @@ export function toReportDetail(
 export type AdminReportRow = ReportRow & {
   rejectionReason: string | null;
   createdAt: Date;
-  author: { name: string; username: string; userType: "MAHASISWA" | "DOSEN" | null };
+  author: {
+    name: string;
+    username: string;
+    userType: "MAHASISWA" | "DOSEN" | null;
+    role: ViewerRole;
+  };
 };
 
 /** Khusus admin: identitas pelapor selalu disertakan dan laporan dosen ditandai. */
@@ -157,6 +172,7 @@ export function toAdminReportItem(row: AdminReportRow, viewerId: number): AdminR
     authorName: row.author.name,
     authorUsername: row.author.username,
     fromLecturer: row.author.userType === "DOSEN",
+    fromModerator: row.author.role === "MODERATOR",
     createdAt: row.createdAt.toISOString(),
     rejectionReason: row.rejectionReason,
   };

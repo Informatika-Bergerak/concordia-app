@@ -4,7 +4,14 @@ import { revalidatePath } from "next/cache";
 import { requireRole } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import { deleteAsset } from "@/lib/cloudinary/upload";
-import { canChangeStatus, editBlockReason, requiresNote, supportBlockReason } from "./rules";
+import {
+  allowedVisibilities,
+  canChangeStatus,
+  editBlockReason,
+  requiresNote,
+  supportBlockReason,
+} from "./rules";
+import { generateReportSlug } from "./slug";
 import {
   createReportInputSchema,
   supportReportSchema,
@@ -26,7 +33,9 @@ function collectFieldErrors(issues: { path: PropertyKey[]; message: string }[]) 
 }
 
 // Membuat laporan baru. Mahasiswa, dosen, dan moderator boleh melapor; admin tidak.
-export async function createReportAction(input: unknown): Promise<ActionResult<{ id: number }>> {
+export async function createReportAction(
+  input: unknown,
+): Promise<ActionResult<{ id: number; slug: string }>> {
   const { user } = await requireRole(["USER", "MODERATOR"]);
 
   const parsed = createReportInputSchema.safeParse(input);
@@ -39,6 +48,24 @@ export async function createReportAction(input: unknown): Promise<ActionResult<{
   }
 
   const { photo, occurredAt, groupId, ...data } = parsed.data;
+
+  // Kategori Laporan Grup hanya dibuat dari halaman grup, yang menyertakan groupId.
+  if (data.category === "LAPORAN_GRUP" && groupId === undefined) {
+    return {
+      ok: false,
+      error: "Pilih kategori masalah",
+      fieldErrors: { category: "Pilih kategori masalah" },
+    };
+  }
+  // Laporan moderator harus Public (laporan grup tetap mengikuti aturannya sendiri).
+  if (groupId === undefined && !allowedVisibilities(user.role).includes(data.visibility)) {
+    return {
+      ok: false,
+      error: "Laporan moderator harus Public",
+      fieldErrors: { visibility: "Laporan moderator harus Public" },
+    };
+  }
+
   let groupData: { groupId: number } | undefined;
   if (groupId !== undefined) {
     const group = await prisma.group.findUnique({ where: { id: groupId }, select: { id: true, visibility: true } });
@@ -54,33 +81,43 @@ export async function createReportAction(input: unknown): Promise<ActionResult<{
   }
 
   try {
-    const report = await prisma.report.create({
-      data: {
-        ...data,
-        ...groupData,
-        occurredAt: new Date(`${occurredAt}T00:00:00.000Z`),
-        authorId: user.id,
-        photos: photo
-          ? {
-              create: {
-                url: photo.url,
-                publicId: photo.publicId,
-                format: photo.format,
-                bytes: photo.bytes,
-                width: photo.width,
-                height: photo.height,
-              },
-            }
-          : undefined,
-        history: {
-          create: { fromStatus: null, toStatus: "UNVERIFIED", changedById: user.id },
-        },
-      },
-      select: { id: true },
-    });
+    // Slug dibuat acak; bila kebetulan bentrok (kunci unik), coba lagi dengan akhiran baru.
+    let report: { id: number; slug: string } | undefined;
+    for (let attempt = 0; attempt < 3 && !report; attempt++) {
+      try {
+        report = await prisma.report.create({
+          data: {
+            ...data,
+            ...groupData,
+            slug: generateReportSlug(data.title),
+            occurredAt: new Date(`${occurredAt}T00:00:00.000Z`),
+            authorId: user.id,
+            photos: photo
+              ? {
+                  create: {
+                    url: photo.url,
+                    publicId: photo.publicId,
+                    format: photo.format,
+                    bytes: photo.bytes,
+                    width: photo.width,
+                    height: photo.height,
+                  },
+                }
+              : undefined,
+            history: {
+              create: { fromStatus: null, toStatus: "UNVERIFIED", changedById: user.id },
+            },
+          },
+          select: { id: true, slug: true },
+        });
+      } catch (error) {
+        if ((error as { code?: string }).code !== "P2002") throw error;
+      }
+    }
+    if (!report) throw new Error("Slug unik tidak dapat dibuat");
 
     revalidatePath("/laporan");
-    return { ok: true, id: report.id };
+    return { ok: true, id: report.id, slug: report.slug };
   } catch (error) {
     console.error("[report] Gagal membuat laporan:", (error as Error).message);
     return { ok: false, error: "Gagal menyimpan laporan, coba lagi" };
@@ -103,7 +140,7 @@ export async function updateReportStatusAction(input: unknown): Promise<ActionRe
 
   const report = await prisma.report.findUnique({
     where: { id: reportId },
-    select: { id: true, status: true },
+    select: { id: true, slug: true, status: true },
   });
   if (!report) return { ok: false, error: "Laporan tidak ditemukan" };
   if (!canChangeStatus(report.status, status)) {
@@ -129,6 +166,7 @@ export async function updateReportStatusAction(input: unknown): Promise<ActionRe
   ]);
 
   revalidatePath("/laporan");
+  revalidatePath(`/laporan/${report.slug}`);
   return { ok: true };
 }
 
@@ -144,7 +182,7 @@ export async function toggleSupportAction(
 
   const report = await prisma.report.findUnique({
     where: { id: reportId },
-    select: { authorId: true, visibility: true, status: true },
+    select: { slug: true, authorId: true, visibility: true, status: true },
   });
   if (!report) return { ok: false, error: "Laporan tidak ditemukan" };
 
@@ -181,12 +219,14 @@ export async function toggleSupportAction(
   const count = await prisma.reportSupport.count({ where: { reportId } });
 
   revalidatePath("/laporan");
-  revalidatePath(`/laporan/${reportId}`);
+  revalidatePath(`/laporan/${report.slug}`);
   return { ok: true, supported, count };
 }
 
 // Mengubah laporan milik sendiri selama masih Belum Terverifikasi.
-export async function updateReportAction(input: unknown): Promise<ActionResult<{ id: number }>> {
+export async function updateReportAction(
+  input: unknown,
+): Promise<ActionResult<{ id: number; slug: string }>> {
   const { user } = await requireRole(["USER", "MODERATOR"]);
 
   const parsed = updateReportInputSchema.safeParse(input);
@@ -202,7 +242,9 @@ export async function updateReportAction(input: unknown): Promise<ActionResult<{
   const report = await prisma.report.findUnique({
     where: { id: reportId },
     select: {
+      slug: true,
       authorId: true,
+      groupId: true,
       status: true,
       photos: { select: { publicId: true } },
     },
@@ -214,6 +256,14 @@ export async function updateReportAction(input: unknown): Promise<ActionResult<{
     status: report.status,
   });
   if (blocked) return { ok: false, error: blocked };
+
+  if (report.groupId === null && !allowedVisibilities(user.role).includes(data.visibility)) {
+    return {
+      ok: false,
+      error: "Laporan moderator harus Public",
+      fieldErrors: { visibility: "Laporan moderator harus Public" },
+    };
+  }
 
   const cloud = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
   if (photo && cloud && !photo.url.startsWith(`https://res.cloudinary.com/${cloud}/`)) {
@@ -269,7 +319,7 @@ export async function updateReportAction(input: unknown): Promise<ActionResult<{
   }
 
   revalidatePath("/laporan");
-  revalidatePath(`/laporan/${reportId}`);
+  revalidatePath(`/laporan/${report.slug}`);
   revalidatePath("/admin/laporan");
-  return { ok: true, id: reportId };
+  return { ok: true, id: reportId, slug: report.slug };
 }

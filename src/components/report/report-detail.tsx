@@ -110,7 +110,7 @@ export function ReportDetail({
       <div className={styles.formActions}>
         <Link href="/laporan" className={styles.back}>Kembali</Link>
         {canEdit && (
-          <Link href={`/laporan/${report.id}/edit`} className={styles.editBtn}>
+          <Link href={`/laporan/${report.slug ?? report.id}/edit`} className={styles.editBtn}>
             <Pencil size={14} aria-hidden /> Edit Laporan
           </Link>
         )}

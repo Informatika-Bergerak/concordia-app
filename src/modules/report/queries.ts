@@ -11,6 +11,7 @@ import type { AdminReportItem, ReportDetail, ReportItem, ReportStatus } from "./
 
 const listSelect = {
   id: true,
+  slug: true,
   title: true,
   description: true,
   location: true,
@@ -41,17 +42,8 @@ export async function getReports(): Promise<ReportItem[]> {
     orderBy: { createdAt: "desc" },
     take: 100,
     select: {
-      id: true,
-      title: true,
-      description: true,
-      location: true,
-      category: true,
-      status: true,
-      visibility: true,
-      occurredAt: true,
-      authorId: true,
+      ...listSelect,
       author: { select: { name: true } },
-      photos: { select: { url: true }, orderBy: { id: "asc" }, take: 1 },
       ...supportSelect(user.id),
     },
   });
@@ -61,12 +53,12 @@ export async function getReports(): Promise<ReportItem[]> {
 
 // Detail satu laporan. Mengembalikan null bila tidak ada atau tidak boleh dilihat,
 // sehingga halaman cukup memanggil notFound() tanpa membocorkan keberadaan laporan Private.
-export async function getReportById(id: number): Promise<ReportDetail | null> {
+export async function getReportBySlug(slug: string): Promise<ReportDetail | null> {
   const user = await getCurrentUser();
   if (!user) return null;
 
   const row = await prisma.report.findUnique({
-    where: { id },
+    where: { slug },
     select: {
       ...listSelect,
       rejectionReason: true,
@@ -84,8 +76,22 @@ export async function getReportById(id: number): Promise<ReportDetail | null> {
   return toReportDetail(row, user);
 }
 
+// Mencari slug dari nomor laporan, untuk mengalihkan alamat lama (/laporan/4) ke alamat baru.
+// Hanya mengembalikan slug bila laporan itu boleh dilihat pengguna.
+export async function getReportSlugById(id: number): Promise<string | null> {
+  const user = await getCurrentUser();
+  if (!user) return null;
+
+  const row = await prisma.report.findUnique({
+    where: { id },
+    select: { slug: true, visibility: true, authorId: true },
+  });
+  if (!row || !canViewReport(user, row)) return null;
+  return row.slug;
+}
+
 // Daftar untuk panel verifikasi: hanya admin. Semua laporan termasuk Private, dengan
-// identitas pelapor dan penanda laporan dari dosen.
+// identitas pelapor dan penanda laporan dari dosen dan moderator.
 export async function getAdminReports(
   status?: ReportStatus,
   sort: "newest" | "support" = "newest",
@@ -104,7 +110,7 @@ export async function getAdminReports(
       ...listSelect,
       rejectionReason: true,
       createdAt: true,
-      author: { select: { name: true, username: true, userType: true } },
+      author: { select: { name: true, username: true, userType: true, role: true } },
       _count: { select: { supports: true } },
     },
   });
