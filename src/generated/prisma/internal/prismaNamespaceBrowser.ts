@@ -54,6 +54,7 @@ export const ModelName = {
   User: 'User',
   TrustTransaction: 'TrustTransaction',
   TrustMilestone: 'TrustMilestone',
+  TrustDailyEarning: 'TrustDailyEarning',
   LoginThrottle: 'LoginThrottle',
   AuditLog: 'AuditLog',
   Report: 'Report',
@@ -143,6 +144,18 @@ export const TrustMilestoneScalarFieldEnum = {
 } as const
 
 export type TrustMilestoneScalarFieldEnum = (typeof TrustMilestoneScalarFieldEnum)[keyof typeof TrustMilestoneScalarFieldEnum]
+
+
+export const TrustDailyEarningScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  date: 'date',
+  amount: 'amount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TrustDailyEarningScalarFieldEnum = (typeof TrustDailyEarningScalarFieldEnum)[keyof typeof TrustDailyEarningScalarFieldEnum]
 
 
 export const LoginThrottleScalarFieldEnum = {

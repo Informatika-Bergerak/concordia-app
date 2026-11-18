@@ -57,6 +57,11 @@ export type TrustTransaction = Prisma.TrustTransactionModel
  */
 export type TrustMilestone = Prisma.TrustMilestoneModel
 /**
+ * Model TrustDailyEarning
+ * 
+ */
+export type TrustDailyEarning = Prisma.TrustDailyEarningModel
+/**
  * Model LoginThrottle
  * 
  */

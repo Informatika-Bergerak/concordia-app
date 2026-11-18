@@ -112,6 +112,7 @@ model User {
   trustTransactions      TrustTransaction[] @relation("TrustTransactionUser")
   trustTransactionsCreated TrustTransaction[] @relation("TrustTransactionCreator")
   trustMilestones        TrustMilestone[]
+  trustDailyEarnings     TrustDailyEarning[]
 }
 
 // Trust Level ledger: amount is signed; positive adds XP and negative removes XP.
@@ -148,6 +149,19 @@ model TrustMilestone {
   completedAt         DateTime @default(now())
 
   @@unique([userId, milestone])
+}
+
+// Cached daily EARN total for Asia/Jakarta. Updated atomically with its ledger row.
+model TrustDailyEarning {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Restrict)
+  date      DateTime @db.Date
+  amount    Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, date])
 }
 
 model LoginThrottle {

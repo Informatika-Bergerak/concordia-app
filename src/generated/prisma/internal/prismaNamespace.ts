@@ -400,6 +400,7 @@ export const ModelName = {
   User: 'User',
   TrustTransaction: 'TrustTransaction',
   TrustMilestone: 'TrustMilestone',
+  TrustDailyEarning: 'TrustDailyEarning',
   LoginThrottle: 'LoginThrottle',
   AuditLog: 'AuditLog',
   Report: 'Report',
@@ -437,7 +438,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "trustTransaction" | "trustMilestone" | "loginThrottle" | "auditLog" | "report" | "reportPhoto" | "forumPost" | "forumPostMention" | "forumPoll" | "forumPollOption" | "forumPollVote" | "forumPostImage" | "forumPostAudio" | "forumPostLike" | "forumComment" | "forumCommentMention" | "friendRequest" | "reportStatusHistory" | "reportSupport" | "group" | "groupMember" | "groupJoinRequest" | "groupMessage" | "adminNews"
+    modelProps: "user" | "trustTransaction" | "trustMilestone" | "trustDailyEarning" | "loginThrottle" | "auditLog" | "report" | "reportPhoto" | "forumPost" | "forumPostMention" | "forumPoll" | "forumPollOption" | "forumPollVote" | "forumPostImage" | "forumPostAudio" | "forumPostLike" | "forumComment" | "forumCommentMention" | "friendRequest" | "reportStatusHistory" | "reportSupport" | "group" | "groupMember" | "groupJoinRequest" | "groupMessage" | "adminNews"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -660,6 +661,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.TrustMilestoneCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.TrustMilestoneCountAggregateOutputType> | number
+        }
+      }
+    }
+    TrustDailyEarning: {
+      payload: Prisma.$TrustDailyEarningPayload<ExtArgs>
+      fields: Prisma.TrustDailyEarningFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TrustDailyEarningFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustDailyEarningPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TrustDailyEarningFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustDailyEarningPayload>
+        }
+        findFirst: {
+          args: Prisma.TrustDailyEarningFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustDailyEarningPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TrustDailyEarningFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustDailyEarningPayload>
+        }
+        findMany: {
+          args: Prisma.TrustDailyEarningFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustDailyEarningPayload>[]
+        }
+        create: {
+          args: Prisma.TrustDailyEarningCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustDailyEarningPayload>
+        }
+        createMany: {
+          args: Prisma.TrustDailyEarningCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TrustDailyEarningCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustDailyEarningPayload>[]
+        }
+        delete: {
+          args: Prisma.TrustDailyEarningDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustDailyEarningPayload>
+        }
+        update: {
+          args: Prisma.TrustDailyEarningUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustDailyEarningPayload>
+        }
+        deleteMany: {
+          args: Prisma.TrustDailyEarningDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TrustDailyEarningUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TrustDailyEarningUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustDailyEarningPayload>[]
+        }
+        upsert: {
+          args: Prisma.TrustDailyEarningUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustDailyEarningPayload>
+        }
+        aggregate: {
+          args: Prisma.TrustDailyEarningAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTrustDailyEarning>
+        }
+        groupBy: {
+          args: Prisma.TrustDailyEarningGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrustDailyEarningGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TrustDailyEarningCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrustDailyEarningCountAggregateOutputType> | number
         }
       }
     }
@@ -2381,6 +2456,18 @@ export const TrustMilestoneScalarFieldEnum = {
 export type TrustMilestoneScalarFieldEnum = (typeof TrustMilestoneScalarFieldEnum)[keyof typeof TrustMilestoneScalarFieldEnum]
 
 
+export const TrustDailyEarningScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  date: 'date',
+  amount: 'amount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TrustDailyEarningScalarFieldEnum = (typeof TrustDailyEarningScalarFieldEnum)[keyof typeof TrustDailyEarningScalarFieldEnum]
+
+
 export const LoginThrottleScalarFieldEnum = {
   key: 'key',
   attempts: 'attempts',
@@ -3094,6 +3181,7 @@ export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   trustTransaction?: Prisma.TrustTransactionOmit
   trustMilestone?: Prisma.TrustMilestoneOmit
+  trustDailyEarning?: Prisma.TrustDailyEarningOmit
   loginThrottle?: Prisma.LoginThrottleOmit
   auditLog?: Prisma.AuditLogOmit
   report?: Prisma.ReportOmit

@@ -351,6 +351,7 @@ export type UserWhereInput = {
   trustTransactions?: Prisma.TrustTransactionListRelationFilter
   trustTransactionsCreated?: Prisma.TrustTransactionListRelationFilter
   trustMilestones?: Prisma.TrustMilestoneListRelationFilter
+  trustDailyEarnings?: Prisma.TrustDailyEarningListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -392,6 +393,7 @@ export type UserOrderByWithRelationInput = {
   trustTransactions?: Prisma.TrustTransactionOrderByRelationAggregateInput
   trustTransactionsCreated?: Prisma.TrustTransactionOrderByRelationAggregateInput
   trustMilestones?: Prisma.TrustMilestoneOrderByRelationAggregateInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -436,6 +438,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   trustTransactions?: Prisma.TrustTransactionListRelationFilter
   trustTransactionsCreated?: Prisma.TrustTransactionListRelationFilter
   trustMilestones?: Prisma.TrustMilestoneListRelationFilter
+  trustDailyEarnings?: Prisma.TrustDailyEarningListRelationFilter
 }, "id" | "username" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -528,6 +531,7 @@ export type UserCreateInput = {
   trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -569,6 +573,7 @@ export type UserUncheckedCreateInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -609,6 +614,7 @@ export type UserUpdateInput = {
   trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -650,6 +656,7 @@ export type UserUncheckedUpdateInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -881,6 +888,20 @@ export type UserUpdateOneRequiredWithoutTrustMilestonesNestedInput = {
   upsert?: Prisma.UserUpsertWithoutTrustMilestonesInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTrustMilestonesInput, Prisma.UserUpdateWithoutTrustMilestonesInput>, Prisma.UserUncheckedUpdateWithoutTrustMilestonesInput>
+}
+
+export type UserCreateNestedOneWithoutTrustDailyEarningsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTrustDailyEarningsInput, Prisma.UserUncheckedCreateWithoutTrustDailyEarningsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTrustDailyEarningsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutTrustDailyEarningsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTrustDailyEarningsInput, Prisma.UserUncheckedCreateWithoutTrustDailyEarningsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTrustDailyEarningsInput
+  upsert?: Prisma.UserUpsertWithoutTrustDailyEarningsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTrustDailyEarningsInput, Prisma.UserUpdateWithoutTrustDailyEarningsInput>, Prisma.UserUncheckedUpdateWithoutTrustDailyEarningsInput>
 }
 
 export type UserCreateNestedOneWithoutReportsInput = {
@@ -1146,6 +1167,7 @@ export type UserCreateWithoutTrustTransactionsInput = {
   adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTrustTransactionsInput = {
@@ -1186,6 +1208,7 @@ export type UserUncheckedCreateWithoutTrustTransactionsInput = {
   adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTrustTransactionsInput = {
@@ -1230,6 +1253,7 @@ export type UserCreateWithoutTrustTransactionsCreatedInput = {
   adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
   trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTrustTransactionsCreatedInput = {
@@ -1270,6 +1294,7 @@ export type UserUncheckedCreateWithoutTrustTransactionsCreatedInput = {
   adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
   trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTrustTransactionsCreatedInput = {
@@ -1325,6 +1350,7 @@ export type UserUpdateWithoutTrustTransactionsInput = {
   adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTrustTransactionsInput = {
@@ -1365,6 +1391,7 @@ export type UserUncheckedUpdateWithoutTrustTransactionsInput = {
   adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutTrustTransactionsCreatedInput = {
@@ -1415,6 +1442,7 @@ export type UserUpdateWithoutTrustTransactionsCreatedInput = {
   adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
   trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTrustTransactionsCreatedInput = {
@@ -1455,6 +1483,7 @@ export type UserUncheckedUpdateWithoutTrustTransactionsCreatedInput = {
   adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
   trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTrustMilestonesInput = {
@@ -1494,6 +1523,7 @@ export type UserCreateWithoutTrustMilestonesInput = {
   adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
   trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTrustMilestonesInput = {
@@ -1534,6 +1564,7 @@ export type UserUncheckedCreateWithoutTrustMilestonesInput = {
   adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
   trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTrustMilestonesInput = {
@@ -1589,6 +1620,7 @@ export type UserUpdateWithoutTrustMilestonesInput = {
   adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
   trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTrustMilestonesInput = {
@@ -1629,6 +1661,185 @@ export type UserUncheckedUpdateWithoutTrustMilestonesInput = {
   adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
   trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutTrustDailyEarningsInput = {
+  username: string
+  name: string
+  nickname?: string | null
+  email?: string | null
+  passwordHash: string
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  fotoProfil?: string | null
+  jurusan?: string | null
+  bio?: string | null
+  trustScore?: number
+  isActive?: boolean
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activeSessionId?: string | null
+  lastSeenAt?: Date | string | null
+  activeDevice?: string | null
+  reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
+  statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
+  forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
+  forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
+  forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
+  adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
+  trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
+  trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
+  trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutTrustDailyEarningsInput = {
+  id?: number
+  username: string
+  name: string
+  nickname?: string | null
+  email?: string | null
+  passwordHash: string
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  fotoProfil?: string | null
+  jurusan?: string | null
+  bio?: string | null
+  trustScore?: number
+  isActive?: boolean
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activeSessionId?: string | null
+  lastSeenAt?: Date | string | null
+  activeDevice?: string | null
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
+  statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
+  forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
+  forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
+  forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
+  adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
+  trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
+  trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutTrustDailyEarningsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutTrustDailyEarningsInput, Prisma.UserUncheckedCreateWithoutTrustDailyEarningsInput>
+}
+
+export type UserUpsertWithoutTrustDailyEarningsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutTrustDailyEarningsInput, Prisma.UserUncheckedUpdateWithoutTrustDailyEarningsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTrustDailyEarningsInput, Prisma.UserUncheckedCreateWithoutTrustDailyEarningsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutTrustDailyEarningsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutTrustDailyEarningsInput, Prisma.UserUncheckedUpdateWithoutTrustDailyEarningsInput>
+}
+
+export type UserUpdateWithoutTrustDailyEarningsInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
+  statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
+  forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
+  forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
+  forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
+  adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
+  trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
+  trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
+  trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutTrustDailyEarningsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
+  statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
+  forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
+  forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
+  adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
+  trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
+  trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReportsInput = {
@@ -1668,6 +1879,7 @@ export type UserCreateWithoutReportsInput = {
   trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReportsInput = {
@@ -1708,6 +1920,7 @@ export type UserUncheckedCreateWithoutReportsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReportsInput = {
@@ -1763,6 +1976,7 @@ export type UserUpdateWithoutReportsInput = {
   trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReportsInput = {
@@ -1803,6 +2017,7 @@ export type UserUncheckedUpdateWithoutReportsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutForumPostsInput = {
@@ -1842,6 +2057,7 @@ export type UserCreateWithoutForumPostsInput = {
   trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutForumPostsInput = {
@@ -1882,6 +2098,7 @@ export type UserUncheckedCreateWithoutForumPostsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutForumPostsInput = {
@@ -1937,6 +2154,7 @@ export type UserUpdateWithoutForumPostsInput = {
   trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutForumPostsInput = {
@@ -1977,6 +2195,7 @@ export type UserUncheckedUpdateWithoutForumPostsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutForumPostMentionsInput = {
@@ -2016,6 +2235,7 @@ export type UserCreateWithoutForumPostMentionsInput = {
   trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutForumPostMentionsInput = {
@@ -2056,6 +2276,7 @@ export type UserUncheckedCreateWithoutForumPostMentionsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutForumPostMentionsInput = {
@@ -2111,6 +2332,7 @@ export type UserUpdateWithoutForumPostMentionsInput = {
   trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutForumPostMentionsInput = {
@@ -2151,6 +2373,7 @@ export type UserUncheckedUpdateWithoutForumPostMentionsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutForumPollVotesInput = {
@@ -2190,6 +2413,7 @@ export type UserCreateWithoutForumPollVotesInput = {
   trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutForumPollVotesInput = {
@@ -2230,6 +2454,7 @@ export type UserUncheckedCreateWithoutForumPollVotesInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutForumPollVotesInput = {
@@ -2285,6 +2510,7 @@ export type UserUpdateWithoutForumPollVotesInput = {
   trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutForumPollVotesInput = {
@@ -2325,6 +2551,7 @@ export type UserUncheckedUpdateWithoutForumPollVotesInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutForumLikesInput = {
@@ -2364,6 +2591,7 @@ export type UserCreateWithoutForumLikesInput = {
   trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutForumLikesInput = {
@@ -2404,6 +2632,7 @@ export type UserUncheckedCreateWithoutForumLikesInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutForumLikesInput = {
@@ -2459,6 +2688,7 @@ export type UserUpdateWithoutForumLikesInput = {
   trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutForumLikesInput = {
@@ -2499,6 +2729,7 @@ export type UserUncheckedUpdateWithoutForumLikesInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutForumCommentsInput = {
@@ -2538,6 +2769,7 @@ export type UserCreateWithoutForumCommentsInput = {
   trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutForumCommentsInput = {
@@ -2578,6 +2810,7 @@ export type UserUncheckedCreateWithoutForumCommentsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutForumCommentsInput = {
@@ -2633,6 +2866,7 @@ export type UserUpdateWithoutForumCommentsInput = {
   trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutForumCommentsInput = {
@@ -2673,6 +2907,7 @@ export type UserUncheckedUpdateWithoutForumCommentsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutForumCommentMentionsInput = {
@@ -2712,6 +2947,7 @@ export type UserCreateWithoutForumCommentMentionsInput = {
   trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutForumCommentMentionsInput = {
@@ -2752,6 +2988,7 @@ export type UserUncheckedCreateWithoutForumCommentMentionsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutForumCommentMentionsInput = {
@@ -2807,6 +3044,7 @@ export type UserUpdateWithoutForumCommentMentionsInput = {
   trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutForumCommentMentionsInput = {
@@ -2847,6 +3085,7 @@ export type UserUncheckedUpdateWithoutForumCommentMentionsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSentFriendRequestsInput = {
@@ -2886,6 +3125,7 @@ export type UserCreateWithoutSentFriendRequestsInput = {
   trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSentFriendRequestsInput = {
@@ -2926,6 +3166,7 @@ export type UserUncheckedCreateWithoutSentFriendRequestsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSentFriendRequestsInput = {
@@ -2970,6 +3211,7 @@ export type UserCreateWithoutReceivedFriendRequestsInput = {
   trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReceivedFriendRequestsInput = {
@@ -3010,6 +3252,7 @@ export type UserUncheckedCreateWithoutReceivedFriendRequestsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReceivedFriendRequestsInput = {
@@ -3065,6 +3308,7 @@ export type UserUpdateWithoutSentFriendRequestsInput = {
   trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSentFriendRequestsInput = {
@@ -3105,6 +3349,7 @@ export type UserUncheckedUpdateWithoutSentFriendRequestsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutReceivedFriendRequestsInput = {
@@ -3155,6 +3400,7 @@ export type UserUpdateWithoutReceivedFriendRequestsInput = {
   trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReceivedFriendRequestsInput = {
@@ -3195,6 +3441,7 @@ export type UserUncheckedUpdateWithoutReceivedFriendRequestsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutStatusChangesInput = {
@@ -3234,6 +3481,7 @@ export type UserCreateWithoutStatusChangesInput = {
   trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutStatusChangesInput = {
@@ -3274,6 +3522,7 @@ export type UserUncheckedCreateWithoutStatusChangesInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutStatusChangesInput = {
@@ -3329,6 +3578,7 @@ export type UserUpdateWithoutStatusChangesInput = {
   trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStatusChangesInput = {
@@ -3369,6 +3619,7 @@ export type UserUncheckedUpdateWithoutStatusChangesInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReportSupportsInput = {
@@ -3408,6 +3659,7 @@ export type UserCreateWithoutReportSupportsInput = {
   trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReportSupportsInput = {
@@ -3448,6 +3700,7 @@ export type UserUncheckedCreateWithoutReportSupportsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReportSupportsInput = {
@@ -3503,6 +3756,7 @@ export type UserUpdateWithoutReportSupportsInput = {
   trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReportSupportsInput = {
@@ -3543,6 +3797,7 @@ export type UserUncheckedUpdateWithoutReportSupportsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCreatedGroupsInput = {
@@ -3582,6 +3837,7 @@ export type UserCreateWithoutCreatedGroupsInput = {
   trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCreatedGroupsInput = {
@@ -3622,6 +3878,7 @@ export type UserUncheckedCreateWithoutCreatedGroupsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCreatedGroupsInput = {
@@ -3677,6 +3934,7 @@ export type UserUpdateWithoutCreatedGroupsInput = {
   trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedGroupsInput = {
@@ -3717,6 +3975,7 @@ export type UserUncheckedUpdateWithoutCreatedGroupsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutGroupMembershipsInput = {
@@ -3756,6 +4015,7 @@ export type UserCreateWithoutGroupMembershipsInput = {
   trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGroupMembershipsInput = {
@@ -3796,6 +4056,7 @@ export type UserUncheckedCreateWithoutGroupMembershipsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGroupMembershipsInput = {
@@ -3851,6 +4112,7 @@ export type UserUpdateWithoutGroupMembershipsInput = {
   trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupMembershipsInput = {
@@ -3891,6 +4153,7 @@ export type UserUncheckedUpdateWithoutGroupMembershipsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutGroupJoinRequestsInput = {
@@ -3930,6 +4193,7 @@ export type UserCreateWithoutGroupJoinRequestsInput = {
   trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGroupJoinRequestsInput = {
@@ -3970,6 +4234,7 @@ export type UserUncheckedCreateWithoutGroupJoinRequestsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGroupJoinRequestsInput = {
@@ -4025,6 +4290,7 @@ export type UserUpdateWithoutGroupJoinRequestsInput = {
   trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupJoinRequestsInput = {
@@ -4065,6 +4331,7 @@ export type UserUncheckedUpdateWithoutGroupJoinRequestsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutGroupMessagesInput = {
@@ -4104,6 +4371,7 @@ export type UserCreateWithoutGroupMessagesInput = {
   trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGroupMessagesInput = {
@@ -4144,6 +4412,7 @@ export type UserUncheckedCreateWithoutGroupMessagesInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGroupMessagesInput = {
@@ -4199,6 +4468,7 @@ export type UserUpdateWithoutGroupMessagesInput = {
   trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupMessagesInput = {
@@ -4239,6 +4509,7 @@ export type UserUncheckedUpdateWithoutGroupMessagesInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAdminNewsInput = {
@@ -4278,6 +4549,7 @@ export type UserCreateWithoutAdminNewsInput = {
   trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAdminNewsInput = {
@@ -4318,6 +4590,7 @@ export type UserUncheckedCreateWithoutAdminNewsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAdminNewsInput = {
@@ -4373,6 +4646,7 @@ export type UserUpdateWithoutAdminNewsInput = {
   trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAdminNewsInput = {
@@ -4413,6 +4687,7 @@ export type UserUncheckedUpdateWithoutAdminNewsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -4440,6 +4715,7 @@ export type UserCountOutputType = {
   trustTransactions: number
   trustTransactionsCreated: number
   trustMilestones: number
+  trustDailyEarnings: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4462,6 +4738,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   trustTransactions?: boolean | UserCountOutputTypeCountTrustTransactionsArgs
   trustTransactionsCreated?: boolean | UserCountOutputTypeCountTrustTransactionsCreatedArgs
   trustMilestones?: boolean | UserCountOutputTypeCountTrustMilestonesArgs
+  trustDailyEarnings?: boolean | UserCountOutputTypeCountTrustDailyEarningsArgs
 }
 
 /**
@@ -4607,6 +4884,13 @@ export type UserCountOutputTypeCountTrustMilestonesArgs<ExtArgs extends runtime.
   where?: Prisma.TrustMilestoneWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountTrustDailyEarningsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TrustDailyEarningWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -4647,6 +4931,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   trustTransactions?: boolean | Prisma.User$trustTransactionsArgs<ExtArgs>
   trustTransactionsCreated?: boolean | Prisma.User$trustTransactionsCreatedArgs<ExtArgs>
   trustMilestones?: boolean | Prisma.User$trustMilestonesArgs<ExtArgs>
+  trustDailyEarnings?: boolean | Prisma.User$trustDailyEarningsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -4737,6 +5022,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   trustTransactions?: boolean | Prisma.User$trustTransactionsArgs<ExtArgs>
   trustTransactionsCreated?: boolean | Prisma.User$trustTransactionsCreatedArgs<ExtArgs>
   trustMilestones?: boolean | Prisma.User$trustMilestonesArgs<ExtArgs>
+  trustDailyEarnings?: boolean | Prisma.User$trustDailyEarningsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -4764,6 +5050,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     trustTransactions: Prisma.$TrustTransactionPayload<ExtArgs>[]
     trustTransactionsCreated: Prisma.$TrustTransactionPayload<ExtArgs>[]
     trustMilestones: Prisma.$TrustMilestonePayload<ExtArgs>[]
+    trustDailyEarnings: Prisma.$TrustDailyEarningPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -5198,6 +5485,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   trustTransactions<T extends Prisma.User$trustTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$trustTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrustTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   trustTransactionsCreated<T extends Prisma.User$trustTransactionsCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$trustTransactionsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrustTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   trustMilestones<T extends Prisma.User$trustMilestonesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$trustMilestonesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrustMilestonePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  trustDailyEarnings<T extends Prisma.User$trustDailyEarningsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$trustDailyEarningsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrustDailyEarningPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6092,6 +6380,30 @@ export type User$trustMilestonesArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.TrustMilestoneScalarFieldEnum | Prisma.TrustMilestoneScalarFieldEnum[]
+}
+
+/**
+ * User.trustDailyEarnings
+ */
+export type User$trustDailyEarningsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TrustDailyEarning
+   */
+  select?: Prisma.TrustDailyEarningSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TrustDailyEarning
+   */
+  omit?: Prisma.TrustDailyEarningOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TrustDailyEarningInclude<ExtArgs> | null
+  where?: Prisma.TrustDailyEarningWhereInput
+  orderBy?: Prisma.TrustDailyEarningOrderByWithRelationInput | Prisma.TrustDailyEarningOrderByWithRelationInput[]
+  cursor?: Prisma.TrustDailyEarningWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TrustDailyEarningScalarFieldEnum | Prisma.TrustDailyEarningScalarFieldEnum[]
 }
 
 /**
