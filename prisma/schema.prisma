@@ -371,7 +371,8 @@ model ForumPostLike {
   post      ForumPost @relation(fields: [postId], references: [id], onDelete: Cascade)
   userId    Int
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime  @default(now())
+  createdAt     DateTime @default(now())
+  trustEligible Boolean  @default(true)
 
   @@unique([postId, userId])
   @@index([userId])
@@ -381,14 +382,15 @@ model ForumComment {
   id        Int       @id @default(autoincrement())
   postId    Int
   post      ForumPost @relation(fields: [postId], references: [id], onDelete: Cascade)
-  authorId  Int
-  author    User      @relation(fields: [authorId], references: [id], onDelete: Restrict)
-  parentId  Int?
-  parent    ForumComment? @relation("ForumCommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
-  replies   ForumComment[] @relation("ForumCommentReplies")
-  text      String
-  createdAt DateTime  @default(now())
-  mentions  ForumCommentMention[]
+  authorId      Int
+  author        User      @relation(fields: [authorId], references: [id], onDelete: Restrict)
+  parentId      Int?
+  parent        ForumComment? @relation("ForumCommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies       ForumComment[] @relation("ForumCommentReplies")
+  text          String
+  createdAt     DateTime  @default(now())
+  trustEligible Boolean   @default(true)
+  mentions      ForumCommentMention[]
 
   @@index([postId, createdAt])
   @@index([postId, parentId, createdAt])
