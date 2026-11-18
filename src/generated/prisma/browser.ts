@@ -23,6 +23,16 @@ export * from './enums';
  */
 export type User = Prisma.UserModel
 /**
+ * Model TrustTransaction
+ * 
+ */
+export type TrustTransaction = Prisma.TrustTransactionModel
+/**
+ * Model TrustMilestone
+ * 
+ */
+export type TrustMilestone = Prisma.TrustMilestoneModel
+/**
  * Model LoginThrottle
  * 
  */

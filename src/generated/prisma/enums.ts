@@ -86,6 +86,16 @@ export const ReportVisibility = {
 export type ReportVisibility = (typeof ReportVisibility)[keyof typeof ReportVisibility]
 
 
+export const TrustTransactionType = {
+  EARN: 'EARN',
+  REVERSAL: 'REVERSAL',
+  PENALTY: 'PENALTY',
+  ADJUSTMENT: 'ADJUSTMENT'
+} as const
+
+export type TrustTransactionType = (typeof TrustTransactionType)[keyof typeof TrustTransactionType]
+
+
 export const GroupMemberRole = {
   OWNER: 'OWNER',
   ADMIN: 'ADMIN',

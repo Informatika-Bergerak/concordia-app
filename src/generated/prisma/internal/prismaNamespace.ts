@@ -398,6 +398,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
+  TrustTransaction: 'TrustTransaction',
+  TrustMilestone: 'TrustMilestone',
   LoginThrottle: 'LoginThrottle',
   AuditLog: 'AuditLog',
   Report: 'Report',
@@ -435,7 +437,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "loginThrottle" | "auditLog" | "report" | "reportPhoto" | "forumPost" | "forumPostMention" | "forumPoll" | "forumPollOption" | "forumPollVote" | "forumPostImage" | "forumPostAudio" | "forumPostLike" | "forumComment" | "forumCommentMention" | "friendRequest" | "reportStatusHistory" | "reportSupport" | "group" | "groupMember" | "groupJoinRequest" | "groupMessage" | "adminNews"
+    modelProps: "user" | "trustTransaction" | "trustMilestone" | "loginThrottle" | "auditLog" | "report" | "reportPhoto" | "forumPost" | "forumPostMention" | "forumPoll" | "forumPollOption" | "forumPollVote" | "forumPostImage" | "forumPostAudio" | "forumPostLike" | "forumComment" | "forumCommentMention" | "friendRequest" | "reportStatusHistory" | "reportSupport" | "group" | "groupMember" | "groupJoinRequest" | "groupMessage" | "adminNews"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -510,6 +512,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.UserCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.UserCountAggregateOutputType> | number
+        }
+      }
+    }
+    TrustTransaction: {
+      payload: Prisma.$TrustTransactionPayload<ExtArgs>
+      fields: Prisma.TrustTransactionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TrustTransactionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustTransactionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TrustTransactionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustTransactionPayload>
+        }
+        findFirst: {
+          args: Prisma.TrustTransactionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustTransactionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TrustTransactionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustTransactionPayload>
+        }
+        findMany: {
+          args: Prisma.TrustTransactionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustTransactionPayload>[]
+        }
+        create: {
+          args: Prisma.TrustTransactionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustTransactionPayload>
+        }
+        createMany: {
+          args: Prisma.TrustTransactionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TrustTransactionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustTransactionPayload>[]
+        }
+        delete: {
+          args: Prisma.TrustTransactionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustTransactionPayload>
+        }
+        update: {
+          args: Prisma.TrustTransactionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustTransactionPayload>
+        }
+        deleteMany: {
+          args: Prisma.TrustTransactionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TrustTransactionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TrustTransactionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustTransactionPayload>[]
+        }
+        upsert: {
+          args: Prisma.TrustTransactionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustTransactionPayload>
+        }
+        aggregate: {
+          args: Prisma.TrustTransactionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTrustTransaction>
+        }
+        groupBy: {
+          args: Prisma.TrustTransactionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrustTransactionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TrustTransactionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrustTransactionCountAggregateOutputType> | number
+        }
+      }
+    }
+    TrustMilestone: {
+      payload: Prisma.$TrustMilestonePayload<ExtArgs>
+      fields: Prisma.TrustMilestoneFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TrustMilestoneFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustMilestonePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TrustMilestoneFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustMilestonePayload>
+        }
+        findFirst: {
+          args: Prisma.TrustMilestoneFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustMilestonePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TrustMilestoneFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustMilestonePayload>
+        }
+        findMany: {
+          args: Prisma.TrustMilestoneFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustMilestonePayload>[]
+        }
+        create: {
+          args: Prisma.TrustMilestoneCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustMilestonePayload>
+        }
+        createMany: {
+          args: Prisma.TrustMilestoneCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TrustMilestoneCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustMilestonePayload>[]
+        }
+        delete: {
+          args: Prisma.TrustMilestoneDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustMilestonePayload>
+        }
+        update: {
+          args: Prisma.TrustMilestoneUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustMilestonePayload>
+        }
+        deleteMany: {
+          args: Prisma.TrustMilestoneDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TrustMilestoneUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TrustMilestoneUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustMilestonePayload>[]
+        }
+        upsert: {
+          args: Prisma.TrustMilestoneUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustMilestonePayload>
+        }
+        aggregate: {
+          args: Prisma.TrustMilestoneAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTrustMilestone>
+        }
+        groupBy: {
+          args: Prisma.TrustMilestoneGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrustMilestoneGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TrustMilestoneCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrustMilestoneCountAggregateOutputType> | number
         }
       }
     }
@@ -2205,6 +2355,32 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const TrustTransactionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  amount: 'amount',
+  type: 'type',
+  source: 'source',
+  sourceId: 'sourceId',
+  originalTransactionId: 'originalTransactionId',
+  createdById: 'createdById',
+  createdAt: 'createdAt'
+} as const
+
+export type TrustTransactionScalarFieldEnum = (typeof TrustTransactionScalarFieldEnum)[keyof typeof TrustTransactionScalarFieldEnum]
+
+
+export const TrustMilestoneScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  milestone: 'milestone',
+  transactionId: 'transactionId',
+  completedAt: 'completedAt'
+} as const
+
+export type TrustMilestoneScalarFieldEnum = (typeof TrustMilestoneScalarFieldEnum)[keyof typeof TrustMilestoneScalarFieldEnum]
+
+
 export const LoginThrottleScalarFieldEnum = {
   key: 'key',
   attempts: 'attempts',
@@ -2612,6 +2788,20 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'TrustTransactionType'
+ */
+export type EnumTrustTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TrustTransactionType'>
+    
+
+
+/**
+ * Reference to a field of type 'TrustTransactionType[]'
+ */
+export type ListEnumTrustTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TrustTransactionType[]'>
+    
+
+
+/**
  * Reference to a field of type 'AuditAction'
  */
 export type EnumAuditActionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuditAction'>
@@ -2902,6 +3092,8 @@ export interface PrismaClientOptionsWithAdapter extends PrismaClientBaseOptions 
 export type PrismaClientOptions = PrismaClientOptionsWithAccelerateUrl | PrismaClientOptionsWithAdapter
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
+  trustTransaction?: Prisma.TrustTransactionOmit
+  trustMilestone?: Prisma.TrustMilestoneOmit
   loginThrottle?: Prisma.LoginThrottleOmit
   auditLog?: Prisma.AuditLogOmit
   report?: Prisma.ReportOmit

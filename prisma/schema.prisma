@@ -63,6 +63,13 @@ enum ReportVisibility {
   PRIVATE
 }
 
+enum TrustTransactionType {
+  EARN
+  REVERSAL
+  PENALTY
+  ADJUSTMENT
+}
+
 model User {
   id           Int       @id @default(autoincrement())
   username     String    @unique
@@ -102,6 +109,45 @@ model User {
   sentFriendRequests     FriendRequest[] @relation("FriendRequestRequester")
   receivedFriendRequests FriendRequest[] @relation("FriendRequestRecipient")
   adminNews              AdminNews[]
+  trustTransactions      TrustTransaction[] @relation("TrustTransactionUser")
+  trustTransactionsCreated TrustTransaction[] @relation("TrustTransactionCreator")
+  trustMilestones        TrustMilestone[]
+}
+
+// Trust Level ledger: amount is signed; positive adds XP and negative removes XP.
+// The application must create this row and update User.trustScore atomically.
+model TrustTransaction {
+  id                    Int                  @id @default(autoincrement())
+  userId                Int
+  user                  User                 @relation("TrustTransactionUser", fields: [userId], references: [id], onDelete: Restrict)
+  amount                Int
+  type                  TrustTransactionType
+  source                String
+  sourceId              String
+  originalTransactionId Int?                 @unique
+  originalTransaction   TrustTransaction?    @relation("TrustTransactionReversal", fields: [originalTransactionId], references: [id], onDelete: Restrict)
+  reversal              TrustTransaction?    @relation("TrustTransactionReversal")
+  milestone             TrustMilestone?
+  createdById           Int?
+  createdBy             User?                @relation("TrustTransactionCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt             DateTime             @default(now())
+
+  @@unique([userId, type, source, sourceId])
+  @@index([userId, createdAt])
+  @@index([source, sourceId])
+}
+
+// Records completed one-time milestones independently from the XP ledger.
+model TrustMilestone {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Restrict)
+  milestone           String
+  transactionId       Int      @unique
+  transaction         TrustTransaction @relation(fields: [transactionId], references: [id], onDelete: Restrict)
+  completedAt         DateTime @default(now())
+
+  @@unique([userId, milestone])
 }
 
 model LoginThrottle {

@@ -52,6 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  TrustTransaction: 'TrustTransaction',
+  TrustMilestone: 'TrustMilestone',
   LoginThrottle: 'LoginThrottle',
   AuditLog: 'AuditLog',
   Report: 'Report',
@@ -115,6 +117,32 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const TrustTransactionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  amount: 'amount',
+  type: 'type',
+  source: 'source',
+  sourceId: 'sourceId',
+  originalTransactionId: 'originalTransactionId',
+  createdById: 'createdById',
+  createdAt: 'createdAt'
+} as const
+
+export type TrustTransactionScalarFieldEnum = (typeof TrustTransactionScalarFieldEnum)[keyof typeof TrustTransactionScalarFieldEnum]
+
+
+export const TrustMilestoneScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  milestone: 'milestone',
+  transactionId: 'transactionId',
+  completedAt: 'completedAt'
+} as const
+
+export type TrustMilestoneScalarFieldEnum = (typeof TrustMilestoneScalarFieldEnum)[keyof typeof TrustMilestoneScalarFieldEnum]
 
 
 export const LoginThrottleScalarFieldEnum = {

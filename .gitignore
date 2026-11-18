@@ -148,8 +148,12 @@ vite.config.ts.timestamp-*
 # Turbo Repo
 .turbo
 
+# AI Development Instructions & Reports
+.agents/
+AGENT.md
+SESSION-REPORT-*.md
+
 # AI Tools & Editor Cache
-.agents
-.claude
-.cursor
-.devin
+.claude/
+.cursor/
+.devin/
