@@ -19,6 +19,7 @@ export function canCreateReport(role: ViewerRole): boolean {
 /** Bentuk baris dari Prisma yang dibutuhkan untuk membuat ReportItem. */
 export type ReportRow = {
   id: number;
+  slug: string;
   title: string;
   description: string;
   location: string;
@@ -43,6 +44,7 @@ export type ReportRow = {
 export function toReportItem(row: ReportRow, viewerId: number): ReportItem {
   return {
     id: String(row.id),
+    slug: row.slug,
     title: row.title,
     description: row.description,
     location: row.location,
@@ -67,9 +69,35 @@ export function canViewReport(
   return viewer.role === "ADMIN" || report.authorId === viewer.id;
 }
 
-/** Status boleh berubah ke status lain, asalkan bukan status yang sama. */
+/**
+ * Perpindahan status yang diizinkan, dari tahap verifikasi sampai penanganan selesai:
+ * Belum Terverifikasi -> Terverifikasi -> Diproses -> Selesai.
+ * Disertakan jalur koreksi bagi admin: membatalkan Diproses, membuka kembali laporan Selesai,
+ * dan meninjau ulang laporan yang ditolak.
+ */
+const NEXT_STATUSES: Record<ReportStatus, ReportStatus[]> = {
+  UNVERIFIED: ["VERIFIED", "REJECTED"],
+  VERIFIED: ["IN_PROGRESS", "RESOLVED", "REJECTED"],
+  IN_PROGRESS: ["RESOLVED", "VERIFIED"],
+  RESOLVED: ["IN_PROGRESS"],
+  REJECTED: ["UNVERIFIED"],
+};
+
+/** Status yang dapat dipilih admin sebagai langkah berikutnya dari status saat ini. */
+export function allowedNextStatuses(from: ReportStatus): ReportStatus[] {
+  return NEXT_STATUSES[from];
+}
+
 export function canChangeStatus(from: ReportStatus, to: ReportStatus): boolean {
-  return from !== to;
+  return NEXT_STATUSES[from].includes(to);
+}
+
+/**
+ * Visibilitas yang boleh dipilih untuk laporan biasa. Laporan moderator selalu Public
+ * agar pelapornya dapat dipertanggungjawabkan. Laporan grup memakai aturan tersendiri.
+ */
+export function allowedVisibilities(role: ViewerRole): ReportVisibility[] {
+  return role === "MODERATOR" ? ["PUBLIC"] : ["PUBLIC", "ANONYMOUS", "PRIVATE"];
 }
 
 /**
@@ -85,13 +113,14 @@ export function supportBlockReason(
   if (report.isOwn) return "Tidak dapat mendukung laporan sendiri";
   if (report.visibility === "PRIVATE") return "Laporan Private tidak dapat didukung";
   if (report.status === "REJECTED") return "Laporan yang ditolak tidak dapat didukung";
+  if (report.status === "RESOLVED") return "Laporan yang sudah selesai tidak dapat didukung";
   return null;
 }
 
 /**
  * Alasan laporan tidak dapat diubah oleh pengguna ini, atau null bila boleh.
  * Hanya pelapor yang mengubah laporannya (admin tidak), dan hanya selama laporan masih
- * Belum Terverifikasi. Setelah diverifikasi atau ditolak, isinya dikunci.
+ * Belum Terverifikasi. Setelah diverifikasi, diproses, selesai, atau ditolak, isinya dikunci.
  */
 export function editBlockReason(
   role: ViewerRole,
@@ -99,8 +128,8 @@ export function editBlockReason(
 ): string | null {
   if (role === "ADMIN") return "Admin tidak mengubah laporan";
   if (!report.isOwn) return "Hanya pelapor yang dapat mengubah laporan";
-  if (report.status === "VERIFIED") return "Laporan yang sudah terverifikasi tidak dapat diubah";
   if (report.status === "REJECTED") return "Laporan yang ditolak tidak dapat diubah";
+  if (report.status !== "UNVERIFIED") return "Laporan yang sudah terverifikasi atau diproses tidak dapat diubah";
   return null;
 }
 
@@ -149,6 +178,12 @@ export type AdminReportRow = ReportRow & {
   rejectionReason: string | null;
   createdAt: Date;
   author: { name: string; nickname?: string | null; username: string; userType: "MAHASISWA" | "DOSEN" | null };
+  author: {
+    name: string;
+    username: string;
+    userType: "MAHASISWA" | "DOSEN" | null;
+    role: ViewerRole;
+  };
 };
 
 /** Khusus admin: identitas pelapor selalu disertakan dan laporan dosen ditandai. */
@@ -158,6 +193,7 @@ export function toAdminReportItem(row: AdminReportRow, viewerId: number): AdminR
     authorName: getDisplayName(row.author.nickname, row.author.name),
     authorUsername: row.author.username,
     fromLecturer: row.author.userType === "DOSEN",
+    fromModerator: row.author.role === "MODERATOR",
     createdAt: row.createdAt.toISOString(),
     rejectionReason: row.rejectionReason,
   };

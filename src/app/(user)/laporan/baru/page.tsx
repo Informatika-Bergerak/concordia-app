@@ -3,6 +3,6 @@ import { requireRole } from "@/lib/auth/guards";
 
 export default async function BuatLaporanPage() {
   // Admin hanya memverifikasi laporan, tidak membuatnya.
-  await requireRole(["USER", "MODERATOR"]);
-  return <ReportForm />;
+  const { user } = await requireRole(["USER", "MODERATOR"]);
+  return <ReportForm viewerRole={user.role} />;
 }

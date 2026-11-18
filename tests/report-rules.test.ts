@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
+  allowedNextStatuses,
+  allowedVisibilities,
   canChangeStatus,
   canViewReport,
   editBlockReason,
@@ -11,6 +13,7 @@ import {
   toReportItem,
   type ReportRow,
 } from "../src/modules/report/rules";
+import { generateReportSlug, isNumericId, randomSuffix, slugify } from "../src/modules/report/slug";
 import {
   createReportInputSchema,
   reportPhotoSchema,
@@ -21,6 +24,7 @@ import {
 
 const row: ReportRow = {
   id: 7,
+  slug: "lampu-koridor-mati-ab12cd",
   title: "Lampu koridor mati",
   description: "Lampu di koridor lantai 2 mati sejak kemarin",
   location: "Gedung A lantai 2",
@@ -89,7 +93,60 @@ describe("canCreateReport", () => {
 describe("aturan status", () => {
   it("menolak perubahan ke status yang sama", () => {
     expect(canChangeStatus("UNVERIFIED", "UNVERIFIED")).toBe(false);
+    expect(canChangeStatus("IN_PROGRESS", "IN_PROGRESS")).toBe(false);
+  });
+
+  it("alur utama: Belum Terverifikasi, Terverifikasi, Diproses, Selesai", () => {
     expect(canChangeStatus("UNVERIFIED", "VERIFIED")).toBe(true);
+    expect(canChangeStatus("VERIFIED", "IN_PROGRESS")).toBe(true);
+    expect(canChangeStatus("IN_PROGRESS", "RESOLVED")).toBe(true);
+  });
+
+  it("tidak boleh melompati verifikasi", () => {
+    expect(canChangeStatus("UNVERIFIED", "IN_PROGRESS")).toBe(false);
+    expect(canChangeStatus("UNVERIFIED", "RESOLVED")).toBe(false);
+  });
+
+  it("jalur koreksi bagi admin", () => {
+    expect(canChangeStatus("IN_PROGRESS", "VERIFIED")).toBe(true); // membatalkan Diproses
+    expect(canChangeStatus("RESOLVED", "IN_PROGRESS")).toBe(true); // membuka kembali
+    expect(canChangeStatus("REJECTED", "UNVERIFIED")).toBe(true); // meninjau ulang
+    expect(canChangeStatus("VERIFIED", "RESOLVED")).toBe(true); // selesai tanpa fase diproses
+  });
+
+  it("laporan yang ditolak tidak bisa langsung diproses atau diselesaikan", () => {
+    expect(canChangeStatus("REJECTED", "VERIFIED")).toBe(false);
+    expect(canChangeStatus("REJECTED", "IN_PROGRESS")).toBe(false);
+    expect(canChangeStatus("REJECTED", "RESOLVED")).toBe(false);
+  });
+
+  it("allowedNextStatuses tidak memuat status saat ini dan konsisten dengan canChangeStatus", () => {
+    const all = ["UNVERIFIED", "VERIFIED", "IN_PROGRESS", "RESOLVED", "REJECTED"] as const;
+    for (const from of all) {
+      const next = allowedNextStatuses(from);
+      expect(next).not.toContain(from);
+      for (const to of all) expect(next.includes(to)).toBe(canChangeStatus(from, to));
+    }
+  });
+
+  it("laporan yang selesai tidak dapat didukung lagi, tetapi yang diproses masih bisa", () => {
+    const ok = { isOwn: false, visibility: "PUBLIC" as const };
+    expect(supportBlockReason("USER", { ...ok, status: "RESOLVED" })).not.toBeNull();
+    expect(supportBlockReason("USER", { ...ok, status: "IN_PROGRESS" })).toBeNull();
+    expect(supportBlockReason("USER", { ...ok, status: "VERIFIED" })).toBeNull();
+  });
+
+  it("laporan yang diproses atau selesai dikunci dari edit", () => {
+    for (const status of ["VERIFIED", "IN_PROGRESS", "RESOLVED", "REJECTED"] as const) {
+      expect(editBlockReason("USER", { isOwn: true, status })).not.toBeNull();
+    }
+  });
+
+  it("status baru diterima oleh validasi ubah status", () => {
+    for (const status of ["IN_PROGRESS", "RESOLVED"]) {
+      expect(updateReportStatusSchema.safeParse({ reportId: 1, status }).success).toBe(true);
+    }
+    expect(updateReportStatusSchema.safeParse({ reportId: 1, status: "ARCHIVED" }).success).toBe(false);
   });
 
   it("penolakan wajib memakai alasan", () => {
@@ -183,7 +240,12 @@ describe("toReportDetail dan toAdminReportItem", () => {
     ...row,
     rejectionReason: null,
     createdAt: new Date("2026-10-11T03:00:00.000Z"),
-    author: { name: "Muhamad Gilang", username: "2113231092", userType: "MAHASISWA" as const },
+    author: {
+      name: "Muhamad Gilang",
+      username: "2113231092",
+      userType: "MAHASISWA" as const,
+      role: "USER" as const,
+    },
   };
 
   it("admin melihat identitas pelapor, termasuk laporan Anonymous", () => {
@@ -306,5 +368,93 @@ describe("edit laporan", () => {
       expect(updateReportInputSchema.safeParse({ ...base, reportId: 0 }).success).toBe(false);
       expect(updateReportInputSchema.safeParse({ ...base, title: "abc" }).success).toBe(false);
     });
+  });
+});
+
+describe("slug laporan", () => {
+  it("mengubah judul menjadi bentuk URL", () => {
+    expect(slugify("WiFi Busuk!!")).toBe("wifi-busuk");
+    expect(slugify("  Lampu   Koridor -- Lantai 2  ")).toBe("lampu-koridor-lantai-2");
+  });
+
+  it("menghilangkan aksen dan simbol", () => {
+    expect(slugify("Café Kampus: Éclair & Kopi")).toBe("cafe-kampus-eclair-kopi");
+  });
+
+  it("memakai 'laporan' bila judul tidak punya huruf atau angka", () => {
+    expect(slugify("!!!")).toBe("laporan");
+    expect(slugify("")).toBe("laporan");
+  });
+
+  it("membatasi panjang dan tidak berakhir dengan tanda hubung", () => {
+    const slug = slugify("kata ".repeat(40));
+    expect(slug.length).toBeLessThanOrEqual(50);
+    expect(slug.endsWith("-")).toBe(false);
+  });
+
+  it("akhiran acak berisi huruf kecil dan angka sesuai byte yang diberikan", () => {
+    // indeks 0->a, 1->b, 25->z, 26->0, 35->9, 36 (36 % 36 = 0)->a
+    expect(randomSuffix(6, new Uint8Array([0, 1, 25, 26, 35, 36]))).toBe("abz09a");
+    expect(randomSuffix()).toMatch(/^[a-z0-9]{6}$/);
+  });
+
+  it("slug lengkap memenuhi pola URL dan tidak berupa angka murni", () => {
+    const slug = generateReportSlug("WiFi Busuk!!", "k3x9ab");
+    expect(slug).toBe("wifi-busuk-k3x9ab");
+    expect(slug).toMatch(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
+    expect(isNumericId(slug)).toBe(false);
+    expect(generateReportSlug("12345", "ab12cd")).toBe("12345-ab12cd");
+    expect(isNumericId(generateReportSlug("12345", "ab12cd"))).toBe(false);
+  });
+
+  it("slug acak berbeda pada pemanggilan berikutnya", () => {
+    const a = generateReportSlug("Judul sama");
+    const b = generateReportSlug("Judul sama");
+    expect(a).not.toBe(b);
+  });
+
+  it("mengenali alamat lama berbentuk nomor", () => {
+    expect(isNumericId("4")).toBe(true);
+    expect(isNumericId("004")).toBe(true);
+    expect(isNumericId("4a")).toBe(false);
+    expect(isNumericId("wifi-busuk-k3x9ab")).toBe(false);
+  });
+
+  it("toReportItem menyertakan slug", () => {
+    expect(toReportItem(row, 1).slug).toBe("lampu-koridor-mati-ab12cd");
+  });
+});
+
+describe("laporan moderator", () => {
+  it("moderator hanya boleh memilih visibilitas Public", () => {
+    expect(allowedVisibilities("MODERATOR")).toEqual(["PUBLIC"]);
+  });
+
+  it("mahasiswa dan dosen boleh memilih ketiga visibilitas", () => {
+    expect(allowedVisibilities("USER")).toEqual(["PUBLIC", "ANONYMOUS", "PRIVATE"]);
+  });
+
+  it("laporan dari moderator ditandai fromModerator bagi admin", () => {
+    const base = {
+      ...row,
+      rejectionReason: null,
+      createdAt: new Date("2026-10-11T03:00:00.000Z"),
+      author: { name: "Moderator", username: "moderator", userType: null, role: "MODERATOR" as const },
+    };
+    const item = toAdminReportItem(base, 9);
+    expect(item.fromModerator).toBe(true);
+    expect(item.fromLecturer).toBe(false);
+  });
+
+  it("laporan dari mahasiswa dan dosen tidak ditandai fromModerator", () => {
+    const base = {
+      ...row,
+      rejectionReason: null,
+      createdAt: new Date("2026-10-11T03:00:00.000Z"),
+      author: { name: "Dosen", username: "0411058501", userType: "DOSEN" as const, role: "USER" as const },
+    };
+    const item = toAdminReportItem(base, 9);
+    expect(item.fromModerator).toBe(false);
+    expect(item.fromLecturer).toBe(true);
   });
 });

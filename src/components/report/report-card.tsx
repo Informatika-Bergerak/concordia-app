@@ -33,7 +33,7 @@ export function ReportCard({ report, viewerRole }: { report: ReportItem; viewerR
       <div className={styles.cardBody}>
         <div className={styles.cardText}>
           <h3 className={styles.cardTitle}>
-            <Link href={`/laporan/${report.id}`} className={styles.cardLink}>
+            <Link href={`/laporan/${report.slug ?? report.id}`} className={styles.cardLink}>
               {report.title}
             </Link>
           </h3>

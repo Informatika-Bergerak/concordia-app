@@ -69,7 +69,9 @@ export type ReportCategory = (typeof ReportCategory)[keyof typeof ReportCategory
 export const ReportStatus = {
   UNVERIFIED: 'UNVERIFIED',
   VERIFIED: 'VERIFIED',
-  REJECTED: 'REJECTED'
+  REJECTED: 'REJECTED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  RESOLVED: 'RESOLVED'
 } as const
 
 export type ReportStatus = (typeof ReportStatus)[keyof typeof ReportStatus]

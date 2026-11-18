@@ -40,6 +40,7 @@ export type ReportSumAggregateOutputType = {
 
 export type ReportMinAggregateOutputType = {
   id: number | null
+  slug: string | null
   title: string | null
   description: string | null
   location: string | null
@@ -56,6 +57,7 @@ export type ReportMinAggregateOutputType = {
 
 export type ReportMaxAggregateOutputType = {
   id: number | null
+  slug: string | null
   title: string | null
   description: string | null
   location: string | null
@@ -72,6 +74,7 @@ export type ReportMaxAggregateOutputType = {
 
 export type ReportCountAggregateOutputType = {
   id: number
+  slug: number
   title: number
   description: number
   location: number
@@ -102,6 +105,7 @@ export type ReportSumAggregateInputType = {
 
 export type ReportMinAggregateInputType = {
   id?: true
+  slug?: true
   title?: true
   description?: true
   location?: true
@@ -118,6 +122,7 @@ export type ReportMinAggregateInputType = {
 
 export type ReportMaxAggregateInputType = {
   id?: true
+  slug?: true
   title?: true
   description?: true
   location?: true
@@ -134,6 +139,7 @@ export type ReportMaxAggregateInputType = {
 
 export type ReportCountAggregateInputType = {
   id?: true
+  slug?: true
   title?: true
   description?: true
   location?: true
@@ -237,6 +243,7 @@ export type ReportGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 
 export type ReportGroupByOutputType = {
   id: number
+  slug: string
   title: string
   description: string
   location: string
@@ -276,6 +283,7 @@ export type ReportWhereInput = {
   OR?: Prisma.ReportWhereInput[]
   NOT?: Prisma.ReportWhereInput | Prisma.ReportWhereInput[]
   id?: Prisma.IntFilter<"Report"> | number
+  slug?: Prisma.StringFilter<"Report"> | string
   title?: Prisma.StringFilter<"Report"> | string
   description?: Prisma.StringFilter<"Report"> | string
   location?: Prisma.StringFilter<"Report"> | string
@@ -297,6 +305,7 @@ export type ReportWhereInput = {
 
 export type ReportOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   location?: Prisma.SortOrder
@@ -318,6 +327,7 @@ export type ReportOrderByWithRelationInput = {
 
 export type ReportWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  slug?: string
   AND?: Prisma.ReportWhereInput | Prisma.ReportWhereInput[]
   OR?: Prisma.ReportWhereInput[]
   NOT?: Prisma.ReportWhereInput | Prisma.ReportWhereInput[]
@@ -338,10 +348,11 @@ export type ReportWhereUniqueInput = Prisma.AtLeast<{
   photos?: Prisma.ReportPhotoListRelationFilter
   history?: Prisma.ReportStatusHistoryListRelationFilter
   supports?: Prisma.ReportSupportListRelationFilter
-}, "id">
+}, "id" | "slug">
 
 export type ReportOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   location?: Prisma.SortOrder
@@ -366,6 +377,7 @@ export type ReportScalarWhereWithAggregatesInput = {
   OR?: Prisma.ReportScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ReportScalarWhereWithAggregatesInput | Prisma.ReportScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Report"> | number
+  slug?: Prisma.StringWithAggregatesFilter<"Report"> | string
   title?: Prisma.StringWithAggregatesFilter<"Report"> | string
   description?: Prisma.StringWithAggregatesFilter<"Report"> | string
   location?: Prisma.StringWithAggregatesFilter<"Report"> | string
@@ -381,6 +393,7 @@ export type ReportScalarWhereWithAggregatesInput = {
 }
 
 export type ReportCreateInput = {
+  slug: string
   title: string
   description: string
   location: string
@@ -400,6 +413,7 @@ export type ReportCreateInput = {
 
 export type ReportUncheckedCreateInput = {
   id?: number
+  slug: string
   title: string
   description: string
   location: string
@@ -418,6 +432,7 @@ export type ReportUncheckedCreateInput = {
 }
 
 export type ReportUpdateInput = {
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
@@ -437,6 +452,7 @@ export type ReportUpdateInput = {
 
 export type ReportUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
@@ -456,6 +472,7 @@ export type ReportUncheckedUpdateInput = {
 
 export type ReportCreateManyInput = {
   id?: number
+  slug: string
   title: string
   description: string
   location: string
@@ -471,6 +488,7 @@ export type ReportCreateManyInput = {
 }
 
 export type ReportUpdateManyMutationInput = {
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
@@ -485,6 +503,7 @@ export type ReportUpdateManyMutationInput = {
 
 export type ReportUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
@@ -511,6 +530,7 @@ export type ReportOrderByRelationAggregateInput = {
 
 export type ReportCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   location?: Prisma.SortOrder
@@ -533,6 +553,7 @@ export type ReportAvgOrderByAggregateInput = {
 
 export type ReportMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   location?: Prisma.SortOrder
@@ -549,6 +570,7 @@ export type ReportMaxOrderByAggregateInput = {
 
 export type ReportMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
   location?: Prisma.SortOrder
@@ -713,6 +735,7 @@ export type ReportUncheckedUpdateManyWithoutGroupNestedInput = {
 }
 
 export type ReportCreateWithoutAuthorInput = {
+  slug: string
   title: string
   description: string
   location: string
@@ -731,6 +754,7 @@ export type ReportCreateWithoutAuthorInput = {
 
 export type ReportUncheckedCreateWithoutAuthorInput = {
   id?: number
+  slug: string
   title: string
   description: string
   location: string
@@ -778,6 +802,7 @@ export type ReportScalarWhereInput = {
   OR?: Prisma.ReportScalarWhereInput[]
   NOT?: Prisma.ReportScalarWhereInput | Prisma.ReportScalarWhereInput[]
   id?: Prisma.IntFilter<"Report"> | number
+  slug?: Prisma.StringFilter<"Report"> | string
   title?: Prisma.StringFilter<"Report"> | string
   description?: Prisma.StringFilter<"Report"> | string
   location?: Prisma.StringFilter<"Report"> | string
@@ -793,6 +818,7 @@ export type ReportScalarWhereInput = {
 }
 
 export type ReportCreateWithoutPhotosInput = {
+  slug: string
   title: string
   description: string
   location: string
@@ -811,6 +837,7 @@ export type ReportCreateWithoutPhotosInput = {
 
 export type ReportUncheckedCreateWithoutPhotosInput = {
   id?: number
+  slug: string
   title: string
   description: string
   location: string
@@ -844,6 +871,7 @@ export type ReportUpdateToOneWithWhereWithoutPhotosInput = {
 }
 
 export type ReportUpdateWithoutPhotosInput = {
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
@@ -862,6 +890,7 @@ export type ReportUpdateWithoutPhotosInput = {
 
 export type ReportUncheckedUpdateWithoutPhotosInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
@@ -879,6 +908,7 @@ export type ReportUncheckedUpdateWithoutPhotosInput = {
 }
 
 export type ReportCreateWithoutHistoryInput = {
+  slug: string
   title: string
   description: string
   location: string
@@ -897,6 +927,7 @@ export type ReportCreateWithoutHistoryInput = {
 
 export type ReportUncheckedCreateWithoutHistoryInput = {
   id?: number
+  slug: string
   title: string
   description: string
   location: string
@@ -930,6 +961,7 @@ export type ReportUpdateToOneWithWhereWithoutHistoryInput = {
 }
 
 export type ReportUpdateWithoutHistoryInput = {
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
@@ -948,6 +980,7 @@ export type ReportUpdateWithoutHistoryInput = {
 
 export type ReportUncheckedUpdateWithoutHistoryInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
@@ -965,6 +998,7 @@ export type ReportUncheckedUpdateWithoutHistoryInput = {
 }
 
 export type ReportCreateWithoutSupportsInput = {
+  slug: string
   title: string
   description: string
   location: string
@@ -983,6 +1017,7 @@ export type ReportCreateWithoutSupportsInput = {
 
 export type ReportUncheckedCreateWithoutSupportsInput = {
   id?: number
+  slug: string
   title: string
   description: string
   location: string
@@ -1016,6 +1051,7 @@ export type ReportUpdateToOneWithWhereWithoutSupportsInput = {
 }
 
 export type ReportUpdateWithoutSupportsInput = {
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1034,6 +1070,7 @@ export type ReportUpdateWithoutSupportsInput = {
 
 export type ReportUncheckedUpdateWithoutSupportsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1051,6 +1088,7 @@ export type ReportUncheckedUpdateWithoutSupportsInput = {
 }
 
 export type ReportCreateWithoutGroupInput = {
+  slug: string
   title: string
   description: string
   location: string
@@ -1069,6 +1107,7 @@ export type ReportCreateWithoutGroupInput = {
 
 export type ReportUncheckedCreateWithoutGroupInput = {
   id?: number
+  slug: string
   title: string
   description: string
   location: string
@@ -1113,6 +1152,7 @@ export type ReportUpdateManyWithWhereWithoutGroupInput = {
 
 export type ReportCreateManyAuthorInput = {
   id?: number
+  slug: string
   title: string
   description: string
   location: string
@@ -1127,6 +1167,7 @@ export type ReportCreateManyAuthorInput = {
 }
 
 export type ReportUpdateWithoutAuthorInput = {
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1145,6 +1186,7 @@ export type ReportUpdateWithoutAuthorInput = {
 
 export type ReportUncheckedUpdateWithoutAuthorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1163,6 +1205,7 @@ export type ReportUncheckedUpdateWithoutAuthorInput = {
 
 export type ReportUncheckedUpdateManyWithoutAuthorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1178,6 +1221,7 @@ export type ReportUncheckedUpdateManyWithoutAuthorInput = {
 
 export type ReportCreateManyGroupInput = {
   id?: number
+  slug: string
   title: string
   description: string
   location: string
@@ -1192,6 +1236,7 @@ export type ReportCreateManyGroupInput = {
 }
 
 export type ReportUpdateWithoutGroupInput = {
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1210,6 +1255,7 @@ export type ReportUpdateWithoutGroupInput = {
 
 export type ReportUncheckedUpdateWithoutGroupInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1228,6 +1274,7 @@ export type ReportUncheckedUpdateWithoutGroupInput = {
 
 export type ReportUncheckedUpdateManyWithoutGroupInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1292,6 +1339,7 @@ export type ReportCountOutputTypeCountSupportsArgs<ExtArgs extends runtime.Types
 
 export type ReportSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  slug?: boolean
   title?: boolean
   description?: boolean
   location?: boolean
@@ -1314,6 +1362,7 @@ export type ReportSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 
 export type ReportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  slug?: boolean
   title?: boolean
   description?: boolean
   location?: boolean
@@ -1332,6 +1381,7 @@ export type ReportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
 
 export type ReportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  slug?: boolean
   title?: boolean
   description?: boolean
   location?: boolean
@@ -1350,6 +1400,7 @@ export type ReportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 
 export type ReportSelectScalar = {
   id?: boolean
+  slug?: boolean
   title?: boolean
   description?: boolean
   location?: boolean
@@ -1364,7 +1415,7 @@ export type ReportSelectScalar = {
   groupId?: boolean
 }
 
-export type ReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "location" | "category" | "status" | "visibility" | "occurredAt" | "rejectionReason" | "createdAt" | "updatedAt" | "authorId" | "groupId", ExtArgs["result"]["report"]>
+export type ReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "title" | "description" | "location" | "category" | "status" | "visibility" | "occurredAt" | "rejectionReason" | "createdAt" | "updatedAt" | "authorId" | "groupId", ExtArgs["result"]["report"]>
 export type ReportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   group?: boolean | Prisma.Report$groupArgs<ExtArgs>
@@ -1393,6 +1444,7 @@ export type $ReportPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
+    slug: string
     title: string
     description: string
     location: string
@@ -1834,6 +1886,7 @@ export interface Prisma__ReportClient<T, Null = never, ExtArgs extends runtime.T
  */
 export interface ReportFieldRefs {
   readonly id: Prisma.FieldRef<"Report", 'Int'>
+  readonly slug: Prisma.FieldRef<"Report", 'String'>
   readonly title: Prisma.FieldRef<"Report", 'String'>
   readonly description: Prisma.FieldRef<"Report", 'String'>
   readonly location: Prisma.FieldRef<"Report", 'String'>
