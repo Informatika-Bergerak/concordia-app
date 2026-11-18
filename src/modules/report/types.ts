@@ -1,4 +1,4 @@
-export type ReportStatus = "UNVERIFIED" | "VERIFIED" | "REJECTED";
+export type ReportStatus = "UNVERIFIED" | "VERIFIED" | "REJECTED" | "IN_PROGRESS" | "RESOLVED";
 
 export type ReportCategory =
   | "FASILITAS"

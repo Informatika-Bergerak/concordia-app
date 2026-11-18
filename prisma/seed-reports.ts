@@ -64,7 +64,7 @@ const SAMPLES: SampleReport[] = [
       "Lampu di koridor lantai 2 Gedung A mati sejak kemarin sore, sehingga koridor gelap dan berbahaya saat kelas malam.",
     location: "Gedung A lantai 2",
     category: "FASILITAS",
-    status: "VERIFIED",
+    status: "IN_PROGRESS",
     visibility: "PUBLIC",
     author: MAHASISWA.bayu,
     daysAgo: 6,
@@ -76,7 +76,7 @@ const SAMPLES: SampleReport[] = [
       "AC di lab komputer meneteskan air tepat di atas deretan meja. Khawatir mengenai perangkat dan stopkontak.",
     location: "Lab Komputer",
     category: "FASILITAS",
-    status: "VERIFIED",
+    status: "RESOLVED",
     visibility: "PUBLIC",
     author: MAHASISWA.citra,
     daysAgo: 8,
@@ -225,7 +225,7 @@ const SAMPLES: SampleReport[] = [
       "Tempat sampah di taman kampus penuh dan sampah berserakan ke area duduk. Perlu penambahan dan jadwal pengangkutan.",
     location: "Taman Kampus",
     category: "KEBERSIHAN",
-    status: "VERIFIED",
+    status: "RESOLVED",
     visibility: "PUBLIC",
     author: MODERATOR,
     daysAgo: 10,
@@ -234,6 +234,20 @@ const SAMPLES: SampleReport[] = [
 ];
 
 const DAY_MS = 24 * 60 * 60 * 1000;
+
+/** Tahap yang dilalui dari Belum Terverifikasi sampai status akhir. */
+const STATUS_CHAIN: Record<ReportStatus, ReportStatus[]> = {
+  UNVERIFIED: [],
+  VERIFIED: ["VERIFIED"],
+  REJECTED: ["REJECTED"],
+  IN_PROGRESS: ["VERIFIED", "IN_PROGRESS"],
+  RESOLVED: ["VERIFIED", "IN_PROGRESS", "RESOLVED"],
+};
+
+const HANDLING_NOTES: Partial<Record<ReportStatus, string>> = {
+  IN_PROGRESS: "Sedang ditangani oleh tim terkait.",
+  RESOLVED: "Penanganan selesai.",
+};
 
 type HistoryRow = {
   fromStatus: ReportStatus | null;
@@ -281,17 +295,21 @@ export async function seedReports(prisma: PrismaClient): Promise<void> {
     occurredAt.setUTCHours(0, 0, 0, 0);
     const reviewedAt = new Date(Math.min(Date.now(), createdAt.getTime() + DAY_MS));
 
+    // Riwayat mengikuti alur verifikasi dan penanganan sampai status akhir contoh ini.
     const history: HistoryRow[] = [
       { fromStatus: null, toStatus: "UNVERIFIED", note: null, changedById: authorId, createdAt },
     ];
-    if (sample.status !== "UNVERIFIED") {
+    const chain = STATUS_CHAIN[sample.status];
+    let previous: ReportStatus = "UNVERIFIED";
+    for (const [step, toStatus] of chain.entries()) {
       history.push({
-        fromStatus: "UNVERIFIED",
-        toStatus: sample.status,
-        note: sample.rejectionReason ?? null,
+        fromStatus: previous,
+        toStatus,
+        note: toStatus === "REJECTED" ? (sample.rejectionReason ?? null) : (HANDLING_NOTES[toStatus] ?? null),
         changedById: adminId,
-        createdAt: reviewedAt,
+        createdAt: new Date(Math.min(Date.now(), createdAt.getTime() + (step + 1) * DAY_MS)),
       });
+      previous = toStatus;
     }
 
     const supporterIds = (sample.supporters ?? [])

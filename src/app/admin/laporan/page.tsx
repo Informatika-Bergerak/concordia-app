@@ -11,7 +11,7 @@ import { formatReportDate } from "@/modules/report/format";
 import { getAdminReports } from "@/modules/report/queries";
 import type { AdminReportItem, ReportStatus } from "@/modules/report/types";
 
-const VALID: ReportStatus[] = ["UNVERIFIED", "VERIFIED", "REJECTED"];
+const VALID: ReportStatus[] = ["UNVERIFIED", "VERIFIED", "IN_PROGRESS", "RESOLVED", "REJECTED"];
 const VISIBILITY_ICON = { PUBLIC: Globe, ANONYMOUS: EyeOff, PRIVATE: Lock } as const;
 
 function AdminReportCard({ r }: { r: AdminReportItem }) {
@@ -112,6 +112,7 @@ export default async function AdminReportsPage({
       : reports.filter((r) => (r.fromLecturer || r.fromModerator) && r.status === "UNVERIFIED");
   const rest = reports.filter((r) => !highlighted.includes(r));
   const waiting = reports.filter((r) => r.status === "UNVERIFIED").length;
+  const inProgress = reports.filter((r) => r.status === "IN_PROGRESS").length;
 
   return (
     <AppShell user={admin}>
@@ -119,7 +120,7 @@ export default async function AdminReportsPage({
         <div>
           <h1 className="page-title">Verifikasi Laporan</h1>
           <p className="page-sub">
-            Tinjau laporan kampus, ubah statusnya, dan beri alasan bila laporan ditolak.
+            Verifikasi laporan kampus, pantau penanganannya sampai selesai, dan beri alasan bila laporan ditolak.
           </p>
         </div>
 
@@ -131,6 +132,10 @@ export default async function AdminReportsPage({
           <div className={styles.stat}>
             <span className={styles.statLabel}>Menunggu verifikasi</span>
             <span className={styles.statValue}>{waiting}</span>
+          </div>
+          <div className={styles.stat}>
+            <span className={styles.statLabel}>Sedang diproses</span>
+            <span className={styles.statValue}>{inProgress}</span>
           </div>
           {highlighted.length > 0 && (
             <div className={`${styles.stat} ${styles.statAlert}`}>

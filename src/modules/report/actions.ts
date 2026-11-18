@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { requireRole } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import { deleteAsset } from "@/lib/cloudinary/upload";
+import { STATUS_LABELS } from "./constants";
 import {
   allowedVisibilities,
   canChangeStatus,
@@ -124,7 +125,7 @@ export async function createReportAction(
   }
 }
 
-// Mengubah status laporan. Hanya admin yang boleh memverifikasi atau menolak.
+// Mengubah status laporan sepanjang tahap verifikasi dan penanganan. Hanya admin.
 export async function updateReportStatusAction(input: unknown): Promise<ActionResult> {
   const { user } = await requireRole(["ADMIN"]);
 
@@ -143,30 +144,47 @@ export async function updateReportStatusAction(input: unknown): Promise<ActionRe
     select: { id: true, slug: true, status: true },
   });
   if (!report) return { ok: false, error: "Laporan tidak ditemukan" };
+  if (report.status === status) return { ok: false, error: "Status laporan sudah sama" };
   if (!canChangeStatus(report.status, status)) {
-    return { ok: false, error: "Status laporan sudah sama" };
+    return {
+      ok: false,
+      error: `Status tidak dapat diubah dari "${STATUS_LABELS[report.status]}" ke "${STATUS_LABELS[status]}"`,
+    };
   }
 
   const reason = requiresNote(status) ? note : undefined;
 
-  await prisma.$transaction([
-    prisma.report.update({
-      where: { id: reportId },
-      data: { status, rejectionReason: reason ?? null },
-    }),
-    prisma.reportStatusHistory.create({
-      data: {
-        reportId,
-        fromStatus: report.status,
-        toStatus: status,
-        note: note ?? null,
-        changedById: user.id,
-      },
-    }),
-  ]);
+  try {
+    await prisma.$transaction(async (tx) => {
+      // Pembaruan bersyarat pada status yang tadi dibaca: bila admin lain sudah mengubahnya,
+      // perubahan ini dibatalkan agar tidak saling menimpa.
+      const { count } = await tx.report.updateMany({
+        where: { id: reportId, status: report.status },
+        data: { status, rejectionReason: reason ?? null },
+      });
+      if (count === 0) throw new Error("STATUS_CHANGED");
+
+      await tx.reportStatusHistory.create({
+        data: {
+          reportId,
+          fromStatus: report.status,
+          toStatus: status,
+          note: note ?? null,
+          changedById: user.id,
+        },
+      });
+    });
+  } catch (error) {
+    if ((error as Error).message === "STATUS_CHANGED") {
+      return { ok: false, error: "Status laporan sudah diubah pihak lain, muat ulang halaman" };
+    }
+    console.error("[report] Gagal mengubah status:", (error as Error).message);
+    return { ok: false, error: "Gagal mengubah status, coba lagi" };
+  }
 
   revalidatePath("/laporan");
   revalidatePath(`/laporan/${report.slug}`);
+  revalidatePath("/admin/laporan");
   return { ok: true };
 }
 

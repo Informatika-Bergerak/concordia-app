@@ -68,9 +68,27 @@ export function canViewReport(
   return viewer.role === "ADMIN" || report.authorId === viewer.id;
 }
 
-/** Status boleh berubah ke status lain, asalkan bukan status yang sama. */
+/**
+ * Perpindahan status yang diizinkan, dari tahap verifikasi sampai penanganan selesai:
+ * Belum Terverifikasi -> Terverifikasi -> Diproses -> Selesai.
+ * Disertakan jalur koreksi bagi admin: membatalkan Diproses, membuka kembali laporan Selesai,
+ * dan meninjau ulang laporan yang ditolak.
+ */
+const NEXT_STATUSES: Record<ReportStatus, ReportStatus[]> = {
+  UNVERIFIED: ["VERIFIED", "REJECTED"],
+  VERIFIED: ["IN_PROGRESS", "RESOLVED", "REJECTED"],
+  IN_PROGRESS: ["RESOLVED", "VERIFIED"],
+  RESOLVED: ["IN_PROGRESS"],
+  REJECTED: ["UNVERIFIED"],
+};
+
+/** Status yang dapat dipilih admin sebagai langkah berikutnya dari status saat ini. */
+export function allowedNextStatuses(from: ReportStatus): ReportStatus[] {
+  return NEXT_STATUSES[from];
+}
+
 export function canChangeStatus(from: ReportStatus, to: ReportStatus): boolean {
-  return from !== to;
+  return NEXT_STATUSES[from].includes(to);
 }
 
 /**
@@ -94,13 +112,14 @@ export function supportBlockReason(
   if (report.isOwn) return "Tidak dapat mendukung laporan sendiri";
   if (report.visibility === "PRIVATE") return "Laporan Private tidak dapat didukung";
   if (report.status === "REJECTED") return "Laporan yang ditolak tidak dapat didukung";
+  if (report.status === "RESOLVED") return "Laporan yang sudah selesai tidak dapat didukung";
   return null;
 }
 
 /**
  * Alasan laporan tidak dapat diubah oleh pengguna ini, atau null bila boleh.
  * Hanya pelapor yang mengubah laporannya (admin tidak), dan hanya selama laporan masih
- * Belum Terverifikasi. Setelah diverifikasi atau ditolak, isinya dikunci.
+ * Belum Terverifikasi. Setelah diverifikasi, diproses, selesai, atau ditolak, isinya dikunci.
  */
 export function editBlockReason(
   role: ViewerRole,
@@ -108,8 +127,8 @@ export function editBlockReason(
 ): string | null {
   if (role === "ADMIN") return "Admin tidak mengubah laporan";
   if (!report.isOwn) return "Hanya pelapor yang dapat mengubah laporan";
-  if (report.status === "VERIFIED") return "Laporan yang sudah terverifikasi tidak dapat diubah";
   if (report.status === "REJECTED") return "Laporan yang ditolak tidak dapat diubah";
+  if (report.status !== "UNVERIFIED") return "Laporan yang sudah terverifikasi atau diproses tidak dapat diubah";
   return null;
 }
 

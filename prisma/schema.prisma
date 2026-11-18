@@ -52,6 +52,8 @@ enum ReportStatus {
   UNVERIFIED
   VERIFIED
   REJECTED
+  IN_PROGRESS
+  RESOLVED
 }
 
 enum ReportVisibility {

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { seedReports } from "../prisma/seed-reports";
+import { canChangeStatus } from "../src/modules/report/rules";
 
 // Prisma palsu: cukup untuk memeriksa isi dan sifat idempoten seeder tanpa database.
 type Created = {
@@ -50,7 +51,7 @@ describe("seedReports", () => {
     const { prisma, created, idFor } = fakePrisma();
     await seedReports(prisma);
     expect(new Set(created.map((r) => r.status))).toEqual(
-      new Set(["UNVERIFIED", "VERIFIED", "REJECTED"]),
+      new Set(["UNVERIFIED", "VERIFIED", "IN_PROGRESS", "RESOLVED", "REJECTED"]),
     );
     expect(new Set(created.map((r) => r.visibility))).toEqual(
       new Set(["PUBLIC", "ANONYMOUS", "PRIVATE"]),
@@ -87,6 +88,18 @@ describe("seedReports", () => {
       expect(history.at(-1)?.toStatus).toBe(r.status);
       if (r.status === "REJECTED") expect(r.rejectionReason).toBeTruthy();
       else expect(r.rejectionReason).toBeNull();
+    }
+  });
+
+  it("setiap perpindahan status pada riwayat mengikuti aturan alur penanganan", async () => {
+    const { prisma, created } = fakePrisma();
+    await seedReports(prisma);
+    for (const r of created) {
+      const history = r.history.create;
+      for (let i = 1; i < history.length; i++) {
+        expect(canChangeStatus(history[i].fromStatus as never, history[i].toStatus as never)).toBe(true);
+        expect(history[i].fromStatus).toBe(history[i - 1].toStatus);
+      }
     }
   });
 

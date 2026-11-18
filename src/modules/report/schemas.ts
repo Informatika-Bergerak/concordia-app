@@ -60,7 +60,7 @@ export type CreateReportActionInput = z.infer<typeof createReportInputSchema>;
 export const updateReportStatusSchema = z
   .object({
     reportId: z.number().int().positive(),
-    status: z.enum(["UNVERIFIED", "VERIFIED", "REJECTED"]),
+    status: z.enum(["UNVERIFIED", "VERIFIED", "IN_PROGRESS", "RESOLVED", "REJECTED"]),
     note: z.string().trim().max(500, "Alasan maksimal 500 karakter").optional(),
   })
   .refine((v) => v.status !== "REJECTED" || (v.note && v.note.length >= 5), {

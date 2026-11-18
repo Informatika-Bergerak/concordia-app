@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  allowedNextStatuses,
   allowedVisibilities,
   canChangeStatus,
   canViewReport,
@@ -92,7 +93,60 @@ describe("canCreateReport", () => {
 describe("aturan status", () => {
   it("menolak perubahan ke status yang sama", () => {
     expect(canChangeStatus("UNVERIFIED", "UNVERIFIED")).toBe(false);
+    expect(canChangeStatus("IN_PROGRESS", "IN_PROGRESS")).toBe(false);
+  });
+
+  it("alur utama: Belum Terverifikasi, Terverifikasi, Diproses, Selesai", () => {
     expect(canChangeStatus("UNVERIFIED", "VERIFIED")).toBe(true);
+    expect(canChangeStatus("VERIFIED", "IN_PROGRESS")).toBe(true);
+    expect(canChangeStatus("IN_PROGRESS", "RESOLVED")).toBe(true);
+  });
+
+  it("tidak boleh melompati verifikasi", () => {
+    expect(canChangeStatus("UNVERIFIED", "IN_PROGRESS")).toBe(false);
+    expect(canChangeStatus("UNVERIFIED", "RESOLVED")).toBe(false);
+  });
+
+  it("jalur koreksi bagi admin", () => {
+    expect(canChangeStatus("IN_PROGRESS", "VERIFIED")).toBe(true); // membatalkan Diproses
+    expect(canChangeStatus("RESOLVED", "IN_PROGRESS")).toBe(true); // membuka kembali
+    expect(canChangeStatus("REJECTED", "UNVERIFIED")).toBe(true); // meninjau ulang
+    expect(canChangeStatus("VERIFIED", "RESOLVED")).toBe(true); // selesai tanpa fase diproses
+  });
+
+  it("laporan yang ditolak tidak bisa langsung diproses atau diselesaikan", () => {
+    expect(canChangeStatus("REJECTED", "VERIFIED")).toBe(false);
+    expect(canChangeStatus("REJECTED", "IN_PROGRESS")).toBe(false);
+    expect(canChangeStatus("REJECTED", "RESOLVED")).toBe(false);
+  });
+
+  it("allowedNextStatuses tidak memuat status saat ini dan konsisten dengan canChangeStatus", () => {
+    const all = ["UNVERIFIED", "VERIFIED", "IN_PROGRESS", "RESOLVED", "REJECTED"] as const;
+    for (const from of all) {
+      const next = allowedNextStatuses(from);
+      expect(next).not.toContain(from);
+      for (const to of all) expect(next.includes(to)).toBe(canChangeStatus(from, to));
+    }
+  });
+
+  it("laporan yang selesai tidak dapat didukung lagi, tetapi yang diproses masih bisa", () => {
+    const ok = { isOwn: false, visibility: "PUBLIC" as const };
+    expect(supportBlockReason("USER", { ...ok, status: "RESOLVED" })).not.toBeNull();
+    expect(supportBlockReason("USER", { ...ok, status: "IN_PROGRESS" })).toBeNull();
+    expect(supportBlockReason("USER", { ...ok, status: "VERIFIED" })).toBeNull();
+  });
+
+  it("laporan yang diproses atau selesai dikunci dari edit", () => {
+    for (const status of ["VERIFIED", "IN_PROGRESS", "RESOLVED", "REJECTED"] as const) {
+      expect(editBlockReason("USER", { isOwn: true, status })).not.toBeNull();
+    }
+  });
+
+  it("status baru diterima oleh validasi ubah status", () => {
+    for (const status of ["IN_PROGRESS", "RESOLVED"]) {
+      expect(updateReportStatusSchema.safeParse({ reportId: 1, status }).success).toBe(true);
+    }
+    expect(updateReportStatusSchema.safeParse({ reportId: 1, status: "ARCHIVED" }).success).toBe(false);
   });
 
   it("penolakan wajib memakai alasan", () => {

@@ -7,6 +7,7 @@ import type { ReportDetail as ReportDetailData } from "@/modules/report/types";
 import { PhotoViewer } from "./photo-viewer";
 import styles from "./report.module.css";
 import { StatusBadge } from "./status-badge";
+import { StatusProgress } from "./status-progress";
 import { SupportButton } from "./support-button";
 
 const VISIBILITY_ICON = { PUBLIC: Globe, ANONYMOUS: EyeOff, PRIVATE: Lock } as const;
@@ -39,6 +40,8 @@ export function ReportDetail({
         </div>
         <h2 className={styles.detailTitle}>{report.title}</h2>
       </header>
+
+      <StatusProgress status={report.status} />
 
       {report.status === "REJECTED" && report.rejectionReason && (
         <p className={styles.reason}>
