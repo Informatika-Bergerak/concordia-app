@@ -121,16 +121,56 @@ export async function sendGroupMessageAction(
 
 const groupMemberInput = z.object({ groupId: z.number().int().positive(), userId: z.number().int().positive() });
 const joinGroupInput = z.object({ groupId: z.number().int().positive() });
+const joinRequestDecisionInput = groupMemberInput.extend({ decision: z.enum(["ACCEPT", "REJECT"]) });
 
-export async function joinPublicGroupAction(input: unknown): Promise<ActionResult> {
+export async function joinPublicGroupAction(input: unknown): Promise<ActionResult<{ status: "PENDING" }>> {
   const { user } = await requireRole(["USER", "MODERATOR", "ADMIN"]);
   const parsed = joinGroupInput.safeParse(input);
   if (!parsed.success) return { ok: false, error: "Grup tidak valid" };
   const group = await prisma.group.findUnique({ where: { id: parsed.data.groupId }, select: { visibility: true } });
   if (!group || group.visibility !== "PUBLIC") return { ok: false, error: "Grup tidak tersedia untuk publik" };
-  try { await prisma.groupMember.create({ data: { groupId: parsed.data.groupId, userId: user.id } }); revalidatePath("/grup"); return { ok: true }; }
-  catch { return { ok: false, error: "Kamu sudah bergabung di grup ini" }; }
+
+  const membership = await prisma.groupMember.findUnique({ where: { groupId_userId: { groupId: parsed.data.groupId, userId: user.id } }, select: { id: true } });
+  if (membership) return { ok: false, error: "Kamu sudah menjadi anggota grup ini" };
+
+  try {
+    await prisma.groupJoinRequest.upsert({
+      where: { groupId_userId: { groupId: parsed.data.groupId, userId: user.id } },
+      create: { groupId: parsed.data.groupId, userId: user.id },
+      update: { status: "PENDING" },
+    });
+    revalidatePath("/grup");
+    revalidatePath(`/grup/${parsed.data.groupId}`);
+    return { ok: true, status: "PENDING" };
+  } catch {
+    return { ok: false, error: "Gagal mengajukan permintaan masuk grup" };
+  }
 }
+
+export async function decideGroupJoinRequestAction(input: unknown): Promise<ActionResult> {
+  const { user } = await requireRole(["USER", "MODERATOR", "ADMIN"]);
+  const parsed = joinRequestDecisionInput.safeParse(input);
+  if (!parsed.success || !(await requireGroupManager(parsed.data.groupId, user.id))) return { ok: false, error: "Tidak memiliki izin" };
+  if (parsed.data.userId === user.id) return { ok: false, error: "Tidak dapat memproses permintaan sendiri" };
+
+  const request = await prisma.groupJoinRequest.findUnique({ where: { groupId_userId: { groupId: parsed.data.groupId, userId: parsed.data.userId } }, select: { status: true } });
+  if (!request || request.status !== "PENDING") return { ok: false, error: "Permintaan sudah diproses" };
+
+  await prisma.$transaction(async (tx) => {
+    if (parsed.data.decision === "ACCEPT") {
+      await tx.groupMember.upsert({
+        where: { groupId_userId: { groupId: parsed.data.groupId, userId: parsed.data.userId } },
+        create: { groupId: parsed.data.groupId, userId: parsed.data.userId, role: "MEMBER" },
+        update: {},
+      });
+    }
+    await tx.groupJoinRequest.delete({ where: { groupId_userId: { groupId: parsed.data.groupId, userId: parsed.data.userId } } });
+  });
+  revalidatePath(`/grup/${parsed.data.groupId}`);
+  revalidatePath("/grup");
+  return { ok: true };
+}
+
 const messageMutationInput = z.object({ groupId: z.number().int().positive(), messageId: z.number().int().positive(), content: z.string().min(1).max(2000).optional() });
 
 async function requireGroupManager(groupId: number, userId: number) {
@@ -146,7 +186,7 @@ async function requireGroupOwner(groupId: number, userId: number) {
 export async function updateGroupMemberRoleAction(input: unknown): Promise<ActionResult> {
   const { user } = await requireRole(["USER", "MODERATOR", "ADMIN"]);
   const parsed = groupMemberInput.extend({ role: z.enum(["ADMIN", "MEMBER"]) }).safeParse(input);
-  if (!parsed.success || !(await requireGroupOwner(parsed.data.groupId, user.id))) return { ok: false, error: "Hanya pembuat grup yang dapat mengubah role" };
+  if (!parsed.success || !(await requireGroupManager(parsed.data.groupId, user.id))) return { ok: false, error: "Hanya pembuat grup atau admin yang dapat mengubah role" };
   if (parsed.data.userId === user.id) return { ok: false, error: "Role pembuat grup tidak dapat diubah" };
   const target = await prisma.groupMember.findUnique({ where: { groupId_userId: { groupId: parsed.data.groupId, userId: parsed.data.userId } }, select: { role: true } });
   if (!target || target.role === "OWNER") return { ok: false, error: "Anggota tidak ditemukan" };

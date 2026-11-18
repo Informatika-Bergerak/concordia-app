@@ -412,6 +412,7 @@ export const ModelName = {
   ReportSupport: 'ReportSupport',
   Group: 'Group',
   GroupMember: 'GroupMember',
+  GroupJoinRequest: 'GroupJoinRequest',
   GroupMessage: 'GroupMessage',
   AdminNews: 'AdminNews'
 } as const
@@ -429,7 +430,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "loginThrottle" | "auditLog" | "report" | "reportPhoto" | "forumPost" | "forumPostImage" | "forumPostAudio" | "forumPostLike" | "forumComment" | "friendRequest" | "reportStatusHistory" | "reportSupport" | "group" | "groupMember" | "groupMessage" | "adminNews"
+    modelProps: "user" | "loginThrottle" | "auditLog" | "report" | "reportPhoto" | "forumPost" | "forumPostImage" | "forumPostAudio" | "forumPostLike" | "forumComment" | "friendRequest" | "reportStatusHistory" | "reportSupport" | "group" | "groupMember" | "groupJoinRequest" | "groupMessage" | "adminNews"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1543,6 +1544,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    GroupJoinRequest: {
+      payload: Prisma.$GroupJoinRequestPayload<ExtArgs>
+      fields: Prisma.GroupJoinRequestFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.GroupJoinRequestFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GroupJoinRequestPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.GroupJoinRequestFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GroupJoinRequestPayload>
+        }
+        findFirst: {
+          args: Prisma.GroupJoinRequestFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GroupJoinRequestPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.GroupJoinRequestFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GroupJoinRequestPayload>
+        }
+        findMany: {
+          args: Prisma.GroupJoinRequestFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GroupJoinRequestPayload>[]
+        }
+        create: {
+          args: Prisma.GroupJoinRequestCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GroupJoinRequestPayload>
+        }
+        createMany: {
+          args: Prisma.GroupJoinRequestCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.GroupJoinRequestCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GroupJoinRequestPayload>[]
+        }
+        delete: {
+          args: Prisma.GroupJoinRequestDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GroupJoinRequestPayload>
+        }
+        update: {
+          args: Prisma.GroupJoinRequestUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GroupJoinRequestPayload>
+        }
+        deleteMany: {
+          args: Prisma.GroupJoinRequestDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.GroupJoinRequestUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.GroupJoinRequestUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GroupJoinRequestPayload>[]
+        }
+        upsert: {
+          args: Prisma.GroupJoinRequestUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GroupJoinRequestPayload>
+        }
+        aggregate: {
+          args: Prisma.GroupJoinRequestAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateGroupJoinRequest>
+        }
+        groupBy: {
+          args: Prisma.GroupJoinRequestGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GroupJoinRequestGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.GroupJoinRequestCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GroupJoinRequestCountAggregateOutputType> | number
+        }
+      }
+    }
     GroupMessage: {
       payload: Prisma.$GroupMessagePayload<ExtArgs>
       fields: Prisma.GroupMessageFieldRefs
@@ -1935,6 +2010,18 @@ export const GroupMemberScalarFieldEnum = {
 export type GroupMemberScalarFieldEnum = (typeof GroupMemberScalarFieldEnum)[keyof typeof GroupMemberScalarFieldEnum]
 
 
+export const GroupJoinRequestScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  userId: 'userId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type GroupJoinRequestScalarFieldEnum = (typeof GroupJoinRequestScalarFieldEnum)[keyof typeof GroupJoinRequestScalarFieldEnum]
+
+
 export const GroupMessageScalarFieldEnum = {
   id: 'id',
   groupId: 'groupId',
@@ -2197,6 +2284,20 @@ export type ListEnumGroupMemberRoleFieldRefInput<$PrismaModel> = FieldRefInputTy
 
 
 /**
+ * Reference to a field of type 'GroupJoinRequestStatus'
+ */
+export type EnumGroupJoinRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GroupJoinRequestStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'GroupJoinRequestStatus[]'
+ */
+export type ListEnumGroupJoinRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GroupJoinRequestStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -2375,6 +2476,7 @@ export type GlobalOmitConfig = {
   reportSupport?: Prisma.ReportSupportOmit
   group?: Prisma.GroupOmit
   groupMember?: Prisma.GroupMemberOmit
+  groupJoinRequest?: Prisma.GroupJoinRequestOmit
   groupMessage?: Prisma.GroupMessageOmit
   adminNews?: Prisma.AdminNewsOmit
 }

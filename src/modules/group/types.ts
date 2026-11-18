@@ -33,6 +33,14 @@ export type GroupMemberListItem = {
   joinedAt: Date;
 };
 
+export type GroupJoinRequestListItem = {
+  id: number;
+  userId: number;
+  name: string;
+  photo: string | null;
+  createdAt: Date;
+};
+
 export type GroupChatMessage = {
   id: number;
   content: string;

@@ -100,3 +100,11 @@ export const GroupVisibility = {
 } as const
 
 export type GroupVisibility = (typeof GroupVisibility)[keyof typeof GroupVisibility]
+
+
+export const GroupJoinRequestStatus = {
+  PENDING: 'PENDING',
+  REJECTED: 'REJECTED'
+} as const
+
+export type GroupJoinRequestStatus = (typeof GroupJoinRequestStatus)[keyof typeof GroupJoinRequestStatus]

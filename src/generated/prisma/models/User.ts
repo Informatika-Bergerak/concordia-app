@@ -320,6 +320,7 @@ export type UserWhereInput = {
   reportSupports?: Prisma.ReportSupportListRelationFilter
   createdGroups?: Prisma.GroupListRelationFilter
   groupMemberships?: Prisma.GroupMemberListRelationFilter
+  groupJoinRequests?: Prisma.GroupJoinRequestListRelationFilter
   groupMessages?: Prisma.GroupMessageListRelationFilter
   statusChanges?: Prisma.ReportStatusHistoryListRelationFilter
   forumPosts?: Prisma.ForumPostListRelationFilter
@@ -352,6 +353,7 @@ export type UserOrderByWithRelationInput = {
   reportSupports?: Prisma.ReportSupportOrderByRelationAggregateInput
   createdGroups?: Prisma.GroupOrderByRelationAggregateInput
   groupMemberships?: Prisma.GroupMemberOrderByRelationAggregateInput
+  groupJoinRequests?: Prisma.GroupJoinRequestOrderByRelationAggregateInput
   groupMessages?: Prisma.GroupMessageOrderByRelationAggregateInput
   statusChanges?: Prisma.ReportStatusHistoryOrderByRelationAggregateInput
   forumPosts?: Prisma.ForumPostOrderByRelationAggregateInput
@@ -387,6 +389,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   reportSupports?: Prisma.ReportSupportListRelationFilter
   createdGroups?: Prisma.GroupListRelationFilter
   groupMemberships?: Prisma.GroupMemberListRelationFilter
+  groupJoinRequests?: Prisma.GroupJoinRequestListRelationFilter
   groupMessages?: Prisma.GroupMessageListRelationFilter
   statusChanges?: Prisma.ReportStatusHistoryListRelationFilter
   forumPosts?: Prisma.ForumPostListRelationFilter
@@ -466,6 +469,7 @@ export type UserCreateInput = {
   reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
@@ -498,6 +502,7 @@ export type UserUncheckedCreateInput = {
   reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
@@ -529,6 +534,7 @@ export type UserUpdateInput = {
   reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
@@ -561,6 +567,7 @@ export type UserUncheckedUpdateInput = {
   reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -888,6 +895,20 @@ export type UserUpdateOneRequiredWithoutGroupMembershipsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutGroupMembershipsInput, Prisma.UserUpdateWithoutGroupMembershipsInput>, Prisma.UserUncheckedUpdateWithoutGroupMembershipsInput>
 }
 
+export type UserCreateNestedOneWithoutGroupJoinRequestsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutGroupJoinRequestsInput, Prisma.UserUncheckedCreateWithoutGroupJoinRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGroupJoinRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutGroupJoinRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutGroupJoinRequestsInput, Prisma.UserUncheckedCreateWithoutGroupJoinRequestsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGroupJoinRequestsInput
+  upsert?: Prisma.UserUpsertWithoutGroupJoinRequestsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutGroupJoinRequestsInput, Prisma.UserUpdateWithoutGroupJoinRequestsInput>, Prisma.UserUncheckedUpdateWithoutGroupJoinRequestsInput>
+}
+
 export type UserCreateNestedOneWithoutGroupMessagesInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutGroupMessagesInput, Prisma.UserUncheckedCreateWithoutGroupMessagesInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutGroupMessagesInput
@@ -936,6 +957,7 @@ export type UserCreateWithoutReportsInput = {
   reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
@@ -967,6 +989,7 @@ export type UserUncheckedCreateWithoutReportsInput = {
   reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
@@ -1013,6 +1036,7 @@ export type UserUpdateWithoutReportsInput = {
   reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
@@ -1044,6 +1068,7 @@ export type UserUncheckedUpdateWithoutReportsInput = {
   reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -1075,6 +1100,7 @@ export type UserCreateWithoutForumPostsInput = {
   reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
   forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
@@ -1106,6 +1132,7 @@ export type UserUncheckedCreateWithoutForumPostsInput = {
   reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
   forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
@@ -1152,6 +1179,7 @@ export type UserUpdateWithoutForumPostsInput = {
   reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
   forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
@@ -1183,6 +1211,7 @@ export type UserUncheckedUpdateWithoutForumPostsInput = {
   reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
   forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
@@ -1213,6 +1242,7 @@ export type UserCreateWithoutForumLikesInput = {
   reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
@@ -1244,6 +1274,7 @@ export type UserUncheckedCreateWithoutForumLikesInput = {
   reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
@@ -1290,6 +1321,7 @@ export type UserUpdateWithoutForumLikesInput = {
   reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
@@ -1321,6 +1353,7 @@ export type UserUncheckedUpdateWithoutForumLikesInput = {
   reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -1351,6 +1384,7 @@ export type UserCreateWithoutForumCommentsInput = {
   reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
@@ -1382,6 +1416,7 @@ export type UserUncheckedCreateWithoutForumCommentsInput = {
   reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
@@ -1428,6 +1463,7 @@ export type UserUpdateWithoutForumCommentsInput = {
   reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
@@ -1459,6 +1495,7 @@ export type UserUncheckedUpdateWithoutForumCommentsInput = {
   reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -1489,6 +1526,7 @@ export type UserCreateWithoutSentFriendRequestsInput = {
   reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
@@ -1520,6 +1558,7 @@ export type UserUncheckedCreateWithoutSentFriendRequestsInput = {
   reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
@@ -1555,6 +1594,7 @@ export type UserCreateWithoutReceivedFriendRequestsInput = {
   reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
@@ -1586,6 +1626,7 @@ export type UserUncheckedCreateWithoutReceivedFriendRequestsInput = {
   reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
@@ -1632,6 +1673,7 @@ export type UserUpdateWithoutSentFriendRequestsInput = {
   reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
@@ -1663,6 +1705,7 @@ export type UserUncheckedUpdateWithoutSentFriendRequestsInput = {
   reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -1704,6 +1747,7 @@ export type UserUpdateWithoutReceivedFriendRequestsInput = {
   reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
@@ -1735,6 +1779,7 @@ export type UserUncheckedUpdateWithoutReceivedFriendRequestsInput = {
   reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -1765,6 +1810,7 @@ export type UserCreateWithoutStatusChangesInput = {
   reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
@@ -1796,6 +1842,7 @@ export type UserUncheckedCreateWithoutStatusChangesInput = {
   reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
@@ -1842,6 +1889,7 @@ export type UserUpdateWithoutStatusChangesInput = {
   reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
@@ -1873,6 +1921,7 @@ export type UserUncheckedUpdateWithoutStatusChangesInput = {
   reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
@@ -1902,6 +1951,7 @@ export type UserCreateWithoutReportSupportsInput = {
   reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
   createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
@@ -1933,6 +1983,7 @@ export type UserUncheckedCreateWithoutReportSupportsInput = {
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
   createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
@@ -1979,6 +2030,7 @@ export type UserUpdateWithoutReportSupportsInput = {
   reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
   createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
@@ -2010,6 +2062,7 @@ export type UserUncheckedUpdateWithoutReportSupportsInput = {
   reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
   createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -2040,6 +2093,7 @@ export type UserCreateWithoutCreatedGroupsInput = {
   reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
   reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
   groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
@@ -2071,6 +2125,7 @@ export type UserUncheckedCreateWithoutCreatedGroupsInput = {
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
   reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
   groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
@@ -2117,6 +2172,7 @@ export type UserUpdateWithoutCreatedGroupsInput = {
   reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
   reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
   groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
@@ -2148,6 +2204,7 @@ export type UserUncheckedUpdateWithoutCreatedGroupsInput = {
   reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
   reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
   groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -2178,6 +2235,7 @@ export type UserCreateWithoutGroupMembershipsInput = {
   reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
   reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
+  groupJoinRequests?: Prisma.GroupJoinRequestCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
@@ -2209,6 +2267,7 @@ export type UserUncheckedCreateWithoutGroupMembershipsInput = {
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
   reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
@@ -2255,6 +2314,7 @@ export type UserUpdateWithoutGroupMembershipsInput = {
   reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
   reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
@@ -2286,6 +2346,149 @@ export type UserUncheckedUpdateWithoutGroupMembershipsInput = {
   reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
   reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
+  statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
+  forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
+  forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
+  adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserCreateWithoutGroupJoinRequestsInput = {
+  username: string
+  name: string
+  passwordHash: string
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  fotoProfil?: string | null
+  jurusan?: string | null
+  bio?: string | null
+  trustScore?: number
+  isActive?: boolean
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activeSessionId?: string | null
+  lastSeenAt?: Date | string | null
+  activeDevice?: string | null
+  reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
+  statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
+  forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
+  forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
+  forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
+  adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
+}
+
+export type UserUncheckedCreateWithoutGroupJoinRequestsInput = {
+  id?: number
+  username: string
+  name: string
+  passwordHash: string
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  fotoProfil?: string | null
+  jurusan?: string | null
+  bio?: string | null
+  trustScore?: number
+  isActive?: boolean
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activeSessionId?: string | null
+  lastSeenAt?: Date | string | null
+  activeDevice?: string | null
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
+  statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
+  forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
+  forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
+  forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
+  adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
+}
+
+export type UserCreateOrConnectWithoutGroupJoinRequestsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutGroupJoinRequestsInput, Prisma.UserUncheckedCreateWithoutGroupJoinRequestsInput>
+}
+
+export type UserUpsertWithoutGroupJoinRequestsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutGroupJoinRequestsInput, Prisma.UserUncheckedUpdateWithoutGroupJoinRequestsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutGroupJoinRequestsInput, Prisma.UserUncheckedCreateWithoutGroupJoinRequestsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutGroupJoinRequestsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutGroupJoinRequestsInput, Prisma.UserUncheckedUpdateWithoutGroupJoinRequestsInput>
+}
+
+export type UserUpdateWithoutGroupJoinRequestsInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
+  statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
+  forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
+  forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
+  forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
+  adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutGroupJoinRequestsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -2317,6 +2520,7 @@ export type UserCreateWithoutGroupMessagesInput = {
   reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestCreateNestedManyWithoutUserInput
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
@@ -2348,6 +2552,7 @@ export type UserUncheckedCreateWithoutGroupMessagesInput = {
   reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedCreateNestedManyWithoutUserInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
@@ -2394,6 +2599,7 @@ export type UserUpdateWithoutGroupMessagesInput = {
   reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUpdateManyWithoutUserNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
@@ -2425,6 +2631,7 @@ export type UserUncheckedUpdateWithoutGroupMessagesInput = {
   reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedUpdateManyWithoutUserNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
@@ -2455,6 +2662,7 @@ export type UserCreateWithoutAdminNewsInput = {
   reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
@@ -2486,6 +2694,7 @@ export type UserUncheckedCreateWithoutAdminNewsInput = {
   reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
   createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
   groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedCreateNestedManyWithoutUserInput
   groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
@@ -2532,6 +2741,7 @@ export type UserUpdateWithoutAdminNewsInput = {
   reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
@@ -2563,6 +2773,7 @@ export type UserUncheckedUpdateWithoutAdminNewsInput = {
   reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
   createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
   groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedUpdateManyWithoutUserNestedInput
   groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
   statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -2582,6 +2793,7 @@ export type UserCountOutputType = {
   reportSupports: number
   createdGroups: number
   groupMemberships: number
+  groupJoinRequests: number
   groupMessages: number
   statusChanges: number
   forumPosts: number
@@ -2597,6 +2809,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   reportSupports?: boolean | UserCountOutputTypeCountReportSupportsArgs
   createdGroups?: boolean | UserCountOutputTypeCountCreatedGroupsArgs
   groupMemberships?: boolean | UserCountOutputTypeCountGroupMembershipsArgs
+  groupJoinRequests?: boolean | UserCountOutputTypeCountGroupJoinRequestsArgs
   groupMessages?: boolean | UserCountOutputTypeCountGroupMessagesArgs
   statusChanges?: boolean | UserCountOutputTypeCountStatusChangesArgs
   forumPosts?: boolean | UserCountOutputTypeCountForumPostsArgs
@@ -2643,6 +2856,13 @@ export type UserCountOutputTypeCountCreatedGroupsArgs<ExtArgs extends runtime.Ty
  */
 export type UserCountOutputTypeCountGroupMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.GroupMemberWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountGroupJoinRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.GroupJoinRequestWhereInput
 }
 
 /**
@@ -2724,6 +2944,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   reportSupports?: boolean | Prisma.User$reportSupportsArgs<ExtArgs>
   createdGroups?: boolean | Prisma.User$createdGroupsArgs<ExtArgs>
   groupMemberships?: boolean | Prisma.User$groupMembershipsArgs<ExtArgs>
+  groupJoinRequests?: boolean | Prisma.User$groupJoinRequestsArgs<ExtArgs>
   groupMessages?: boolean | Prisma.User$groupMessagesArgs<ExtArgs>
   statusChanges?: boolean | Prisma.User$statusChangesArgs<ExtArgs>
   forumPosts?: boolean | Prisma.User$forumPostsArgs<ExtArgs>
@@ -2801,6 +3022,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   reportSupports?: boolean | Prisma.User$reportSupportsArgs<ExtArgs>
   createdGroups?: boolean | Prisma.User$createdGroupsArgs<ExtArgs>
   groupMemberships?: boolean | Prisma.User$groupMembershipsArgs<ExtArgs>
+  groupJoinRequests?: boolean | Prisma.User$groupJoinRequestsArgs<ExtArgs>
   groupMessages?: boolean | Prisma.User$groupMessagesArgs<ExtArgs>
   statusChanges?: boolean | Prisma.User$statusChangesArgs<ExtArgs>
   forumPosts?: boolean | Prisma.User$forumPostsArgs<ExtArgs>
@@ -2821,6 +3043,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     reportSupports: Prisma.$ReportSupportPayload<ExtArgs>[]
     createdGroups: Prisma.$GroupPayload<ExtArgs>[]
     groupMemberships: Prisma.$GroupMemberPayload<ExtArgs>[]
+    groupJoinRequests: Prisma.$GroupJoinRequestPayload<ExtArgs>[]
     groupMessages: Prisma.$GroupMessagePayload<ExtArgs>[]
     statusChanges: Prisma.$ReportStatusHistoryPayload<ExtArgs>[]
     forumPosts: Prisma.$ForumPostPayload<ExtArgs>[]
@@ -3246,6 +3469,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   reportSupports<T extends Prisma.User$reportSupportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reportSupportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportSupportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdGroups<T extends Prisma.User$createdGroupsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdGroupsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   groupMemberships<T extends Prisma.User$groupMembershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$groupMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GroupMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  groupJoinRequests<T extends Prisma.User$groupJoinRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$groupJoinRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GroupJoinRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   groupMessages<T extends Prisma.User$groupMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$groupMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GroupMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   statusChanges<T extends Prisma.User$statusChangesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$statusChangesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportStatusHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   forumPosts<T extends Prisma.User$forumPostsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$forumPostsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ForumPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3786,6 +4010,30 @@ export type User$groupMembershipsArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.GroupMemberScalarFieldEnum | Prisma.GroupMemberScalarFieldEnum[]
+}
+
+/**
+ * User.groupJoinRequests
+ */
+export type User$groupJoinRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the GroupJoinRequest
+   */
+  select?: Prisma.GroupJoinRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the GroupJoinRequest
+   */
+  omit?: Prisma.GroupJoinRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GroupJoinRequestInclude<ExtArgs> | null
+  where?: Prisma.GroupJoinRequestWhereInput
+  orderBy?: Prisma.GroupJoinRequestOrderByWithRelationInput | Prisma.GroupJoinRequestOrderByWithRelationInput[]
+  cursor?: Prisma.GroupJoinRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.GroupJoinRequestScalarFieldEnum | Prisma.GroupJoinRequestScalarFieldEnum[]
 }
 
 /**

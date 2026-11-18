@@ -87,6 +87,7 @@ model User {
   reportSupports ReportSupport[]
   createdGroups Group[] @relation("GroupCreator")
   groupMemberships GroupMember[] @relation("GroupMembershipUser")
+  groupJoinRequests GroupJoinRequest[] @relation("GroupJoinRequestUser")
   groupMessages GroupMessage[] @relation("GroupMessageSender")
   statusChanges ReportStatusHistory[] @relation("ReportStatusChangedBy")
   forumPosts    ForumPost[]
@@ -296,6 +297,11 @@ enum GroupVisibility {
   PRIVATE
 }
 
+enum GroupJoinRequestStatus {
+  PENDING
+  REJECTED
+}
+
 model Group {
   id          Int       @id @default(autoincrement())
   name        String
@@ -308,9 +314,10 @@ model Group {
   creatorId   Int
   creator     User @relation("GroupCreator", fields: [creatorId], references: [id], onDelete: Restrict)
 
-  members     GroupMember[]
-  messages    GroupMessage[]
-  reports     Report[]
+  members       GroupMember[]
+  joinRequests  GroupJoinRequest[]
+  messages      GroupMessage[]
+  reports       Report[]
 
   @@index([creatorId])
 }
@@ -326,6 +333,21 @@ model GroupMember {
 
   @@unique([groupId, userId])
   @@index([userId])
+}
+
+model GroupJoinRequest {
+  id        Int                    @id @default(autoincrement())
+  groupId   Int
+  group     Group                  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      User                   @relation("GroupJoinRequestUser", fields: [userId], references: [id], onDelete: Cascade)
+  status    GroupJoinRequestStatus @default(PENDING)
+  createdAt DateTime               @default(now())
+  updatedAt DateTime               @updatedAt
+
+  @@unique([groupId, userId])
+  @@index([groupId, status])
+  @@index([userId, status])
 }
 
 model GroupMessage {

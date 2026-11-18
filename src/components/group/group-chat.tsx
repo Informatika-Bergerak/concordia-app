@@ -9,7 +9,7 @@ import { sendGroupMessageAction, editGroupMessageAction, deleteGroupMessageActio
 import type { GroupDetail, GroupChatMessage } from "@/modules/group/types";
 import { MessageContextMenu } from "./message-context-menu";
 import { GroupInformation } from "./group-information";
-import type { GroupMemberListItem } from "@/modules/group/types";
+import type { GroupJoinRequestListItem, GroupMemberListItem } from "@/modules/group/types";
 import styles from "./group.module.css";
 
 type GroupChatProps = {
@@ -17,6 +17,7 @@ type GroupChatProps = {
   messages: GroupChatMessage[];
   currentUserId: number;
   members: GroupMemberListItem[];
+  joinRequests: GroupJoinRequestListItem[];
   canManage: boolean;
 };
 
@@ -56,7 +57,7 @@ function isSameDay(a: Date, b: Date): boolean {
   );
 }
 
-export function GroupChat({ group, messages: initialMessages, currentUserId, members, canManage }: GroupChatProps) {
+export function GroupChat({ group, messages: initialMessages, currentUserId, members, joinRequests, canManage }: GroupChatProps) {
   const [messages, setMessages] = useState(initialMessages);
   const [text, setText] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -139,7 +140,7 @@ export function GroupChat({ group, messages: initialMessages, currentUserId, mem
         </div>
       </div>
 
-      {showMembers && <GroupInformation group={group} members={members} currentUserId={currentUserId} canManage={canManage} onClose={() => setShowMembers(false)} onUpdated={() => router.refresh()} />}
+      {showMembers && <GroupInformation group={group} members={members} joinRequests={joinRequests} currentUserId={currentUserId} canManage={canManage} onClose={() => setShowMembers(false)} onUpdated={() => router.refresh()} />}
 
       {/* Messages */}
       <div className={styles.messages}>

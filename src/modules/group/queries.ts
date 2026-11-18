@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/db";
-import type { GroupListItem, GroupDetail, GroupChatMessage, GroupMemberListItem } from "./types";
+import type { GroupListItem, GroupDetail, GroupChatMessage, GroupMemberListItem, GroupJoinRequestListItem } from "./types";
 
 export async function getPublicGroups(userId: number, query = "") {
   const groups = await prisma.group.findMany({
@@ -12,7 +12,9 @@ export async function getPublicGroups(userId: number, query = "") {
     take: 50,
     select: { id: true, name: true, description: true, photo: true, creator: { select: { name: true } }, members: { where: { userId }, select: { id: true } }, _count: { select: { members: true } } },
   });
-  return groups.map(({ members, _count, ...group }) => ({ ...group, memberCount: _count.members, isMember: members.length > 0 }));
+  const requestStatuses = await prisma.groupJoinRequest.findMany({ where: { userId, status: { in: ["PENDING", "REJECTED"] }, groupId: { in: groups.map((group) => group.id) } }, select: { groupId: true, status: true } });
+  const statusMap = new Map(requestStatuses.map((request) => [request.groupId, request.status]));
+  return groups.map(({ members, _count, ...group }) => ({ ...group, memberCount: _count.members, isMember: members.length > 0, requestStatus: statusMap.get(group.id) ?? null }));
 }
 
 export async function getUserGroups(userId: number): Promise<GroupListItem[]> {
@@ -48,6 +50,19 @@ export async function getGroupMembers(groupId: number, userId: number): Promise<
   const userMap = new Map(users.map((user) => [user.id, user]));
   return members.map((member) => ({ id: member.id, userId: member.userId, name: userMap.get(member.userId)?.name ?? "Unknown", role: member.role, photo: userMap.get(member.userId)?.fotoProfil ?? null, joinedAt: member.joinedAt }));
 }
+
+export async function getGroupJoinRequests(groupId: number, userId: number): Promise<GroupJoinRequestListItem[]> {
+  const manager = await prisma.groupMember.findUnique({ where: { groupId_userId: { groupId, userId } }, select: { role: true } });
+  if (!manager || (manager.role !== "OWNER" && manager.role !== "ADMIN")) return [];
+  const requests = await prisma.groupJoinRequest.findMany({ where: { groupId, status: "PENDING" }, orderBy: { createdAt: "asc" }, select: { id: true, userId: true, createdAt: true, user: { select: { name: true, fotoProfil: true } } } });
+  return requests.map((request) => ({ id: request.id, userId: request.userId, name: request.user.name, photo: request.user.fotoProfil, createdAt: request.createdAt }));
+}
+
+export async function getJoinRequestStatus(groupId: number, userId: number) {
+  const request = await prisma.groupJoinRequest.findUnique({ where: { groupId_userId: { groupId, userId } }, select: { status: true } });
+  return request?.status ?? null;
+}
+
 
 export async function searchPotentialMembers(groupId: number, query: string) {
   if (!query.trim()) return [];
