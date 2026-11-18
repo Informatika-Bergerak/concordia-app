@@ -118,15 +118,9 @@ export function supportBlockReason(
 }
 
 /**
-<<<<<<< Updated upstream
  * Alasan laporan tidak dapat diubah oleh pengguna ini, atau null bila boleh.
  * Hanya pelapor yang mengubah laporannya (admin tidak), dan hanya selama laporan masih
  * Belum Terverifikasi. Setelah diverifikasi, diproses, selesai, atau ditolak, isinya dikunci.
-=======
-- Alasan laporan tidak dapat diubah oleh pengguna ini, atau null bila boleh.
-- Hanya pelapor yang mengubah laporannya (admin tidak), dan hanya selama laporan masih
-- Belum Terverifikasi. Setelah diverifikasi atau ditolak, isinya dikunci.
->>>>>>> Stashed changes
  */
 export function editBlockReason(
   role: ViewerRole,
