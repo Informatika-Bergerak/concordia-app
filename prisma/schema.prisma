@@ -33,6 +33,7 @@ enum AuditAction {
   PASSWORD_CHANGED
   PASSWORD_RESET
   ACCOUNT_CREATED
+  ACCOUNT_UPDATED
   ACCOUNT_ACTIVATED
   ACCOUNT_DEACTIVATED
   SESSION_REVOKED
@@ -66,6 +67,8 @@ model User {
   id           Int       @id @default(autoincrement())
   username     String    @unique
   name         String
+  nickname     String?
+  email        String?   @unique
   passwordHash String
   role         Role      @default(USER)
   userType     UserType?
@@ -93,6 +96,9 @@ model User {
   forumPosts    ForumPost[]
   forumLikes    ForumPostLike[]
   forumComments ForumComment[]
+  forumCommentMentions ForumCommentMention[] @relation("ForumCommentMentionUser")
+  forumPostMentions ForumPostMention[] @relation("ForumPostMentionUser")
+  forumPollVotes ForumPollVote[]
   sentFriendRequests     FriendRequest[] @relation("FriendRequestRequester")
   receivedFriendRequests FriendRequest[] @relation("FriendRequestRecipient")
   adminNews              AdminNews[]
@@ -176,6 +182,16 @@ model ReportPhoto {
 model ForumPost {
   id          Int       @id @default(autoincrement())
   text        String
+  tag         String?
+  locationLabel String?
+  locationUrl String?
+  latitude    Float?
+  longitude   Float?
+  eventTitle  String?
+  eventDate   String?
+  eventTime   String?
+  eventLocation String?
+  eventUrl    String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   authorId    Int
@@ -184,9 +200,59 @@ model ForumPost {
   audios      ForumPostAudio[]
   likes       ForumPostLike[]
   comments    ForumComment[]
+  mentions   ForumPostMention[]
+  poll        ForumPoll?
 
   @@index([createdAt])
   @@index([authorId])
+}
+
+model ForumPostMention {
+  id        Int       @id @default(autoincrement())
+  postId    Int
+  post      ForumPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      User      @relation("ForumPostMentionUser", fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+
+  @@unique([postId, userId])
+  @@index([userId])
+}
+
+model ForumPoll {
+  id        Int              @id @default(autoincrement())
+  postId    Int              @unique
+  post      ForumPost        @relation(fields: [postId], references: [id], onDelete: Cascade)
+  question  String
+  options   ForumPollOption[]
+  votes     ForumPollVote[]
+  createdAt DateTime         @default(now())
+}
+
+model ForumPollOption {
+  id        Int            @id @default(autoincrement())
+  pollId    Int
+  poll      ForumPoll      @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  text      String
+  votes     ForumPollVote[]
+  createdAt DateTime       @default(now())
+
+  @@index([pollId])
+}
+
+model ForumPollVote {
+  id        Int            @id @default(autoincrement())
+  pollId    Int
+  poll      ForumPoll      @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  optionId  Int
+  option    ForumPollOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime       @default(now())
+
+  @@unique([pollId, userId])
+  @@index([optionId])
+  @@index([userId])
 }
 
 model ForumPostImage {
@@ -235,11 +301,28 @@ model ForumComment {
   post      ForumPost @relation(fields: [postId], references: [id], onDelete: Cascade)
   authorId  Int
   author    User      @relation(fields: [authorId], references: [id], onDelete: Restrict)
+  parentId  Int?
+  parent    ForumComment? @relation("ForumCommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   ForumComment[] @relation("ForumCommentReplies")
   text      String
   createdAt DateTime  @default(now())
+  mentions  ForumCommentMention[]
 
   @@index([postId, createdAt])
+  @@index([postId, parentId, createdAt])
   @@index([authorId])
+}
+
+model ForumCommentMention {
+  id        Int          @id @default(autoincrement())
+  commentId Int
+  comment   ForumComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      User         @relation("ForumCommentMentionUser", fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime     @default(now())
+
+  @@unique([commentId, userId])
+  @@index([userId])
 }
 
 model FriendRequest {

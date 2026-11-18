@@ -1,16 +1,11 @@
 import type { ReactNode } from "react";
 import { MobileShell } from "@/components/mobile/mobile-shell";
 import { requireRole } from "@/lib/auth/guards";
-import { prisma } from "@/lib/db";
+import { getSuggestedPeople } from "@/modules/friends/queries";
 
 export default async function UserLayout({ children }: { children: ReactNode }) {
   const { user } = await requireRole(["USER", "MODERATOR", "ADMIN"]);
-  const people = await prisma.user.findMany({
-    where: { role: "USER", isActive: true, id: { not: user.id } },
-    select: { id: true, name: true, fotoProfil: true },
-    take: 6,
-    orderBy: { name: "asc" },
-  });
+  const people = await getSuggestedPeople(6);
 
   return (
     <MobileShell user={{ name: user.name, fotoProfil: user.fotoProfil, role: user.role, userType: user.userType }} people={people}>

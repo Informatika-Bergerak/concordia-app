@@ -12,5 +12,5 @@ export default async function ForumPostPage({ params }: { params: Promise<{ id: 
   const post = await getPostById(postId);
   if (!post) notFound();
 
-  return <ForumPostDetail post={post} viewerRole={user.role} />;
+  return <ForumPostDetail post={post} viewerRole={user.role} viewerId={user.id} />;
 }

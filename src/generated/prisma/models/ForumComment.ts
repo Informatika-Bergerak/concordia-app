@@ -30,18 +30,21 @@ export type ForumCommentAvgAggregateOutputType = {
   id: number | null
   postId: number | null
   authorId: number | null
+  parentId: number | null
 }
 
 export type ForumCommentSumAggregateOutputType = {
   id: number | null
   postId: number | null
   authorId: number | null
+  parentId: number | null
 }
 
 export type ForumCommentMinAggregateOutputType = {
   id: number | null
   postId: number | null
   authorId: number | null
+  parentId: number | null
   text: string | null
   createdAt: Date | null
 }
@@ -50,6 +53,7 @@ export type ForumCommentMaxAggregateOutputType = {
   id: number | null
   postId: number | null
   authorId: number | null
+  parentId: number | null
   text: string | null
   createdAt: Date | null
 }
@@ -58,6 +62,7 @@ export type ForumCommentCountAggregateOutputType = {
   id: number
   postId: number
   authorId: number
+  parentId: number
   text: number
   createdAt: number
   _all: number
@@ -68,18 +73,21 @@ export type ForumCommentAvgAggregateInputType = {
   id?: true
   postId?: true
   authorId?: true
+  parentId?: true
 }
 
 export type ForumCommentSumAggregateInputType = {
   id?: true
   postId?: true
   authorId?: true
+  parentId?: true
 }
 
 export type ForumCommentMinAggregateInputType = {
   id?: true
   postId?: true
   authorId?: true
+  parentId?: true
   text?: true
   createdAt?: true
 }
@@ -88,6 +96,7 @@ export type ForumCommentMaxAggregateInputType = {
   id?: true
   postId?: true
   authorId?: true
+  parentId?: true
   text?: true
   createdAt?: true
 }
@@ -96,6 +105,7 @@ export type ForumCommentCountAggregateInputType = {
   id?: true
   postId?: true
   authorId?: true
+  parentId?: true
   text?: true
   createdAt?: true
   _all?: true
@@ -191,6 +201,7 @@ export type ForumCommentGroupByOutputType = {
   id: number
   postId: number
   authorId: number
+  parentId: number | null
   text: string
   createdAt: Date
   _count: ForumCommentCountAggregateOutputType | null
@@ -222,20 +233,28 @@ export type ForumCommentWhereInput = {
   id?: Prisma.IntFilter<"ForumComment"> | number
   postId?: Prisma.IntFilter<"ForumComment"> | number
   authorId?: Prisma.IntFilter<"ForumComment"> | number
+  parentId?: Prisma.IntNullableFilter<"ForumComment"> | number | null
   text?: Prisma.StringFilter<"ForumComment"> | string
   createdAt?: Prisma.DateTimeFilter<"ForumComment"> | Date | string
   post?: Prisma.XOR<Prisma.ForumPostScalarRelationFilter, Prisma.ForumPostWhereInput>
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  parent?: Prisma.XOR<Prisma.ForumCommentNullableScalarRelationFilter, Prisma.ForumCommentWhereInput> | null
+  replies?: Prisma.ForumCommentListRelationFilter
+  mentions?: Prisma.ForumCommentMentionListRelationFilter
 }
 
 export type ForumCommentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   postId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
+  parentId?: Prisma.SortOrderInput | Prisma.SortOrder
   text?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   post?: Prisma.ForumPostOrderByWithRelationInput
   author?: Prisma.UserOrderByWithRelationInput
+  parent?: Prisma.ForumCommentOrderByWithRelationInput
+  replies?: Prisma.ForumCommentOrderByRelationAggregateInput
+  mentions?: Prisma.ForumCommentMentionOrderByRelationAggregateInput
 }
 
 export type ForumCommentWhereUniqueInput = Prisma.AtLeast<{
@@ -245,16 +264,21 @@ export type ForumCommentWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ForumCommentWhereInput | Prisma.ForumCommentWhereInput[]
   postId?: Prisma.IntFilter<"ForumComment"> | number
   authorId?: Prisma.IntFilter<"ForumComment"> | number
+  parentId?: Prisma.IntNullableFilter<"ForumComment"> | number | null
   text?: Prisma.StringFilter<"ForumComment"> | string
   createdAt?: Prisma.DateTimeFilter<"ForumComment"> | Date | string
   post?: Prisma.XOR<Prisma.ForumPostScalarRelationFilter, Prisma.ForumPostWhereInput>
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  parent?: Prisma.XOR<Prisma.ForumCommentNullableScalarRelationFilter, Prisma.ForumCommentWhereInput> | null
+  replies?: Prisma.ForumCommentListRelationFilter
+  mentions?: Prisma.ForumCommentMentionListRelationFilter
 }, "id">
 
 export type ForumCommentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   postId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
+  parentId?: Prisma.SortOrderInput | Prisma.SortOrder
   text?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.ForumCommentCountOrderByAggregateInput
@@ -271,6 +295,7 @@ export type ForumCommentScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"ForumComment"> | number
   postId?: Prisma.IntWithAggregatesFilter<"ForumComment"> | number
   authorId?: Prisma.IntWithAggregatesFilter<"ForumComment"> | number
+  parentId?: Prisma.IntNullableWithAggregatesFilter<"ForumComment"> | number | null
   text?: Prisma.StringWithAggregatesFilter<"ForumComment"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ForumComment"> | Date | string
 }
@@ -280,14 +305,20 @@ export type ForumCommentCreateInput = {
   createdAt?: Date | string
   post: Prisma.ForumPostCreateNestedOneWithoutCommentsInput
   author: Prisma.UserCreateNestedOneWithoutForumCommentsInput
+  parent?: Prisma.ForumCommentCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.ForumCommentCreateNestedManyWithoutParentInput
+  mentions?: Prisma.ForumCommentMentionCreateNestedManyWithoutCommentInput
 }
 
 export type ForumCommentUncheckedCreateInput = {
   id?: number
   postId: number
   authorId: number
+  parentId?: number | null
   text: string
   createdAt?: Date | string
+  replies?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutParentInput
+  mentions?: Prisma.ForumCommentMentionUncheckedCreateNestedManyWithoutCommentInput
 }
 
 export type ForumCommentUpdateInput = {
@@ -295,20 +326,27 @@ export type ForumCommentUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   post?: Prisma.ForumPostUpdateOneRequiredWithoutCommentsNestedInput
   author?: Prisma.UserUpdateOneRequiredWithoutForumCommentsNestedInput
+  parent?: Prisma.ForumCommentUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.ForumCommentUpdateManyWithoutParentNestedInput
+  mentions?: Prisma.ForumCommentMentionUpdateManyWithoutCommentNestedInput
 }
 
 export type ForumCommentUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   postId?: Prisma.IntFieldUpdateOperationsInput | number
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  parentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   text?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  replies?: Prisma.ForumCommentUncheckedUpdateManyWithoutParentNestedInput
+  mentions?: Prisma.ForumCommentMentionUncheckedUpdateManyWithoutCommentNestedInput
 }
 
 export type ForumCommentCreateManyInput = {
   id?: number
   postId: number
   authorId: number
+  parentId?: number | null
   text: string
   createdAt?: Date | string
 }
@@ -322,6 +360,7 @@ export type ForumCommentUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   postId?: Prisma.IntFieldUpdateOperationsInput | number
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  parentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   text?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -336,10 +375,16 @@ export type ForumCommentOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type ForumCommentNullableScalarRelationFilter = {
+  is?: Prisma.ForumCommentWhereInput | null
+  isNot?: Prisma.ForumCommentWhereInput | null
+}
+
 export type ForumCommentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   postId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
+  parentId?: Prisma.SortOrder
   text?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -348,12 +393,14 @@ export type ForumCommentAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   postId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
+  parentId?: Prisma.SortOrder
 }
 
 export type ForumCommentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   postId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
+  parentId?: Prisma.SortOrder
   text?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -362,6 +409,7 @@ export type ForumCommentMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   postId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
+  parentId?: Prisma.SortOrder
   text?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -370,6 +418,12 @@ export type ForumCommentSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   postId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
+  parentId?: Prisma.SortOrder
+}
+
+export type ForumCommentScalarRelationFilter = {
+  is?: Prisma.ForumCommentWhereInput
+  isNot?: Prisma.ForumCommentWhereInput
 }
 
 export type ForumCommentCreateNestedManyWithoutAuthorInput = {
@@ -456,17 +510,95 @@ export type ForumCommentUncheckedUpdateManyWithoutPostNestedInput = {
   deleteMany?: Prisma.ForumCommentScalarWhereInput | Prisma.ForumCommentScalarWhereInput[]
 }
 
+export type ForumCommentCreateNestedOneWithoutRepliesInput = {
+  create?: Prisma.XOR<Prisma.ForumCommentCreateWithoutRepliesInput, Prisma.ForumCommentUncheckedCreateWithoutRepliesInput>
+  connectOrCreate?: Prisma.ForumCommentCreateOrConnectWithoutRepliesInput
+  connect?: Prisma.ForumCommentWhereUniqueInput
+}
+
+export type ForumCommentCreateNestedManyWithoutParentInput = {
+  create?: Prisma.XOR<Prisma.ForumCommentCreateWithoutParentInput, Prisma.ForumCommentUncheckedCreateWithoutParentInput> | Prisma.ForumCommentCreateWithoutParentInput[] | Prisma.ForumCommentUncheckedCreateWithoutParentInput[]
+  connectOrCreate?: Prisma.ForumCommentCreateOrConnectWithoutParentInput | Prisma.ForumCommentCreateOrConnectWithoutParentInput[]
+  createMany?: Prisma.ForumCommentCreateManyParentInputEnvelope
+  connect?: Prisma.ForumCommentWhereUniqueInput | Prisma.ForumCommentWhereUniqueInput[]
+}
+
+export type ForumCommentUncheckedCreateNestedManyWithoutParentInput = {
+  create?: Prisma.XOR<Prisma.ForumCommentCreateWithoutParentInput, Prisma.ForumCommentUncheckedCreateWithoutParentInput> | Prisma.ForumCommentCreateWithoutParentInput[] | Prisma.ForumCommentUncheckedCreateWithoutParentInput[]
+  connectOrCreate?: Prisma.ForumCommentCreateOrConnectWithoutParentInput | Prisma.ForumCommentCreateOrConnectWithoutParentInput[]
+  createMany?: Prisma.ForumCommentCreateManyParentInputEnvelope
+  connect?: Prisma.ForumCommentWhereUniqueInput | Prisma.ForumCommentWhereUniqueInput[]
+}
+
+export type ForumCommentUpdateOneWithoutRepliesNestedInput = {
+  create?: Prisma.XOR<Prisma.ForumCommentCreateWithoutRepliesInput, Prisma.ForumCommentUncheckedCreateWithoutRepliesInput>
+  connectOrCreate?: Prisma.ForumCommentCreateOrConnectWithoutRepliesInput
+  upsert?: Prisma.ForumCommentUpsertWithoutRepliesInput
+  disconnect?: Prisma.ForumCommentWhereInput | boolean
+  delete?: Prisma.ForumCommentWhereInput | boolean
+  connect?: Prisma.ForumCommentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ForumCommentUpdateToOneWithWhereWithoutRepliesInput, Prisma.ForumCommentUpdateWithoutRepliesInput>, Prisma.ForumCommentUncheckedUpdateWithoutRepliesInput>
+}
+
+export type ForumCommentUpdateManyWithoutParentNestedInput = {
+  create?: Prisma.XOR<Prisma.ForumCommentCreateWithoutParentInput, Prisma.ForumCommentUncheckedCreateWithoutParentInput> | Prisma.ForumCommentCreateWithoutParentInput[] | Prisma.ForumCommentUncheckedCreateWithoutParentInput[]
+  connectOrCreate?: Prisma.ForumCommentCreateOrConnectWithoutParentInput | Prisma.ForumCommentCreateOrConnectWithoutParentInput[]
+  upsert?: Prisma.ForumCommentUpsertWithWhereUniqueWithoutParentInput | Prisma.ForumCommentUpsertWithWhereUniqueWithoutParentInput[]
+  createMany?: Prisma.ForumCommentCreateManyParentInputEnvelope
+  set?: Prisma.ForumCommentWhereUniqueInput | Prisma.ForumCommentWhereUniqueInput[]
+  disconnect?: Prisma.ForumCommentWhereUniqueInput | Prisma.ForumCommentWhereUniqueInput[]
+  delete?: Prisma.ForumCommentWhereUniqueInput | Prisma.ForumCommentWhereUniqueInput[]
+  connect?: Prisma.ForumCommentWhereUniqueInput | Prisma.ForumCommentWhereUniqueInput[]
+  update?: Prisma.ForumCommentUpdateWithWhereUniqueWithoutParentInput | Prisma.ForumCommentUpdateWithWhereUniqueWithoutParentInput[]
+  updateMany?: Prisma.ForumCommentUpdateManyWithWhereWithoutParentInput | Prisma.ForumCommentUpdateManyWithWhereWithoutParentInput[]
+  deleteMany?: Prisma.ForumCommentScalarWhereInput | Prisma.ForumCommentScalarWhereInput[]
+}
+
+export type ForumCommentUncheckedUpdateManyWithoutParentNestedInput = {
+  create?: Prisma.XOR<Prisma.ForumCommentCreateWithoutParentInput, Prisma.ForumCommentUncheckedCreateWithoutParentInput> | Prisma.ForumCommentCreateWithoutParentInput[] | Prisma.ForumCommentUncheckedCreateWithoutParentInput[]
+  connectOrCreate?: Prisma.ForumCommentCreateOrConnectWithoutParentInput | Prisma.ForumCommentCreateOrConnectWithoutParentInput[]
+  upsert?: Prisma.ForumCommentUpsertWithWhereUniqueWithoutParentInput | Prisma.ForumCommentUpsertWithWhereUniqueWithoutParentInput[]
+  createMany?: Prisma.ForumCommentCreateManyParentInputEnvelope
+  set?: Prisma.ForumCommentWhereUniqueInput | Prisma.ForumCommentWhereUniqueInput[]
+  disconnect?: Prisma.ForumCommentWhereUniqueInput | Prisma.ForumCommentWhereUniqueInput[]
+  delete?: Prisma.ForumCommentWhereUniqueInput | Prisma.ForumCommentWhereUniqueInput[]
+  connect?: Prisma.ForumCommentWhereUniqueInput | Prisma.ForumCommentWhereUniqueInput[]
+  update?: Prisma.ForumCommentUpdateWithWhereUniqueWithoutParentInput | Prisma.ForumCommentUpdateWithWhereUniqueWithoutParentInput[]
+  updateMany?: Prisma.ForumCommentUpdateManyWithWhereWithoutParentInput | Prisma.ForumCommentUpdateManyWithWhereWithoutParentInput[]
+  deleteMany?: Prisma.ForumCommentScalarWhereInput | Prisma.ForumCommentScalarWhereInput[]
+}
+
+export type ForumCommentCreateNestedOneWithoutMentionsInput = {
+  create?: Prisma.XOR<Prisma.ForumCommentCreateWithoutMentionsInput, Prisma.ForumCommentUncheckedCreateWithoutMentionsInput>
+  connectOrCreate?: Prisma.ForumCommentCreateOrConnectWithoutMentionsInput
+  connect?: Prisma.ForumCommentWhereUniqueInput
+}
+
+export type ForumCommentUpdateOneRequiredWithoutMentionsNestedInput = {
+  create?: Prisma.XOR<Prisma.ForumCommentCreateWithoutMentionsInput, Prisma.ForumCommentUncheckedCreateWithoutMentionsInput>
+  connectOrCreate?: Prisma.ForumCommentCreateOrConnectWithoutMentionsInput
+  upsert?: Prisma.ForumCommentUpsertWithoutMentionsInput
+  connect?: Prisma.ForumCommentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ForumCommentUpdateToOneWithWhereWithoutMentionsInput, Prisma.ForumCommentUpdateWithoutMentionsInput>, Prisma.ForumCommentUncheckedUpdateWithoutMentionsInput>
+}
+
 export type ForumCommentCreateWithoutAuthorInput = {
   text: string
   createdAt?: Date | string
   post: Prisma.ForumPostCreateNestedOneWithoutCommentsInput
+  parent?: Prisma.ForumCommentCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.ForumCommentCreateNestedManyWithoutParentInput
+  mentions?: Prisma.ForumCommentMentionCreateNestedManyWithoutCommentInput
 }
 
 export type ForumCommentUncheckedCreateWithoutAuthorInput = {
   id?: number
   postId: number
+  parentId?: number | null
   text: string
   createdAt?: Date | string
+  replies?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutParentInput
+  mentions?: Prisma.ForumCommentMentionUncheckedCreateNestedManyWithoutCommentInput
 }
 
 export type ForumCommentCreateOrConnectWithoutAuthorInput = {
@@ -502,6 +634,7 @@ export type ForumCommentScalarWhereInput = {
   id?: Prisma.IntFilter<"ForumComment"> | number
   postId?: Prisma.IntFilter<"ForumComment"> | number
   authorId?: Prisma.IntFilter<"ForumComment"> | number
+  parentId?: Prisma.IntNullableFilter<"ForumComment"> | number | null
   text?: Prisma.StringFilter<"ForumComment"> | string
   createdAt?: Prisma.DateTimeFilter<"ForumComment"> | Date | string
 }
@@ -510,13 +643,19 @@ export type ForumCommentCreateWithoutPostInput = {
   text: string
   createdAt?: Date | string
   author: Prisma.UserCreateNestedOneWithoutForumCommentsInput
+  parent?: Prisma.ForumCommentCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.ForumCommentCreateNestedManyWithoutParentInput
+  mentions?: Prisma.ForumCommentMentionCreateNestedManyWithoutCommentInput
 }
 
 export type ForumCommentUncheckedCreateWithoutPostInput = {
   id?: number
   authorId: number
+  parentId?: number | null
   text: string
   createdAt?: Date | string
+  replies?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutParentInput
+  mentions?: Prisma.ForumCommentMentionUncheckedCreateNestedManyWithoutCommentInput
 }
 
 export type ForumCommentCreateOrConnectWithoutPostInput = {
@@ -545,9 +684,163 @@ export type ForumCommentUpdateManyWithWhereWithoutPostInput = {
   data: Prisma.XOR<Prisma.ForumCommentUpdateManyMutationInput, Prisma.ForumCommentUncheckedUpdateManyWithoutPostInput>
 }
 
+export type ForumCommentCreateWithoutRepliesInput = {
+  text: string
+  createdAt?: Date | string
+  post: Prisma.ForumPostCreateNestedOneWithoutCommentsInput
+  author: Prisma.UserCreateNestedOneWithoutForumCommentsInput
+  parent?: Prisma.ForumCommentCreateNestedOneWithoutRepliesInput
+  mentions?: Prisma.ForumCommentMentionCreateNestedManyWithoutCommentInput
+}
+
+export type ForumCommentUncheckedCreateWithoutRepliesInput = {
+  id?: number
+  postId: number
+  authorId: number
+  parentId?: number | null
+  text: string
+  createdAt?: Date | string
+  mentions?: Prisma.ForumCommentMentionUncheckedCreateNestedManyWithoutCommentInput
+}
+
+export type ForumCommentCreateOrConnectWithoutRepliesInput = {
+  where: Prisma.ForumCommentWhereUniqueInput
+  create: Prisma.XOR<Prisma.ForumCommentCreateWithoutRepliesInput, Prisma.ForumCommentUncheckedCreateWithoutRepliesInput>
+}
+
+export type ForumCommentCreateWithoutParentInput = {
+  text: string
+  createdAt?: Date | string
+  post: Prisma.ForumPostCreateNestedOneWithoutCommentsInput
+  author: Prisma.UserCreateNestedOneWithoutForumCommentsInput
+  replies?: Prisma.ForumCommentCreateNestedManyWithoutParentInput
+  mentions?: Prisma.ForumCommentMentionCreateNestedManyWithoutCommentInput
+}
+
+export type ForumCommentUncheckedCreateWithoutParentInput = {
+  id?: number
+  postId: number
+  authorId: number
+  text: string
+  createdAt?: Date | string
+  replies?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutParentInput
+  mentions?: Prisma.ForumCommentMentionUncheckedCreateNestedManyWithoutCommentInput
+}
+
+export type ForumCommentCreateOrConnectWithoutParentInput = {
+  where: Prisma.ForumCommentWhereUniqueInput
+  create: Prisma.XOR<Prisma.ForumCommentCreateWithoutParentInput, Prisma.ForumCommentUncheckedCreateWithoutParentInput>
+}
+
+export type ForumCommentCreateManyParentInputEnvelope = {
+  data: Prisma.ForumCommentCreateManyParentInput | Prisma.ForumCommentCreateManyParentInput[]
+  skipDuplicates?: boolean
+}
+
+export type ForumCommentUpsertWithoutRepliesInput = {
+  update: Prisma.XOR<Prisma.ForumCommentUpdateWithoutRepliesInput, Prisma.ForumCommentUncheckedUpdateWithoutRepliesInput>
+  create: Prisma.XOR<Prisma.ForumCommentCreateWithoutRepliesInput, Prisma.ForumCommentUncheckedCreateWithoutRepliesInput>
+  where?: Prisma.ForumCommentWhereInput
+}
+
+export type ForumCommentUpdateToOneWithWhereWithoutRepliesInput = {
+  where?: Prisma.ForumCommentWhereInput
+  data: Prisma.XOR<Prisma.ForumCommentUpdateWithoutRepliesInput, Prisma.ForumCommentUncheckedUpdateWithoutRepliesInput>
+}
+
+export type ForumCommentUpdateWithoutRepliesInput = {
+  text?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  post?: Prisma.ForumPostUpdateOneRequiredWithoutCommentsNestedInput
+  author?: Prisma.UserUpdateOneRequiredWithoutForumCommentsNestedInput
+  parent?: Prisma.ForumCommentUpdateOneWithoutRepliesNestedInput
+  mentions?: Prisma.ForumCommentMentionUpdateManyWithoutCommentNestedInput
+}
+
+export type ForumCommentUncheckedUpdateWithoutRepliesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  postId?: Prisma.IntFieldUpdateOperationsInput | number
+  authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  parentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  text?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  mentions?: Prisma.ForumCommentMentionUncheckedUpdateManyWithoutCommentNestedInput
+}
+
+export type ForumCommentUpsertWithWhereUniqueWithoutParentInput = {
+  where: Prisma.ForumCommentWhereUniqueInput
+  update: Prisma.XOR<Prisma.ForumCommentUpdateWithoutParentInput, Prisma.ForumCommentUncheckedUpdateWithoutParentInput>
+  create: Prisma.XOR<Prisma.ForumCommentCreateWithoutParentInput, Prisma.ForumCommentUncheckedCreateWithoutParentInput>
+}
+
+export type ForumCommentUpdateWithWhereUniqueWithoutParentInput = {
+  where: Prisma.ForumCommentWhereUniqueInput
+  data: Prisma.XOR<Prisma.ForumCommentUpdateWithoutParentInput, Prisma.ForumCommentUncheckedUpdateWithoutParentInput>
+}
+
+export type ForumCommentUpdateManyWithWhereWithoutParentInput = {
+  where: Prisma.ForumCommentScalarWhereInput
+  data: Prisma.XOR<Prisma.ForumCommentUpdateManyMutationInput, Prisma.ForumCommentUncheckedUpdateManyWithoutParentInput>
+}
+
+export type ForumCommentCreateWithoutMentionsInput = {
+  text: string
+  createdAt?: Date | string
+  post: Prisma.ForumPostCreateNestedOneWithoutCommentsInput
+  author: Prisma.UserCreateNestedOneWithoutForumCommentsInput
+  parent?: Prisma.ForumCommentCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.ForumCommentCreateNestedManyWithoutParentInput
+}
+
+export type ForumCommentUncheckedCreateWithoutMentionsInput = {
+  id?: number
+  postId: number
+  authorId: number
+  parentId?: number | null
+  text: string
+  createdAt?: Date | string
+  replies?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutParentInput
+}
+
+export type ForumCommentCreateOrConnectWithoutMentionsInput = {
+  where: Prisma.ForumCommentWhereUniqueInput
+  create: Prisma.XOR<Prisma.ForumCommentCreateWithoutMentionsInput, Prisma.ForumCommentUncheckedCreateWithoutMentionsInput>
+}
+
+export type ForumCommentUpsertWithoutMentionsInput = {
+  update: Prisma.XOR<Prisma.ForumCommentUpdateWithoutMentionsInput, Prisma.ForumCommentUncheckedUpdateWithoutMentionsInput>
+  create: Prisma.XOR<Prisma.ForumCommentCreateWithoutMentionsInput, Prisma.ForumCommentUncheckedCreateWithoutMentionsInput>
+  where?: Prisma.ForumCommentWhereInput
+}
+
+export type ForumCommentUpdateToOneWithWhereWithoutMentionsInput = {
+  where?: Prisma.ForumCommentWhereInput
+  data: Prisma.XOR<Prisma.ForumCommentUpdateWithoutMentionsInput, Prisma.ForumCommentUncheckedUpdateWithoutMentionsInput>
+}
+
+export type ForumCommentUpdateWithoutMentionsInput = {
+  text?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  post?: Prisma.ForumPostUpdateOneRequiredWithoutCommentsNestedInput
+  author?: Prisma.UserUpdateOneRequiredWithoutForumCommentsNestedInput
+  parent?: Prisma.ForumCommentUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.ForumCommentUpdateManyWithoutParentNestedInput
+}
+
+export type ForumCommentUncheckedUpdateWithoutMentionsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  postId?: Prisma.IntFieldUpdateOperationsInput | number
+  authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  parentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  text?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  replies?: Prisma.ForumCommentUncheckedUpdateManyWithoutParentNestedInput
+}
+
 export type ForumCommentCreateManyAuthorInput = {
   id?: number
   postId: number
+  parentId?: number | null
   text: string
   createdAt?: Date | string
 }
@@ -556,18 +849,25 @@ export type ForumCommentUpdateWithoutAuthorInput = {
   text?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   post?: Prisma.ForumPostUpdateOneRequiredWithoutCommentsNestedInput
+  parent?: Prisma.ForumCommentUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.ForumCommentUpdateManyWithoutParentNestedInput
+  mentions?: Prisma.ForumCommentMentionUpdateManyWithoutCommentNestedInput
 }
 
 export type ForumCommentUncheckedUpdateWithoutAuthorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   postId?: Prisma.IntFieldUpdateOperationsInput | number
+  parentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   text?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  replies?: Prisma.ForumCommentUncheckedUpdateManyWithoutParentNestedInput
+  mentions?: Prisma.ForumCommentMentionUncheckedUpdateManyWithoutCommentNestedInput
 }
 
 export type ForumCommentUncheckedUpdateManyWithoutAuthorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   postId?: Prisma.IntFieldUpdateOperationsInput | number
+  parentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   text?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -575,6 +875,7 @@ export type ForumCommentUncheckedUpdateManyWithoutAuthorInput = {
 export type ForumCommentCreateManyPostInput = {
   id?: number
   authorId: number
+  parentId?: number | null
   text: string
   createdAt?: Date | string
 }
@@ -583,74 +884,170 @@ export type ForumCommentUpdateWithoutPostInput = {
   text?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   author?: Prisma.UserUpdateOneRequiredWithoutForumCommentsNestedInput
+  parent?: Prisma.ForumCommentUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.ForumCommentUpdateManyWithoutParentNestedInput
+  mentions?: Prisma.ForumCommentMentionUpdateManyWithoutCommentNestedInput
 }
 
 export type ForumCommentUncheckedUpdateWithoutPostInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  parentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   text?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  replies?: Prisma.ForumCommentUncheckedUpdateManyWithoutParentNestedInput
+  mentions?: Prisma.ForumCommentMentionUncheckedUpdateManyWithoutCommentNestedInput
 }
 
 export type ForumCommentUncheckedUpdateManyWithoutPostInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  parentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   text?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type ForumCommentCreateManyParentInput = {
+  id?: number
+  postId: number
+  authorId: number
+  text: string
+  createdAt?: Date | string
+}
+
+export type ForumCommentUpdateWithoutParentInput = {
+  text?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  post?: Prisma.ForumPostUpdateOneRequiredWithoutCommentsNestedInput
+  author?: Prisma.UserUpdateOneRequiredWithoutForumCommentsNestedInput
+  replies?: Prisma.ForumCommentUpdateManyWithoutParentNestedInput
+  mentions?: Prisma.ForumCommentMentionUpdateManyWithoutCommentNestedInput
+}
+
+export type ForumCommentUncheckedUpdateWithoutParentInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  postId?: Prisma.IntFieldUpdateOperationsInput | number
+  authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  text?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  replies?: Prisma.ForumCommentUncheckedUpdateManyWithoutParentNestedInput
+  mentions?: Prisma.ForumCommentMentionUncheckedUpdateManyWithoutCommentNestedInput
+}
+
+export type ForumCommentUncheckedUpdateManyWithoutParentInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  postId?: Prisma.IntFieldUpdateOperationsInput | number
+  authorId?: Prisma.IntFieldUpdateOperationsInput | number
+  text?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+
+/**
+ * Count Type ForumCommentCountOutputType
+ */
+
+export type ForumCommentCountOutputType = {
+  replies: number
+  mentions: number
+}
+
+export type ForumCommentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  replies?: boolean | ForumCommentCountOutputTypeCountRepliesArgs
+  mentions?: boolean | ForumCommentCountOutputTypeCountMentionsArgs
+}
+
+/**
+ * ForumCommentCountOutputType without action
+ */
+export type ForumCommentCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ForumCommentCountOutputType
+   */
+  select?: Prisma.ForumCommentCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ForumCommentCountOutputType without action
+ */
+export type ForumCommentCountOutputTypeCountRepliesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ForumCommentWhereInput
+}
+
+/**
+ * ForumCommentCountOutputType without action
+ */
+export type ForumCommentCountOutputTypeCountMentionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ForumCommentMentionWhereInput
+}
 
 
 export type ForumCommentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   postId?: boolean
   authorId?: boolean
+  parentId?: boolean
   text?: boolean
   createdAt?: boolean
   post?: boolean | Prisma.ForumPostDefaultArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  parent?: boolean | Prisma.ForumComment$parentArgs<ExtArgs>
+  replies?: boolean | Prisma.ForumComment$repliesArgs<ExtArgs>
+  mentions?: boolean | Prisma.ForumComment$mentionsArgs<ExtArgs>
+  _count?: boolean | Prisma.ForumCommentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["forumComment"]>
 
 export type ForumCommentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   postId?: boolean
   authorId?: boolean
+  parentId?: boolean
   text?: boolean
   createdAt?: boolean
   post?: boolean | Prisma.ForumPostDefaultArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  parent?: boolean | Prisma.ForumComment$parentArgs<ExtArgs>
 }, ExtArgs["result"]["forumComment"]>
 
 export type ForumCommentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   postId?: boolean
   authorId?: boolean
+  parentId?: boolean
   text?: boolean
   createdAt?: boolean
   post?: boolean | Prisma.ForumPostDefaultArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  parent?: boolean | Prisma.ForumComment$parentArgs<ExtArgs>
 }, ExtArgs["result"]["forumComment"]>
 
 export type ForumCommentSelectScalar = {
   id?: boolean
   postId?: boolean
   authorId?: boolean
+  parentId?: boolean
   text?: boolean
   createdAt?: boolean
 }
 
-export type ForumCommentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "postId" | "authorId" | "text" | "createdAt", ExtArgs["result"]["forumComment"]>
+export type ForumCommentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "postId" | "authorId" | "parentId" | "text" | "createdAt", ExtArgs["result"]["forumComment"]>
 export type ForumCommentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   post?: boolean | Prisma.ForumPostDefaultArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  parent?: boolean | Prisma.ForumComment$parentArgs<ExtArgs>
+  replies?: boolean | Prisma.ForumComment$repliesArgs<ExtArgs>
+  mentions?: boolean | Prisma.ForumComment$mentionsArgs<ExtArgs>
+  _count?: boolean | Prisma.ForumCommentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ForumCommentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   post?: boolean | Prisma.ForumPostDefaultArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  parent?: boolean | Prisma.ForumComment$parentArgs<ExtArgs>
 }
 export type ForumCommentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   post?: boolean | Prisma.ForumPostDefaultArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  parent?: boolean | Prisma.ForumComment$parentArgs<ExtArgs>
 }
 
 export type $ForumCommentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -658,11 +1055,15 @@ export type $ForumCommentPayload<ExtArgs extends runtime.Types.Extensions.Intern
   objects: {
     post: Prisma.$ForumPostPayload<ExtArgs>
     author: Prisma.$UserPayload<ExtArgs>
+    parent: Prisma.$ForumCommentPayload<ExtArgs> | null
+    replies: Prisma.$ForumCommentPayload<ExtArgs>[]
+    mentions: Prisma.$ForumCommentMentionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     postId: number
     authorId: number
+    parentId: number | null
     text: string
     createdAt: Date
   }, ExtArgs["result"]["forumComment"]>
@@ -1061,6 +1462,9 @@ export interface Prisma__ForumCommentClient<T, Null = never, ExtArgs extends run
   readonly [Symbol.toStringTag]: "PrismaPromise"
   post<T extends Prisma.ForumPostDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ForumPostDefaultArgs<ExtArgs>>): Prisma.Prisma__ForumPostClient<runtime.Types.Result.GetResult<Prisma.$ForumPostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   author<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  parent<T extends Prisma.ForumComment$parentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ForumComment$parentArgs<ExtArgs>>): Prisma.Prisma__ForumCommentClient<runtime.Types.Result.GetResult<Prisma.$ForumCommentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  replies<T extends Prisma.ForumComment$repliesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ForumComment$repliesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ForumCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  mentions<T extends Prisma.ForumComment$mentionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ForumComment$mentionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ForumCommentMentionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1093,6 +1497,7 @@ export interface ForumCommentFieldRefs {
   readonly id: Prisma.FieldRef<"ForumComment", 'Int'>
   readonly postId: Prisma.FieldRef<"ForumComment", 'Int'>
   readonly authorId: Prisma.FieldRef<"ForumComment", 'Int'>
+  readonly parentId: Prisma.FieldRef<"ForumComment", 'Int'>
   readonly text: Prisma.FieldRef<"ForumComment", 'String'>
   readonly createdAt: Prisma.FieldRef<"ForumComment", 'DateTime'>
 }
@@ -1493,6 +1898,73 @@ export type ForumCommentDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Limit how many ForumComments to delete.
    */
   limit?: number
+}
+
+/**
+ * ForumComment.parent
+ */
+export type ForumComment$parentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ForumComment
+   */
+  select?: Prisma.ForumCommentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ForumComment
+   */
+  omit?: Prisma.ForumCommentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ForumCommentInclude<ExtArgs> | null
+  where?: Prisma.ForumCommentWhereInput
+}
+
+/**
+ * ForumComment.replies
+ */
+export type ForumComment$repliesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ForumComment
+   */
+  select?: Prisma.ForumCommentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ForumComment
+   */
+  omit?: Prisma.ForumCommentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ForumCommentInclude<ExtArgs> | null
+  where?: Prisma.ForumCommentWhereInput
+  orderBy?: Prisma.ForumCommentOrderByWithRelationInput | Prisma.ForumCommentOrderByWithRelationInput[]
+  cursor?: Prisma.ForumCommentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ForumCommentScalarFieldEnum | Prisma.ForumCommentScalarFieldEnum[]
+}
+
+/**
+ * ForumComment.mentions
+ */
+export type ForumComment$mentionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ForumCommentMention
+   */
+  select?: Prisma.ForumCommentMentionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ForumCommentMention
+   */
+  omit?: Prisma.ForumCommentMentionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ForumCommentMentionInclude<ExtArgs> | null
+  where?: Prisma.ForumCommentMentionWhereInput
+  orderBy?: Prisma.ForumCommentMentionOrderByWithRelationInput | Prisma.ForumCommentMentionOrderByWithRelationInput[]
+  cursor?: Prisma.ForumCommentMentionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ForumCommentMentionScalarFieldEnum | Prisma.ForumCommentMentionScalarFieldEnum[]
 }
 
 /**

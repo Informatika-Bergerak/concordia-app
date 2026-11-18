@@ -84,10 +84,10 @@
   .body {
     display: grid;
     grid-template-columns: 280px minmax(0, 1fr);
-    gap: 24px;
-    width: 100%;
+    gap: 20px;
+    width: min(calc(100% - 48px), 1760px);
     min-height: 0;
-    padding: 0 24px;
+    margin: 0 auto;
   }
 
   .sidebar {
@@ -106,13 +106,15 @@
   }
 
   .content {
-    max-width: 640px;
+    width: 100%;
+    max-width: 920px;
     padding: 16px 0 32px;
   }
 
   @media (min-width: 1280px) {
     .body {
-      grid-template-columns: 280px minmax(0, 1fr) 300px;
+      grid-template-columns: 248px minmax(680px, 1fr) 320px;
+      gap: 20px;
     }
 
     .rightSidebar {

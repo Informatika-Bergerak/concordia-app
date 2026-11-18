@@ -1,6 +1,7 @@
 import "server-only";
 
 import { prisma } from "@/lib/db";
+import { getDisplayName } from "@/lib/users/display-name";
 
 export type AdminNewsItem = {
   id: string;
@@ -30,7 +31,7 @@ export async function getAdminNews(): Promise<AdminNewsItem[]> {
       title: true,
       content: true,
       createdAt: true,
-      author: { select: { name: true } },
+      author: { select: { name: true, nickname: true } },
     },
   });
 
@@ -38,7 +39,7 @@ export async function getAdminNews(): Promise<AdminNewsItem[]> {
     id: String(news.id),
     title: news.title,
     content: news.content,
-    authorName: news.author.name,
+    authorName: getDisplayName(news.author.nickname, news.author.name),
     timeAgo: timeAgo(news.createdAt),
   }));
 }

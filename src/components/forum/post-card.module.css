@@ -17,8 +17,18 @@
 .moreMenu { position: relative; }
 .moreMenu > button { position: absolute; z-index: 1; right: 0; top: 24px; padding: 8px; border: 1px solid var(--line); border-radius: var(--radius-btn); background: var(--surface); color: var(--ink-muted); white-space: nowrap; }
 .moreMenu > button:disabled { cursor: not-allowed; opacity: 1; }
+.deleteButton { padding: 8px 12px; border: 1px solid var(--line); border-radius: var(--radius-btn); background: var(--surface); color: var(--danger); white-space: nowrap; cursor: pointer; }
+.deleteButton:hover { background: var(--brand-tint); }
+.deleteButton:disabled { cursor: wait; opacity: .6; }
 .text { margin: 0; font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.4; }
-.tag { color: var(--brand-primary); }
+.hashtag { color: var(--brand-primary); text-decoration: none; }
+.hashtag:hover { text-decoration: underline; }
+.taggedPeople { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; color: var(--ink-muted); font-size: 13px; line-height: 1.4; }
+.mentionList { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+.mention { color: var(--brand-primary); font-weight: 700; }
+.attachment { display: flex; align-items: center; gap: 6px; padding: 8px 0; color: var(--brand-primary); font-size: 13px; text-decoration: none; }
+.poll { display: grid; gap: 8px; padding: 12px; border: 1px solid var(--line); border-radius: 10px; color: var(--ink); }
+.pollOption { display: flex; justify-content: space-between; padding: 8px 10px; border: 1px solid var(--line); border-radius: 7px; background: var(--field); }
 .image {
   overflow: hidden;
   aspect-ratio: 4 / 3;
@@ -56,9 +66,26 @@
 .shareButton:focus-visible { outline: 2px solid var(--brand-primary); outline-offset: 2px; border-radius: var(--radius-btn); }
 .shareNotice { position: absolute; right: 0; bottom: calc(100% + 6px); z-index: 2; padding: 6px 9px; border-radius: var(--radius-btn); background: var(--ink); color: var(--surface); font-size: 11px; font-weight: 700; white-space: nowrap; }
 .divider { width: 100%; margin: 0; border: none; border-top: 1px solid var(--ink); }
+.commentThread { display: flex; flex-direction: column; gap: 4px; }
 .comment { display: flex; gap: 8px; font-size: 12px; color: var(--ink); }
-.comment p { margin: 2px 0 0; }
+.comment p { margin: 2px 0 0; white-space: pre-wrap; }
+.commentActions { display: flex; gap: 10px; align-items: center; }
+.replyLink, .deleteCommentButton { margin-top: 3px; padding: 0; border: 0; background: none; color: var(--ink-muted); font-size: 11px; font-weight: 700; cursor: pointer; }
+.deleteCommentButton { color: var(--danger); }
+.replyLink:hover, .deleteCommentButton:hover { color: var(--brand-primary); }
+.commentsToggle { align-self: flex-start; padding: 0; border: 0; background: none; color: var(--ink-muted); font-size: 12px; font-weight: 700; cursor: pointer; }
+.commentsToggle:hover { color: var(--brand-primary); }
+.replyLink:hover { color: var(--brand-primary); }
+.mention { color: var(--brand-primary); font-weight: 700; }
+.replyingTo { display: flex; align-items: center; gap: 6px; color: var(--ink-muted); font-size: 11px; }
+.replyingTo button { display: inline-flex; padding: 2px; border: 0; background: none; color: inherit; cursor: pointer; }
+.mentionSuggestions { position: absolute; left: 0; right: 0; bottom: calc(100% + 6px); z-index: 3; display: grid; gap: 2px; padding: 5px; border: 1px solid var(--line); border-radius: var(--radius-btn); background: var(--surface); box-shadow: var(--shadow-card); }
+.mentionSuggestions button { display: flex; align-items: center; gap: 7px; padding: 6px; border: 0; border-radius: 6px; background: none; color: var(--ink); text-align: left; cursor: pointer; }
+.mentionSuggestions button:hover { background: var(--field); }
+.mentionSuggestions span { display: grid; font-size: 12px; font-weight: 700; }
+.mentionSuggestions small { color: var(--ink-muted); font-size: 10px; font-weight: 400; }
 .reply {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 8px;

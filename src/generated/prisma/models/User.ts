@@ -40,6 +40,8 @@ export type UserMinAggregateOutputType = {
   id: number | null
   username: string | null
   name: string | null
+  nickname: string | null
+  email: string | null
   passwordHash: string | null
   role: $Enums.Role | null
   userType: $Enums.UserType | null
@@ -60,6 +62,8 @@ export type UserMaxAggregateOutputType = {
   id: number | null
   username: string | null
   name: string | null
+  nickname: string | null
+  email: string | null
   passwordHash: string | null
   role: $Enums.Role | null
   userType: $Enums.UserType | null
@@ -80,6 +84,8 @@ export type UserCountAggregateOutputType = {
   id: number
   username: number
   name: number
+  nickname: number
+  email: number
   passwordHash: number
   role: number
   userType: number
@@ -112,6 +118,8 @@ export type UserMinAggregateInputType = {
   id?: true
   username?: true
   name?: true
+  nickname?: true
+  email?: true
   passwordHash?: true
   role?: true
   userType?: true
@@ -132,6 +140,8 @@ export type UserMaxAggregateInputType = {
   id?: true
   username?: true
   name?: true
+  nickname?: true
+  email?: true
   passwordHash?: true
   role?: true
   userType?: true
@@ -152,6 +162,8 @@ export type UserCountAggregateInputType = {
   id?: true
   username?: true
   name?: true
+  nickname?: true
+  email?: true
   passwordHash?: true
   role?: true
   userType?: true
@@ -259,6 +271,8 @@ export type UserGroupByOutputType = {
   id: number
   username: string
   name: string
+  nickname: string | null
+  email: string | null
   passwordHash: string
   role: $Enums.Role
   userType: $Enums.UserType | null
@@ -302,6 +316,8 @@ export type UserWhereInput = {
   id?: Prisma.IntFilter<"User"> | number
   username?: Prisma.StringFilter<"User"> | string
   name?: Prisma.StringFilter<"User"> | string
+  nickname?: Prisma.StringNullableFilter<"User"> | string | null
+  email?: Prisma.StringNullableFilter<"User"> | string | null
   passwordHash?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   userType?: Prisma.EnumUserTypeNullableFilter<"User"> | $Enums.UserType | null
@@ -326,6 +342,9 @@ export type UserWhereInput = {
   forumPosts?: Prisma.ForumPostListRelationFilter
   forumLikes?: Prisma.ForumPostLikeListRelationFilter
   forumComments?: Prisma.ForumCommentListRelationFilter
+  forumCommentMentions?: Prisma.ForumCommentMentionListRelationFilter
+  forumPostMentions?: Prisma.ForumPostMentionListRelationFilter
+  forumPollVotes?: Prisma.ForumPollVoteListRelationFilter
   sentFriendRequests?: Prisma.FriendRequestListRelationFilter
   receivedFriendRequests?: Prisma.FriendRequestListRelationFilter
   adminNews?: Prisma.AdminNewsListRelationFilter
@@ -335,6 +354,8 @@ export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   username?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  nickname?: Prisma.SortOrderInput | Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
   userType?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -359,6 +380,9 @@ export type UserOrderByWithRelationInput = {
   forumPosts?: Prisma.ForumPostOrderByRelationAggregateInput
   forumLikes?: Prisma.ForumPostLikeOrderByRelationAggregateInput
   forumComments?: Prisma.ForumCommentOrderByRelationAggregateInput
+  forumCommentMentions?: Prisma.ForumCommentMentionOrderByRelationAggregateInput
+  forumPostMentions?: Prisma.ForumPostMentionOrderByRelationAggregateInput
+  forumPollVotes?: Prisma.ForumPollVoteOrderByRelationAggregateInput
   sentFriendRequests?: Prisma.FriendRequestOrderByRelationAggregateInput
   receivedFriendRequests?: Prisma.FriendRequestOrderByRelationAggregateInput
   adminNews?: Prisma.AdminNewsOrderByRelationAggregateInput
@@ -367,10 +391,12 @@ export type UserOrderByWithRelationInput = {
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: number
   username?: string
+  email?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   name?: Prisma.StringFilter<"User"> | string
+  nickname?: Prisma.StringNullableFilter<"User"> | string | null
   passwordHash?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   userType?: Prisma.EnumUserTypeNullableFilter<"User"> | $Enums.UserType | null
@@ -395,15 +421,20 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   forumPosts?: Prisma.ForumPostListRelationFilter
   forumLikes?: Prisma.ForumPostLikeListRelationFilter
   forumComments?: Prisma.ForumCommentListRelationFilter
+  forumCommentMentions?: Prisma.ForumCommentMentionListRelationFilter
+  forumPostMentions?: Prisma.ForumPostMentionListRelationFilter
+  forumPollVotes?: Prisma.ForumPollVoteListRelationFilter
   sentFriendRequests?: Prisma.FriendRequestListRelationFilter
   receivedFriendRequests?: Prisma.FriendRequestListRelationFilter
   adminNews?: Prisma.AdminNewsListRelationFilter
-}, "id" | "username">
+}, "id" | "username" | "email">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   username?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  nickname?: Prisma.SortOrderInput | Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
   userType?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -432,6 +463,8 @@ export type UserScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"User"> | number
   username?: Prisma.StringWithAggregatesFilter<"User"> | string
   name?: Prisma.StringWithAggregatesFilter<"User"> | string
+  nickname?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  email?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   passwordHash?: Prisma.StringWithAggregatesFilter<"User"> | string
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   userType?: Prisma.EnumUserTypeNullableWithAggregatesFilter<"User"> | $Enums.UserType | null
@@ -451,6 +484,8 @@ export type UserScalarWhereWithAggregatesInput = {
 export type UserCreateInput = {
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -475,6 +510,9 @@ export type UserCreateInput = {
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
@@ -484,6 +522,8 @@ export type UserUncheckedCreateInput = {
   id?: number
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -508,6 +548,9 @@ export type UserUncheckedCreateInput = {
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
@@ -516,6 +559,8 @@ export type UserUncheckedCreateInput = {
 export type UserUpdateInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -540,6 +585,9 @@ export type UserUpdateInput = {
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
@@ -549,6 +597,8 @@ export type UserUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -573,6 +623,9 @@ export type UserUncheckedUpdateInput = {
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
@@ -582,6 +635,8 @@ export type UserCreateManyInput = {
   id?: number
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -601,6 +656,8 @@ export type UserCreateManyInput = {
 export type UserUpdateManyMutationInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -621,6 +678,8 @@ export type UserUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -641,6 +700,8 @@ export type UserCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   username?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  nickname?: Prisma.SortOrder
+  email?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
   userType?: Prisma.SortOrder
@@ -666,6 +727,8 @@ export type UserMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   username?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  nickname?: Prisma.SortOrder
+  email?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
   userType?: Prisma.SortOrder
@@ -686,6 +749,8 @@ export type UserMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   username?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  nickname?: Prisma.SortOrder
+  email?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
   userType?: Prisma.SortOrder
@@ -721,16 +786,16 @@ export type StringFieldUpdateOperationsInput = {
   set?: string
 }
 
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
 export type EnumRoleFieldUpdateOperationsInput = {
   set?: $Enums.Role
 }
 
 export type NullableEnumUserTypeFieldUpdateOperationsInput = {
   set?: $Enums.UserType | null
-}
-
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -781,6 +846,34 @@ export type UserUpdateOneRequiredWithoutForumPostsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutForumPostsInput, Prisma.UserUpdateWithoutForumPostsInput>, Prisma.UserUncheckedUpdateWithoutForumPostsInput>
 }
 
+export type UserCreateNestedOneWithoutForumPostMentionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutForumPostMentionsInput, Prisma.UserUncheckedCreateWithoutForumPostMentionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutForumPostMentionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutForumPostMentionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutForumPostMentionsInput, Prisma.UserUncheckedCreateWithoutForumPostMentionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutForumPostMentionsInput
+  upsert?: Prisma.UserUpsertWithoutForumPostMentionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutForumPostMentionsInput, Prisma.UserUpdateWithoutForumPostMentionsInput>, Prisma.UserUncheckedUpdateWithoutForumPostMentionsInput>
+}
+
+export type UserCreateNestedOneWithoutForumPollVotesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutForumPollVotesInput, Prisma.UserUncheckedCreateWithoutForumPollVotesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutForumPollVotesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutForumPollVotesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutForumPollVotesInput, Prisma.UserUncheckedCreateWithoutForumPollVotesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutForumPollVotesInput
+  upsert?: Prisma.UserUpsertWithoutForumPollVotesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutForumPollVotesInput, Prisma.UserUpdateWithoutForumPollVotesInput>, Prisma.UserUncheckedUpdateWithoutForumPollVotesInput>
+}
+
 export type UserCreateNestedOneWithoutForumLikesInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutForumLikesInput, Prisma.UserUncheckedCreateWithoutForumLikesInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutForumLikesInput
@@ -807,6 +900,20 @@ export type UserUpdateOneRequiredWithoutForumCommentsNestedInput = {
   upsert?: Prisma.UserUpsertWithoutForumCommentsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutForumCommentsInput, Prisma.UserUpdateWithoutForumCommentsInput>, Prisma.UserUncheckedUpdateWithoutForumCommentsInput>
+}
+
+export type UserCreateNestedOneWithoutForumCommentMentionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutForumCommentMentionsInput, Prisma.UserUncheckedCreateWithoutForumCommentMentionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutForumCommentMentionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutForumCommentMentionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutForumCommentMentionsInput, Prisma.UserUncheckedCreateWithoutForumCommentMentionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutForumCommentMentionsInput
+  upsert?: Prisma.UserUpsertWithoutForumCommentMentionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutForumCommentMentionsInput, Prisma.UserUpdateWithoutForumCommentMentionsInput>, Prisma.UserUncheckedUpdateWithoutForumCommentMentionsInput>
 }
 
 export type UserCreateNestedOneWithoutSentFriendRequestsInput = {
@@ -940,6 +1047,8 @@ export type UserUpdateOneRequiredWithoutAdminNewsNestedInput = {
 export type UserCreateWithoutReportsInput = {
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -963,6 +1072,9 @@ export type UserCreateWithoutReportsInput = {
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
@@ -972,6 +1084,8 @@ export type UserUncheckedCreateWithoutReportsInput = {
   id?: number
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -995,6 +1109,9 @@ export type UserUncheckedCreateWithoutReportsInput = {
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
@@ -1019,6 +1136,8 @@ export type UserUpdateToOneWithWhereWithoutReportsInput = {
 export type UserUpdateWithoutReportsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -1042,6 +1161,9 @@ export type UserUpdateWithoutReportsInput = {
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
@@ -1051,6 +1173,8 @@ export type UserUncheckedUpdateWithoutReportsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -1074,6 +1198,9 @@ export type UserUncheckedUpdateWithoutReportsInput = {
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
@@ -1082,6 +1209,8 @@ export type UserUncheckedUpdateWithoutReportsInput = {
 export type UserCreateWithoutForumPostsInput = {
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -1105,6 +1234,9 @@ export type UserCreateWithoutForumPostsInput = {
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
   forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
@@ -1114,6 +1246,8 @@ export type UserUncheckedCreateWithoutForumPostsInput = {
   id?: number
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -1137,6 +1271,9 @@ export type UserUncheckedCreateWithoutForumPostsInput = {
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
   forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
@@ -1161,6 +1298,8 @@ export type UserUpdateToOneWithWhereWithoutForumPostsInput = {
 export type UserUpdateWithoutForumPostsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -1184,6 +1323,9 @@ export type UserUpdateWithoutForumPostsInput = {
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
   forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
@@ -1193,6 +1335,8 @@ export type UserUncheckedUpdateWithoutForumPostsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -1216,6 +1360,333 @@ export type UserUncheckedUpdateWithoutForumPostsInput = {
   statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
   forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
+  adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserCreateWithoutForumPostMentionsInput = {
+  username: string
+  name: string
+  nickname?: string | null
+  email?: string | null
+  passwordHash: string
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  fotoProfil?: string | null
+  jurusan?: string | null
+  bio?: string | null
+  trustScore?: number
+  isActive?: boolean
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activeSessionId?: string | null
+  lastSeenAt?: Date | string | null
+  activeDevice?: string | null
+  reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
+  statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
+  forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
+  forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
+  forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
+  adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
+}
+
+export type UserUncheckedCreateWithoutForumPostMentionsInput = {
+  id?: number
+  username: string
+  name: string
+  nickname?: string | null
+  email?: string | null
+  passwordHash: string
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  fotoProfil?: string | null
+  jurusan?: string | null
+  bio?: string | null
+  trustScore?: number
+  isActive?: boolean
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activeSessionId?: string | null
+  lastSeenAt?: Date | string | null
+  activeDevice?: string | null
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
+  statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
+  forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
+  forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
+  forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
+  adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
+}
+
+export type UserCreateOrConnectWithoutForumPostMentionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutForumPostMentionsInput, Prisma.UserUncheckedCreateWithoutForumPostMentionsInput>
+}
+
+export type UserUpsertWithoutForumPostMentionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutForumPostMentionsInput, Prisma.UserUncheckedUpdateWithoutForumPostMentionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutForumPostMentionsInput, Prisma.UserUncheckedCreateWithoutForumPostMentionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutForumPostMentionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutForumPostMentionsInput, Prisma.UserUncheckedUpdateWithoutForumPostMentionsInput>
+}
+
+export type UserUpdateWithoutForumPostMentionsInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
+  statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
+  forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
+  forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
+  forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
+  adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutForumPostMentionsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
+  statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
+  forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
+  forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
+  adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserCreateWithoutForumPollVotesInput = {
+  username: string
+  name: string
+  nickname?: string | null
+  email?: string | null
+  passwordHash: string
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  fotoProfil?: string | null
+  jurusan?: string | null
+  bio?: string | null
+  trustScore?: number
+  isActive?: boolean
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activeSessionId?: string | null
+  lastSeenAt?: Date | string | null
+  activeDevice?: string | null
+  reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
+  statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
+  forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
+  forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
+  forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
+  adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
+}
+
+export type UserUncheckedCreateWithoutForumPollVotesInput = {
+  id?: number
+  username: string
+  name: string
+  nickname?: string | null
+  email?: string | null
+  passwordHash: string
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  fotoProfil?: string | null
+  jurusan?: string | null
+  bio?: string | null
+  trustScore?: number
+  isActive?: boolean
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activeSessionId?: string | null
+  lastSeenAt?: Date | string | null
+  activeDevice?: string | null
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
+  statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
+  forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
+  forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
+  forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
+  adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
+}
+
+export type UserCreateOrConnectWithoutForumPollVotesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutForumPollVotesInput, Prisma.UserUncheckedCreateWithoutForumPollVotesInput>
+}
+
+export type UserUpsertWithoutForumPollVotesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutForumPollVotesInput, Prisma.UserUncheckedUpdateWithoutForumPollVotesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutForumPollVotesInput, Prisma.UserUncheckedCreateWithoutForumPollVotesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutForumPollVotesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutForumPollVotesInput, Prisma.UserUncheckedUpdateWithoutForumPollVotesInput>
+}
+
+export type UserUpdateWithoutForumPollVotesInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
+  statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
+  forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
+  forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
+  forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
+  adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutForumPollVotesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
+  statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
+  forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
+  forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
@@ -1224,6 +1695,8 @@ export type UserUncheckedUpdateWithoutForumPostsInput = {
 export type UserCreateWithoutForumLikesInput = {
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -1247,6 +1720,9 @@ export type UserCreateWithoutForumLikesInput = {
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
   forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
@@ -1256,6 +1732,8 @@ export type UserUncheckedCreateWithoutForumLikesInput = {
   id?: number
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -1279,6 +1757,9 @@ export type UserUncheckedCreateWithoutForumLikesInput = {
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
   forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
@@ -1303,6 +1784,8 @@ export type UserUpdateToOneWithWhereWithoutForumLikesInput = {
 export type UserUpdateWithoutForumLikesInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -1326,6 +1809,9 @@ export type UserUpdateWithoutForumLikesInput = {
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
   forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
@@ -1335,6 +1821,8 @@ export type UserUncheckedUpdateWithoutForumLikesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -1358,6 +1846,9 @@ export type UserUncheckedUpdateWithoutForumLikesInput = {
   statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
   forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
@@ -1366,6 +1857,8 @@ export type UserUncheckedUpdateWithoutForumLikesInput = {
 export type UserCreateWithoutForumCommentsInput = {
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -1389,6 +1882,9 @@ export type UserCreateWithoutForumCommentsInput = {
   statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
+  forumCommentMentions?: Prisma.ForumCommentMentionCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
@@ -1398,6 +1894,8 @@ export type UserUncheckedCreateWithoutForumCommentsInput = {
   id?: number
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -1421,6 +1919,9 @@ export type UserUncheckedCreateWithoutForumCommentsInput = {
   statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
@@ -1445,6 +1946,8 @@ export type UserUpdateToOneWithWhereWithoutForumCommentsInput = {
 export type UserUpdateWithoutForumCommentsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -1468,6 +1971,9 @@ export type UserUpdateWithoutForumCommentsInput = {
   statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
@@ -1477,6 +1983,8 @@ export type UserUncheckedUpdateWithoutForumCommentsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -1500,14 +2008,19 @@ export type UserUncheckedUpdateWithoutForumCommentsInput = {
   statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
 }
 
-export type UserCreateWithoutSentFriendRequestsInput = {
+export type UserCreateWithoutForumCommentMentionsInput = {
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -1532,14 +2045,19 @@ export type UserCreateWithoutSentFriendRequestsInput = {
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  forumPostMentions?: Prisma.ForumPostMentionCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
 }
 
-export type UserUncheckedCreateWithoutSentFriendRequestsInput = {
+export type UserUncheckedCreateWithoutForumCommentMentionsInput = {
   id?: number
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -1564,6 +2082,171 @@ export type UserUncheckedCreateWithoutSentFriendRequestsInput = {
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
+  adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
+}
+
+export type UserCreateOrConnectWithoutForumCommentMentionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutForumCommentMentionsInput, Prisma.UserUncheckedCreateWithoutForumCommentMentionsInput>
+}
+
+export type UserUpsertWithoutForumCommentMentionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutForumCommentMentionsInput, Prisma.UserUncheckedUpdateWithoutForumCommentMentionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutForumCommentMentionsInput, Prisma.UserUncheckedCreateWithoutForumCommentMentionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutForumCommentMentionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutForumCommentMentionsInput, Prisma.UserUncheckedUpdateWithoutForumCommentMentionsInput>
+}
+
+export type UserUpdateWithoutForumCommentMentionsInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
+  statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
+  forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
+  forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
+  forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
+  adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutForumCommentMentionsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
+  statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
+  forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
+  forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
+  adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserCreateWithoutSentFriendRequestsInput = {
+  username: string
+  name: string
+  nickname?: string | null
+  email?: string | null
+  passwordHash: string
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  fotoProfil?: string | null
+  jurusan?: string | null
+  bio?: string | null
+  trustScore?: number
+  isActive?: boolean
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activeSessionId?: string | null
+  lastSeenAt?: Date | string | null
+  activeDevice?: string | null
+  reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
+  statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
+  forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
+  forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
+  forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteCreateNestedManyWithoutUserInput
+  receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
+  adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
+}
+
+export type UserUncheckedCreateWithoutSentFriendRequestsInput = {
+  id?: number
+  username: string
+  name: string
+  nickname?: string | null
+  email?: string | null
+  passwordHash: string
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  fotoProfil?: string | null
+  jurusan?: string | null
+  bio?: string | null
+  trustScore?: number
+  isActive?: boolean
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activeSessionId?: string | null
+  lastSeenAt?: Date | string | null
+  activeDevice?: string | null
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
+  statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
+  forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
+  forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
+  forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedCreateNestedManyWithoutUserInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
 }
@@ -1576,6 +2259,8 @@ export type UserCreateOrConnectWithoutSentFriendRequestsInput = {
 export type UserCreateWithoutReceivedFriendRequestsInput = {
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -1600,6 +2285,9 @@ export type UserCreateWithoutReceivedFriendRequestsInput = {
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
   adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
 }
@@ -1608,6 +2296,8 @@ export type UserUncheckedCreateWithoutReceivedFriendRequestsInput = {
   id?: number
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -1632,6 +2322,9 @@ export type UserUncheckedCreateWithoutReceivedFriendRequestsInput = {
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
   adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
 }
@@ -1655,6 +2348,8 @@ export type UserUpdateToOneWithWhereWithoutSentFriendRequestsInput = {
 export type UserUpdateWithoutSentFriendRequestsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -1679,6 +2374,9 @@ export type UserUpdateWithoutSentFriendRequestsInput = {
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUpdateManyWithoutUserNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
 }
@@ -1687,6 +2385,8 @@ export type UserUncheckedUpdateWithoutSentFriendRequestsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -1711,6 +2411,9 @@ export type UserUncheckedUpdateWithoutSentFriendRequestsInput = {
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedUpdateManyWithoutUserNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
 }
@@ -1729,6 +2432,8 @@ export type UserUpdateToOneWithWhereWithoutReceivedFriendRequestsInput = {
 export type UserUpdateWithoutReceivedFriendRequestsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -1753,6 +2458,9 @@ export type UserUpdateWithoutReceivedFriendRequestsInput = {
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
   adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
 }
@@ -1761,6 +2469,8 @@ export type UserUncheckedUpdateWithoutReceivedFriendRequestsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -1785,6 +2495,9 @@ export type UserUncheckedUpdateWithoutReceivedFriendRequestsInput = {
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
   adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
 }
@@ -1792,6 +2505,8 @@ export type UserUncheckedUpdateWithoutReceivedFriendRequestsInput = {
 export type UserCreateWithoutStatusChangesInput = {
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -1815,6 +2530,9 @@ export type UserCreateWithoutStatusChangesInput = {
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
@@ -1824,6 +2542,8 @@ export type UserUncheckedCreateWithoutStatusChangesInput = {
   id?: number
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -1847,6 +2567,9 @@ export type UserUncheckedCreateWithoutStatusChangesInput = {
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
@@ -1871,6 +2594,8 @@ export type UserUpdateToOneWithWhereWithoutStatusChangesInput = {
 export type UserUpdateWithoutStatusChangesInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -1894,6 +2619,9 @@ export type UserUpdateWithoutStatusChangesInput = {
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
@@ -1903,6 +2631,8 @@ export type UserUncheckedUpdateWithoutStatusChangesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -1926,6 +2656,9 @@ export type UserUncheckedUpdateWithoutStatusChangesInput = {
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
@@ -1934,6 +2667,8 @@ export type UserUncheckedUpdateWithoutStatusChangesInput = {
 export type UserCreateWithoutReportSupportsInput = {
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -1957,6 +2692,9 @@ export type UserCreateWithoutReportSupportsInput = {
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
@@ -1966,6 +2704,8 @@ export type UserUncheckedCreateWithoutReportSupportsInput = {
   id?: number
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -1989,6 +2729,9 @@ export type UserUncheckedCreateWithoutReportSupportsInput = {
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
@@ -2013,6 +2756,8 @@ export type UserUpdateToOneWithWhereWithoutReportSupportsInput = {
 export type UserUpdateWithoutReportSupportsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -2036,6 +2781,9 @@ export type UserUpdateWithoutReportSupportsInput = {
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
@@ -2045,6 +2793,8 @@ export type UserUncheckedUpdateWithoutReportSupportsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -2068,6 +2818,9 @@ export type UserUncheckedUpdateWithoutReportSupportsInput = {
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
@@ -2076,6 +2829,8 @@ export type UserUncheckedUpdateWithoutReportSupportsInput = {
 export type UserCreateWithoutCreatedGroupsInput = {
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -2099,6 +2854,9 @@ export type UserCreateWithoutCreatedGroupsInput = {
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
@@ -2108,6 +2866,8 @@ export type UserUncheckedCreateWithoutCreatedGroupsInput = {
   id?: number
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -2131,6 +2891,9 @@ export type UserUncheckedCreateWithoutCreatedGroupsInput = {
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
@@ -2155,6 +2918,8 @@ export type UserUpdateToOneWithWhereWithoutCreatedGroupsInput = {
 export type UserUpdateWithoutCreatedGroupsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -2178,6 +2943,9 @@ export type UserUpdateWithoutCreatedGroupsInput = {
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
@@ -2187,6 +2955,8 @@ export type UserUncheckedUpdateWithoutCreatedGroupsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -2210,6 +2980,9 @@ export type UserUncheckedUpdateWithoutCreatedGroupsInput = {
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
@@ -2218,6 +2991,8 @@ export type UserUncheckedUpdateWithoutCreatedGroupsInput = {
 export type UserCreateWithoutGroupMembershipsInput = {
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -2241,6 +3016,9 @@ export type UserCreateWithoutGroupMembershipsInput = {
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
@@ -2250,6 +3028,8 @@ export type UserUncheckedCreateWithoutGroupMembershipsInput = {
   id?: number
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -2273,6 +3053,9 @@ export type UserUncheckedCreateWithoutGroupMembershipsInput = {
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
@@ -2297,6 +3080,8 @@ export type UserUpdateToOneWithWhereWithoutGroupMembershipsInput = {
 export type UserUpdateWithoutGroupMembershipsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -2320,6 +3105,9 @@ export type UserUpdateWithoutGroupMembershipsInput = {
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
@@ -2329,6 +3117,8 @@ export type UserUncheckedUpdateWithoutGroupMembershipsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -2352,6 +3142,9 @@ export type UserUncheckedUpdateWithoutGroupMembershipsInput = {
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
@@ -2360,6 +3153,8 @@ export type UserUncheckedUpdateWithoutGroupMembershipsInput = {
 export type UserCreateWithoutGroupJoinRequestsInput = {
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -2383,6 +3178,9 @@ export type UserCreateWithoutGroupJoinRequestsInput = {
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
@@ -2392,6 +3190,8 @@ export type UserUncheckedCreateWithoutGroupJoinRequestsInput = {
   id?: number
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -2415,6 +3215,9 @@ export type UserUncheckedCreateWithoutGroupJoinRequestsInput = {
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
@@ -2439,6 +3242,8 @@ export type UserUpdateToOneWithWhereWithoutGroupJoinRequestsInput = {
 export type UserUpdateWithoutGroupJoinRequestsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -2462,6 +3267,9 @@ export type UserUpdateWithoutGroupJoinRequestsInput = {
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
@@ -2471,6 +3279,8 @@ export type UserUncheckedUpdateWithoutGroupJoinRequestsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -2494,6 +3304,9 @@ export type UserUncheckedUpdateWithoutGroupJoinRequestsInput = {
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
@@ -2502,6 +3315,8 @@ export type UserUncheckedUpdateWithoutGroupJoinRequestsInput = {
 export type UserCreateWithoutGroupMessagesInput = {
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -2525,6 +3340,9 @@ export type UserCreateWithoutGroupMessagesInput = {
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
@@ -2534,6 +3352,8 @@ export type UserUncheckedCreateWithoutGroupMessagesInput = {
   id?: number
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -2557,6 +3377,9 @@ export type UserUncheckedCreateWithoutGroupMessagesInput = {
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
   adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
@@ -2581,6 +3404,8 @@ export type UserUpdateToOneWithWhereWithoutGroupMessagesInput = {
 export type UserUpdateWithoutGroupMessagesInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -2604,6 +3429,9 @@ export type UserUpdateWithoutGroupMessagesInput = {
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
@@ -2613,6 +3441,8 @@ export type UserUncheckedUpdateWithoutGroupMessagesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -2636,6 +3466,9 @@ export type UserUncheckedUpdateWithoutGroupMessagesInput = {
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
   adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
@@ -2644,6 +3477,8 @@ export type UserUncheckedUpdateWithoutGroupMessagesInput = {
 export type UserCreateWithoutAdminNewsInput = {
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -2668,6 +3503,9 @@ export type UserCreateWithoutAdminNewsInput = {
   forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
 }
@@ -2676,6 +3514,8 @@ export type UserUncheckedCreateWithoutAdminNewsInput = {
   id?: number
   username: string
   name: string
+  nickname?: string | null
+  email?: string | null
   passwordHash: string
   role?: $Enums.Role
   userType?: $Enums.UserType | null
@@ -2700,6 +3540,9 @@ export type UserUncheckedCreateWithoutAdminNewsInput = {
   forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
   forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
   forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedCreateNestedManyWithoutUserInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
 }
@@ -2723,6 +3566,8 @@ export type UserUpdateToOneWithWhereWithoutAdminNewsInput = {
 export type UserUpdateWithoutAdminNewsInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -2747,6 +3592,9 @@ export type UserUpdateWithoutAdminNewsInput = {
   forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
 }
@@ -2755,6 +3603,8 @@ export type UserUncheckedUpdateWithoutAdminNewsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   username?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
@@ -2779,6 +3629,9 @@ export type UserUncheckedUpdateWithoutAdminNewsInput = {
   forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
   forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
   forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedUpdateManyWithoutUserNestedInput
   sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
   receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
 }
@@ -2799,6 +3652,9 @@ export type UserCountOutputType = {
   forumPosts: number
   forumLikes: number
   forumComments: number
+  forumCommentMentions: number
+  forumPostMentions: number
+  forumPollVotes: number
   sentFriendRequests: number
   receivedFriendRequests: number
   adminNews: number
@@ -2815,6 +3671,9 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   forumPosts?: boolean | UserCountOutputTypeCountForumPostsArgs
   forumLikes?: boolean | UserCountOutputTypeCountForumLikesArgs
   forumComments?: boolean | UserCountOutputTypeCountForumCommentsArgs
+  forumCommentMentions?: boolean | UserCountOutputTypeCountForumCommentMentionsArgs
+  forumPostMentions?: boolean | UserCountOutputTypeCountForumPostMentionsArgs
+  forumPollVotes?: boolean | UserCountOutputTypeCountForumPollVotesArgs
   sentFriendRequests?: boolean | UserCountOutputTypeCountSentFriendRequestsArgs
   receivedFriendRequests?: boolean | UserCountOutputTypeCountReceivedFriendRequestsArgs
   adminNews?: boolean | UserCountOutputTypeCountAdminNewsArgs
@@ -2903,6 +3762,27 @@ export type UserCountOutputTypeCountForumCommentsArgs<ExtArgs extends runtime.Ty
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountForumCommentMentionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ForumCommentMentionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountForumPostMentionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ForumPostMentionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountForumPollVotesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ForumPollVoteWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountSentFriendRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.FriendRequestWhereInput
 }
@@ -2926,6 +3806,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   id?: boolean
   username?: boolean
   name?: boolean
+  nickname?: boolean
+  email?: boolean
   passwordHash?: boolean
   role?: boolean
   userType?: boolean
@@ -2950,6 +3832,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   forumPosts?: boolean | Prisma.User$forumPostsArgs<ExtArgs>
   forumLikes?: boolean | Prisma.User$forumLikesArgs<ExtArgs>
   forumComments?: boolean | Prisma.User$forumCommentsArgs<ExtArgs>
+  forumCommentMentions?: boolean | Prisma.User$forumCommentMentionsArgs<ExtArgs>
+  forumPostMentions?: boolean | Prisma.User$forumPostMentionsArgs<ExtArgs>
+  forumPollVotes?: boolean | Prisma.User$forumPollVotesArgs<ExtArgs>
   sentFriendRequests?: boolean | Prisma.User$sentFriendRequestsArgs<ExtArgs>
   receivedFriendRequests?: boolean | Prisma.User$receivedFriendRequestsArgs<ExtArgs>
   adminNews?: boolean | Prisma.User$adminNewsArgs<ExtArgs>
@@ -2960,6 +3845,8 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   username?: boolean
   name?: boolean
+  nickname?: boolean
+  email?: boolean
   passwordHash?: boolean
   role?: boolean
   userType?: boolean
@@ -2980,6 +3867,8 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   username?: boolean
   name?: boolean
+  nickname?: boolean
+  email?: boolean
   passwordHash?: boolean
   role?: boolean
   userType?: boolean
@@ -3000,6 +3889,8 @@ export type UserSelectScalar = {
   id?: boolean
   username?: boolean
   name?: boolean
+  nickname?: boolean
+  email?: boolean
   passwordHash?: boolean
   role?: boolean
   userType?: boolean
@@ -3016,7 +3907,7 @@ export type UserSelectScalar = {
   activeDevice?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "name" | "passwordHash" | "role" | "userType" | "fotoProfil" | "jurusan" | "bio" | "trustScore" | "isActive" | "mustChangePassword" | "createdAt" | "updatedAt" | "activeSessionId" | "lastSeenAt" | "activeDevice", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "name" | "nickname" | "email" | "passwordHash" | "role" | "userType" | "fotoProfil" | "jurusan" | "bio" | "trustScore" | "isActive" | "mustChangePassword" | "createdAt" | "updatedAt" | "activeSessionId" | "lastSeenAt" | "activeDevice", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   reports?: boolean | Prisma.User$reportsArgs<ExtArgs>
   reportSupports?: boolean | Prisma.User$reportSupportsArgs<ExtArgs>
@@ -3028,6 +3919,9 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   forumPosts?: boolean | Prisma.User$forumPostsArgs<ExtArgs>
   forumLikes?: boolean | Prisma.User$forumLikesArgs<ExtArgs>
   forumComments?: boolean | Prisma.User$forumCommentsArgs<ExtArgs>
+  forumCommentMentions?: boolean | Prisma.User$forumCommentMentionsArgs<ExtArgs>
+  forumPostMentions?: boolean | Prisma.User$forumPostMentionsArgs<ExtArgs>
+  forumPollVotes?: boolean | Prisma.User$forumPollVotesArgs<ExtArgs>
   sentFriendRequests?: boolean | Prisma.User$sentFriendRequestsArgs<ExtArgs>
   receivedFriendRequests?: boolean | Prisma.User$receivedFriendRequestsArgs<ExtArgs>
   adminNews?: boolean | Prisma.User$adminNewsArgs<ExtArgs>
@@ -3049,6 +3943,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     forumPosts: Prisma.$ForumPostPayload<ExtArgs>[]
     forumLikes: Prisma.$ForumPostLikePayload<ExtArgs>[]
     forumComments: Prisma.$ForumCommentPayload<ExtArgs>[]
+    forumCommentMentions: Prisma.$ForumCommentMentionPayload<ExtArgs>[]
+    forumPostMentions: Prisma.$ForumPostMentionPayload<ExtArgs>[]
+    forumPollVotes: Prisma.$ForumPollVotePayload<ExtArgs>[]
     sentFriendRequests: Prisma.$FriendRequestPayload<ExtArgs>[]
     receivedFriendRequests: Prisma.$FriendRequestPayload<ExtArgs>[]
     adminNews: Prisma.$AdminNewsPayload<ExtArgs>[]
@@ -3057,6 +3954,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     id: number
     username: string
     name: string
+    nickname: string | null
+    email: string | null
     passwordHash: string
     role: $Enums.Role
     userType: $Enums.UserType | null
@@ -3475,6 +4374,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   forumPosts<T extends Prisma.User$forumPostsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$forumPostsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ForumPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   forumLikes<T extends Prisma.User$forumLikesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$forumLikesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ForumPostLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   forumComments<T extends Prisma.User$forumCommentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$forumCommentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ForumCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  forumCommentMentions<T extends Prisma.User$forumCommentMentionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$forumCommentMentionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ForumCommentMentionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  forumPostMentions<T extends Prisma.User$forumPostMentionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$forumPostMentionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ForumPostMentionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  forumPollVotes<T extends Prisma.User$forumPollVotesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$forumPollVotesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ForumPollVotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sentFriendRequests<T extends Prisma.User$sentFriendRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sentFriendRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FriendRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   receivedFriendRequests<T extends Prisma.User$receivedFriendRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$receivedFriendRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FriendRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   adminNews<T extends Prisma.User$adminNewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$adminNewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdminNewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3510,6 +4412,8 @@ export interface UserFieldRefs {
   readonly id: Prisma.FieldRef<"User", 'Int'>
   readonly username: Prisma.FieldRef<"User", 'String'>
   readonly name: Prisma.FieldRef<"User", 'String'>
+  readonly nickname: Prisma.FieldRef<"User", 'String'>
+  readonly email: Prisma.FieldRef<"User", 'String'>
   readonly passwordHash: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'Role'>
   readonly userType: Prisma.FieldRef<"User", 'UserType'>
@@ -4154,6 +5058,78 @@ export type User$forumCommentsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.ForumCommentScalarFieldEnum | Prisma.ForumCommentScalarFieldEnum[]
+}
+
+/**
+ * User.forumCommentMentions
+ */
+export type User$forumCommentMentionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ForumCommentMention
+   */
+  select?: Prisma.ForumCommentMentionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ForumCommentMention
+   */
+  omit?: Prisma.ForumCommentMentionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ForumCommentMentionInclude<ExtArgs> | null
+  where?: Prisma.ForumCommentMentionWhereInput
+  orderBy?: Prisma.ForumCommentMentionOrderByWithRelationInput | Prisma.ForumCommentMentionOrderByWithRelationInput[]
+  cursor?: Prisma.ForumCommentMentionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ForumCommentMentionScalarFieldEnum | Prisma.ForumCommentMentionScalarFieldEnum[]
+}
+
+/**
+ * User.forumPostMentions
+ */
+export type User$forumPostMentionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ForumPostMention
+   */
+  select?: Prisma.ForumPostMentionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ForumPostMention
+   */
+  omit?: Prisma.ForumPostMentionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ForumPostMentionInclude<ExtArgs> | null
+  where?: Prisma.ForumPostMentionWhereInput
+  orderBy?: Prisma.ForumPostMentionOrderByWithRelationInput | Prisma.ForumPostMentionOrderByWithRelationInput[]
+  cursor?: Prisma.ForumPostMentionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ForumPostMentionScalarFieldEnum | Prisma.ForumPostMentionScalarFieldEnum[]
+}
+
+/**
+ * User.forumPollVotes
+ */
+export type User$forumPollVotesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ForumPollVote
+   */
+  select?: Prisma.ForumPollVoteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ForumPollVote
+   */
+  omit?: Prisma.ForumPollVoteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ForumPollVoteInclude<ExtArgs> | null
+  where?: Prisma.ForumPollVoteWhereInput
+  orderBy?: Prisma.ForumPollVoteOrderByWithRelationInput | Prisma.ForumPollVoteOrderByWithRelationInput[]
+  cursor?: Prisma.ForumPollVoteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ForumPollVoteScalarFieldEnum | Prisma.ForumPollVoteScalarFieldEnum[]
 }
 
 /**

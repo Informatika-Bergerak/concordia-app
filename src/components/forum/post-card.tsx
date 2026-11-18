@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { MessageSquare, MoreVertical } from "lucide-react";
+import { Calendar, MapPin, MessageSquare, MoreVertical } from "lucide-react";
+import { splitHashtagText } from "@/lib/forum/hashtags";
 import { Avatar } from "@/components/ui/avatar";
 import { RoleBadge } from "@/components/ui/role-badge";
 import type { Role } from "@/generated/prisma/enums";
@@ -7,10 +8,19 @@ import type { FeedPost } from "@/modules/forum/types";
 import { PostLikeButton } from "./post-like-button";
 import { PostComments } from "./post-comments";
 import { PostShareButton } from "./post-share-button";
+import { DeletePostButton } from "./delete-post-button";
 import styles from "./post-card.module.css";
 
-export function PostCard({ post, viewerRole }: { post: FeedPost; viewerRole?: Role }) {
-  const canModerate = viewerRole === "MODERATOR" || viewerRole === "ADMIN";
+function renderPostText(text: string) {
+  return splitHashtagText(text).map((part, index) => part.hashtag ? (
+    <Link key={`${part.hashtag}-${index}`} href={`/search?q=${encodeURIComponent(part.hashtag)}`} className={styles.hashtag}>
+      {part.text}
+    </Link>
+  ) : <span key={`text-${index}`}>{part.text}</span>);
+}
+
+export function PostCard({ post, viewerRole, viewerId }: { post: FeedPost; viewerRole?: Role; viewerId?: number }) {
+  const canDelete = viewerId === post.authorId || viewerRole === "MODERATOR" || viewerRole === "ADMIN";
 
   return (
     <article className={styles.card}>
@@ -24,20 +34,27 @@ export function PostCard({ post, viewerRole }: { post: FeedPost; viewerRole?: Ro
           <span>{post.authorMajor}</span>
           <span className={styles.time}>{post.timeAgo}</span>
         </div>
-        {canModerate ? (
+        {canDelete ? (
           <details className={styles.moreMenu}>
             <summary className={styles.more} aria-label="Opsi postingan"><MoreVertical size={18} /></summary>
-            <button type="button" disabled aria-disabled="true" title="Belum tersedia">Moderasi</button>
+            <DeletePostButton postId={Number(post.id)} />
           </details>
         ) : (
           <button type="button" className={styles.more} aria-label="Opsi postingan"><MoreVertical size={18} /></button>
         )}
       </header>
 
-      <p className={styles.text}>
-        {post.text}
-        {post.tag && <><br /><span className={styles.tag}>#{post.tag}</span></>}
-      </p>
+      <p className={styles.text}>{renderPostText(post.text)}</p>
+      {post.mentions.length > 0 && (
+        <div className={styles.taggedPeople}>
+          <span className={styles.mentionList}>
+            {post.mentions.map((mention) => <span className={styles.mention} key={mention.userId}>@{mention.name}</span>)}
+          </span>
+        </div>
+      )}
+      {post.location && <a className={styles.attachment} href={post.location.url ?? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(post.location.label)}`} target="_blank" rel="noreferrer"><MapPin size={16} /> {post.location.label}</a>}
+      {post.event && <div className={styles.attachment}><Calendar size={16} /> <strong>{post.event.title}</strong> · {post.event.date} {post.event.time} · {post.event.location}</div>}
+      {post.poll && <div className={styles.poll}><strong>{post.poll.question}</strong>{post.poll.options.map((option) => <div key={option.id} className={styles.pollOption}>{option.text}<span>{option.votes}</span></div>)}</div>}
 
       {post.imageUrl && (
         <div className={styles.image}>
@@ -76,6 +93,8 @@ export function PostCard({ post, viewerRole }: { post: FeedPost; viewerRole?: Ro
         postId={Number(post.id)}
         initialComments={post.comments}
         initialCount={post.commentCount}
+        viewerId={viewerId}
+        viewerRole={viewerRole}
       />
     </article>
   );
