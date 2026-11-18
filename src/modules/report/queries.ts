@@ -10,6 +10,7 @@ import {
 import type { AdminReportItem, ReportDetail, ReportItem, ReportStatus } from "./types";
 import { getDisplayName } from "@/lib/users/display-name";
 
+<<<<<<< Updated upstream
 const listSelect = {
   id: true,
   slug: true,
@@ -25,6 +26,9 @@ const listSelect = {
 };
 
 // Jumlah dukungan dan apakah pengguna ini sudah mendukung.
+=======
+// Helper untuk dukungan (support)
+>>>>>>> Stashed changes
 const supportSelect = (userId: number) => ({
   _count: { select: { supports: true } },
   supports: { where: { userId }, select: { userId: true } },
@@ -72,15 +76,23 @@ export async function getReportBySlug(slug: string): Promise<ReportDetail | null
   const row = await prisma.report.findUnique({
     where: { slug },
     select: {
-      ...listSelect,
+      id: true,
+      title: true,
+      description: true,
+      location: true,
+      category: true,
+      status: true,
+      visibility: true,
+      occurredAt: true,
+      authorId: true,
       rejectionReason: true,
       author: { select: { name: true, nickname: true } },
       photos: { select: { url: true }, orderBy: { id: "asc" } },
-      ...supportSelect(user.id),
       history: {
         select: { fromStatus: true, toStatus: true, note: true, createdAt: true },
         orderBy: { createdAt: "asc" },
       },
+      ...supportSelect(user.id),
     },
   });
   if (!row || !canViewReport(user, row)) return null;
@@ -119,12 +131,25 @@ export async function getAdminReports(
         : [{ createdAt: "desc" }],
     take: 200,
     select: {
-      ...listSelect,
+      id: true,
+      title: true,
+      description: true,
+      location: true,
+      category: true,
+      status: true,
+      visibility: true,
+      occurredAt: true,
+      authorId: true,
       rejectionReason: true,
       createdAt: true,
       author: { select: { name: true, nickname: true, username: true, userType: true } },
+<<<<<<< Updated upstream
       author: { select: { name: true, username: true, userType: true, role: true } },
       _count: { select: { supports: true } },
+=======
+      photos: { select: { url: true }, orderBy: { id: "asc" }, take: 1 },
+      ...supportSelect(user.id),
+>>>>>>> Stashed changes
     },
   });
 

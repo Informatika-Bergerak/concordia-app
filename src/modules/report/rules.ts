@@ -37,9 +37,9 @@ export type ReportRow = {
 };
 
 /**
- * Mengubah baris database menjadi data yang aman dikirim ke browser.
- * Nama pelapor hanya disertakan untuk laporan PUBLIC. Untuk ANONYMOUS dan
- * PRIVATE nama dibuang di sini, sebelum data keluar dari server.
+- Mengubah baris database menjadi data yang aman dikirim ke browser.
+- Nama pelapor hanya disertakan untuk laporan PUBLIC. Untuk ANONYMOUS dan
+- PRIVATE nama dibuang di sini, sebelum data keluar dari server.
  */
 export function toReportItem(row: ReportRow, viewerId: number): ReportItem {
   return {
@@ -101,9 +101,9 @@ export function allowedVisibilities(role: ViewerRole): ReportVisibility[] {
 }
 
 /**
- * Alasan sebuah laporan tidak dapat didukung oleh pengguna ini, atau null bila boleh.
- * Dipakai server (menolak aksi) dan tampilan (menyembunyikan tombol) agar aturannya sama.
- * Berlaku untuk menambah dukungan; mencabut dukungan selalu diizinkan.
+- Alasan sebuah laporan tidak dapat didukung oleh pengguna ini, atau null bila boleh.
+- Dipakai server (menolak aksi) dan tampilan (menyembunyikan tombol) agar aturannya sama.
+- Berlaku untuk menambah dukungan; mencabut dukungan selalu diizinkan.
  */
 export function supportBlockReason(
   role: ViewerRole,
@@ -118,9 +118,15 @@ export function supportBlockReason(
 }
 
 /**
+<<<<<<< Updated upstream
  * Alasan laporan tidak dapat diubah oleh pengguna ini, atau null bila boleh.
  * Hanya pelapor yang mengubah laporannya (admin tidak), dan hanya selama laporan masih
  * Belum Terverifikasi. Setelah diverifikasi, diproses, selesai, atau ditolak, isinya dikunci.
+=======
+- Alasan laporan tidak dapat diubah oleh pengguna ini, atau null bila boleh.
+- Hanya pelapor yang mengubah laporannya (admin tidak), dan hanya selama laporan masih
+- Belum Terverifikasi. Setelah diverifikasi atau ditolak, isinya dikunci.
+>>>>>>> Stashed changes
  */
 export function editBlockReason(
   role: ViewerRole,
@@ -150,8 +156,8 @@ export type ReportDetailRow = ReportRow & {
 };
 
 /**
- * Detail laporan. Alasan penolakan dan riwayat status hanya dikirim ke pelapor
- * dan admin; pengguna lain hanya melihat isi laporan.
+- Detail laporan. Alasan penolakan dan riwayat status hanya dikirim ke pelapor
+- dan admin; pengguna lain hanya melihat isi laporan.
  */
 export function toReportDetail(
   row: ReportDetailRow,
@@ -174,7 +180,7 @@ export function toReportDetail(
   };
 }
 
-export type AdminReportRow = ReportRow & {
+export type AdminReportRow = Omit<ReportRow, "author"> & {
   rejectionReason: string | null;
   createdAt: Date;
   author: { name: string; nickname?: string | null; username: string; userType: "MAHASISWA" | "DOSEN" | null };
