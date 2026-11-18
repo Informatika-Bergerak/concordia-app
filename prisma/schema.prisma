@@ -37,6 +37,7 @@ enum AuditAction {
   ACCOUNT_ACTIVATED
   ACCOUNT_DEACTIVATED
   SESSION_REVOKED
+  TRUST_MODERATION
 }
 
 enum ReportCategory {
