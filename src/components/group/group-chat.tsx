@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useTransition, useCallback } from "react";
+import { useState, useRef, useEffect, useTransition } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -85,45 +85,43 @@ export function GroupChat({ group, messages: initialMessages, currentUserId, mem
     setMessages(initialMessages);
   }, [initialMessages]);
 
-  const handleSend = useCallback(
-    (e: React.FormEvent) => {
-      e.preventDefault();
-      const content = text.trim();
-      if (!content) return;
+  const handleSend = (e: React.FormEvent) => {
+    e.preventDefault();
+    const content = text.trim();
+    if (!content) return;
 
-      // Optimistic update
-      const tempMessage: GroupChatMessage = {
-        id: Date.now(),
+    // Optimistic update
+    const tempMessage: GroupChatMessage = {
+      id: Date.now(),
+      content,
+      createdAt: new Date(),
+      senderId: currentUserId,
+      senderName: "Kamu",
+      updatedAt: null,
+      deletedAt: null,
+      isSystem: false,
+    };
+    setMessages((prev) => [...prev, tempMessage]);
+    setText("");
+    inputRef.current?.focus();
+
+    startTransition(async () => {
+      const result = await sendGroupMessageAction({
+        groupId: group.id,
         content,
-        createdAt: new Date(),
-        senderId: currentUserId,
-        senderName: "Kamu",
-        updatedAt: null,
-        deletedAt: null,
-      };
-      setMessages((prev) => [...prev, tempMessage]);
-      setText("");
-      inputRef.current?.focus();
-
-      startTransition(async () => {
-        const result = await sendGroupMessageAction({
-          groupId: group.id,
-          content,
-        });
-        if (!result.ok) {
-          // Rollback optimistic update on error
-          setMessages((prev) => prev.filter((m) => m.id !== tempMessage.id));
-          setText(content);
-          return;
-        }
-
-        // Ganti ID sementara dengan ID dari database agar pesan tetap tampil
-        // tanpa langsung ditimpa oleh props lama dari router.refresh().
-        setMessages((prev) => prev.map((message) => message.id === tempMessage.id ? { ...message, id: result.messageId } : message));
       });
-    },
-    [text, currentUserId, group.id, router],
-  );
+      if (!result.ok) {
+        // Rollback optimistic update on error
+        setMessages((prev) => prev.filter((m) => m.id !== tempMessage.id));
+        setText(content);
+        return;
+      }
+
+      // Ganti ID sementara dengan ID dari database agar pesan tetap tampil
+      // tanpa langsung ditimpa oleh props lama dari router.refresh().
+      setMessages((prev) => prev.map((message) => message.id === tempMessage.id ? { ...message, id: result.messageId } : message));
+    });
+  };
 
   return (
     <div className={styles.chatPage}>
