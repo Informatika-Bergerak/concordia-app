@@ -5,7 +5,11 @@ export const THREAD_XP = 25;
 const THREAD_SOURCE = "FORUM_THREAD";
 type Tx = Parameters<Parameters<PrismaClient["$transaction"]>[0]>[0];
 
-export function rewardThreadXp(tx: Tx, userId: number, threadId: number): Promise<EarnXpResult> {
+export async function rewardThreadXp(tx: Tx, userId: number, threadId: number): Promise<EarnXpResult> {
+  const users = await tx.$queryRaw<{ isProfilePrivate: boolean }[]>`
+    SELECT "isProfilePrivate" FROM "User" WHERE "id" = ${userId} FOR UPDATE
+  `;
+  if (users[0]?.isProfilePrivate) return { grantedXp: 0, remainingXp: 0, transactionId: null, duplicate: false, eligible: true };
   return earnDailyXpInTransaction(tx, { userId, requestedXp: THREAD_XP, source: THREAD_SOURCE, sourceId: String(threadId) });
 }
 
@@ -19,17 +23,24 @@ export async function reverseThreadXp(tx: Tx, userId: number, threadId: number):
   const reversal = await tx.trustTransaction.findUnique({ where: { originalTransactionId: earned.id } });
   if (reversal) return 0;
 
-  const amount = -earned.amount;
+  const suspension = await tx.trustXpSuspension.findFirst({ where: { earnTransactionId: earned.id, restorationTransactionId: null }, orderBy: { createdAt: "desc" } });
+  if (suspension && !suspension.restorationTransactionId) {
+    const restoration = await tx.trustTransaction.create({
+      data: { userId, amount: earned.amount, type: "RESTORATION", source: THREAD_SOURCE, sourceId: `delete-restore:${threadId}` },
+    });
+    await tx.trustXpSuspension.update({ where: { id: suspension.id }, data: { restorationTransactionId: restoration.id, restoredAt: new Date() } });
+  } else {
+    await tx.user.update({ where: { id: userId }, data: { trustScore: { decrement: earned.amount } } });
+  }
   await tx.trustTransaction.create({
     data: {
       userId,
-      amount,
+      amount: -earned.amount,
       type: "REVERSAL",
       source: THREAD_SOURCE,
       sourceId: `delete:${threadId}`,
       originalTransactionId: earned.id,
     },
   });
-  await tx.user.update({ where: { id: userId }, data: { trustScore: { decrement: earned.amount } } });
   return earned.amount;
 }

@@ -90,7 +90,9 @@ export const TrustTransactionType = {
   EARN: 'EARN',
   REVERSAL: 'REVERSAL',
   PENALTY: 'PENALTY',
-  ADJUSTMENT: 'ADJUSTMENT'
+  ADJUSTMENT: 'ADJUSTMENT',
+  SUSPENSION: 'SUSPENSION',
+  RESTORATION: 'RESTORATION'
 } as const
 
 export type TrustTransactionType = (typeof TrustTransactionType)[keyof typeof TrustTransactionType]

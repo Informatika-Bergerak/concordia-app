@@ -399,6 +399,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   TrustTransaction: 'TrustTransaction',
+  TrustXpSuspension: 'TrustXpSuspension',
   TrustMilestone: 'TrustMilestone',
   TrustDailyEarning: 'TrustDailyEarning',
   LoginThrottle: 'LoginThrottle',
@@ -438,7 +439,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "trustTransaction" | "trustMilestone" | "trustDailyEarning" | "loginThrottle" | "auditLog" | "report" | "reportPhoto" | "forumPost" | "forumPostMention" | "forumPoll" | "forumPollOption" | "forumPollVote" | "forumPostImage" | "forumPostAudio" | "forumPostLike" | "forumComment" | "forumCommentMention" | "friendRequest" | "reportStatusHistory" | "reportSupport" | "group" | "groupMember" | "groupJoinRequest" | "groupMessage" | "adminNews"
+    modelProps: "user" | "trustTransaction" | "trustXpSuspension" | "trustMilestone" | "trustDailyEarning" | "loginThrottle" | "auditLog" | "report" | "reportPhoto" | "forumPost" | "forumPostMention" | "forumPoll" | "forumPollOption" | "forumPollVote" | "forumPostImage" | "forumPostAudio" | "forumPostLike" | "forumComment" | "forumCommentMention" | "friendRequest" | "reportStatusHistory" | "reportSupport" | "group" | "groupMember" | "groupJoinRequest" | "groupMessage" | "adminNews"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -587,6 +588,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.TrustTransactionCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.TrustTransactionCountAggregateOutputType> | number
+        }
+      }
+    }
+    TrustXpSuspension: {
+      payload: Prisma.$TrustXpSuspensionPayload<ExtArgs>
+      fields: Prisma.TrustXpSuspensionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TrustXpSuspensionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustXpSuspensionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TrustXpSuspensionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustXpSuspensionPayload>
+        }
+        findFirst: {
+          args: Prisma.TrustXpSuspensionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustXpSuspensionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TrustXpSuspensionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustXpSuspensionPayload>
+        }
+        findMany: {
+          args: Prisma.TrustXpSuspensionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustXpSuspensionPayload>[]
+        }
+        create: {
+          args: Prisma.TrustXpSuspensionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustXpSuspensionPayload>
+        }
+        createMany: {
+          args: Prisma.TrustXpSuspensionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TrustXpSuspensionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustXpSuspensionPayload>[]
+        }
+        delete: {
+          args: Prisma.TrustXpSuspensionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustXpSuspensionPayload>
+        }
+        update: {
+          args: Prisma.TrustXpSuspensionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustXpSuspensionPayload>
+        }
+        deleteMany: {
+          args: Prisma.TrustXpSuspensionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TrustXpSuspensionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TrustXpSuspensionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustXpSuspensionPayload>[]
+        }
+        upsert: {
+          args: Prisma.TrustXpSuspensionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrustXpSuspensionPayload>
+        }
+        aggregate: {
+          args: Prisma.TrustXpSuspensionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTrustXpSuspension>
+        }
+        groupBy: {
+          args: Prisma.TrustXpSuspensionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrustXpSuspensionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TrustXpSuspensionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrustXpSuspensionCountAggregateOutputType> | number
         }
       }
     }
@@ -2418,6 +2493,7 @@ export const UserScalarFieldEnum = {
   jurusan: 'jurusan',
   bio: 'bio',
   trustScore: 'trustScore',
+  isProfilePrivate: 'isProfilePrivate',
   isActive: 'isActive',
   mustChangePassword: 'mustChangePassword',
   createdAt: 'createdAt',
@@ -2443,6 +2519,19 @@ export const TrustTransactionScalarFieldEnum = {
 } as const
 
 export type TrustTransactionScalarFieldEnum = (typeof TrustTransactionScalarFieldEnum)[keyof typeof TrustTransactionScalarFieldEnum]
+
+
+export const TrustXpSuspensionScalarFieldEnum = {
+  id: 'id',
+  earnTransactionId: 'earnTransactionId',
+  suspensionTransactionId: 'suspensionTransactionId',
+  restorationTransactionId: 'restorationTransactionId',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  restoredAt: 'restoredAt'
+} as const
+
+export type TrustXpSuspensionScalarFieldEnum = (typeof TrustXpSuspensionScalarFieldEnum)[keyof typeof TrustXpSuspensionScalarFieldEnum]
 
 
 export const TrustMilestoneScalarFieldEnum = {
@@ -3180,6 +3269,7 @@ export type PrismaClientOptions = PrismaClientOptionsWithAccelerateUrl | PrismaC
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   trustTransaction?: Prisma.TrustTransactionOmit
+  trustXpSuspension?: Prisma.TrustXpSuspensionOmit
   trustMilestone?: Prisma.TrustMilestoneOmit
   trustDailyEarning?: Prisma.TrustDailyEarningOmit
   loginThrottle?: Prisma.LoginThrottleOmit

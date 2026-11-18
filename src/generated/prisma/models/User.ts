@@ -49,6 +49,7 @@ export type UserMinAggregateOutputType = {
   jurusan: string | null
   bio: string | null
   trustScore: number | null
+  isProfilePrivate: boolean | null
   isActive: boolean | null
   mustChangePassword: boolean | null
   createdAt: Date | null
@@ -71,6 +72,7 @@ export type UserMaxAggregateOutputType = {
   jurusan: string | null
   bio: string | null
   trustScore: number | null
+  isProfilePrivate: boolean | null
   isActive: boolean | null
   mustChangePassword: boolean | null
   createdAt: Date | null
@@ -93,6 +95,7 @@ export type UserCountAggregateOutputType = {
   jurusan: number
   bio: number
   trustScore: number
+  isProfilePrivate: number
   isActive: number
   mustChangePassword: number
   createdAt: number
@@ -127,6 +130,7 @@ export type UserMinAggregateInputType = {
   jurusan?: true
   bio?: true
   trustScore?: true
+  isProfilePrivate?: true
   isActive?: true
   mustChangePassword?: true
   createdAt?: true
@@ -149,6 +153,7 @@ export type UserMaxAggregateInputType = {
   jurusan?: true
   bio?: true
   trustScore?: true
+  isProfilePrivate?: true
   isActive?: true
   mustChangePassword?: true
   createdAt?: true
@@ -171,6 +176,7 @@ export type UserCountAggregateInputType = {
   jurusan?: true
   bio?: true
   trustScore?: true
+  isProfilePrivate?: true
   isActive?: true
   mustChangePassword?: true
   createdAt?: true
@@ -280,6 +286,7 @@ export type UserGroupByOutputType = {
   jurusan: string | null
   bio: string | null
   trustScore: number
+  isProfilePrivate: boolean
   isActive: boolean
   mustChangePassword: boolean
   createdAt: Date
@@ -325,6 +332,7 @@ export type UserWhereInput = {
   jurusan?: Prisma.StringNullableFilter<"User"> | string | null
   bio?: Prisma.StringNullableFilter<"User"> | string | null
   trustScore?: Prisma.IntFilter<"User"> | number
+  isProfilePrivate?: Prisma.BoolFilter<"User"> | boolean
   isActive?: Prisma.BoolFilter<"User"> | boolean
   mustChangePassword?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -352,6 +360,7 @@ export type UserWhereInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionListRelationFilter
   trustMilestones?: Prisma.TrustMilestoneListRelationFilter
   trustDailyEarnings?: Prisma.TrustDailyEarningListRelationFilter
+  trustXpSuspensions?: Prisma.TrustXpSuspensionListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -367,6 +376,7 @@ export type UserOrderByWithRelationInput = {
   jurusan?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
   trustScore?: Prisma.SortOrder
+  isProfilePrivate?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   mustChangePassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -394,6 +404,7 @@ export type UserOrderByWithRelationInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionOrderByRelationAggregateInput
   trustMilestones?: Prisma.TrustMilestoneOrderByRelationAggregateInput
   trustDailyEarnings?: Prisma.TrustDailyEarningOrderByRelationAggregateInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -412,6 +423,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   jurusan?: Prisma.StringNullableFilter<"User"> | string | null
   bio?: Prisma.StringNullableFilter<"User"> | string | null
   trustScore?: Prisma.IntFilter<"User"> | number
+  isProfilePrivate?: Prisma.BoolFilter<"User"> | boolean
   isActive?: Prisma.BoolFilter<"User"> | boolean
   mustChangePassword?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -439,6 +451,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   trustTransactionsCreated?: Prisma.TrustTransactionListRelationFilter
   trustMilestones?: Prisma.TrustMilestoneListRelationFilter
   trustDailyEarnings?: Prisma.TrustDailyEarningListRelationFilter
+  trustXpSuspensions?: Prisma.TrustXpSuspensionListRelationFilter
 }, "id" | "username" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -454,6 +467,7 @@ export type UserOrderByWithAggregationInput = {
   jurusan?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
   trustScore?: Prisma.SortOrder
+  isProfilePrivate?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   mustChangePassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -484,6 +498,7 @@ export type UserScalarWhereWithAggregatesInput = {
   jurusan?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   bio?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   trustScore?: Prisma.IntWithAggregatesFilter<"User"> | number
+  isProfilePrivate?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   isActive?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   mustChangePassword?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -505,6 +520,7 @@ export type UserCreateInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -532,6 +548,7 @@ export type UserCreateInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -547,6 +564,7 @@ export type UserUncheckedCreateInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -574,6 +592,7 @@ export type UserUncheckedCreateInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -588,6 +607,7 @@ export type UserUpdateInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -615,6 +635,7 @@ export type UserUpdateInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -630,6 +651,7 @@ export type UserUncheckedUpdateInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -657,6 +679,7 @@ export type UserUncheckedUpdateInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -672,6 +695,7 @@ export type UserCreateManyInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -693,6 +717,7 @@ export type UserUpdateManyMutationInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -715,6 +740,7 @@ export type UserUncheckedUpdateManyInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -737,6 +763,7 @@ export type UserCountOrderByAggregateInput = {
   jurusan?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   trustScore?: Prisma.SortOrder
+  isProfilePrivate?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   mustChangePassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -764,6 +791,7 @@ export type UserMaxOrderByAggregateInput = {
   jurusan?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   trustScore?: Prisma.SortOrder
+  isProfilePrivate?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   mustChangePassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -786,6 +814,7 @@ export type UserMinOrderByAggregateInput = {
   jurusan?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   trustScore?: Prisma.SortOrder
+  isProfilePrivate?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   mustChangePassword?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -874,6 +903,20 @@ export type UserUpdateOneWithoutTrustTransactionsCreatedNestedInput = {
   delete?: Prisma.UserWhereInput | boolean
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTrustTransactionsCreatedInput, Prisma.UserUpdateWithoutTrustTransactionsCreatedInput>, Prisma.UserUncheckedUpdateWithoutTrustTransactionsCreatedInput>
+}
+
+export type UserCreateNestedOneWithoutTrustXpSuspensionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTrustXpSuspensionsInput, Prisma.UserUncheckedCreateWithoutTrustXpSuspensionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTrustXpSuspensionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutTrustXpSuspensionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTrustXpSuspensionsInput, Prisma.UserUncheckedCreateWithoutTrustXpSuspensionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTrustXpSuspensionsInput
+  upsert?: Prisma.UserUpsertWithoutTrustXpSuspensionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTrustXpSuspensionsInput, Prisma.UserUpdateWithoutTrustXpSuspensionsInput>, Prisma.UserUncheckedUpdateWithoutTrustXpSuspensionsInput>
 }
 
 export type UserCreateNestedOneWithoutTrustMilestonesInput = {
@@ -1142,6 +1185,7 @@ export type UserCreateWithoutTrustTransactionsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -1168,6 +1212,7 @@ export type UserCreateWithoutTrustTransactionsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTrustTransactionsInput = {
@@ -1183,6 +1228,7 @@ export type UserUncheckedCreateWithoutTrustTransactionsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -1209,6 +1255,7 @@ export type UserUncheckedCreateWithoutTrustTransactionsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTrustTransactionsInput = {
@@ -1228,6 +1275,7 @@ export type UserCreateWithoutTrustTransactionsCreatedInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -1254,6 +1302,7 @@ export type UserCreateWithoutTrustTransactionsCreatedInput = {
   trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTrustTransactionsCreatedInput = {
@@ -1269,6 +1318,7 @@ export type UserUncheckedCreateWithoutTrustTransactionsCreatedInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -1295,6 +1345,7 @@ export type UserUncheckedCreateWithoutTrustTransactionsCreatedInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTrustTransactionsCreatedInput = {
@@ -1325,6 +1376,7 @@ export type UserUpdateWithoutTrustTransactionsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1351,6 +1403,7 @@ export type UserUpdateWithoutTrustTransactionsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTrustTransactionsInput = {
@@ -1366,6 +1419,7 @@ export type UserUncheckedUpdateWithoutTrustTransactionsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1392,6 +1446,7 @@ export type UserUncheckedUpdateWithoutTrustTransactionsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutTrustTransactionsCreatedInput = {
@@ -1417,6 +1472,7 @@ export type UserUpdateWithoutTrustTransactionsCreatedInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1443,6 +1499,7 @@ export type UserUpdateWithoutTrustTransactionsCreatedInput = {
   trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTrustTransactionsCreatedInput = {
@@ -1458,6 +1515,7 @@ export type UserUncheckedUpdateWithoutTrustTransactionsCreatedInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1484,6 +1542,193 @@ export type UserUncheckedUpdateWithoutTrustTransactionsCreatedInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutTrustXpSuspensionsInput = {
+  username: string
+  name: string
+  nickname?: string | null
+  email?: string | null
+  passwordHash: string
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  fotoProfil?: string | null
+  jurusan?: string | null
+  bio?: string | null
+  trustScore?: number
+  isProfilePrivate?: boolean
+  isActive?: boolean
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activeSessionId?: string | null
+  lastSeenAt?: Date | string | null
+  activeDevice?: string | null
+  reports?: Prisma.ReportCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageCreateNestedManyWithoutSenderInput
+  statusChanges?: Prisma.ReportStatusHistoryCreateNestedManyWithoutChangedByInput
+  forumPosts?: Prisma.ForumPostCreateNestedManyWithoutAuthorInput
+  forumLikes?: Prisma.ForumPostLikeCreateNestedManyWithoutUserInput
+  forumComments?: Prisma.ForumCommentCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendRequestCreateNestedManyWithoutRecipientInput
+  adminNews?: Prisma.AdminNewsCreateNestedManyWithoutAuthorInput
+  trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
+  trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
+  trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutTrustXpSuspensionsInput = {
+  id?: number
+  username: string
+  name: string
+  nickname?: string | null
+  email?: string | null
+  passwordHash: string
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  fotoProfil?: string | null
+  jurusan?: string | null
+  bio?: string | null
+  trustScore?: number
+  isProfilePrivate?: boolean
+  isActive?: boolean
+  mustChangePassword?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activeSessionId?: string | null
+  lastSeenAt?: Date | string | null
+  activeDevice?: string | null
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutAuthorInput
+  reportSupports?: Prisma.ReportSupportUncheckedCreateNestedManyWithoutUserInput
+  createdGroups?: Prisma.GroupUncheckedCreateNestedManyWithoutCreatorInput
+  groupMemberships?: Prisma.GroupMemberUncheckedCreateNestedManyWithoutUserInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedCreateNestedManyWithoutUserInput
+  groupMessages?: Prisma.GroupMessageUncheckedCreateNestedManyWithoutSenderInput
+  statusChanges?: Prisma.ReportStatusHistoryUncheckedCreateNestedManyWithoutChangedByInput
+  forumPosts?: Prisma.ForumPostUncheckedCreateNestedManyWithoutAuthorInput
+  forumLikes?: Prisma.ForumPostLikeUncheckedCreateNestedManyWithoutUserInput
+  forumComments?: Prisma.ForumCommentUncheckedCreateNestedManyWithoutAuthorInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedCreateNestedManyWithoutUserInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedCreateNestedManyWithoutUserInput
+  sentFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRequesterInput
+  receivedFriendRequests?: Prisma.FriendRequestUncheckedCreateNestedManyWithoutRecipientInput
+  adminNews?: Prisma.AdminNewsUncheckedCreateNestedManyWithoutAuthorInput
+  trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
+  trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
+  trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutTrustXpSuspensionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutTrustXpSuspensionsInput, Prisma.UserUncheckedCreateWithoutTrustXpSuspensionsInput>
+}
+
+export type UserUpsertWithoutTrustXpSuspensionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutTrustXpSuspensionsInput, Prisma.UserUncheckedUpdateWithoutTrustXpSuspensionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTrustXpSuspensionsInput, Prisma.UserUncheckedCreateWithoutTrustXpSuspensionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutTrustXpSuspensionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutTrustXpSuspensionsInput, Prisma.UserUncheckedUpdateWithoutTrustXpSuspensionsInput>
+}
+
+export type UserUpdateWithoutTrustXpSuspensionsInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reports?: Prisma.ReportUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUpdateManyWithoutSenderNestedInput
+  statusChanges?: Prisma.ReportStatusHistoryUpdateManyWithoutChangedByNestedInput
+  forumPosts?: Prisma.ForumPostUpdateManyWithoutAuthorNestedInput
+  forumLikes?: Prisma.ForumPostLikeUpdateManyWithoutUserNestedInput
+  forumComments?: Prisma.ForumCommentUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendRequestUpdateManyWithoutRecipientNestedInput
+  adminNews?: Prisma.AdminNewsUpdateManyWithoutAuthorNestedInput
+  trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
+  trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
+  trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutTrustXpSuspensionsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  fotoProfil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activeSessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  activeDevice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutAuthorNestedInput
+  reportSupports?: Prisma.ReportSupportUncheckedUpdateManyWithoutUserNestedInput
+  createdGroups?: Prisma.GroupUncheckedUpdateManyWithoutCreatorNestedInput
+  groupMemberships?: Prisma.GroupMemberUncheckedUpdateManyWithoutUserNestedInput
+  groupJoinRequests?: Prisma.GroupJoinRequestUncheckedUpdateManyWithoutUserNestedInput
+  groupMessages?: Prisma.GroupMessageUncheckedUpdateManyWithoutSenderNestedInput
+  statusChanges?: Prisma.ReportStatusHistoryUncheckedUpdateManyWithoutChangedByNestedInput
+  forumPosts?: Prisma.ForumPostUncheckedUpdateManyWithoutAuthorNestedInput
+  forumLikes?: Prisma.ForumPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  forumComments?: Prisma.ForumCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  forumCommentMentions?: Prisma.ForumCommentMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPostMentions?: Prisma.ForumPostMentionUncheckedUpdateManyWithoutUserNestedInput
+  forumPollVotes?: Prisma.ForumPollVoteUncheckedUpdateManyWithoutUserNestedInput
+  sentFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRequesterNestedInput
+  receivedFriendRequests?: Prisma.FriendRequestUncheckedUpdateManyWithoutRecipientNestedInput
+  adminNews?: Prisma.AdminNewsUncheckedUpdateManyWithoutAuthorNestedInput
+  trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
+  trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
+  trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
+  trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTrustMilestonesInput = {
@@ -1498,6 +1743,7 @@ export type UserCreateWithoutTrustMilestonesInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -1524,6 +1770,7 @@ export type UserCreateWithoutTrustMilestonesInput = {
   trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTrustMilestonesInput = {
@@ -1539,6 +1786,7 @@ export type UserUncheckedCreateWithoutTrustMilestonesInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -1565,6 +1813,7 @@ export type UserUncheckedCreateWithoutTrustMilestonesInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTrustMilestonesInput = {
@@ -1595,6 +1844,7 @@ export type UserUpdateWithoutTrustMilestonesInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1621,6 +1871,7 @@ export type UserUpdateWithoutTrustMilestonesInput = {
   trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTrustMilestonesInput = {
@@ -1636,6 +1887,7 @@ export type UserUncheckedUpdateWithoutTrustMilestonesInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1662,6 +1914,7 @@ export type UserUncheckedUpdateWithoutTrustMilestonesInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTrustDailyEarningsInput = {
@@ -1676,6 +1929,7 @@ export type UserCreateWithoutTrustDailyEarningsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -1702,6 +1956,7 @@ export type UserCreateWithoutTrustDailyEarningsInput = {
   trustTransactions?: Prisma.TrustTransactionCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTrustDailyEarningsInput = {
@@ -1717,6 +1972,7 @@ export type UserUncheckedCreateWithoutTrustDailyEarningsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -1743,6 +1999,7 @@ export type UserUncheckedCreateWithoutTrustDailyEarningsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutUserInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTrustDailyEarningsInput = {
@@ -1773,6 +2030,7 @@ export type UserUpdateWithoutTrustDailyEarningsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1799,6 +2057,7 @@ export type UserUpdateWithoutTrustDailyEarningsInput = {
   trustTransactions?: Prisma.TrustTransactionUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTrustDailyEarningsInput = {
@@ -1814,6 +2073,7 @@ export type UserUncheckedUpdateWithoutTrustDailyEarningsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1840,6 +2100,7 @@ export type UserUncheckedUpdateWithoutTrustDailyEarningsInput = {
   trustTransactions?: Prisma.TrustTransactionUncheckedUpdateManyWithoutUserNestedInput
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReportsInput = {
@@ -1854,6 +2115,7 @@ export type UserCreateWithoutReportsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -1880,6 +2142,7 @@ export type UserCreateWithoutReportsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReportsInput = {
@@ -1895,6 +2158,7 @@ export type UserUncheckedCreateWithoutReportsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -1921,6 +2185,7 @@ export type UserUncheckedCreateWithoutReportsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReportsInput = {
@@ -1951,6 +2216,7 @@ export type UserUpdateWithoutReportsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1977,6 +2243,7 @@ export type UserUpdateWithoutReportsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReportsInput = {
@@ -1992,6 +2259,7 @@ export type UserUncheckedUpdateWithoutReportsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2018,6 +2286,7 @@ export type UserUncheckedUpdateWithoutReportsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutForumPostsInput = {
@@ -2032,6 +2301,7 @@ export type UserCreateWithoutForumPostsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -2058,6 +2328,7 @@ export type UserCreateWithoutForumPostsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutForumPostsInput = {
@@ -2073,6 +2344,7 @@ export type UserUncheckedCreateWithoutForumPostsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -2099,6 +2371,7 @@ export type UserUncheckedCreateWithoutForumPostsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutForumPostsInput = {
@@ -2129,6 +2402,7 @@ export type UserUpdateWithoutForumPostsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2155,6 +2429,7 @@ export type UserUpdateWithoutForumPostsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutForumPostsInput = {
@@ -2170,6 +2445,7 @@ export type UserUncheckedUpdateWithoutForumPostsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2196,6 +2472,7 @@ export type UserUncheckedUpdateWithoutForumPostsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutForumPostMentionsInput = {
@@ -2210,6 +2487,7 @@ export type UserCreateWithoutForumPostMentionsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -2236,6 +2514,7 @@ export type UserCreateWithoutForumPostMentionsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutForumPostMentionsInput = {
@@ -2251,6 +2530,7 @@ export type UserUncheckedCreateWithoutForumPostMentionsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -2277,6 +2557,7 @@ export type UserUncheckedCreateWithoutForumPostMentionsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutForumPostMentionsInput = {
@@ -2307,6 +2588,7 @@ export type UserUpdateWithoutForumPostMentionsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2333,6 +2615,7 @@ export type UserUpdateWithoutForumPostMentionsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutForumPostMentionsInput = {
@@ -2348,6 +2631,7 @@ export type UserUncheckedUpdateWithoutForumPostMentionsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2374,6 +2658,7 @@ export type UserUncheckedUpdateWithoutForumPostMentionsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutForumPollVotesInput = {
@@ -2388,6 +2673,7 @@ export type UserCreateWithoutForumPollVotesInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -2414,6 +2700,7 @@ export type UserCreateWithoutForumPollVotesInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutForumPollVotesInput = {
@@ -2429,6 +2716,7 @@ export type UserUncheckedCreateWithoutForumPollVotesInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -2455,6 +2743,7 @@ export type UserUncheckedCreateWithoutForumPollVotesInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutForumPollVotesInput = {
@@ -2485,6 +2774,7 @@ export type UserUpdateWithoutForumPollVotesInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2511,6 +2801,7 @@ export type UserUpdateWithoutForumPollVotesInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutForumPollVotesInput = {
@@ -2526,6 +2817,7 @@ export type UserUncheckedUpdateWithoutForumPollVotesInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2552,6 +2844,7 @@ export type UserUncheckedUpdateWithoutForumPollVotesInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutForumLikesInput = {
@@ -2566,6 +2859,7 @@ export type UserCreateWithoutForumLikesInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -2592,6 +2886,7 @@ export type UserCreateWithoutForumLikesInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutForumLikesInput = {
@@ -2607,6 +2902,7 @@ export type UserUncheckedCreateWithoutForumLikesInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -2633,6 +2929,7 @@ export type UserUncheckedCreateWithoutForumLikesInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutForumLikesInput = {
@@ -2663,6 +2960,7 @@ export type UserUpdateWithoutForumLikesInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2689,6 +2987,7 @@ export type UserUpdateWithoutForumLikesInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutForumLikesInput = {
@@ -2704,6 +3003,7 @@ export type UserUncheckedUpdateWithoutForumLikesInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2730,6 +3030,7 @@ export type UserUncheckedUpdateWithoutForumLikesInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutForumCommentsInput = {
@@ -2744,6 +3045,7 @@ export type UserCreateWithoutForumCommentsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -2770,6 +3072,7 @@ export type UserCreateWithoutForumCommentsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutForumCommentsInput = {
@@ -2785,6 +3088,7 @@ export type UserUncheckedCreateWithoutForumCommentsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -2811,6 +3115,7 @@ export type UserUncheckedCreateWithoutForumCommentsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutForumCommentsInput = {
@@ -2841,6 +3146,7 @@ export type UserUpdateWithoutForumCommentsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2867,6 +3173,7 @@ export type UserUpdateWithoutForumCommentsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutForumCommentsInput = {
@@ -2882,6 +3189,7 @@ export type UserUncheckedUpdateWithoutForumCommentsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2908,6 +3216,7 @@ export type UserUncheckedUpdateWithoutForumCommentsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutForumCommentMentionsInput = {
@@ -2922,6 +3231,7 @@ export type UserCreateWithoutForumCommentMentionsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -2948,6 +3258,7 @@ export type UserCreateWithoutForumCommentMentionsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutForumCommentMentionsInput = {
@@ -2963,6 +3274,7 @@ export type UserUncheckedCreateWithoutForumCommentMentionsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -2989,6 +3301,7 @@ export type UserUncheckedCreateWithoutForumCommentMentionsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutForumCommentMentionsInput = {
@@ -3019,6 +3332,7 @@ export type UserUpdateWithoutForumCommentMentionsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3045,6 +3359,7 @@ export type UserUpdateWithoutForumCommentMentionsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutForumCommentMentionsInput = {
@@ -3060,6 +3375,7 @@ export type UserUncheckedUpdateWithoutForumCommentMentionsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3086,6 +3402,7 @@ export type UserUncheckedUpdateWithoutForumCommentMentionsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSentFriendRequestsInput = {
@@ -3100,6 +3417,7 @@ export type UserCreateWithoutSentFriendRequestsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -3126,6 +3444,7 @@ export type UserCreateWithoutSentFriendRequestsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSentFriendRequestsInput = {
@@ -3141,6 +3460,7 @@ export type UserUncheckedCreateWithoutSentFriendRequestsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -3167,6 +3487,7 @@ export type UserUncheckedCreateWithoutSentFriendRequestsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSentFriendRequestsInput = {
@@ -3186,6 +3507,7 @@ export type UserCreateWithoutReceivedFriendRequestsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -3212,6 +3534,7 @@ export type UserCreateWithoutReceivedFriendRequestsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReceivedFriendRequestsInput = {
@@ -3227,6 +3550,7 @@ export type UserUncheckedCreateWithoutReceivedFriendRequestsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -3253,6 +3577,7 @@ export type UserUncheckedCreateWithoutReceivedFriendRequestsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReceivedFriendRequestsInput = {
@@ -3283,6 +3608,7 @@ export type UserUpdateWithoutSentFriendRequestsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3309,6 +3635,7 @@ export type UserUpdateWithoutSentFriendRequestsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSentFriendRequestsInput = {
@@ -3324,6 +3651,7 @@ export type UserUncheckedUpdateWithoutSentFriendRequestsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3350,6 +3678,7 @@ export type UserUncheckedUpdateWithoutSentFriendRequestsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutReceivedFriendRequestsInput = {
@@ -3375,6 +3704,7 @@ export type UserUpdateWithoutReceivedFriendRequestsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3401,6 +3731,7 @@ export type UserUpdateWithoutReceivedFriendRequestsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReceivedFriendRequestsInput = {
@@ -3416,6 +3747,7 @@ export type UserUncheckedUpdateWithoutReceivedFriendRequestsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3442,6 +3774,7 @@ export type UserUncheckedUpdateWithoutReceivedFriendRequestsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutStatusChangesInput = {
@@ -3456,6 +3789,7 @@ export type UserCreateWithoutStatusChangesInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -3482,6 +3816,7 @@ export type UserCreateWithoutStatusChangesInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutStatusChangesInput = {
@@ -3497,6 +3832,7 @@ export type UserUncheckedCreateWithoutStatusChangesInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -3523,6 +3859,7 @@ export type UserUncheckedCreateWithoutStatusChangesInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutStatusChangesInput = {
@@ -3553,6 +3890,7 @@ export type UserUpdateWithoutStatusChangesInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3579,6 +3917,7 @@ export type UserUpdateWithoutStatusChangesInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStatusChangesInput = {
@@ -3594,6 +3933,7 @@ export type UserUncheckedUpdateWithoutStatusChangesInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3620,6 +3960,7 @@ export type UserUncheckedUpdateWithoutStatusChangesInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReportSupportsInput = {
@@ -3634,6 +3975,7 @@ export type UserCreateWithoutReportSupportsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -3660,6 +4002,7 @@ export type UserCreateWithoutReportSupportsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReportSupportsInput = {
@@ -3675,6 +4018,7 @@ export type UserUncheckedCreateWithoutReportSupportsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -3701,6 +4045,7 @@ export type UserUncheckedCreateWithoutReportSupportsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReportSupportsInput = {
@@ -3731,6 +4076,7 @@ export type UserUpdateWithoutReportSupportsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3757,6 +4103,7 @@ export type UserUpdateWithoutReportSupportsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReportSupportsInput = {
@@ -3772,6 +4119,7 @@ export type UserUncheckedUpdateWithoutReportSupportsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3798,6 +4146,7 @@ export type UserUncheckedUpdateWithoutReportSupportsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCreatedGroupsInput = {
@@ -3812,6 +4161,7 @@ export type UserCreateWithoutCreatedGroupsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -3838,6 +4188,7 @@ export type UserCreateWithoutCreatedGroupsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCreatedGroupsInput = {
@@ -3853,6 +4204,7 @@ export type UserUncheckedCreateWithoutCreatedGroupsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -3879,6 +4231,7 @@ export type UserUncheckedCreateWithoutCreatedGroupsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCreatedGroupsInput = {
@@ -3909,6 +4262,7 @@ export type UserUpdateWithoutCreatedGroupsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3935,6 +4289,7 @@ export type UserUpdateWithoutCreatedGroupsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedGroupsInput = {
@@ -3950,6 +4305,7 @@ export type UserUncheckedUpdateWithoutCreatedGroupsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3976,6 +4332,7 @@ export type UserUncheckedUpdateWithoutCreatedGroupsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutGroupMembershipsInput = {
@@ -3990,6 +4347,7 @@ export type UserCreateWithoutGroupMembershipsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -4016,6 +4374,7 @@ export type UserCreateWithoutGroupMembershipsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGroupMembershipsInput = {
@@ -4031,6 +4390,7 @@ export type UserUncheckedCreateWithoutGroupMembershipsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -4057,6 +4417,7 @@ export type UserUncheckedCreateWithoutGroupMembershipsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGroupMembershipsInput = {
@@ -4087,6 +4448,7 @@ export type UserUpdateWithoutGroupMembershipsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4113,6 +4475,7 @@ export type UserUpdateWithoutGroupMembershipsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupMembershipsInput = {
@@ -4128,6 +4491,7 @@ export type UserUncheckedUpdateWithoutGroupMembershipsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4154,6 +4518,7 @@ export type UserUncheckedUpdateWithoutGroupMembershipsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutGroupJoinRequestsInput = {
@@ -4168,6 +4533,7 @@ export type UserCreateWithoutGroupJoinRequestsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -4194,6 +4560,7 @@ export type UserCreateWithoutGroupJoinRequestsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGroupJoinRequestsInput = {
@@ -4209,6 +4576,7 @@ export type UserUncheckedCreateWithoutGroupJoinRequestsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -4235,6 +4603,7 @@ export type UserUncheckedCreateWithoutGroupJoinRequestsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGroupJoinRequestsInput = {
@@ -4265,6 +4634,7 @@ export type UserUpdateWithoutGroupJoinRequestsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4291,6 +4661,7 @@ export type UserUpdateWithoutGroupJoinRequestsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupJoinRequestsInput = {
@@ -4306,6 +4677,7 @@ export type UserUncheckedUpdateWithoutGroupJoinRequestsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4332,6 +4704,7 @@ export type UserUncheckedUpdateWithoutGroupJoinRequestsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutGroupMessagesInput = {
@@ -4346,6 +4719,7 @@ export type UserCreateWithoutGroupMessagesInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -4372,6 +4746,7 @@ export type UserCreateWithoutGroupMessagesInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGroupMessagesInput = {
@@ -4387,6 +4762,7 @@ export type UserUncheckedCreateWithoutGroupMessagesInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -4413,6 +4789,7 @@ export type UserUncheckedCreateWithoutGroupMessagesInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGroupMessagesInput = {
@@ -4443,6 +4820,7 @@ export type UserUpdateWithoutGroupMessagesInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4469,6 +4847,7 @@ export type UserUpdateWithoutGroupMessagesInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupMessagesInput = {
@@ -4484,6 +4863,7 @@ export type UserUncheckedUpdateWithoutGroupMessagesInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4510,6 +4890,7 @@ export type UserUncheckedUpdateWithoutGroupMessagesInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAdminNewsInput = {
@@ -4524,6 +4905,7 @@ export type UserCreateWithoutAdminNewsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -4550,6 +4932,7 @@ export type UserCreateWithoutAdminNewsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAdminNewsInput = {
@@ -4565,6 +4948,7 @@ export type UserUncheckedCreateWithoutAdminNewsInput = {
   jurusan?: string | null
   bio?: string | null
   trustScore?: number
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: Date | string
@@ -4591,6 +4975,7 @@ export type UserUncheckedCreateWithoutAdminNewsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedCreateNestedManyWithoutCreatedByInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedCreateNestedManyWithoutUserInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedCreateNestedManyWithoutUserInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAdminNewsInput = {
@@ -4621,6 +5006,7 @@ export type UserUpdateWithoutAdminNewsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4647,6 +5033,7 @@ export type UserUpdateWithoutAdminNewsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAdminNewsInput = {
@@ -4662,6 +5049,7 @@ export type UserUncheckedUpdateWithoutAdminNewsInput = {
   jurusan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   trustScore?: Prisma.IntFieldUpdateOperationsInput | number
+  isProfilePrivate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4688,6 +5076,7 @@ export type UserUncheckedUpdateWithoutAdminNewsInput = {
   trustTransactionsCreated?: Prisma.TrustTransactionUncheckedUpdateManyWithoutCreatedByNestedInput
   trustMilestones?: Prisma.TrustMilestoneUncheckedUpdateManyWithoutUserNestedInput
   trustDailyEarnings?: Prisma.TrustDailyEarningUncheckedUpdateManyWithoutUserNestedInput
+  trustXpSuspensions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -4716,6 +5105,7 @@ export type UserCountOutputType = {
   trustTransactionsCreated: number
   trustMilestones: number
   trustDailyEarnings: number
+  trustXpSuspensions: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4739,6 +5129,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   trustTransactionsCreated?: boolean | UserCountOutputTypeCountTrustTransactionsCreatedArgs
   trustMilestones?: boolean | UserCountOutputTypeCountTrustMilestonesArgs
   trustDailyEarnings?: boolean | UserCountOutputTypeCountTrustDailyEarningsArgs
+  trustXpSuspensions?: boolean | UserCountOutputTypeCountTrustXpSuspensionsArgs
 }
 
 /**
@@ -4891,6 +5282,13 @@ export type UserCountOutputTypeCountTrustDailyEarningsArgs<ExtArgs extends runti
   where?: Prisma.TrustDailyEarningWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountTrustXpSuspensionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TrustXpSuspensionWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -4905,6 +5303,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   jurusan?: boolean
   bio?: boolean
   trustScore?: boolean
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: boolean
@@ -4932,6 +5331,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   trustTransactionsCreated?: boolean | Prisma.User$trustTransactionsCreatedArgs<ExtArgs>
   trustMilestones?: boolean | Prisma.User$trustMilestonesArgs<ExtArgs>
   trustDailyEarnings?: boolean | Prisma.User$trustDailyEarningsArgs<ExtArgs>
+  trustXpSuspensions?: boolean | Prisma.User$trustXpSuspensionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -4948,6 +5348,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   jurusan?: boolean
   bio?: boolean
   trustScore?: boolean
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: boolean
@@ -4970,6 +5371,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   jurusan?: boolean
   bio?: boolean
   trustScore?: boolean
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: boolean
@@ -4992,6 +5394,7 @@ export type UserSelectScalar = {
   jurusan?: boolean
   bio?: boolean
   trustScore?: boolean
+  isProfilePrivate?: boolean
   isActive?: boolean
   mustChangePassword?: boolean
   createdAt?: boolean
@@ -5001,7 +5404,7 @@ export type UserSelectScalar = {
   activeDevice?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "name" | "nickname" | "email" | "passwordHash" | "role" | "userType" | "fotoProfil" | "jurusan" | "bio" | "trustScore" | "isActive" | "mustChangePassword" | "createdAt" | "updatedAt" | "activeSessionId" | "lastSeenAt" | "activeDevice", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "name" | "nickname" | "email" | "passwordHash" | "role" | "userType" | "fotoProfil" | "jurusan" | "bio" | "trustScore" | "isProfilePrivate" | "isActive" | "mustChangePassword" | "createdAt" | "updatedAt" | "activeSessionId" | "lastSeenAt" | "activeDevice", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   reports?: boolean | Prisma.User$reportsArgs<ExtArgs>
   reportSupports?: boolean | Prisma.User$reportSupportsArgs<ExtArgs>
@@ -5023,6 +5426,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   trustTransactionsCreated?: boolean | Prisma.User$trustTransactionsCreatedArgs<ExtArgs>
   trustMilestones?: boolean | Prisma.User$trustMilestonesArgs<ExtArgs>
   trustDailyEarnings?: boolean | Prisma.User$trustDailyEarningsArgs<ExtArgs>
+  trustXpSuspensions?: boolean | Prisma.User$trustXpSuspensionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -5051,6 +5455,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     trustTransactionsCreated: Prisma.$TrustTransactionPayload<ExtArgs>[]
     trustMilestones: Prisma.$TrustMilestonePayload<ExtArgs>[]
     trustDailyEarnings: Prisma.$TrustDailyEarningPayload<ExtArgs>[]
+    trustXpSuspensions: Prisma.$TrustXpSuspensionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -5065,6 +5470,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     jurusan: string | null
     bio: string | null
     trustScore: number
+    isProfilePrivate: boolean
     isActive: boolean
     mustChangePassword: boolean
     createdAt: Date
@@ -5486,6 +5892,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   trustTransactionsCreated<T extends Prisma.User$trustTransactionsCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$trustTransactionsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrustTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   trustMilestones<T extends Prisma.User$trustMilestonesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$trustMilestonesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrustMilestonePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   trustDailyEarnings<T extends Prisma.User$trustDailyEarningsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$trustDailyEarningsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrustDailyEarningPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  trustXpSuspensions<T extends Prisma.User$trustXpSuspensionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$trustXpSuspensionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrustXpSuspensionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5527,6 +5934,7 @@ export interface UserFieldRefs {
   readonly jurusan: Prisma.FieldRef<"User", 'String'>
   readonly bio: Prisma.FieldRef<"User", 'String'>
   readonly trustScore: Prisma.FieldRef<"User", 'Int'>
+  readonly isProfilePrivate: Prisma.FieldRef<"User", 'Boolean'>
   readonly isActive: Prisma.FieldRef<"User", 'Boolean'>
   readonly mustChangePassword: Prisma.FieldRef<"User", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
@@ -6404,6 +6812,30 @@ export type User$trustDailyEarningsArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.TrustDailyEarningScalarFieldEnum | Prisma.TrustDailyEarningScalarFieldEnum[]
+}
+
+/**
+ * User.trustXpSuspensions
+ */
+export type User$trustXpSuspensionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TrustXpSuspension
+   */
+  select?: Prisma.TrustXpSuspensionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TrustXpSuspension
+   */
+  omit?: Prisma.TrustXpSuspensionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TrustXpSuspensionInclude<ExtArgs> | null
+  where?: Prisma.TrustXpSuspensionWhereInput
+  orderBy?: Prisma.TrustXpSuspensionOrderByWithRelationInput | Prisma.TrustXpSuspensionOrderByWithRelationInput[]
+  cursor?: Prisma.TrustXpSuspensionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TrustXpSuspensionScalarFieldEnum | Prisma.TrustXpSuspensionScalarFieldEnum[]
 }
 
 /**

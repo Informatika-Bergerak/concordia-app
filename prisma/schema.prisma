@@ -68,6 +68,8 @@ enum TrustTransactionType {
   REVERSAL
   PENALTY
   ADJUSTMENT
+  SUSPENSION
+  RESTORATION
 }
 
 model User {
@@ -83,6 +85,7 @@ model User {
   jurusan      String?
   bio          String?
   trustScore   Int       @default(0)
+  isProfilePrivate Boolean @default(false)
   isActive           Boolean   @default(true)
   mustChangePassword Boolean   @default(true)
   createdAt    DateTime  @default(now())
@@ -113,6 +116,7 @@ model User {
   trustTransactionsCreated TrustTransaction[] @relation("TrustTransactionCreator")
   trustMilestones        TrustMilestone[]
   trustDailyEarnings     TrustDailyEarning[]
+  trustXpSuspensions     TrustXpSuspension[]
 }
 
 // Trust Level ledger: amount is signed; positive adds XP and negative removes XP.
@@ -128,6 +132,9 @@ model TrustTransaction {
   originalTransactionId Int?                 @unique
   originalTransaction   TrustTransaction?    @relation("TrustTransactionReversal", fields: [originalTransactionId], references: [id], onDelete: Restrict)
   reversal              TrustTransaction?    @relation("TrustTransactionReversal")
+  suspensionEarnings    TrustXpSuspension[]  @relation("TrustSuspensionEarn")
+  suspensionTransactions TrustXpSuspension[] @relation("TrustSuspensionTransaction")
+  suspensionRestorations TrustXpSuspension[] @relation("TrustSuspensionRestoration")
   milestone             TrustMilestone?
   createdById           Int?
   createdBy             User?                @relation("TrustTransactionCreator", fields: [createdById], references: [id], onDelete: SetNull)
@@ -136,6 +143,21 @@ model TrustTransaction {
   @@unique([userId, type, source, sourceId])
   @@index([userId, createdAt])
   @@index([source, sourceId])
+}
+
+// Links a suspended Thread earning with its optional restoration.
+model TrustXpSuspension {
+  id                       Int               @id @default(autoincrement())
+  earnTransactionId        Int
+  earnTransaction          TrustTransaction  @relation("TrustSuspensionEarn", fields: [earnTransactionId], references: [id], onDelete: Restrict)
+  suspensionTransactionId  Int               @unique
+  suspensionTransaction    TrustTransaction  @relation("TrustSuspensionTransaction", fields: [suspensionTransactionId], references: [id], onDelete: Restrict)
+  restorationTransactionId Int?              @unique
+  restorationTransaction   TrustTransaction? @relation("TrustSuspensionRestoration", fields: [restorationTransactionId], references: [id], onDelete: Restrict)
+  userId                   Int
+  user                     User              @relation(fields: [userId], references: [id], onDelete: Restrict)
+  createdAt                DateTime          @default(now())
+  restoredAt                DateTime?
 }
 
 // Records completed one-time milestones independently from the XP ledger.

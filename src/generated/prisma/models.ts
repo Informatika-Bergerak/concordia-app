@@ -10,6 +10,7 @@
  */
 export type * from './models/User'
 export type * from './models/TrustTransaction'
+export type * from './models/TrustXpSuspension'
 export type * from './models/TrustMilestone'
 export type * from './models/TrustDailyEarning'
 export type * from './models/LoginThrottle'

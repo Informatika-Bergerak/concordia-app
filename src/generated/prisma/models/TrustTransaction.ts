@@ -267,6 +267,9 @@ export type TrustTransactionWhereInput = {
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   originalTransaction?: Prisma.XOR<Prisma.TrustTransactionNullableScalarRelationFilter, Prisma.TrustTransactionWhereInput> | null
   reversal?: Prisma.XOR<Prisma.TrustTransactionNullableScalarRelationFilter, Prisma.TrustTransactionWhereInput> | null
+  suspensionEarnings?: Prisma.TrustXpSuspensionListRelationFilter
+  suspensionTransactions?: Prisma.TrustXpSuspensionListRelationFilter
+  suspensionRestorations?: Prisma.TrustXpSuspensionListRelationFilter
   milestone?: Prisma.XOR<Prisma.TrustMilestoneNullableScalarRelationFilter, Prisma.TrustMilestoneWhereInput> | null
   createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
@@ -284,6 +287,9 @@ export type TrustTransactionOrderByWithRelationInput = {
   user?: Prisma.UserOrderByWithRelationInput
   originalTransaction?: Prisma.TrustTransactionOrderByWithRelationInput
   reversal?: Prisma.TrustTransactionOrderByWithRelationInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionOrderByRelationAggregateInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionOrderByRelationAggregateInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionOrderByRelationAggregateInput
   milestone?: Prisma.TrustMilestoneOrderByWithRelationInput
   createdBy?: Prisma.UserOrderByWithRelationInput
 }
@@ -305,6 +311,9 @@ export type TrustTransactionWhereUniqueInput = Prisma.AtLeast<{
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   originalTransaction?: Prisma.XOR<Prisma.TrustTransactionNullableScalarRelationFilter, Prisma.TrustTransactionWhereInput> | null
   reversal?: Prisma.XOR<Prisma.TrustTransactionNullableScalarRelationFilter, Prisma.TrustTransactionWhereInput> | null
+  suspensionEarnings?: Prisma.TrustXpSuspensionListRelationFilter
+  suspensionTransactions?: Prisma.TrustXpSuspensionListRelationFilter
+  suspensionRestorations?: Prisma.TrustXpSuspensionListRelationFilter
   milestone?: Prisma.XOR<Prisma.TrustMilestoneNullableScalarRelationFilter, Prisma.TrustMilestoneWhereInput> | null
   createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }, "id" | "originalTransactionId" | "userId_type_source_sourceId">
@@ -350,6 +359,9 @@ export type TrustTransactionCreateInput = {
   user: Prisma.UserCreateNestedOneWithoutTrustTransactionsInput
   originalTransaction?: Prisma.TrustTransactionCreateNestedOneWithoutReversalInput
   reversal?: Prisma.TrustTransactionCreateNestedOneWithoutOriginalTransactionInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionCreateNestedManyWithoutEarnTransactionInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutSuspensionTransactionInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionCreateNestedManyWithoutRestorationTransactionInput
   milestone?: Prisma.TrustMilestoneCreateNestedOneWithoutTransactionInput
   createdBy?: Prisma.UserCreateNestedOneWithoutTrustTransactionsCreatedInput
 }
@@ -365,6 +377,9 @@ export type TrustTransactionUncheckedCreateInput = {
   createdById?: number | null
   createdAt?: Date | string
   reversal?: Prisma.TrustTransactionUncheckedCreateNestedOneWithoutOriginalTransactionInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutEarnTransactionInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutSuspensionTransactionInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutRestorationTransactionInput
   milestone?: Prisma.TrustMilestoneUncheckedCreateNestedOneWithoutTransactionInput
 }
 
@@ -377,6 +392,9 @@ export type TrustTransactionUpdateInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutTrustTransactionsNestedInput
   originalTransaction?: Prisma.TrustTransactionUpdateOneWithoutReversalNestedInput
   reversal?: Prisma.TrustTransactionUpdateOneWithoutOriginalTransactionNestedInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionUpdateManyWithoutEarnTransactionNestedInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUpdateManyWithoutSuspensionTransactionNestedInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUpdateManyWithoutRestorationTransactionNestedInput
   milestone?: Prisma.TrustMilestoneUpdateOneWithoutTransactionNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutTrustTransactionsCreatedNestedInput
 }
@@ -392,6 +410,9 @@ export type TrustTransactionUncheckedUpdateInput = {
   createdById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reversal?: Prisma.TrustTransactionUncheckedUpdateOneWithoutOriginalTransactionNestedInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutEarnTransactionNestedInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutSuspensionTransactionNestedInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutRestorationTransactionNestedInput
   milestone?: Prisma.TrustMilestoneUncheckedUpdateOneWithoutTransactionNestedInput
 }
 
@@ -650,6 +671,50 @@ export type TrustTransactionUncheckedUpdateOneWithoutOriginalTransactionNestedIn
   update?: Prisma.XOR<Prisma.XOR<Prisma.TrustTransactionUpdateToOneWithWhereWithoutOriginalTransactionInput, Prisma.TrustTransactionUpdateWithoutOriginalTransactionInput>, Prisma.TrustTransactionUncheckedUpdateWithoutOriginalTransactionInput>
 }
 
+export type TrustTransactionCreateNestedOneWithoutSuspensionEarningsInput = {
+  create?: Prisma.XOR<Prisma.TrustTransactionCreateWithoutSuspensionEarningsInput, Prisma.TrustTransactionUncheckedCreateWithoutSuspensionEarningsInput>
+  connectOrCreate?: Prisma.TrustTransactionCreateOrConnectWithoutSuspensionEarningsInput
+  connect?: Prisma.TrustTransactionWhereUniqueInput
+}
+
+export type TrustTransactionCreateNestedOneWithoutSuspensionTransactionsInput = {
+  create?: Prisma.XOR<Prisma.TrustTransactionCreateWithoutSuspensionTransactionsInput, Prisma.TrustTransactionUncheckedCreateWithoutSuspensionTransactionsInput>
+  connectOrCreate?: Prisma.TrustTransactionCreateOrConnectWithoutSuspensionTransactionsInput
+  connect?: Prisma.TrustTransactionWhereUniqueInput
+}
+
+export type TrustTransactionCreateNestedOneWithoutSuspensionRestorationsInput = {
+  create?: Prisma.XOR<Prisma.TrustTransactionCreateWithoutSuspensionRestorationsInput, Prisma.TrustTransactionUncheckedCreateWithoutSuspensionRestorationsInput>
+  connectOrCreate?: Prisma.TrustTransactionCreateOrConnectWithoutSuspensionRestorationsInput
+  connect?: Prisma.TrustTransactionWhereUniqueInput
+}
+
+export type TrustTransactionUpdateOneRequiredWithoutSuspensionEarningsNestedInput = {
+  create?: Prisma.XOR<Prisma.TrustTransactionCreateWithoutSuspensionEarningsInput, Prisma.TrustTransactionUncheckedCreateWithoutSuspensionEarningsInput>
+  connectOrCreate?: Prisma.TrustTransactionCreateOrConnectWithoutSuspensionEarningsInput
+  upsert?: Prisma.TrustTransactionUpsertWithoutSuspensionEarningsInput
+  connect?: Prisma.TrustTransactionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TrustTransactionUpdateToOneWithWhereWithoutSuspensionEarningsInput, Prisma.TrustTransactionUpdateWithoutSuspensionEarningsInput>, Prisma.TrustTransactionUncheckedUpdateWithoutSuspensionEarningsInput>
+}
+
+export type TrustTransactionUpdateOneRequiredWithoutSuspensionTransactionsNestedInput = {
+  create?: Prisma.XOR<Prisma.TrustTransactionCreateWithoutSuspensionTransactionsInput, Prisma.TrustTransactionUncheckedCreateWithoutSuspensionTransactionsInput>
+  connectOrCreate?: Prisma.TrustTransactionCreateOrConnectWithoutSuspensionTransactionsInput
+  upsert?: Prisma.TrustTransactionUpsertWithoutSuspensionTransactionsInput
+  connect?: Prisma.TrustTransactionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TrustTransactionUpdateToOneWithWhereWithoutSuspensionTransactionsInput, Prisma.TrustTransactionUpdateWithoutSuspensionTransactionsInput>, Prisma.TrustTransactionUncheckedUpdateWithoutSuspensionTransactionsInput>
+}
+
+export type TrustTransactionUpdateOneWithoutSuspensionRestorationsNestedInput = {
+  create?: Prisma.XOR<Prisma.TrustTransactionCreateWithoutSuspensionRestorationsInput, Prisma.TrustTransactionUncheckedCreateWithoutSuspensionRestorationsInput>
+  connectOrCreate?: Prisma.TrustTransactionCreateOrConnectWithoutSuspensionRestorationsInput
+  upsert?: Prisma.TrustTransactionUpsertWithoutSuspensionRestorationsInput
+  disconnect?: Prisma.TrustTransactionWhereInput | boolean
+  delete?: Prisma.TrustTransactionWhereInput | boolean
+  connect?: Prisma.TrustTransactionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TrustTransactionUpdateToOneWithWhereWithoutSuspensionRestorationsInput, Prisma.TrustTransactionUpdateWithoutSuspensionRestorationsInput>, Prisma.TrustTransactionUncheckedUpdateWithoutSuspensionRestorationsInput>
+}
+
 export type TrustTransactionCreateNestedOneWithoutMilestoneInput = {
   create?: Prisma.XOR<Prisma.TrustTransactionCreateWithoutMilestoneInput, Prisma.TrustTransactionUncheckedCreateWithoutMilestoneInput>
   connectOrCreate?: Prisma.TrustTransactionCreateOrConnectWithoutMilestoneInput
@@ -672,6 +737,9 @@ export type TrustTransactionCreateWithoutUserInput = {
   createdAt?: Date | string
   originalTransaction?: Prisma.TrustTransactionCreateNestedOneWithoutReversalInput
   reversal?: Prisma.TrustTransactionCreateNestedOneWithoutOriginalTransactionInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionCreateNestedManyWithoutEarnTransactionInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutSuspensionTransactionInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionCreateNestedManyWithoutRestorationTransactionInput
   milestone?: Prisma.TrustMilestoneCreateNestedOneWithoutTransactionInput
   createdBy?: Prisma.UserCreateNestedOneWithoutTrustTransactionsCreatedInput
 }
@@ -686,6 +754,9 @@ export type TrustTransactionUncheckedCreateWithoutUserInput = {
   createdById?: number | null
   createdAt?: Date | string
   reversal?: Prisma.TrustTransactionUncheckedCreateNestedOneWithoutOriginalTransactionInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutEarnTransactionInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutSuspensionTransactionInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutRestorationTransactionInput
   milestone?: Prisma.TrustMilestoneUncheckedCreateNestedOneWithoutTransactionInput
 }
 
@@ -708,6 +779,9 @@ export type TrustTransactionCreateWithoutCreatedByInput = {
   user: Prisma.UserCreateNestedOneWithoutTrustTransactionsInput
   originalTransaction?: Prisma.TrustTransactionCreateNestedOneWithoutReversalInput
   reversal?: Prisma.TrustTransactionCreateNestedOneWithoutOriginalTransactionInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionCreateNestedManyWithoutEarnTransactionInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutSuspensionTransactionInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionCreateNestedManyWithoutRestorationTransactionInput
   milestone?: Prisma.TrustMilestoneCreateNestedOneWithoutTransactionInput
 }
 
@@ -721,6 +795,9 @@ export type TrustTransactionUncheckedCreateWithoutCreatedByInput = {
   originalTransactionId?: number | null
   createdAt?: Date | string
   reversal?: Prisma.TrustTransactionUncheckedCreateNestedOneWithoutOriginalTransactionInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutEarnTransactionInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutSuspensionTransactionInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutRestorationTransactionInput
   milestone?: Prisma.TrustMilestoneUncheckedCreateNestedOneWithoutTransactionInput
 }
 
@@ -789,6 +866,9 @@ export type TrustTransactionCreateWithoutReversalInput = {
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTrustTransactionsInput
   originalTransaction?: Prisma.TrustTransactionCreateNestedOneWithoutReversalInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionCreateNestedManyWithoutEarnTransactionInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutSuspensionTransactionInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionCreateNestedManyWithoutRestorationTransactionInput
   milestone?: Prisma.TrustMilestoneCreateNestedOneWithoutTransactionInput
   createdBy?: Prisma.UserCreateNestedOneWithoutTrustTransactionsCreatedInput
 }
@@ -803,6 +883,9 @@ export type TrustTransactionUncheckedCreateWithoutReversalInput = {
   originalTransactionId?: number | null
   createdById?: number | null
   createdAt?: Date | string
+  suspensionEarnings?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutEarnTransactionInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutSuspensionTransactionInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutRestorationTransactionInput
   milestone?: Prisma.TrustMilestoneUncheckedCreateNestedOneWithoutTransactionInput
 }
 
@@ -819,6 +902,9 @@ export type TrustTransactionCreateWithoutOriginalTransactionInput = {
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTrustTransactionsInput
   reversal?: Prisma.TrustTransactionCreateNestedOneWithoutOriginalTransactionInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionCreateNestedManyWithoutEarnTransactionInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutSuspensionTransactionInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionCreateNestedManyWithoutRestorationTransactionInput
   milestone?: Prisma.TrustMilestoneCreateNestedOneWithoutTransactionInput
   createdBy?: Prisma.UserCreateNestedOneWithoutTrustTransactionsCreatedInput
 }
@@ -833,6 +919,9 @@ export type TrustTransactionUncheckedCreateWithoutOriginalTransactionInput = {
   createdById?: number | null
   createdAt?: Date | string
   reversal?: Prisma.TrustTransactionUncheckedCreateNestedOneWithoutOriginalTransactionInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutEarnTransactionInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutSuspensionTransactionInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutRestorationTransactionInput
   milestone?: Prisma.TrustMilestoneUncheckedCreateNestedOneWithoutTransactionInput
 }
 
@@ -860,6 +949,9 @@ export type TrustTransactionUpdateWithoutReversalInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTrustTransactionsNestedInput
   originalTransaction?: Prisma.TrustTransactionUpdateOneWithoutReversalNestedInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionUpdateManyWithoutEarnTransactionNestedInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUpdateManyWithoutSuspensionTransactionNestedInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUpdateManyWithoutRestorationTransactionNestedInput
   milestone?: Prisma.TrustMilestoneUpdateOneWithoutTransactionNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutTrustTransactionsCreatedNestedInput
 }
@@ -874,6 +966,9 @@ export type TrustTransactionUncheckedUpdateWithoutReversalInput = {
   originalTransactionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  suspensionEarnings?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutEarnTransactionNestedInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutSuspensionTransactionNestedInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutRestorationTransactionNestedInput
   milestone?: Prisma.TrustMilestoneUncheckedUpdateOneWithoutTransactionNestedInput
 }
 
@@ -896,6 +991,9 @@ export type TrustTransactionUpdateWithoutOriginalTransactionInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTrustTransactionsNestedInput
   reversal?: Prisma.TrustTransactionUpdateOneWithoutOriginalTransactionNestedInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionUpdateManyWithoutEarnTransactionNestedInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUpdateManyWithoutSuspensionTransactionNestedInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUpdateManyWithoutRestorationTransactionNestedInput
   milestone?: Prisma.TrustMilestoneUpdateOneWithoutTransactionNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutTrustTransactionsCreatedNestedInput
 }
@@ -910,6 +1008,243 @@ export type TrustTransactionUncheckedUpdateWithoutOriginalTransactionInput = {
   createdById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reversal?: Prisma.TrustTransactionUncheckedUpdateOneWithoutOriginalTransactionNestedInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutEarnTransactionNestedInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutSuspensionTransactionNestedInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutRestorationTransactionNestedInput
+  milestone?: Prisma.TrustMilestoneUncheckedUpdateOneWithoutTransactionNestedInput
+}
+
+export type TrustTransactionCreateWithoutSuspensionEarningsInput = {
+  amount: number
+  type: $Enums.TrustTransactionType
+  source: string
+  sourceId: string
+  createdAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutTrustTransactionsInput
+  originalTransaction?: Prisma.TrustTransactionCreateNestedOneWithoutReversalInput
+  reversal?: Prisma.TrustTransactionCreateNestedOneWithoutOriginalTransactionInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutSuspensionTransactionInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionCreateNestedManyWithoutRestorationTransactionInput
+  milestone?: Prisma.TrustMilestoneCreateNestedOneWithoutTransactionInput
+  createdBy?: Prisma.UserCreateNestedOneWithoutTrustTransactionsCreatedInput
+}
+
+export type TrustTransactionUncheckedCreateWithoutSuspensionEarningsInput = {
+  id?: number
+  userId: number
+  amount: number
+  type: $Enums.TrustTransactionType
+  source: string
+  sourceId: string
+  originalTransactionId?: number | null
+  createdById?: number | null
+  createdAt?: Date | string
+  reversal?: Prisma.TrustTransactionUncheckedCreateNestedOneWithoutOriginalTransactionInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutSuspensionTransactionInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutRestorationTransactionInput
+  milestone?: Prisma.TrustMilestoneUncheckedCreateNestedOneWithoutTransactionInput
+}
+
+export type TrustTransactionCreateOrConnectWithoutSuspensionEarningsInput = {
+  where: Prisma.TrustTransactionWhereUniqueInput
+  create: Prisma.XOR<Prisma.TrustTransactionCreateWithoutSuspensionEarningsInput, Prisma.TrustTransactionUncheckedCreateWithoutSuspensionEarningsInput>
+}
+
+export type TrustTransactionCreateWithoutSuspensionTransactionsInput = {
+  amount: number
+  type: $Enums.TrustTransactionType
+  source: string
+  sourceId: string
+  createdAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutTrustTransactionsInput
+  originalTransaction?: Prisma.TrustTransactionCreateNestedOneWithoutReversalInput
+  reversal?: Prisma.TrustTransactionCreateNestedOneWithoutOriginalTransactionInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionCreateNestedManyWithoutEarnTransactionInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionCreateNestedManyWithoutRestorationTransactionInput
+  milestone?: Prisma.TrustMilestoneCreateNestedOneWithoutTransactionInput
+  createdBy?: Prisma.UserCreateNestedOneWithoutTrustTransactionsCreatedInput
+}
+
+export type TrustTransactionUncheckedCreateWithoutSuspensionTransactionsInput = {
+  id?: number
+  userId: number
+  amount: number
+  type: $Enums.TrustTransactionType
+  source: string
+  sourceId: string
+  originalTransactionId?: number | null
+  createdById?: number | null
+  createdAt?: Date | string
+  reversal?: Prisma.TrustTransactionUncheckedCreateNestedOneWithoutOriginalTransactionInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutEarnTransactionInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutRestorationTransactionInput
+  milestone?: Prisma.TrustMilestoneUncheckedCreateNestedOneWithoutTransactionInput
+}
+
+export type TrustTransactionCreateOrConnectWithoutSuspensionTransactionsInput = {
+  where: Prisma.TrustTransactionWhereUniqueInput
+  create: Prisma.XOR<Prisma.TrustTransactionCreateWithoutSuspensionTransactionsInput, Prisma.TrustTransactionUncheckedCreateWithoutSuspensionTransactionsInput>
+}
+
+export type TrustTransactionCreateWithoutSuspensionRestorationsInput = {
+  amount: number
+  type: $Enums.TrustTransactionType
+  source: string
+  sourceId: string
+  createdAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutTrustTransactionsInput
+  originalTransaction?: Prisma.TrustTransactionCreateNestedOneWithoutReversalInput
+  reversal?: Prisma.TrustTransactionCreateNestedOneWithoutOriginalTransactionInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionCreateNestedManyWithoutEarnTransactionInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutSuspensionTransactionInput
+  milestone?: Prisma.TrustMilestoneCreateNestedOneWithoutTransactionInput
+  createdBy?: Prisma.UserCreateNestedOneWithoutTrustTransactionsCreatedInput
+}
+
+export type TrustTransactionUncheckedCreateWithoutSuspensionRestorationsInput = {
+  id?: number
+  userId: number
+  amount: number
+  type: $Enums.TrustTransactionType
+  source: string
+  sourceId: string
+  originalTransactionId?: number | null
+  createdById?: number | null
+  createdAt?: Date | string
+  reversal?: Prisma.TrustTransactionUncheckedCreateNestedOneWithoutOriginalTransactionInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutEarnTransactionInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutSuspensionTransactionInput
+  milestone?: Prisma.TrustMilestoneUncheckedCreateNestedOneWithoutTransactionInput
+}
+
+export type TrustTransactionCreateOrConnectWithoutSuspensionRestorationsInput = {
+  where: Prisma.TrustTransactionWhereUniqueInput
+  create: Prisma.XOR<Prisma.TrustTransactionCreateWithoutSuspensionRestorationsInput, Prisma.TrustTransactionUncheckedCreateWithoutSuspensionRestorationsInput>
+}
+
+export type TrustTransactionUpsertWithoutSuspensionEarningsInput = {
+  update: Prisma.XOR<Prisma.TrustTransactionUpdateWithoutSuspensionEarningsInput, Prisma.TrustTransactionUncheckedUpdateWithoutSuspensionEarningsInput>
+  create: Prisma.XOR<Prisma.TrustTransactionCreateWithoutSuspensionEarningsInput, Prisma.TrustTransactionUncheckedCreateWithoutSuspensionEarningsInput>
+  where?: Prisma.TrustTransactionWhereInput
+}
+
+export type TrustTransactionUpdateToOneWithWhereWithoutSuspensionEarningsInput = {
+  where?: Prisma.TrustTransactionWhereInput
+  data: Prisma.XOR<Prisma.TrustTransactionUpdateWithoutSuspensionEarningsInput, Prisma.TrustTransactionUncheckedUpdateWithoutSuspensionEarningsInput>
+}
+
+export type TrustTransactionUpdateWithoutSuspensionEarningsInput = {
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.EnumTrustTransactionTypeFieldUpdateOperationsInput | $Enums.TrustTransactionType
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutTrustTransactionsNestedInput
+  originalTransaction?: Prisma.TrustTransactionUpdateOneWithoutReversalNestedInput
+  reversal?: Prisma.TrustTransactionUpdateOneWithoutOriginalTransactionNestedInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUpdateManyWithoutSuspensionTransactionNestedInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUpdateManyWithoutRestorationTransactionNestedInput
+  milestone?: Prisma.TrustMilestoneUpdateOneWithoutTransactionNestedInput
+  createdBy?: Prisma.UserUpdateOneWithoutTrustTransactionsCreatedNestedInput
+}
+
+export type TrustTransactionUncheckedUpdateWithoutSuspensionEarningsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.EnumTrustTransactionTypeFieldUpdateOperationsInput | $Enums.TrustTransactionType
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceId?: Prisma.StringFieldUpdateOperationsInput | string
+  originalTransactionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reversal?: Prisma.TrustTransactionUncheckedUpdateOneWithoutOriginalTransactionNestedInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutSuspensionTransactionNestedInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutRestorationTransactionNestedInput
+  milestone?: Prisma.TrustMilestoneUncheckedUpdateOneWithoutTransactionNestedInput
+}
+
+export type TrustTransactionUpsertWithoutSuspensionTransactionsInput = {
+  update: Prisma.XOR<Prisma.TrustTransactionUpdateWithoutSuspensionTransactionsInput, Prisma.TrustTransactionUncheckedUpdateWithoutSuspensionTransactionsInput>
+  create: Prisma.XOR<Prisma.TrustTransactionCreateWithoutSuspensionTransactionsInput, Prisma.TrustTransactionUncheckedCreateWithoutSuspensionTransactionsInput>
+  where?: Prisma.TrustTransactionWhereInput
+}
+
+export type TrustTransactionUpdateToOneWithWhereWithoutSuspensionTransactionsInput = {
+  where?: Prisma.TrustTransactionWhereInput
+  data: Prisma.XOR<Prisma.TrustTransactionUpdateWithoutSuspensionTransactionsInput, Prisma.TrustTransactionUncheckedUpdateWithoutSuspensionTransactionsInput>
+}
+
+export type TrustTransactionUpdateWithoutSuspensionTransactionsInput = {
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.EnumTrustTransactionTypeFieldUpdateOperationsInput | $Enums.TrustTransactionType
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutTrustTransactionsNestedInput
+  originalTransaction?: Prisma.TrustTransactionUpdateOneWithoutReversalNestedInput
+  reversal?: Prisma.TrustTransactionUpdateOneWithoutOriginalTransactionNestedInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionUpdateManyWithoutEarnTransactionNestedInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUpdateManyWithoutRestorationTransactionNestedInput
+  milestone?: Prisma.TrustMilestoneUpdateOneWithoutTransactionNestedInput
+  createdBy?: Prisma.UserUpdateOneWithoutTrustTransactionsCreatedNestedInput
+}
+
+export type TrustTransactionUncheckedUpdateWithoutSuspensionTransactionsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.EnumTrustTransactionTypeFieldUpdateOperationsInput | $Enums.TrustTransactionType
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceId?: Prisma.StringFieldUpdateOperationsInput | string
+  originalTransactionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reversal?: Prisma.TrustTransactionUncheckedUpdateOneWithoutOriginalTransactionNestedInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutEarnTransactionNestedInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutRestorationTransactionNestedInput
+  milestone?: Prisma.TrustMilestoneUncheckedUpdateOneWithoutTransactionNestedInput
+}
+
+export type TrustTransactionUpsertWithoutSuspensionRestorationsInput = {
+  update: Prisma.XOR<Prisma.TrustTransactionUpdateWithoutSuspensionRestorationsInput, Prisma.TrustTransactionUncheckedUpdateWithoutSuspensionRestorationsInput>
+  create: Prisma.XOR<Prisma.TrustTransactionCreateWithoutSuspensionRestorationsInput, Prisma.TrustTransactionUncheckedCreateWithoutSuspensionRestorationsInput>
+  where?: Prisma.TrustTransactionWhereInput
+}
+
+export type TrustTransactionUpdateToOneWithWhereWithoutSuspensionRestorationsInput = {
+  where?: Prisma.TrustTransactionWhereInput
+  data: Prisma.XOR<Prisma.TrustTransactionUpdateWithoutSuspensionRestorationsInput, Prisma.TrustTransactionUncheckedUpdateWithoutSuspensionRestorationsInput>
+}
+
+export type TrustTransactionUpdateWithoutSuspensionRestorationsInput = {
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.EnumTrustTransactionTypeFieldUpdateOperationsInput | $Enums.TrustTransactionType
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutTrustTransactionsNestedInput
+  originalTransaction?: Prisma.TrustTransactionUpdateOneWithoutReversalNestedInput
+  reversal?: Prisma.TrustTransactionUpdateOneWithoutOriginalTransactionNestedInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionUpdateManyWithoutEarnTransactionNestedInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUpdateManyWithoutSuspensionTransactionNestedInput
+  milestone?: Prisma.TrustMilestoneUpdateOneWithoutTransactionNestedInput
+  createdBy?: Prisma.UserUpdateOneWithoutTrustTransactionsCreatedNestedInput
+}
+
+export type TrustTransactionUncheckedUpdateWithoutSuspensionRestorationsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.EnumTrustTransactionTypeFieldUpdateOperationsInput | $Enums.TrustTransactionType
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceId?: Prisma.StringFieldUpdateOperationsInput | string
+  originalTransactionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reversal?: Prisma.TrustTransactionUncheckedUpdateOneWithoutOriginalTransactionNestedInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutEarnTransactionNestedInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutSuspensionTransactionNestedInput
   milestone?: Prisma.TrustMilestoneUncheckedUpdateOneWithoutTransactionNestedInput
 }
 
@@ -922,6 +1257,9 @@ export type TrustTransactionCreateWithoutMilestoneInput = {
   user: Prisma.UserCreateNestedOneWithoutTrustTransactionsInput
   originalTransaction?: Prisma.TrustTransactionCreateNestedOneWithoutReversalInput
   reversal?: Prisma.TrustTransactionCreateNestedOneWithoutOriginalTransactionInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionCreateNestedManyWithoutEarnTransactionInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionCreateNestedManyWithoutSuspensionTransactionInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionCreateNestedManyWithoutRestorationTransactionInput
   createdBy?: Prisma.UserCreateNestedOneWithoutTrustTransactionsCreatedInput
 }
 
@@ -936,6 +1274,9 @@ export type TrustTransactionUncheckedCreateWithoutMilestoneInput = {
   createdById?: number | null
   createdAt?: Date | string
   reversal?: Prisma.TrustTransactionUncheckedCreateNestedOneWithoutOriginalTransactionInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutEarnTransactionInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutSuspensionTransactionInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUncheckedCreateNestedManyWithoutRestorationTransactionInput
 }
 
 export type TrustTransactionCreateOrConnectWithoutMilestoneInput = {
@@ -963,6 +1304,9 @@ export type TrustTransactionUpdateWithoutMilestoneInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutTrustTransactionsNestedInput
   originalTransaction?: Prisma.TrustTransactionUpdateOneWithoutReversalNestedInput
   reversal?: Prisma.TrustTransactionUpdateOneWithoutOriginalTransactionNestedInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionUpdateManyWithoutEarnTransactionNestedInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUpdateManyWithoutSuspensionTransactionNestedInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUpdateManyWithoutRestorationTransactionNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutTrustTransactionsCreatedNestedInput
 }
 
@@ -977,6 +1321,9 @@ export type TrustTransactionUncheckedUpdateWithoutMilestoneInput = {
   createdById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reversal?: Prisma.TrustTransactionUncheckedUpdateOneWithoutOriginalTransactionNestedInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutEarnTransactionNestedInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutSuspensionTransactionNestedInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutRestorationTransactionNestedInput
 }
 
 export type TrustTransactionCreateManyUserInput = {
@@ -1009,6 +1356,9 @@ export type TrustTransactionUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   originalTransaction?: Prisma.TrustTransactionUpdateOneWithoutReversalNestedInput
   reversal?: Prisma.TrustTransactionUpdateOneWithoutOriginalTransactionNestedInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionUpdateManyWithoutEarnTransactionNestedInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUpdateManyWithoutSuspensionTransactionNestedInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUpdateManyWithoutRestorationTransactionNestedInput
   milestone?: Prisma.TrustMilestoneUpdateOneWithoutTransactionNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutTrustTransactionsCreatedNestedInput
 }
@@ -1023,6 +1373,9 @@ export type TrustTransactionUncheckedUpdateWithoutUserInput = {
   createdById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reversal?: Prisma.TrustTransactionUncheckedUpdateOneWithoutOriginalTransactionNestedInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutEarnTransactionNestedInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutSuspensionTransactionNestedInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutRestorationTransactionNestedInput
   milestone?: Prisma.TrustMilestoneUncheckedUpdateOneWithoutTransactionNestedInput
 }
 
@@ -1046,6 +1399,9 @@ export type TrustTransactionUpdateWithoutCreatedByInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutTrustTransactionsNestedInput
   originalTransaction?: Prisma.TrustTransactionUpdateOneWithoutReversalNestedInput
   reversal?: Prisma.TrustTransactionUpdateOneWithoutOriginalTransactionNestedInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionUpdateManyWithoutEarnTransactionNestedInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUpdateManyWithoutSuspensionTransactionNestedInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUpdateManyWithoutRestorationTransactionNestedInput
   milestone?: Prisma.TrustMilestoneUpdateOneWithoutTransactionNestedInput
 }
 
@@ -1059,6 +1415,9 @@ export type TrustTransactionUncheckedUpdateWithoutCreatedByInput = {
   originalTransactionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reversal?: Prisma.TrustTransactionUncheckedUpdateOneWithoutOriginalTransactionNestedInput
+  suspensionEarnings?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutEarnTransactionNestedInput
+  suspensionTransactions?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutSuspensionTransactionNestedInput
+  suspensionRestorations?: Prisma.TrustXpSuspensionUncheckedUpdateManyWithoutRestorationTransactionNestedInput
   milestone?: Prisma.TrustMilestoneUncheckedUpdateOneWithoutTransactionNestedInput
 }
 
@@ -1074,6 +1433,53 @@ export type TrustTransactionUncheckedUpdateManyWithoutCreatedByInput = {
 }
 
 
+/**
+ * Count Type TrustTransactionCountOutputType
+ */
+
+export type TrustTransactionCountOutputType = {
+  suspensionEarnings: number
+  suspensionTransactions: number
+  suspensionRestorations: number
+}
+
+export type TrustTransactionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  suspensionEarnings?: boolean | TrustTransactionCountOutputTypeCountSuspensionEarningsArgs
+  suspensionTransactions?: boolean | TrustTransactionCountOutputTypeCountSuspensionTransactionsArgs
+  suspensionRestorations?: boolean | TrustTransactionCountOutputTypeCountSuspensionRestorationsArgs
+}
+
+/**
+ * TrustTransactionCountOutputType without action
+ */
+export type TrustTransactionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TrustTransactionCountOutputType
+   */
+  select?: Prisma.TrustTransactionCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * TrustTransactionCountOutputType without action
+ */
+export type TrustTransactionCountOutputTypeCountSuspensionEarningsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TrustXpSuspensionWhereInput
+}
+
+/**
+ * TrustTransactionCountOutputType without action
+ */
+export type TrustTransactionCountOutputTypeCountSuspensionTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TrustXpSuspensionWhereInput
+}
+
+/**
+ * TrustTransactionCountOutputType without action
+ */
+export type TrustTransactionCountOutputTypeCountSuspensionRestorationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TrustXpSuspensionWhereInput
+}
+
 
 export type TrustTransactionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1088,8 +1494,12 @@ export type TrustTransactionSelect<ExtArgs extends runtime.Types.Extensions.Inte
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   originalTransaction?: boolean | Prisma.TrustTransaction$originalTransactionArgs<ExtArgs>
   reversal?: boolean | Prisma.TrustTransaction$reversalArgs<ExtArgs>
+  suspensionEarnings?: boolean | Prisma.TrustTransaction$suspensionEarningsArgs<ExtArgs>
+  suspensionTransactions?: boolean | Prisma.TrustTransaction$suspensionTransactionsArgs<ExtArgs>
+  suspensionRestorations?: boolean | Prisma.TrustTransaction$suspensionRestorationsArgs<ExtArgs>
   milestone?: boolean | Prisma.TrustTransaction$milestoneArgs<ExtArgs>
   createdBy?: boolean | Prisma.TrustTransaction$createdByArgs<ExtArgs>
+  _count?: boolean | Prisma.TrustTransactionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trustTransaction"]>
 
 export type TrustTransactionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1139,8 +1549,12 @@ export type TrustTransactionInclude<ExtArgs extends runtime.Types.Extensions.Int
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   originalTransaction?: boolean | Prisma.TrustTransaction$originalTransactionArgs<ExtArgs>
   reversal?: boolean | Prisma.TrustTransaction$reversalArgs<ExtArgs>
+  suspensionEarnings?: boolean | Prisma.TrustTransaction$suspensionEarningsArgs<ExtArgs>
+  suspensionTransactions?: boolean | Prisma.TrustTransaction$suspensionTransactionsArgs<ExtArgs>
+  suspensionRestorations?: boolean | Prisma.TrustTransaction$suspensionRestorationsArgs<ExtArgs>
   milestone?: boolean | Prisma.TrustTransaction$milestoneArgs<ExtArgs>
   createdBy?: boolean | Prisma.TrustTransaction$createdByArgs<ExtArgs>
+  _count?: boolean | Prisma.TrustTransactionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TrustTransactionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1159,6 +1573,9 @@ export type $TrustTransactionPayload<ExtArgs extends runtime.Types.Extensions.In
     user: Prisma.$UserPayload<ExtArgs>
     originalTransaction: Prisma.$TrustTransactionPayload<ExtArgs> | null
     reversal: Prisma.$TrustTransactionPayload<ExtArgs> | null
+    suspensionEarnings: Prisma.$TrustXpSuspensionPayload<ExtArgs>[]
+    suspensionTransactions: Prisma.$TrustXpSuspensionPayload<ExtArgs>[]
+    suspensionRestorations: Prisma.$TrustXpSuspensionPayload<ExtArgs>[]
     milestone: Prisma.$TrustMilestonePayload<ExtArgs> | null
     createdBy: Prisma.$UserPayload<ExtArgs> | null
   }
@@ -1569,6 +1986,9 @@ export interface Prisma__TrustTransactionClient<T, Null = never, ExtArgs extends
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   originalTransaction<T extends Prisma.TrustTransaction$originalTransactionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrustTransaction$originalTransactionArgs<ExtArgs>>): Prisma.Prisma__TrustTransactionClient<runtime.Types.Result.GetResult<Prisma.$TrustTransactionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   reversal<T extends Prisma.TrustTransaction$reversalArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrustTransaction$reversalArgs<ExtArgs>>): Prisma.Prisma__TrustTransactionClient<runtime.Types.Result.GetResult<Prisma.$TrustTransactionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  suspensionEarnings<T extends Prisma.TrustTransaction$suspensionEarningsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrustTransaction$suspensionEarningsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrustXpSuspensionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  suspensionTransactions<T extends Prisma.TrustTransaction$suspensionTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrustTransaction$suspensionTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrustXpSuspensionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  suspensionRestorations<T extends Prisma.TrustTransaction$suspensionRestorationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrustTransaction$suspensionRestorationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrustXpSuspensionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   milestone<T extends Prisma.TrustTransaction$milestoneArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrustTransaction$milestoneArgs<ExtArgs>>): Prisma.Prisma__TrustMilestoneClient<runtime.Types.Result.GetResult<Prisma.$TrustMilestonePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   createdBy<T extends Prisma.TrustTransaction$createdByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrustTransaction$createdByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
@@ -2045,6 +2465,78 @@ export type TrustTransaction$reversalArgs<ExtArgs extends runtime.Types.Extensio
    */
   include?: Prisma.TrustTransactionInclude<ExtArgs> | null
   where?: Prisma.TrustTransactionWhereInput
+}
+
+/**
+ * TrustTransaction.suspensionEarnings
+ */
+export type TrustTransaction$suspensionEarningsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TrustXpSuspension
+   */
+  select?: Prisma.TrustXpSuspensionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TrustXpSuspension
+   */
+  omit?: Prisma.TrustXpSuspensionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TrustXpSuspensionInclude<ExtArgs> | null
+  where?: Prisma.TrustXpSuspensionWhereInput
+  orderBy?: Prisma.TrustXpSuspensionOrderByWithRelationInput | Prisma.TrustXpSuspensionOrderByWithRelationInput[]
+  cursor?: Prisma.TrustXpSuspensionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TrustXpSuspensionScalarFieldEnum | Prisma.TrustXpSuspensionScalarFieldEnum[]
+}
+
+/**
+ * TrustTransaction.suspensionTransactions
+ */
+export type TrustTransaction$suspensionTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TrustXpSuspension
+   */
+  select?: Prisma.TrustXpSuspensionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TrustXpSuspension
+   */
+  omit?: Prisma.TrustXpSuspensionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TrustXpSuspensionInclude<ExtArgs> | null
+  where?: Prisma.TrustXpSuspensionWhereInput
+  orderBy?: Prisma.TrustXpSuspensionOrderByWithRelationInput | Prisma.TrustXpSuspensionOrderByWithRelationInput[]
+  cursor?: Prisma.TrustXpSuspensionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TrustXpSuspensionScalarFieldEnum | Prisma.TrustXpSuspensionScalarFieldEnum[]
+}
+
+/**
+ * TrustTransaction.suspensionRestorations
+ */
+export type TrustTransaction$suspensionRestorationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TrustXpSuspension
+   */
+  select?: Prisma.TrustXpSuspensionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TrustXpSuspension
+   */
+  omit?: Prisma.TrustXpSuspensionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TrustXpSuspensionInclude<ExtArgs> | null
+  where?: Prisma.TrustXpSuspensionWhereInput
+  orderBy?: Prisma.TrustXpSuspensionOrderByWithRelationInput | Prisma.TrustXpSuspensionOrderByWithRelationInput[]
+  cursor?: Prisma.TrustXpSuspensionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TrustXpSuspensionScalarFieldEnum | Prisma.TrustXpSuspensionScalarFieldEnum[]
 }
 
 /**
