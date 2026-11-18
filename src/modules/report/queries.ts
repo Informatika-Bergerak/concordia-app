@@ -19,6 +19,8 @@ const listSelect = {
   status: true,
   visibility: true,
   occurredAt: true,
+  groupId: true,
+  group: { select: { id: true, name: true } },
   authorId: true,
   photos: { select: { url: true }, orderBy: { id: "asc" as const }, take: 1 },
 };

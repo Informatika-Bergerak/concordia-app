@@ -43,6 +43,7 @@ function AdminReportCard({ r }: { r: AdminReportItem }) {
         <div className={styles.adminText}>
           <p className={styles.adminDesc}>{r.description}</p>
 
+          {r.groupName && <p className={styles.adminDesc}><strong>Grup yang dilaporkan:</strong> {r.groupName}</p>}
           {r.status === "REJECTED" && r.rejectionReason && (
             <p className={styles.reason}><strong>Alasan penolakan:</strong> {r.rejectionReason}</p>
           )}

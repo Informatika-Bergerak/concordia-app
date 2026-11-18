@@ -26,6 +26,8 @@ export type ReportRow = {
   status: ReportStatus;
   visibility: ReportVisibility;
   occurredAt: Date;
+  groupId?: number | null;
+  group?: { id: number; name: string } | null;
   authorId: number;
   author: { name: string };
   photos: { url: string }[];
@@ -48,6 +50,8 @@ export function toReportItem(row: ReportRow, viewerId: number): ReportItem {
     description: row.description,
     location: row.location,
     category: row.category,
+    groupId: row.groupId ?? null,
+    groupName: row.group?.name ?? null,
     status: row.status,
     visibility: row.visibility,
     occurredAt: row.occurredAt.toISOString().slice(0, 10),

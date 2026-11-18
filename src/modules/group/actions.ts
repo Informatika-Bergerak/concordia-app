@@ -147,6 +147,23 @@ export async function joinPublicGroupAction(input: unknown): Promise<ActionResul
   }
 }
 
+export async function cancelGroupJoinRequestAction(input: unknown): Promise<ActionResult> {
+  const { user } = await requireRole(["USER", "MODERATOR", "ADMIN"]);
+  const parsed = joinGroupInput.safeParse(input);
+  if (!parsed.success) return { ok: false, error: "Grup tidak valid" };
+
+  const request = await prisma.groupJoinRequest.findUnique({
+    where: { groupId_userId: { groupId: parsed.data.groupId, userId: user.id } },
+    select: { status: true },
+  });
+  if (!request || request.status !== "PENDING") return { ok: false, error: "Tidak ada permintaan yang sedang menunggu" };
+
+  await prisma.groupJoinRequest.delete({ where: { groupId_userId: { groupId: parsed.data.groupId, userId: user.id } } });
+  revalidatePath("/grup");
+  revalidatePath(`/grup/${parsed.data.groupId}`);
+  return { ok: true };
+}
+
 export async function decideGroupJoinRequestAction(input: unknown): Promise<ActionResult> {
   const { user } = await requireRole(["USER", "MODERATOR", "ADMIN"]);
   const parsed = joinRequestDecisionInput.safeParse(input);
