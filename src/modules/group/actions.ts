@@ -169,6 +169,7 @@ export async function decideGroupJoinRequestAction(input: unknown): Promise<Acti
   const parsed = joinRequestDecisionInput.safeParse(input);
   if (!parsed.success || !(await requireGroupManager(parsed.data.groupId, user.id))) return { ok: false, error: "Tidak memiliki izin" };
   if (parsed.data.userId === user.id) return { ok: false, error: "Tidak dapat memproses permintaan sendiri" };
+  const targetUser = await prisma.user.findUnique({ where: { id: parsed.data.userId }, select: { name: true } });
 
   try {
     await prisma.$transaction(async (tx) => {
@@ -184,6 +185,7 @@ export async function decideGroupJoinRequestAction(input: unknown): Promise<Acti
           create: { groupId: parsed.data.groupId, userId: parsed.data.userId, role: "MEMBER" },
           update: {},
         });
+        await tx.groupMessage.create({ data: { groupId: parsed.data.groupId, senderId: user.id, content: `${targetUser?.name ?? "Anggota"} bergabung ke grup`, isSystem: true } });
       }
       await tx.groupJoinRequest.delete({ where: { groupId_userId: { groupId: parsed.data.groupId, userId: parsed.data.userId } } });
     });
@@ -236,7 +238,11 @@ export async function leaveGroupAction(input: unknown): Promise<ActionResult> {
   if (!parsed.success) return { ok: false, error: "Grup tidak valid" };
   const group = await prisma.group.findUnique({ where: { id: parsed.data.groupId }, select: { creatorId: true } });
   if (!group || group.creatorId === user.id) return { ok: false, error: "Pembuat grup harus mengalihkan kepemilikan terlebih dahulu" };
-  await prisma.groupMember.delete({ where: { groupId_userId: { groupId: parsed.data.groupId, userId: user.id } } });
+  const targetUser = await prisma.user.findUnique({ where: { id: user.id }, select: { name: true } });
+  await prisma.$transaction([
+    prisma.groupMember.delete({ where: { groupId_userId: { groupId: parsed.data.groupId, userId: user.id } } }),
+    prisma.groupMessage.create({ data: { groupId: parsed.data.groupId, senderId: user.id, content: `${targetUser?.name ?? "Anggota"} meninggalkan grup`, isSystem: true } })
+  ]);
   revalidatePath("/grup"); revalidatePath(`/grup/${parsed.data.groupId}`);
   return { ok: true };
 }
@@ -259,8 +265,31 @@ export async function addGroupMemberAction(input: unknown): Promise<ActionResult
   const parsed = groupMemberInput.safeParse(input);
   if (!parsed.success) return { ok: false, error: "Data anggota tidak valid" };
   if (!(await requireGroupManager(parsed.data.groupId, user.id))) return { ok: false, error: "Hanya admin grup yang dapat menambahkan anggota" };
-  try { await prisma.groupMember.create({ data: parsed.data }); revalidatePath(`/grup/${parsed.data.groupId}`); return { ok: true }; }
-  catch { return { ok: false, error: "Pengguna sudah menjadi anggota atau tidak valid" }; }
+  const friend = await prisma.friendRequest.findFirst({
+    where: {
+      status: "ACCEPTED",
+      OR: [
+        { requesterId: user.id, recipientId: parsed.data.userId },
+        { requesterId: parsed.data.userId, recipientId: user.id },
+      ],
+    },
+    select: { id: true },
+  });
+  if (!friend) return { ok: false, error: "Kamu hanya dapat menambahkan teman" };
+
+  try {
+    await prisma.$transaction(async (tx) => {
+      const target = await tx.user.findFirst({ where: { id: parsed.data.userId, isActive: true }, select: { name: true } });
+      if (!target) throw new Error("USER_NOT_FOUND");
+      await tx.groupMember.create({ data: parsed.data });
+      await tx.groupMessage.create({ data: { groupId: parsed.data.groupId, senderId: user.id, content: `${target.name} ditambahkan ke grup`, isSystem: true } });
+    });
+    revalidatePath(`/grup/${parsed.data.groupId}`);
+    return { ok: true };
+  } catch (error) {
+    if ((error as Error).message === "USER_NOT_FOUND") return { ok: false, error: "Pengguna tidak ditemukan" };
+    return { ok: false, error: "Pengguna sudah menjadi anggota atau tidak valid" };
+  }
 }
 
 export async function removeGroupMemberAction(input: unknown): Promise<ActionResult> {
@@ -269,7 +298,11 @@ export async function removeGroupMemberAction(input: unknown): Promise<ActionRes
   if (!parsed.success || parsed.data.userId === user.id || !(await requireGroupManager(parsed.data.groupId, user.id))) return { ok: false, error: "Tidak dapat menghapus anggota ini" };
   const target = await prisma.groupMember.findUnique({ where: { groupId_userId: parsed.data }, select: { role: true } });
   if (!target || target.role === "OWNER") return { ok: false, error: "Pemilik grup tidak dapat dihapus" };
-  await prisma.groupMember.delete({ where: { groupId_userId: parsed.data } });
+  const targetUser = await prisma.user.findUnique({ where: { id: parsed.data.userId }, select: { name: true } });
+  await prisma.$transaction([
+    prisma.groupMember.delete({ where: { groupId_userId: parsed.data } }),
+    prisma.groupMessage.create({ data: { groupId: parsed.data.groupId, senderId: user.id, content: `${targetUser?.name ?? "Anggota"} dikeluarkan dari grup`, isSystem: true } })
+  ]);
   revalidatePath(`/grup/${parsed.data.groupId}`); return { ok: true };
 }
 

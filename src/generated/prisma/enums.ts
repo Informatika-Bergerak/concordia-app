@@ -108,3 +108,11 @@ export const GroupJoinRequestStatus = {
 } as const
 
 export type GroupJoinRequestStatus = (typeof GroupJoinRequestStatus)[keyof typeof GroupJoinRequestStatus]
+
+
+export const GroupMessageType = {
+  USER: 'USER',
+  SYSTEM: 'SYSTEM'
+} as const
+
+export type GroupMessageType = (typeof GroupMessageType)[keyof typeof GroupMessageType]

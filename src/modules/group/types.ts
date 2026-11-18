@@ -49,5 +49,6 @@ export type GroupChatMessage = {
   deletedAt: Date | null;
   senderId: number;
   senderName: string;
+  isSystem: boolean;
 };
 
