@@ -3,6 +3,7 @@ import type { PrismaClient } from "@/generated/prisma/client";
 export const DAILY_XP_CAP = 200;
 
 type Db = PrismaClient;
+type Tx = Parameters<Parameters<PrismaClient["$transaction"]>[0]>[0];
 
 export type EarnXpInput = {
   userId: number;
@@ -36,10 +37,13 @@ function requestedXp(value: number): number {
 }
 
 export async function earnDailyXp(db: Db, input: EarnXpInput): Promise<EarnXpResult> {
+  return db.$transaction((tx) => earnDailyXpInTransaction(tx, input));
+}
+
+export async function earnDailyXpInTransaction(tx: Tx, input: EarnXpInput): Promise<EarnXpResult> {
   const requested = requestedXp(input.requestedXp);
   const date = jakartaDate(input.now);
 
-  return db.$transaction(async (tx) => {
     // Serializes all reward decisions for this user, including the first row of a day.
     const users = await tx.$queryRaw<{ role: "USER" | "MODERATOR" | "ADMIN"; userType: string | null }[]>`
       SELECT "role", "userType" FROM "User" WHERE "id" = ${input.userId} FOR UPDATE
@@ -69,5 +73,4 @@ export async function earnDailyXp(db: Db, input: EarnXpInput): Promise<EarnXpRes
     });
 
     return { grantedXp, remainingXp: remaining - grantedXp, transactionId: transaction.id, duplicate: false, eligible: true };
-  });
 }

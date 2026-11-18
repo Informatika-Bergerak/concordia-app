@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { requireRole } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import type { FeedComment } from "./types";
+import { rewardThreadXp } from "@/modules/trust/thread-xp";
 import { commentIdSchema, createCommentSchema, createPostSchema, postIdSchema } from "./schemas";
 import { getDisplayName } from "@/lib/users/display-name";
 
@@ -52,25 +53,29 @@ export async function createPostAction(input: unknown): Promise<ForumActionResul
     : undefined;
 
   try {
-    const post = await prisma.forumPost.create({
-      data: {
-        text,
-        author: { connect: { id: user.id } },
-        mentions: uniqueMentionIds.length ? { create: uniqueMentionIds.map((userId) => ({ userId })) } : undefined,
-        locationLabel: location?.label || null,
-        locationUrl: location?.url || null,
-        latitude: latitude ?? null,
-        longitude: longitude ?? null,
-        eventTitle: event?.title || null,
-        eventDate: event?.date || null,
-        eventTime: event?.time || null,
-        eventLocation: event?.location || null,
-        eventUrl: event?.url || null,
-        images: imageData ? { create: imageData } : undefined,
-        audios: audioData ? { create: audioData } : undefined,
-        poll: poll ? { create: { question: poll.question, options: { create: poll.options.map((text) => ({ text })) } } } : undefined,
-      },
-      select: { id: true },
+    const post = await prisma.$transaction(async (tx) => {
+      const created = await tx.forumPost.create({
+        data: {
+          text,
+          authorId: user.id,
+          mentions: uniqueMentionIds.length ? { create: uniqueMentionIds.map((userId) => ({ userId })) } : undefined,
+          locationLabel: location?.label || null,
+          locationUrl: location?.url || null,
+          latitude: latitude ?? null,
+          longitude: longitude ?? null,
+          eventTitle: event?.title || null,
+          eventDate: event?.date || null,
+          eventTime: event?.time || null,
+          eventLocation: event?.location || null,
+          eventUrl: event?.url || null,
+          images: imageData ? { create: imageData } : undefined,
+          audios: audioData ? { create: audioData } : undefined,
+          poll: poll ? { create: { question: poll.question, options: { create: poll.options.map((text) => ({ text })) } } } : undefined,
+        },
+        select: { id: true },
+      });
+      await rewardThreadXp(tx, user.id, created.id);
+      return created;
     });
     revalidatePath("/beranda");
     return { ok: true, id: post.id };
