@@ -24,23 +24,21 @@ export async function reverseThreadXp(tx: Tx, userId: number, threadId: number):
   if (reversal) return 0;
 
   const suspension = await tx.trustXpSuspension.findFirst({ where: { earnTransactionId: earned.id, restorationTransactionId: null }, orderBy: { createdAt: "desc" } });
+  const users = await tx.$queryRaw<{ trustScore: number }[]>`SELECT "trustScore" FROM "User" WHERE "id" = ${userId} FOR UPDATE`;
+  let actual = Math.min(earned.amount, users[0]?.trustScore ?? 0);
   if (suspension && !suspension.restorationTransactionId) {
     const restoration = await tx.trustTransaction.create({
       data: { userId, amount: earned.amount, type: "RESTORATION", source: THREAD_SOURCE, sourceId: `delete-restore:${threadId}` },
     });
+    await tx.user.update({ where: { id: userId }, data: { trustScore: { increment: earned.amount } } });
     await tx.trustXpSuspension.update({ where: { id: suspension.id }, data: { restorationTransactionId: restoration.id, restoredAt: new Date() } });
-  } else {
-    await tx.user.update({ where: { id: userId }, data: { trustScore: { decrement: earned.amount } } });
+    actual = earned.amount;
   }
-  await tx.trustTransaction.create({
-    data: {
-      userId,
-      amount: -earned.amount,
-      type: "REVERSAL",
-      source: THREAD_SOURCE,
-      sourceId: `delete:${threadId}`,
-      originalTransactionId: earned.id,
-    },
-  });
-  return earned.amount;
+  if (actual) {
+    await tx.trustTransaction.create({
+      data: { userId, amount: -actual, type: "REVERSAL", source: THREAD_SOURCE, sourceId: `delete:${threadId}`, originalTransactionId: earned.id },
+    });
+    await tx.user.update({ where: { id: userId }, data: { trustScore: { decrement: actual } } });
+  }
+  return actual;
 }

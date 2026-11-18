@@ -2,7 +2,7 @@ import type { PrismaClient } from "@/generated/prisma/client";
 
 type Tx = Parameters<Parameters<PrismaClient["$transaction"]>[0]>[0];
 
-const THREAD_SOURCE = "FORUM_THREAD";
+const THREAD_SOURCES = ["FORUM_THREAD", "FORUM_LIKE_MILESTONE", "FORUM_COMMENT_MILESTONE"];
 
 export async function setProfilePrivacy(db: PrismaClient, userId: number, isPrivate: boolean): Promise<void> {
   await db.$transaction((tx) => setProfilePrivacyInTransaction(tx, userId, isPrivate));
@@ -17,13 +17,13 @@ export async function setProfilePrivacyInTransaction(tx: Tx, userId: number, isP
 
   if (isPrivate) {
     const earnings = await tx.trustTransaction.findMany({
-      where: { userId, type: "EARN", source: THREAD_SOURCE, reversal: null, suspensionEarnings: { none: { restorationTransactionId: null } } },
+      where: { userId, type: "EARN", source: { in: THREAD_SOURCES }, reversal: null, suspensionEarnings: { none: { restorationTransactionId: null } } },
     });
     let total = 0;
     for (const earn of earnings) {
       const cycle = await tx.trustXpSuspension.count({ where: { earnTransactionId: earn.id } });
       const suspension = await tx.trustTransaction.create({
-        data: { userId, amount: -earn.amount, type: "SUSPENSION", source: THREAD_SOURCE, sourceId: `suspend:${earn.id}:${cycle + 1}` },
+        data: { userId, amount: -earn.amount, type: "SUSPENSION", source: earn.source, sourceId: `suspend:${earn.id}:${cycle + 1}` },
       });
       await tx.trustXpSuspension.create({ data: { userId, earnTransactionId: earn.id, suspensionTransactionId: suspension.id } });
       total += earn.amount;
@@ -40,7 +40,7 @@ export async function setProfilePrivacyInTransaction(tx: Tx, userId: number, isP
   let total = 0;
   for (const item of suspended) {
     const restoration = await tx.trustTransaction.create({
-      data: { userId, amount: item.earnTransaction.amount, type: "RESTORATION", source: THREAD_SOURCE, sourceId: `restore:${item.id}` },
+      data: { userId, amount: item.earnTransaction.amount, type: "RESTORATION", source: item.earnTransaction.source, sourceId: `restore:${item.id}` },
     });
     await tx.trustXpSuspension.update({ where: { id: item.id }, data: { restorationTransactionId: restoration.id, restoredAt: new Date() } });
     total += item.earnTransaction.amount;

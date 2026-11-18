@@ -34,11 +34,12 @@ async function reverseContentXp(tx: Tx, input: ModerationInput, balance: number)
   for (const earn of earnings) {
     requested += earn.amount;
     const deducted = Math.min(earn.amount, balance - actual);
-    if (!deducted) continue;
-    await tx.trustTransaction.create({
-      data: { userId: input.userId, amount: -deducted, type: "REVERSAL", source: input.source, sourceId: `moderation:${input.sourceId}:${earn.id}`, originalTransactionId: earn.id, createdById: input.actorId },
-    });
-    actual += deducted;
+    if (deducted) {
+      await tx.trustTransaction.create({
+        data: { userId: input.userId, amount: -deducted, type: "REVERSAL", source: input.source, sourceId: `moderation:${input.sourceId}:${earn.id}`, originalTransactionId: earn.id, createdById: input.actorId },
+      });
+      actual += deducted;
+    }
   }
   return { requested, actual };
 }
@@ -68,9 +69,10 @@ export async function applyConfirmedViolation(db: PrismaClient, input: Moderatio
 export async function applyConfirmedViolationInTransaction(tx: Tx, input: ModerationInput) {
     const user = await lockUser(tx, input.userId);
     if (!user) return { reversed: 0, penalized: 0, before: 0, after: 0 };
-    const reversed = await reverseContentXp(tx, input, user.trustScore);
     const existingPenalty = await tx.trustTransaction.findUnique({ where: { userId_type_source_sourceId: { userId: input.userId, type: "PENALTY", source: input.source, sourceId: `violation:${input.sourceId}` } } });
-    if (!reversed.requested && existingPenalty) return { reversed: 0, penalized: 0, before: user.trustScore, after: user.trustScore };
+    const existingViolation = await tx.auditLog.findFirst({ where: { action: "TRUST_MODERATION", targetId: input.userId, metadata: { path: ["action"], equals: "CONFIRMED_VIOLATION" } }, orderBy: { id: "desc" } });
+    if (existingPenalty || (existingViolation && (existingViolation.metadata as { source?: string; sourceId?: string }).source === input.source && (existingViolation.metadata as { sourceId?: string }).sourceId === input.sourceId)) return { reversed: 0, penalized: 0, before: user.trustScore, after: user.trustScore };
+    const reversed = await reverseContentXp(tx, input, user.trustScore);
     const reversal = reversed.actual;
     const afterReversal = user.trustScore - reversal;
     const penalty = Math.min(TRUST_VIOLATION_PENALTY, afterReversal);
