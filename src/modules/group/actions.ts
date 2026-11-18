@@ -170,19 +170,28 @@ export async function decideGroupJoinRequestAction(input: unknown): Promise<Acti
   if (!parsed.success || !(await requireGroupManager(parsed.data.groupId, user.id))) return { ok: false, error: "Tidak memiliki izin" };
   if (parsed.data.userId === user.id) return { ok: false, error: "Tidak dapat memproses permintaan sendiri" };
 
-  const request = await prisma.groupJoinRequest.findUnique({ where: { groupId_userId: { groupId: parsed.data.groupId, userId: parsed.data.userId } }, select: { status: true } });
-  if (!request || request.status !== "PENDING") return { ok: false, error: "Permintaan sudah diproses" };
-
-  await prisma.$transaction(async (tx) => {
-    if (parsed.data.decision === "ACCEPT") {
-      await tx.groupMember.upsert({
+  try {
+    await prisma.$transaction(async (tx) => {
+      const request = await tx.groupJoinRequest.findUnique({
         where: { groupId_userId: { groupId: parsed.data.groupId, userId: parsed.data.userId } },
-        create: { groupId: parsed.data.groupId, userId: parsed.data.userId, role: "MEMBER" },
-        update: {},
+        select: { status: true },
       });
-    }
-    await tx.groupJoinRequest.delete({ where: { groupId_userId: { groupId: parsed.data.groupId, userId: parsed.data.userId } } });
-  });
+      if (!request || request.status !== "PENDING") throw new Error("REQUEST_PROCESSED");
+
+      if (parsed.data.decision === "ACCEPT") {
+        await tx.groupMember.upsert({
+          where: { groupId_userId: { groupId: parsed.data.groupId, userId: parsed.data.userId } },
+          create: { groupId: parsed.data.groupId, userId: parsed.data.userId, role: "MEMBER" },
+          update: {},
+        });
+      }
+      await tx.groupJoinRequest.delete({ where: { groupId_userId: { groupId: parsed.data.groupId, userId: parsed.data.userId } } });
+    });
+  } catch (error) {
+    if ((error as Error).message === "REQUEST_PROCESSED") return { ok: false, error: "Permintaan sudah diproses" };
+    console.error("[group] Gagal memproses permintaan masuk:", (error as Error).message);
+    return { ok: false, error: "Gagal memproses permintaan masuk, coba lagi" };
+  }
   revalidatePath(`/grup/${parsed.data.groupId}`);
   revalidatePath("/grup");
   return { ok: true };
@@ -260,7 +269,8 @@ export async function removeGroupMemberAction(input: unknown): Promise<ActionRes
   if (!parsed.success || parsed.data.userId === user.id || !(await requireGroupManager(parsed.data.groupId, user.id))) return { ok: false, error: "Tidak dapat menghapus anggota ini" };
   const target = await prisma.groupMember.findUnique({ where: { groupId_userId: parsed.data }, select: { role: true } });
   if (!target || target.role === "OWNER") return { ok: false, error: "Pemilik grup tidak dapat dihapus" };
-  await prisma.groupMember.delete({ where: { groupId_userId: parsed.data } }); revalidatePath(`/grup/${parsed.data.groupId}`); return { ok: true };
+  await prisma.groupMember.delete({ where: { groupId_userId: parsed.data } });
+  revalidatePath(`/grup/${parsed.data.groupId}`); return { ok: true };
 }
 
 export async function editGroupMessageAction(input: unknown): Promise<ActionResult> {

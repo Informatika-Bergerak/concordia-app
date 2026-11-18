@@ -114,8 +114,12 @@ export function GroupChat({ group, messages: initialMessages, currentUserId, mem
           // Rollback optimistic update on error
           setMessages((prev) => prev.filter((m) => m.id !== tempMessage.id));
           setText(content);
+          return;
         }
-        router.refresh();
+
+        // Ganti ID sementara dengan ID dari database agar pesan tetap tampil
+        // tanpa langsung ditimpa oleh props lama dari router.refresh().
+        setMessages((prev) => prev.map((message) => message.id === tempMessage.id ? { ...message, id: result.messageId } : message));
       });
     },
     [text, currentUserId, group.id, router],
