@@ -1,4 +1,4 @@
-export type ReportStatus = "UNVERIFIED" | "VERIFIED" | "REJECTED";
+export type ReportStatus = "UNVERIFIED" | "VERIFIED" | "REJECTED" | "IN_PROGRESS" | "RESOLVED";
 
 export type ReportCategory =
   | "FASILITAS"
@@ -26,6 +26,8 @@ export type ReportHistoryEntry = {
 
 export type ReportItem = {
   id: string;
+  /** Alamat halaman laporan. Opsional karena beberapa pemanggil membuat ReportItem sendiri. */
+  slug?: string;
   title: string;
   description: string;
   location: string;
@@ -61,6 +63,8 @@ export type AdminReportItem = ReportItem & {
   authorUsername: string;
   /** Pelapor berstatus dosen; laporan seperti ini disorot di panel admin */
   fromLecturer: boolean;
+  /** Pelapor berperan moderator; laporan seperti ini juga disorot di panel admin */
+  fromModerator: boolean;
   createdAt: string;
   rejectionReason: string | null;
 };

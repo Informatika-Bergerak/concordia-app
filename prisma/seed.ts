@@ -5,6 +5,7 @@ import { PrismaClient } from "../src/generated/prisma/client";
 import type { Role, UserType } from "../src/generated/prisma/enums";
 import { passwordSchema } from "../src/lib/validations/auth";
 import { dosen, mahasiswa } from "./seed-data";
+import { seedReports } from "./seed-reports";
 
 const DEFAULT_JURUSAN = "Teknik Informatika";
 const prisma = new PrismaClient({
@@ -65,6 +66,8 @@ async function main() {
   }
 
   console.log(`Seed selesai: ${accounts.length} akun`);
+
+  await seedReports(prisma);
 }
 
 main()

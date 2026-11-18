@@ -52,6 +52,8 @@ enum ReportStatus {
   UNVERIFIED
   VERIFIED
   REJECTED
+  IN_PROGRESS
+  RESOLVED
 }
 
 enum ReportVisibility {
@@ -124,6 +126,8 @@ model AuditLog {
 
 model Report {
   id              Int              @id @default(autoincrement())
+  // Alamat halaman laporan (/laporan/<slug>); dibuat dari judul + 6 karakter acak dan tidak berubah saat judul diedit.
+  slug            String           @unique
   title           String
   description     String
   location        String

@@ -11,24 +11,25 @@ import { formatReportDate } from "@/modules/report/format";
 import { getAdminReports } from "@/modules/report/queries";
 import type { AdminReportItem, ReportStatus } from "@/modules/report/types";
 
-const VALID: ReportStatus[] = ["UNVERIFIED", "VERIFIED", "REJECTED"];
+const VALID: ReportStatus[] = ["UNVERIFIED", "VERIFIED", "IN_PROGRESS", "RESOLVED", "REJECTED"];
 const VISIBILITY_ICON = { PUBLIC: Globe, ANONYMOUS: EyeOff, PRIVATE: Lock } as const;
 
 function AdminReportCard({ r }: { r: AdminReportItem }) {
   const VisibilityIcon = VISIBILITY_ICON[r.visibility];
 
   return (
-    <article className={`${styles.adminItem} ${r.fromLecturer ? styles.isLecturer : ""}`}>
+    <article className={`${styles.adminItem} ${r.fromLecturer || r.fromModerator ? styles.isPriority : ""}`}>
       <header className={styles.adminHead}>
         <div className={styles.adminTitleBlock}>
           <div className={styles.adminTags}>
             <span className={styles.category}>{CATEGORY_LABELS[r.category]}</span>
             {r.fromLecturer && <span className={styles.lecturerTag}>Laporan dari dosen</span>}
+            {r.fromModerator && <span className={styles.lecturerTag}>Laporan dari moderator</span>}
             {r.visibility === "ANONYMOUS" && <span className={styles.anonTag}>Anonymous ke publik</span>}
             {r.visibility === "PRIVATE" && <span className={styles.privTag}>Private</span>}
           </div>
           <h3 className={styles.adminTitle}>
-            <Link href={`/laporan/${r.id}`} className={styles.cardLink}>{r.title}</Link>
+            <Link href={`/laporan/${r.slug ?? r.id}`} className={styles.cardLink}>{r.title}</Link>
           </h3>
           <p className={styles.adminReporter}>
             <UserRound size={13} aria-hidden />
@@ -104,13 +105,14 @@ export default async function AdminReportsPage({
     return query ? `/admin/laporan?${query}` : "/admin/laporan";
   };
 
-  // Laporan dosen yang belum diverifikasi disorot di bagian atas.
+  // Laporan dosen dan moderator yang belum diverifikasi disorot di bagian atas.
   const highlighted =
     status && status !== "UNVERIFIED"
       ? []
-      : reports.filter((r) => r.fromLecturer && r.status === "UNVERIFIED");
+      : reports.filter((r) => (r.fromLecturer || r.fromModerator) && r.status === "UNVERIFIED");
   const rest = reports.filter((r) => !highlighted.includes(r));
   const waiting = reports.filter((r) => r.status === "UNVERIFIED").length;
+  const inProgress = reports.filter((r) => r.status === "IN_PROGRESS").length;
 
   return (
     <AppShell user={admin}>
@@ -118,7 +120,7 @@ export default async function AdminReportsPage({
         <div>
           <h1 className="page-title">Verifikasi Laporan</h1>
           <p className="page-sub">
-            Tinjau laporan kampus, ubah statusnya, dan beri alasan bila laporan ditolak.
+            Verifikasi laporan kampus, pantau penanganannya sampai selesai, dan beri alasan bila laporan ditolak.
           </p>
         </div>
 
@@ -131,9 +133,13 @@ export default async function AdminReportsPage({
             <span className={styles.statLabel}>Menunggu verifikasi</span>
             <span className={styles.statValue}>{waiting}</span>
           </div>
+          <div className={styles.stat}>
+            <span className={styles.statLabel}>Sedang diproses</span>
+            <span className={styles.statValue}>{inProgress}</span>
+          </div>
           {highlighted.length > 0 && (
             <div className={`${styles.stat} ${styles.statAlert}`}>
-              <span className={styles.statLabel}>Dari dosen, menunggu</span>
+              <span className={styles.statLabel}>Dosen dan moderator, menunggu</span>
               <span className={styles.statValue}>{highlighted.length}</span>
             </div>
           )}
@@ -159,9 +165,9 @@ export default async function AdminReportsPage({
         {highlighted.length > 0 && (
           <section className={styles.highlightBox} aria-labelledby="sorotan-dosen">
             <h2 id="sorotan-dosen" className={styles.highlightHead}>
-              Perlu perhatian: laporan dari dosen ({highlighted.length})
+              Perlu perhatian: laporan dari dosen dan moderator ({highlighted.length})
             </h2>
-            <p className={styles.highlightHint}>Laporan dosen yang belum diverifikasi.</p>
+            <p className={styles.highlightHint}>Laporan dosen dan moderator yang belum diverifikasi.</p>
             <div className={styles.adminList}>
               {highlighted.map((r) => <AdminReportCard key={r.id} r={r} />)}
             </div>
