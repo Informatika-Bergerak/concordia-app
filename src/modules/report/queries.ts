@@ -8,7 +8,6 @@ import {
   toReportItem,
 } from "./rules";
 import type { AdminReportItem, ReportDetail, ReportItem, ReportStatus } from "./types";
-import { getDisplayName } from "@/lib/users/display-name";
 
 const listSelect = {
   id: true,
@@ -43,17 +42,6 @@ export async function getReports(): Promise<ReportItem[]> {
     orderBy: { createdAt: "desc" },
     take: 100,
     select: {
-      id: true,
-      title: true,
-      description: true,
-      location: true,
-      category: true,
-      status: true,
-      visibility: true,
-      occurredAt: true,
-      authorId: true,
-      author: { select: { name: true, nickname: true } },
-      photos: { select: { url: true }, orderBy: { id: "asc" }, take: 1 },
       ...listSelect,
       author: { select: { name: true } },
       ...supportSelect(user.id),
@@ -72,23 +60,15 @@ export async function getReportBySlug(slug: string): Promise<ReportDetail | null
   const row = await prisma.report.findUnique({
     where: { slug },
     select: {
-      id: true,
-      title: true,
-      description: true,
-      location: true,
-      category: true,
-      status: true,
-      visibility: true,
-      occurredAt: true,
-      authorId: true,
+      ...listSelect,
       rejectionReason: true,
-      author: { select: { name: true, nickname: true } },
+      author: { select: { name: true } },
       photos: { select: { url: true }, orderBy: { id: "asc" } },
+      ...supportSelect(user.id),
       history: {
         select: { fromStatus: true, toStatus: true, note: true, createdAt: true },
         orderBy: { createdAt: "asc" },
       },
-      ...supportSelect(user.id),
     },
   });
   if (!row || !canViewReport(user, row)) return null;
@@ -127,18 +107,9 @@ export async function getAdminReports(
         : [{ createdAt: "desc" }],
     take: 200,
     select: {
-      id: true,
-      title: true,
-      description: true,
-      location: true,
-      category: true,
-      status: true,
-      visibility: true,
-      occurredAt: true,
-      authorId: true,
+      ...listSelect,
       rejectionReason: true,
       createdAt: true,
-      author: { select: { name: true, nickname: true, username: true, userType: true } },
       author: { select: { name: true, username: true, userType: true, role: true } },
       _count: { select: { supports: true } },
     },

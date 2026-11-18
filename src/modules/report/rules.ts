@@ -1,4 +1,3 @@
-import { getDisplayName } from "@/lib/users/display-name";
 import type {
   AdminReportItem,
   ReportDetail,
@@ -28,7 +27,7 @@ export type ReportRow = {
   visibility: ReportVisibility;
   occurredAt: Date;
   authorId: number;
-  author: { name: string; nickname?: string | null };
+  author: { name: string };
   photos: { url: string }[];
   /** Jumlah dukungan, dari `_count: { select: { supports: true } }` */
   _count?: { supports: number };
@@ -37,9 +36,9 @@ export type ReportRow = {
 };
 
 /**
-- Mengubah baris database menjadi data yang aman dikirim ke browser.
-- Nama pelapor hanya disertakan untuk laporan PUBLIC. Untuk ANONYMOUS dan
-- PRIVATE nama dibuang di sini, sebelum data keluar dari server.
+ * Mengubah baris database menjadi data yang aman dikirim ke browser.
+ * Nama pelapor hanya disertakan untuk laporan PUBLIC. Untuk ANONYMOUS dan
+ * PRIVATE nama dibuang di sini, sebelum data keluar dari server.
  */
 export function toReportItem(row: ReportRow, viewerId: number): ReportItem {
   return {
@@ -53,7 +52,7 @@ export function toReportItem(row: ReportRow, viewerId: number): ReportItem {
     visibility: row.visibility,
     occurredAt: row.occurredAt.toISOString().slice(0, 10),
     coverImage: row.photos[0]?.url ?? null,
-    authorName: row.visibility === "PUBLIC" ? getDisplayName(row.author.nickname, row.author.name) : null,
+    authorName: row.visibility === "PUBLIC" ? row.author.name : null,
     isMine: row.authorId === viewerId,
     supportCount: row._count?.supports ?? 0,
     supportedByMe: (row.supports?.length ?? 0) > 0,
@@ -101,9 +100,9 @@ export function allowedVisibilities(role: ViewerRole): ReportVisibility[] {
 }
 
 /**
-- Alasan sebuah laporan tidak dapat didukung oleh pengguna ini, atau null bila boleh.
-- Dipakai server (menolak aksi) dan tampilan (menyembunyikan tombol) agar aturannya sama.
-- Berlaku untuk menambah dukungan; mencabut dukungan selalu diizinkan.
+ * Alasan sebuah laporan tidak dapat didukung oleh pengguna ini, atau null bila boleh.
+ * Dipakai server (menolak aksi) dan tampilan (menyembunyikan tombol) agar aturannya sama.
+ * Berlaku untuk menambah dukungan; mencabut dukungan selalu diizinkan.
  */
 export function supportBlockReason(
   role: ViewerRole,
@@ -150,8 +149,8 @@ export type ReportDetailRow = ReportRow & {
 };
 
 /**
-- Detail laporan. Alasan penolakan dan riwayat status hanya dikirim ke pelapor
-- dan admin; pengguna lain hanya melihat isi laporan.
+ * Detail laporan. Alasan penolakan dan riwayat status hanya dikirim ke pelapor
+ * dan admin; pengguna lain hanya melihat isi laporan.
  */
 export function toReportDetail(
   row: ReportDetailRow,
@@ -174,10 +173,9 @@ export function toReportDetail(
   };
 }
 
-export type AdminReportRow = Omit<ReportRow, "author"> & {
+export type AdminReportRow = ReportRow & {
   rejectionReason: string | null;
   createdAt: Date;
-  author: { name: string; nickname?: string | null; username: string; userType: "MAHASISWA" | "DOSEN" | null };
   author: {
     name: string;
     username: string;
@@ -190,7 +188,7 @@ export type AdminReportRow = Omit<ReportRow, "author"> & {
 export function toAdminReportItem(row: AdminReportRow, viewerId: number): AdminReportItem {
   return {
     ...toReportItem(row, viewerId),
-    authorName: getDisplayName(row.author.nickname, row.author.name),
+    authorName: row.author.name,
     authorUsername: row.author.username,
     fromLecturer: row.author.userType === "DOSEN",
     fromModerator: row.author.role === "MODERATOR",
