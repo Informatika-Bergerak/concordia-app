@@ -11,6 +11,6 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
   const membership = await prisma.groupMember.findUnique({ where: { groupId_userId: { groupId, userId: user.id } }, select: { role: true } });
   if (!membership || !["OWNER", "ADMIN"].includes(membership.role)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   const existing = await prisma.groupMember.findMany({ where: { groupId }, select: { userId: true } });
-  const users = await prisma.user.findMany({ where: { isActive: true, id: { notIn: existing.map((item) => item.userId) }, OR: [{ name: { contains: query, mode: "insensitive" } }, { nickname: { contains: query, mode: "insensitive" } }, { username: { contains: query, mode: "insensitive" } }] }, take: 20, select: { id: true, name: true, nickname: true, fotoProfil: true } });
-  return NextResponse.json({ users: users.map((item) => ({ id: item.id, name: getDisplayName(item.nickname, item.name), photo: item.fotoProfil })) });
+  const users = await prisma.user.findMany({ where: { isActive: true, id: { notIn: existing.map((item) => item.userId) }, OR: [{ name: { contains: query, mode: "insensitive" } }, { username: { contains: query, mode: "insensitive" } }] }, take: 20, select: { id: true, name: true, fotoProfil: true } });
+  return NextResponse.json({ users: users.map((item) => ({ id: item.id, name: item.name, photo: item.fotoProfil })) });
 }

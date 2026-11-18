@@ -33,6 +33,14 @@ export type GroupMemberListItem = {
   joinedAt: Date;
 };
 
+export type GroupJoinRequestListItem = {
+  id: number;
+  userId: number;
+  name: string;
+  photo: string | null;
+  createdAt: Date;
+};
+
 export type GroupChatMessage = {
   id: number;
   content: string;
@@ -41,5 +49,6 @@ export type GroupChatMessage = {
   deletedAt: Date | null;
   senderId: number;
   senderName: string;
+  isSystem: boolean;
 };
 

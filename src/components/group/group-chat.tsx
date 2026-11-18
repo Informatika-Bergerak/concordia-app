@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useTransition, useCallback } from "react";
+import { useState, useRef, useEffect, useTransition } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -9,7 +9,7 @@ import { sendGroupMessageAction, editGroupMessageAction, deleteGroupMessageActio
 import type { GroupDetail, GroupChatMessage } from "@/modules/group/types";
 import { MessageContextMenu } from "./message-context-menu";
 import { GroupInformation } from "./group-information";
-import type { GroupMemberListItem } from "@/modules/group/types";
+import type { GroupJoinRequestListItem, GroupMemberListItem } from "@/modules/group/types";
 import styles from "./group.module.css";
 
 type GroupChatProps = {
@@ -17,6 +17,7 @@ type GroupChatProps = {
   messages: GroupChatMessage[];
   currentUserId: number;
   members: GroupMemberListItem[];
+  joinRequests: GroupJoinRequestListItem[];
   canManage: boolean;
 };
 
@@ -56,7 +57,7 @@ function isSameDay(a: Date, b: Date): boolean {
   );
 }
 
-export function GroupChat({ group, messages: initialMessages, currentUserId, members, canManage }: GroupChatProps) {
+export function GroupChat({ group, messages: initialMessages, currentUserId, members, joinRequests, canManage }: GroupChatProps) {
   const [messages, setMessages] = useState(initialMessages);
   const [text, setText] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -84,41 +85,43 @@ export function GroupChat({ group, messages: initialMessages, currentUserId, mem
     setMessages(initialMessages);
   }, [initialMessages]);
 
-  const handleSend = useCallback(
-    (e: React.FormEvent) => {
-      e.preventDefault();
-      const content = text.trim();
-      if (!content) return;
+  const handleSend = (e: React.FormEvent) => {
+    e.preventDefault();
+    const content = text.trim();
+    if (!content) return;
 
-      // Optimistic update
-      const tempMessage: GroupChatMessage = {
-        id: Date.now(),
+    // Optimistic update
+    const tempMessage: GroupChatMessage = {
+      id: Date.now(),
+      content,
+      createdAt: new Date(),
+      senderId: currentUserId,
+      senderName: "Kamu",
+      updatedAt: null,
+      deletedAt: null,
+      isSystem: false,
+    };
+    setMessages((prev) => [...prev, tempMessage]);
+    setText("");
+    inputRef.current?.focus();
+
+    startTransition(async () => {
+      const result = await sendGroupMessageAction({
+        groupId: group.id,
         content,
-        createdAt: new Date(),
-        senderId: currentUserId,
-        senderName: "Kamu",
-        updatedAt: null,
-        deletedAt: null,
-      };
-      setMessages((prev) => [...prev, tempMessage]);
-      setText("");
-      inputRef.current?.focus();
-
-      startTransition(async () => {
-        const result = await sendGroupMessageAction({
-          groupId: group.id,
-          content,
-        });
-        if (!result.ok) {
-          // Rollback optimistic update on error
-          setMessages((prev) => prev.filter((m) => m.id !== tempMessage.id));
-          setText(content);
-        }
-        router.refresh();
       });
-    },
-    [text, currentUserId, group.id, router],
-  );
+      if (!result.ok) {
+        // Rollback optimistic update on error
+        setMessages((prev) => prev.filter((m) => m.id !== tempMessage.id));
+        setText(content);
+        return;
+      }
+
+      // Ganti ID sementara dengan ID dari database agar pesan tetap tampil
+      // tanpa langsung ditimpa oleh props lama dari router.refresh().
+      setMessages((prev) => prev.map((message) => message.id === tempMessage.id ? { ...message, id: result.messageId } : message));
+    });
+  };
 
   return (
     <div className={styles.chatPage}>
@@ -139,7 +142,7 @@ export function GroupChat({ group, messages: initialMessages, currentUserId, mem
         </div>
       </div>
 
-      {showMembers && <GroupInformation group={group} members={members} currentUserId={currentUserId} canManage={canManage} onClose={() => setShowMembers(false)} onUpdated={() => router.refresh()} />}
+      {showMembers && <GroupInformation group={group} members={members} joinRequests={joinRequests} currentUserId={currentUserId} canManage={canManage} onClose={() => setShowMembers(false)} onUpdated={() => router.refresh()} />}
 
       {/* Messages */}
       <div className={styles.messages}>

@@ -46,6 +46,7 @@ export type GroupMessageMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   deletedAt: Date | null
+  isSystem: boolean | null
 }
 
 export type GroupMessageMaxAggregateOutputType = {
@@ -56,6 +57,7 @@ export type GroupMessageMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   deletedAt: Date | null
+  isSystem: boolean | null
 }
 
 export type GroupMessageCountAggregateOutputType = {
@@ -66,6 +68,7 @@ export type GroupMessageCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   deletedAt: number
+  isSystem: number
   _all: number
 }
 
@@ -90,6 +93,7 @@ export type GroupMessageMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   deletedAt?: true
+  isSystem?: true
 }
 
 export type GroupMessageMaxAggregateInputType = {
@@ -100,6 +104,7 @@ export type GroupMessageMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   deletedAt?: true
+  isSystem?: true
 }
 
 export type GroupMessageCountAggregateInputType = {
@@ -110,6 +115,7 @@ export type GroupMessageCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   deletedAt?: true
+  isSystem?: true
   _all?: true
 }
 
@@ -207,6 +213,7 @@ export type GroupMessageGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   deletedAt: Date | null
+  isSystem: boolean
   _count: GroupMessageCountAggregateOutputType | null
   _avg: GroupMessageAvgAggregateOutputType | null
   _sum: GroupMessageSumAggregateOutputType | null
@@ -240,6 +247,7 @@ export type GroupMessageWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"GroupMessage"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"GroupMessage"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"GroupMessage"> | Date | string | null
+  isSystem?: Prisma.BoolFilter<"GroupMessage"> | boolean
   group?: Prisma.XOR<Prisma.GroupScalarRelationFilter, Prisma.GroupWhereInput>
   sender?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
@@ -252,6 +260,7 @@ export type GroupMessageOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  isSystem?: Prisma.SortOrder
   group?: Prisma.GroupOrderByWithRelationInput
   sender?: Prisma.UserOrderByWithRelationInput
 }
@@ -267,6 +276,7 @@ export type GroupMessageWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"GroupMessage"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"GroupMessage"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"GroupMessage"> | Date | string | null
+  isSystem?: Prisma.BoolFilter<"GroupMessage"> | boolean
   group?: Prisma.XOR<Prisma.GroupScalarRelationFilter, Prisma.GroupWhereInput>
   sender?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
@@ -279,6 +289,7 @@ export type GroupMessageOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  isSystem?: Prisma.SortOrder
   _count?: Prisma.GroupMessageCountOrderByAggregateInput
   _avg?: Prisma.GroupMessageAvgOrderByAggregateInput
   _max?: Prisma.GroupMessageMaxOrderByAggregateInput
@@ -297,6 +308,7 @@ export type GroupMessageScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"GroupMessage"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"GroupMessage"> | Date | string
   deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"GroupMessage"> | Date | string | null
+  isSystem?: Prisma.BoolWithAggregatesFilter<"GroupMessage"> | boolean
 }
 
 export type GroupMessageCreateInput = {
@@ -304,6 +316,7 @@ export type GroupMessageCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  isSystem?: boolean
   group: Prisma.GroupCreateNestedOneWithoutMessagesInput
   sender: Prisma.UserCreateNestedOneWithoutGroupMessagesInput
 }
@@ -316,6 +329,7 @@ export type GroupMessageUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  isSystem?: boolean
 }
 
 export type GroupMessageUpdateInput = {
@@ -323,6 +337,7 @@ export type GroupMessageUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
   group?: Prisma.GroupUpdateOneRequiredWithoutMessagesNestedInput
   sender?: Prisma.UserUpdateOneRequiredWithoutGroupMessagesNestedInput
 }
@@ -335,6 +350,7 @@ export type GroupMessageUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type GroupMessageCreateManyInput = {
@@ -345,6 +361,7 @@ export type GroupMessageCreateManyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  isSystem?: boolean
 }
 
 export type GroupMessageUpdateManyMutationInput = {
@@ -352,6 +369,7 @@ export type GroupMessageUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type GroupMessageUncheckedUpdateManyInput = {
@@ -362,6 +380,7 @@ export type GroupMessageUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type GroupMessageListRelationFilter = {
@@ -382,6 +401,7 @@ export type GroupMessageCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
+  isSystem?: Prisma.SortOrder
 }
 
 export type GroupMessageAvgOrderByAggregateInput = {
@@ -398,6 +418,7 @@ export type GroupMessageMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
+  isSystem?: Prisma.SortOrder
 }
 
 export type GroupMessageMinOrderByAggregateInput = {
@@ -408,6 +429,7 @@ export type GroupMessageMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
+  isSystem?: Prisma.SortOrder
 }
 
 export type GroupMessageSumOrderByAggregateInput = {
@@ -505,6 +527,7 @@ export type GroupMessageCreateWithoutSenderInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  isSystem?: boolean
   group: Prisma.GroupCreateNestedOneWithoutMessagesInput
 }
 
@@ -515,6 +538,7 @@ export type GroupMessageUncheckedCreateWithoutSenderInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  isSystem?: boolean
 }
 
 export type GroupMessageCreateOrConnectWithoutSenderInput = {
@@ -554,6 +578,7 @@ export type GroupMessageScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"GroupMessage"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"GroupMessage"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"GroupMessage"> | Date | string | null
+  isSystem?: Prisma.BoolFilter<"GroupMessage"> | boolean
 }
 
 export type GroupMessageCreateWithoutGroupInput = {
@@ -561,6 +586,7 @@ export type GroupMessageCreateWithoutGroupInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  isSystem?: boolean
   sender: Prisma.UserCreateNestedOneWithoutGroupMessagesInput
 }
 
@@ -571,6 +597,7 @@ export type GroupMessageUncheckedCreateWithoutGroupInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  isSystem?: boolean
 }
 
 export type GroupMessageCreateOrConnectWithoutGroupInput = {
@@ -606,6 +633,7 @@ export type GroupMessageCreateManySenderInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  isSystem?: boolean
 }
 
 export type GroupMessageUpdateWithoutSenderInput = {
@@ -613,6 +641,7 @@ export type GroupMessageUpdateWithoutSenderInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
   group?: Prisma.GroupUpdateOneRequiredWithoutMessagesNestedInput
 }
 
@@ -623,6 +652,7 @@ export type GroupMessageUncheckedUpdateWithoutSenderInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type GroupMessageUncheckedUpdateManyWithoutSenderInput = {
@@ -632,6 +662,7 @@ export type GroupMessageUncheckedUpdateManyWithoutSenderInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type GroupMessageCreateManyGroupInput = {
@@ -641,6 +672,7 @@ export type GroupMessageCreateManyGroupInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  isSystem?: boolean
 }
 
 export type GroupMessageUpdateWithoutGroupInput = {
@@ -648,6 +680,7 @@ export type GroupMessageUpdateWithoutGroupInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sender?: Prisma.UserUpdateOneRequiredWithoutGroupMessagesNestedInput
 }
 
@@ -658,6 +691,7 @@ export type GroupMessageUncheckedUpdateWithoutGroupInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type GroupMessageUncheckedUpdateManyWithoutGroupInput = {
@@ -667,6 +701,7 @@ export type GroupMessageUncheckedUpdateManyWithoutGroupInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -679,6 +714,7 @@ export type GroupMessageSelect<ExtArgs extends runtime.Types.Extensions.Internal
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
+  isSystem?: boolean
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
   sender?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["groupMessage"]>
@@ -691,6 +727,7 @@ export type GroupMessageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
+  isSystem?: boolean
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
   sender?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["groupMessage"]>
@@ -703,6 +740,7 @@ export type GroupMessageSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
+  isSystem?: boolean
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
   sender?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["groupMessage"]>
@@ -715,9 +753,10 @@ export type GroupMessageSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
+  isSystem?: boolean
 }
 
-export type GroupMessageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "groupId" | "senderId" | "content" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["groupMessage"]>
+export type GroupMessageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "groupId" | "senderId" | "content" | "createdAt" | "updatedAt" | "deletedAt" | "isSystem", ExtArgs["result"]["groupMessage"]>
 export type GroupMessageInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
   sender?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -745,6 +784,7 @@ export type $GroupMessagePayload<ExtArgs extends runtime.Types.Extensions.Intern
     createdAt: Date
     updatedAt: Date
     deletedAt: Date | null
+    isSystem: boolean
   }, ExtArgs["result"]["groupMessage"]>
   composites: {}
 }
@@ -1177,6 +1217,7 @@ export interface GroupMessageFieldRefs {
   readonly createdAt: Prisma.FieldRef<"GroupMessage", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"GroupMessage", 'DateTime'>
   readonly deletedAt: Prisma.FieldRef<"GroupMessage", 'DateTime'>
+  readonly isSystem: Prisma.FieldRef<"GroupMessage", 'Boolean'>
 }
     
 

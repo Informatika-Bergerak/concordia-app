@@ -32,6 +32,8 @@ export type ReportItem = {
   description: string;
   location: string;
   category: ReportCategory;
+  groupId?: number | null;
+  groupName?: string | null;
   status: ReportStatus;
   visibility: ReportVisibility;
   /** ISO date (yyyy-mm-dd) kejadian terjadi atau terlihat */

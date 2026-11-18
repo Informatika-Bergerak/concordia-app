@@ -121,16 +121,84 @@ export async function sendGroupMessageAction(
 
 const groupMemberInput = z.object({ groupId: z.number().int().positive(), userId: z.number().int().positive() });
 const joinGroupInput = z.object({ groupId: z.number().int().positive() });
+const joinRequestDecisionInput = groupMemberInput.extend({ decision: z.enum(["ACCEPT", "REJECT"]) });
 
-export async function joinPublicGroupAction(input: unknown): Promise<ActionResult> {
+export async function joinPublicGroupAction(input: unknown): Promise<ActionResult<{ status: "PENDING" }>> {
   const { user } = await requireRole(["USER", "MODERATOR", "ADMIN"]);
   const parsed = joinGroupInput.safeParse(input);
   if (!parsed.success) return { ok: false, error: "Grup tidak valid" };
   const group = await prisma.group.findUnique({ where: { id: parsed.data.groupId }, select: { visibility: true } });
   if (!group || group.visibility !== "PUBLIC") return { ok: false, error: "Grup tidak tersedia untuk publik" };
-  try { await prisma.groupMember.create({ data: { groupId: parsed.data.groupId, userId: user.id } }); revalidatePath("/grup"); return { ok: true }; }
-  catch { return { ok: false, error: "Kamu sudah bergabung di grup ini" }; }
+
+  const membership = await prisma.groupMember.findUnique({ where: { groupId_userId: { groupId: parsed.data.groupId, userId: user.id } }, select: { id: true } });
+  if (membership) return { ok: false, error: "Kamu sudah menjadi anggota grup ini" };
+
+  try {
+    await prisma.groupJoinRequest.upsert({
+      where: { groupId_userId: { groupId: parsed.data.groupId, userId: user.id } },
+      create: { groupId: parsed.data.groupId, userId: user.id },
+      update: { status: "PENDING" },
+    });
+    revalidatePath("/grup");
+    revalidatePath(`/grup/${parsed.data.groupId}`);
+    return { ok: true, status: "PENDING" };
+  } catch {
+    return { ok: false, error: "Gagal mengajukan permintaan masuk grup" };
+  }
 }
+
+export async function cancelGroupJoinRequestAction(input: unknown): Promise<ActionResult> {
+  const { user } = await requireRole(["USER", "MODERATOR", "ADMIN"]);
+  const parsed = joinGroupInput.safeParse(input);
+  if (!parsed.success) return { ok: false, error: "Grup tidak valid" };
+
+  const request = await prisma.groupJoinRequest.findUnique({
+    where: { groupId_userId: { groupId: parsed.data.groupId, userId: user.id } },
+    select: { status: true },
+  });
+  if (!request || request.status !== "PENDING") return { ok: false, error: "Tidak ada permintaan yang sedang menunggu" };
+
+  await prisma.groupJoinRequest.delete({ where: { groupId_userId: { groupId: parsed.data.groupId, userId: user.id } } });
+  revalidatePath("/grup");
+  revalidatePath(`/grup/${parsed.data.groupId}`);
+  return { ok: true };
+}
+
+export async function decideGroupJoinRequestAction(input: unknown): Promise<ActionResult> {
+  const { user } = await requireRole(["USER", "MODERATOR", "ADMIN"]);
+  const parsed = joinRequestDecisionInput.safeParse(input);
+  if (!parsed.success || !(await requireGroupManager(parsed.data.groupId, user.id))) return { ok: false, error: "Tidak memiliki izin" };
+  if (parsed.data.userId === user.id) return { ok: false, error: "Tidak dapat memproses permintaan sendiri" };
+  const targetUser = await prisma.user.findUnique({ where: { id: parsed.data.userId }, select: { name: true } });
+
+  try {
+    await prisma.$transaction(async (tx) => {
+      const request = await tx.groupJoinRequest.findUnique({
+        where: { groupId_userId: { groupId: parsed.data.groupId, userId: parsed.data.userId } },
+        select: { status: true },
+      });
+      if (!request || request.status !== "PENDING") throw new Error("REQUEST_PROCESSED");
+
+      if (parsed.data.decision === "ACCEPT") {
+        await tx.groupMember.upsert({
+          where: { groupId_userId: { groupId: parsed.data.groupId, userId: parsed.data.userId } },
+          create: { groupId: parsed.data.groupId, userId: parsed.data.userId, role: "MEMBER" },
+          update: {},
+        });
+        await tx.groupMessage.create({ data: { groupId: parsed.data.groupId, senderId: user.id, content: `${targetUser?.name ?? "Anggota"} bergabung ke grup`, isSystem: true } });
+      }
+      await tx.groupJoinRequest.delete({ where: { groupId_userId: { groupId: parsed.data.groupId, userId: parsed.data.userId } } });
+    });
+  } catch (error) {
+    if ((error as Error).message === "REQUEST_PROCESSED") return { ok: false, error: "Permintaan sudah diproses" };
+    console.error("[group] Gagal memproses permintaan masuk:", (error as Error).message);
+    return { ok: false, error: "Gagal memproses permintaan masuk, coba lagi" };
+  }
+  revalidatePath(`/grup/${parsed.data.groupId}`);
+  revalidatePath("/grup");
+  return { ok: true };
+}
+
 const messageMutationInput = z.object({ groupId: z.number().int().positive(), messageId: z.number().int().positive(), content: z.string().min(1).max(2000).optional() });
 
 async function requireGroupManager(groupId: number, userId: number) {
@@ -146,7 +214,7 @@ async function requireGroupOwner(groupId: number, userId: number) {
 export async function updateGroupMemberRoleAction(input: unknown): Promise<ActionResult> {
   const { user } = await requireRole(["USER", "MODERATOR", "ADMIN"]);
   const parsed = groupMemberInput.extend({ role: z.enum(["ADMIN", "MEMBER"]) }).safeParse(input);
-  if (!parsed.success || !(await requireGroupOwner(parsed.data.groupId, user.id))) return { ok: false, error: "Hanya pembuat grup yang dapat mengubah role" };
+  if (!parsed.success || !(await requireGroupManager(parsed.data.groupId, user.id))) return { ok: false, error: "Hanya pembuat grup atau admin yang dapat mengubah role" };
   if (parsed.data.userId === user.id) return { ok: false, error: "Role pembuat grup tidak dapat diubah" };
   const target = await prisma.groupMember.findUnique({ where: { groupId_userId: { groupId: parsed.data.groupId, userId: parsed.data.userId } }, select: { role: true } });
   if (!target || target.role === "OWNER") return { ok: false, error: "Anggota tidak ditemukan" };
@@ -170,7 +238,11 @@ export async function leaveGroupAction(input: unknown): Promise<ActionResult> {
   if (!parsed.success) return { ok: false, error: "Grup tidak valid" };
   const group = await prisma.group.findUnique({ where: { id: parsed.data.groupId }, select: { creatorId: true } });
   if (!group || group.creatorId === user.id) return { ok: false, error: "Pembuat grup harus mengalihkan kepemilikan terlebih dahulu" };
-  await prisma.groupMember.delete({ where: { groupId_userId: { groupId: parsed.data.groupId, userId: user.id } } });
+  const targetUser = await prisma.user.findUnique({ where: { id: user.id }, select: { name: true } });
+  await prisma.$transaction([
+    prisma.groupMember.delete({ where: { groupId_userId: { groupId: parsed.data.groupId, userId: user.id } } }),
+    prisma.groupMessage.create({ data: { groupId: parsed.data.groupId, senderId: user.id, content: `${targetUser?.name ?? "Anggota"} meninggalkan grup`, isSystem: true } })
+  ]);
   revalidatePath("/grup"); revalidatePath(`/grup/${parsed.data.groupId}`);
   return { ok: true };
 }
@@ -193,8 +265,31 @@ export async function addGroupMemberAction(input: unknown): Promise<ActionResult
   const parsed = groupMemberInput.safeParse(input);
   if (!parsed.success) return { ok: false, error: "Data anggota tidak valid" };
   if (!(await requireGroupManager(parsed.data.groupId, user.id))) return { ok: false, error: "Hanya admin grup yang dapat menambahkan anggota" };
-  try { await prisma.groupMember.create({ data: parsed.data }); revalidatePath(`/grup/${parsed.data.groupId}`); return { ok: true }; }
-  catch { return { ok: false, error: "Pengguna sudah menjadi anggota atau tidak valid" }; }
+  const friend = await prisma.friendRequest.findFirst({
+    where: {
+      status: "ACCEPTED",
+      OR: [
+        { requesterId: user.id, recipientId: parsed.data.userId },
+        { requesterId: parsed.data.userId, recipientId: user.id },
+      ],
+    },
+    select: { id: true },
+  });
+  if (!friend) return { ok: false, error: "Kamu hanya dapat menambahkan teman" };
+
+  try {
+    await prisma.$transaction(async (tx) => {
+      const target = await tx.user.findFirst({ where: { id: parsed.data.userId, isActive: true }, select: { name: true } });
+      if (!target) throw new Error("USER_NOT_FOUND");
+      await tx.groupMember.create({ data: parsed.data });
+      await tx.groupMessage.create({ data: { groupId: parsed.data.groupId, senderId: user.id, content: `${target.name} ditambahkan ke grup`, isSystem: true } });
+    });
+    revalidatePath(`/grup/${parsed.data.groupId}`);
+    return { ok: true };
+  } catch (error) {
+    if ((error as Error).message === "USER_NOT_FOUND") return { ok: false, error: "Pengguna tidak ditemukan" };
+    return { ok: false, error: "Pengguna sudah menjadi anggota atau tidak valid" };
+  }
 }
 
 export async function removeGroupMemberAction(input: unknown): Promise<ActionResult> {
@@ -203,7 +298,12 @@ export async function removeGroupMemberAction(input: unknown): Promise<ActionRes
   if (!parsed.success || parsed.data.userId === user.id || !(await requireGroupManager(parsed.data.groupId, user.id))) return { ok: false, error: "Tidak dapat menghapus anggota ini" };
   const target = await prisma.groupMember.findUnique({ where: { groupId_userId: parsed.data }, select: { role: true } });
   if (!target || target.role === "OWNER") return { ok: false, error: "Pemilik grup tidak dapat dihapus" };
-  await prisma.groupMember.delete({ where: { groupId_userId: parsed.data } }); revalidatePath(`/grup/${parsed.data.groupId}`); return { ok: true };
+  const targetUser = await prisma.user.findUnique({ where: { id: parsed.data.userId }, select: { name: true } });
+  await prisma.$transaction([
+    prisma.groupMember.delete({ where: { groupId_userId: parsed.data } }),
+    prisma.groupMessage.create({ data: { groupId: parsed.data.groupId, senderId: user.id, content: `${targetUser?.name ?? "Anggota"} dikeluarkan dari grup`, isSystem: true } })
+  ]);
+  revalidatePath(`/grup/${parsed.data.groupId}`); return { ok: true };
 }
 
 export async function editGroupMessageAction(input: unknown): Promise<ActionResult> {

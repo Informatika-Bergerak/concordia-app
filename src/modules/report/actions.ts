@@ -69,9 +69,10 @@ export async function createReportAction(
 
   let groupData: { groupId: number } | undefined;
   if (groupId !== undefined) {
-    const group = await prisma.group.findUnique({ where: { id: groupId }, select: { id: true, visibility: true } });
-    const membership = await prisma.groupMember.findUnique({ where: { groupId_userId: { groupId, userId: user.id } }, select: { id: true } });
-    if (!group || !membership) return { ok: false, error: "Grup tidak ditemukan atau kamu bukan anggotanya" };
+    // Semua pengguna yang dapat membuat laporan boleh melaporkan grup,
+    // termasuk pengguna yang bukan anggota grup tersebut.
+    const group = await prisma.group.findUnique({ where: { id: groupId }, select: { id: true } });
+    if (!group) return { ok: false, error: "Grup tidak ditemukan" };
     groupData = { groupId: group.id };
   }
 

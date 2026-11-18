@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   useEffect,
   useRef,
@@ -265,7 +266,17 @@ export function Composer({ user, events = [] }: ComposerProps) {
           >
             <div className={styles.composerTitle}>Buat Postingan</div>
             <div className={styles.identityRow}>
-              {user.fotoProfil ? <img src={user.fotoProfil} alt="" className={styles.identityAvatar} /> : <span className={styles.identityAvatarFallback}>{user.name.charAt(0).toUpperCase()}</span>}
+              {user.fotoProfil ? (
+                <Image
+                  src={user.fotoProfil}
+                  alt=""
+                  className={styles.identityAvatar}
+                  width={40}
+                  height={40}
+                />
+              ) : (
+                <span className={styles.identityAvatarFallback}>{user.name.charAt(0).toUpperCase()}</span>
+              )}
               <strong>{user.name}</strong>
             </div>
 
@@ -289,9 +300,13 @@ export function Composer({ user, events = [] }: ComposerProps) {
 
             {imagePreview && (
               <div className={styles.imagePreview}>
-                {/* The object URL is created from the validated local image file. */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={imagePreview} alt="Pratinjau gambar postingan" />
+                <Image
+                  src={imagePreview}
+                  alt="Pratinjau gambar postingan"
+                  width={300}
+                  height={200}
+                  style={{ objectFit: 'contain' }}
+                />
                 <button type="button" className={styles.removeImage} onClick={removeImage} aria-label="Hapus gambar"><X size={22} aria-hidden="true" /></button>
               </div>
             )}

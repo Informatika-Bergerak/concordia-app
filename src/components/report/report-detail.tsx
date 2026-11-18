@@ -49,6 +49,7 @@ export function ReportDetail({
         </p>
       )}
 
+      {report.groupName && <p className={styles.detailText}><strong>Grup yang dilaporkan:</strong> {report.groupName}</p>}
       <p className={styles.detailText}>{report.description}</p>
 
       {report.photos.length > 0 && (

@@ -40,11 +40,15 @@
 .reportReasons label { display: flex; align-items: center; gap: 8px; padding: 9px; border: 1px solid #E49F9F; border-radius: 8px; color: #2E0404; cursor: pointer; }
 .reportReasons input { accent-color: #B80E0E; }
 .confirmOverlay { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 16px; background: rgba(46,4,4,.45); }
-.confirmModal { width: min(420px, 100%); padding: 24px; border: 1px solid #E49F9F; border-radius: 14px; background: #fff; box-shadow: 0 12px 36px rgba(46,4,4,.22); }
+.confirmModal { position: relative; width: min(420px, 100%); padding: 24px; border: 1px solid #E49F9F; border-radius: 14px; background: #fff; box-shadow: 0 12px 36px rgba(46,4,4,.22); }
+.confirmClose { position: absolute; top: 12px; right: 12px; display: grid; width: 30px; height: 30px; place-items: center; border: 0; border-radius: 50%; background: transparent; color: #5C0707; cursor: pointer; }
+.confirmClose:hover { background: #F4DBDB; }
 .confirmModal h2 { margin: 0 0 8px; color: #2E0404; }
 .confirmModal p { margin: 0; color: var(--ink-muted); line-height: 1.5; }
 .confirmActions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
-.dangerBtn { min-height: 40px; padding: 0 16px; border: 0; border-radius: 8px; background: #B80E0E; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+.dangerBtn, .confirmPrimaryBtn { min-height: 40px; padding: 0 16px; border: 0; border-radius: 8px; background: #B80E0E; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+.confirmCancelBtn { min-height: 40px; padding: 0 16px; border: 1px solid #E49F9F; border-radius: 8px; background: #F4DBDB; color: #5C0707; font: inherit; font-weight: 700; cursor: pointer; }
+.dangerBtn:disabled, .confirmPrimaryBtn:disabled, .confirmCancelBtn:disabled { opacity: .6; cursor: wait; }
 @media (max-width: 600px) { .privacyChoices { grid-template-columns: 1fr; } }
 @media (max-width: 600px) {
   .chatPage { height: 100%; min-height: 0; border-radius: 10px; }
@@ -635,13 +639,33 @@
 .infoPanel input, .infoPanel textarea { width: 100%; padding: 9px; border: 1px solid #E49F9F; border-radius: 7px; }
 .infoPanel textarea { min-height: 90px; }
 .memberList { display: flex; flex-direction: column; gap: 10px; }
-.memberRow { display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: 8px; background: #F4DBDB; }
+.memberRow { display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: 8px; background: #F4DBDB; flex-wrap: wrap; }
+.memberRow > span { min-width: 0; flex: 1 1 120px; }
 .memberAvatar { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: #B80E0E; color: #fff; overflow: hidden; flex-shrink: 0; }
 .memberRow span { display: flex; flex-direction: column; font-weight: 700; }
 .memberRow small { font-weight: 400; color: #5C0707; }
-.roleBtn { margin-left: auto; border: 1px solid #E49F9F; background: #F4DBDB; color: #5C0707; border-radius: 6px; padding: 6px 8px; cursor: pointer; font-size: 11px; }
-.groupSettings { margin-top: 24px; padding-top: 16px; border-top: 1px solid #E49F9F; }
-.deleteGroupBtn, .leaveGroupBtn { width: 100%; min-height: 40px; border-radius: 8px; cursor: pointer; font: inherit; }
+.memberMenu { position: relative; margin-left: auto; flex: 0 0 auto; }
+.memberMenuButton { display: grid; width: 30px; height: 30px; place-items: center; border: 0; border-radius: 6px; background: transparent; color: #5C0707; cursor: pointer; }
+.memberMenuButton:hover, .memberMenuButton:focus-visible { background: #F4DBDB; }
+.memberMenuPopup { position: absolute; z-index: 60; top: calc(100% + 4px); right: 0; min-width: 150px; padding: 4px; border: 1px solid #E49F9F; border-radius: 8px; background: #fff; box-shadow: 0 8px 20px rgb(46 4 4 / 18%); }
+.memberMenuPopup button { display: block; width: 100%; padding: 8px 10px; border: 0; border-radius: 5px; background: transparent; color: #5C0707; text-align: left; font-size: 11px; cursor: pointer; }
+.memberMenuPopup button:hover { background: #F4DBDB; }
+.memberMenuPopup .memberMenuDanger { color: #B80E0E; }
+.requestActions { display: flex; flex: 0 0 auto; gap: 6px; margin-left: auto; }
+.acceptBtn, .rejectBtn { display: inline-flex; width: 68px; height: 30px; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer; font-size: 10px; font-weight: 700; }
+.acceptBtn { border: 0; background: #B80E0E; color: #fff; }
+.rejectBtn { border: 0; background: #5C0707; color: #fff; }
+.pendingJoin { display: flex; flex-direction: column; align-items: stretch; gap: 6px; margin-top: 10px; color: #5C0707; font-size: 12px; }
+.pendingJoin button { width: 100%; min-height: 30px; border: 1px solid #5C0707; border-radius: 6px; background: #fff; color: #5C0707; cursor: pointer; font-size: 10px; }
+.reportCardBtn { display: inline-flex; width: 100%; min-height: 30px; align-items: center; justify-content: center; gap: 5px; margin-top: 8px; border: 1px solid #E49F9F; border-radius: 6px; background: #fff; color: #5C0707; font-size: 10px; text-decoration: none; }
+.reportCardBtn:hover { background: #F4DBDB; }
+.groupError { margin: 10px 0; padding: 8px 10px; border-radius: 7px; background: #FDEAEA; color: #8B1010; font-size: 12px; }
+.groupNotice { margin: 10px 0; padding: 8px 10px; border-radius: 7px; background: #EAF7EA; color: #166534; font-size: 12px; }
+.joinRequests { margin-top: 20px; padding-top: 16px; border-top: 1px solid #E49F9F; }
+.emptyRequests { color: #6c5b5b; font-size: 12px; }
+.groupSettings { display: flex; flex-direction: column; gap: 8px; margin-top: 24px; padding-top: 16px; border-top: 1px solid #E49F9F; }
+.reportGroupBtn, .deleteGroupBtn, .leaveGroupBtn { display: inline-flex; width: 100%; min-height: 40px; align-items: center; justify-content: center; gap: 6px; border-radius: 8px; cursor: pointer; font: inherit; text-decoration: none; }
+.reportGroupBtn { border: 1px solid #E49F9F; background: #F4DBDB; color: #5C0707; }
 .deleteGroupBtn { border: 0; background: #B80E0E; color: white; }
 .leaveGroupBtn { border: 1px solid #E49F9F; background: white; color: #5C0707; }
 .photoCamera { position: absolute; right: 0; bottom: 0; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: #B80E0E; color: white; cursor: pointer; }

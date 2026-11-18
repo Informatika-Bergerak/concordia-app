@@ -38,13 +38,15 @@ function Required() {
 export function ReportForm({
   initial,
   viewerRole,
+  groupReport,
 }: {
   initial?: ReportFormInitial;
   viewerRole: ViewerRole;
+  groupReport?: { id: number; name: string };
 }) {
   const router = useRouter();
   const editing = initial !== undefined;
-  const isGroupReport = initial?.category === "LAPORAN_GRUP";
+  const isGroupReport = groupReport !== undefined || initial?.category === "LAPORAN_GRUP";
 
   // Moderator hanya boleh membuat laporan Public. Laporan grup tidak ikut aturan ini.
   const allowed = isGroupReport
@@ -66,6 +68,9 @@ export function ReportForm({
   const [visibility, setVisibility] = useState<ReportVisibility>(
     initial?.visibility && allowed.includes(initial.visibility) ? initial.visibility : allowed[0],
   );
+  const defaultTitle = initial?.title ?? (groupReport ? `Laporan Grup: ${groupReport.name}` : undefined);
+  const defaultCategory = initial?.category ?? (groupReport ? "LAINNYA" : "");
+  const defaultLocation = initial?.location ?? (groupReport ? `Grup: ${groupReport.name}` : undefined);
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => () => { if (preview) URL.revokeObjectURL(preview); }, [preview]);
@@ -174,9 +179,11 @@ export function ReportForm({
         </p>
       </div>
 
+      {groupReport && <input type="hidden" name="groupId" value={groupReport.id} />}
+
       <div className={styles.field}>
         <label className={styles.label} htmlFor="title">Topik Masalah<Required /></label>
-        <input id="title" name="title" aria-required="true" defaultValue={initial?.title} className={cls("title", styles.input)} placeholder="Masalah apa yang sedang terjadi ?" maxLength={100} aria-invalid={!!errors.title} />
+        <input id="title" name="title" aria-required="true" defaultValue={defaultTitle} className={cls("title", styles.input)} placeholder="Masalah apa yang sedang terjadi ?" maxLength={100} aria-invalid={!!errors.title} />
         {errors.title && <p className={styles.error}>{errors.title}</p>}
       </div>
 
@@ -188,13 +195,13 @@ export function ReportForm({
 
       <div className={styles.field}>
         <label className={styles.label} htmlFor="location">Lokasi<Required /></label>
-        <input id="location" name="location" aria-required="true" defaultValue={initial?.location} className={cls("location", styles.input)} placeholder="Dimana hal itu ada atau terjadi ?" maxLength={120} aria-invalid={!!errors.location} />
+        <input id="location" name="location" aria-required="true" defaultValue={defaultLocation} className={cls("location", styles.input)} placeholder="Dimana hal itu ada atau terjadi ?" maxLength={120} aria-invalid={!!errors.location} />
         {errors.location && <p className={styles.error}>{errors.location}</p>}
       </div>
 
       <div className={styles.field}>
         <label className={styles.label} htmlFor="category">Kategori Masalah<Required /></label>
-        <select id="category" name="category" aria-required="true" defaultValue={initial?.category ?? ""} className={cls("category", styles.select)} aria-invalid={!!errors.category}>
+        <select id="category" name="category" aria-required="true" defaultValue={defaultCategory} className={cls("category", styles.select)} aria-invalid={!!errors.category}>
           <option value="" disabled>Termasuk masalah apa ?</option>
           {categoryOptions.map(([value, label]) => (
             <option key={value} value={value}>{label}</option>
