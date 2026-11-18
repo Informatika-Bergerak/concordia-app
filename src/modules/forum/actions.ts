@@ -206,7 +206,7 @@ export async function createCommentAction(
           parentId: true,
           text: true,
           createdAt: true,
-          author: { select: { name: true, nickname: true, role: true, userType: true } },
+          author: { select: { name: true, nickname: true, role: true, userType: true, trustScore: true } },
           mentions: { select: { userId: true, user: { select: { name: true, nickname: true, username: true } } } },
         },
       });
@@ -233,6 +233,7 @@ export async function createCommentAction(
         authorName: getDisplayName(comment.author.nickname, comment.author.name),
         authorRole: comment.author.role,
         authorType: comment.author.userType,
+        authorTrustScore: comment.author.trustScore,
         timeAgo,
         text: comment.text,
         mentions: comment.mentions.map((mention) => ({

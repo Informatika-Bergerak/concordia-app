@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft, CalendarDays, MoreVertical, UserRound, X } from "lucide-react";
 import type { Role, UserType } from "@/generated/prisma/enums";
+import { getTrustProgress } from "@/modules/trust/progression";
 import styles from "./profile-page.module.css";
 
 type ProfileUser = {
@@ -48,8 +49,8 @@ function formatJoinedDate(date: Date) {
 }
 
 export function ProfilePage({ user, recommendations }: ProfilePageProps) {
-  const score = Math.max(0, Math.min(100, user.trustScore));
   const displayName = user.nickname?.trim() || user.name;
+  const trust = getTrustProgress(user.trustScore);
   const roleLabel = getRoleLabel(user.role, user.userType);
   const profileLine = user.jurusan ? `${roleLabel} - ${user.jurusan}` : roleLabel;
 
@@ -81,16 +82,18 @@ export function ProfilePage({ user, recommendations }: ProfilePageProps) {
             <p className={styles.joined}><CalendarDays size={18} aria-hidden="true" /> Joined {formatJoinedDate(user.createdAt)}</p>
           </section>
 
-          <section className={styles.trustSection} aria-labelledby="trust-heading">
-            <div className={styles.trustHeading}>
-              <h2 id="trust-heading">Tingkat Kepercayaan</h2>
-              <span className={styles.trustBadge}>{score >= 70 ? "Terpercaya" : "Berkembang"}</span>
-            </div>
-            <div className={styles.scoreBar} role="progressbar" aria-label="Skor kepercayaan" aria-valuemin={0} aria-valuemax={100} aria-valuenow={score}>
-              <span className={styles.scoreFill} style={{ width: `${score}%` }} />
-            </div>
-            <p className={styles.scoreLabel}>Skor Kepercayaan {score}/100</p>
-          </section>
+          {user.role !== "ADMIN" && (
+            <section className={styles.trustSection} aria-labelledby="trust-heading">
+              <div className={styles.trustHeading}>
+                <h2 id="trust-heading">Trust Level</h2>
+                <span className={styles.trustBadge}>Lv. {trust.level}</span>
+              </div>
+              <div className={styles.scoreBar} role="progressbar" aria-label="Progress Trust Level" aria-valuemin={0} aria-valuemax={100} aria-valuenow={trust.percentage}>
+                <span className={styles.scoreFill} style={{ width: `${trust.percentage}%` }} />
+              </div>
+              <p className={styles.scoreLabel}>{trust.levelXp} XP · {trust.currentLevelXp} / {trust.nextLevelXp} XP · {trust.remainingXp} XP menuju level berikutnya</p>
+            </section>
+          )}
         </div>
 
         <nav className={styles.tabs} aria-label="Konten profil">

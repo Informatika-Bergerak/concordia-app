@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { Send, Smile, X } from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
 import { RoleBadge } from "@/components/ui/role-badge";
+import { TrustLevelBadge } from "@/components/ui/trust-level-badge";
 import type { FeedComment, FeedMention } from "@/modules/forum/types";
 import { createCommentAction, deleteCommentAction } from "@/modules/forum/actions";
 import type { Role } from "@/generated/prisma/enums";
@@ -137,6 +138,7 @@ export function PostComments({ postId, initialComments, initialCount, viewerId, 
           <div>
             <div className={styles.authorName}>
               <strong>{comment.authorName}</strong>
+              <TrustLevelBadge role={comment.authorRole ?? "USER"} trustScore={comment.authorTrustScore ?? 0} />
               <RoleBadge role={comment.authorRole ?? "USER"} userType={comment.authorType} />
               <span className={styles.time}>{comment.timeAgo}</span>
             </div>

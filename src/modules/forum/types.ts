@@ -13,6 +13,7 @@ export type FeedComment = {
   authorName: string;
   authorRole?: Role;
   authorType?: UserType | null;
+  authorTrustScore?: number;
   timeAgo: string;
   text: string;
   mentions: FeedMention[];
@@ -25,6 +26,7 @@ export type FeedPost = {
   authorName: string;
   authorRole?: Role;
   authorType?: UserType | null;
+  authorTrustScore?: number;
   authorMajor: string;
   timeAgo: string;
   text: string;
