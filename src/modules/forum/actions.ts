@@ -4,7 +4,8 @@ import { revalidatePath } from "next/cache";
 import { requireRole } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import type { FeedComment } from "./types";
-import { createCommentSchema, createPostSchema, postIdSchema } from "./schemas";
+import { commentIdSchema, createCommentSchema, createPostSchema, postIdSchema } from "./schemas";
+import { getDisplayName } from "@/lib/users/display-name";
 
 export type ForumActionResult<T extends object = object> =
   | ({ ok: true } & T)
@@ -15,7 +16,13 @@ export async function createPostAction(input: unknown): Promise<ForumActionResul
   const parsed = createPostSchema.safeParse(input);
   if (!parsed.success) return { ok: false, error: parsed.error.issues[0]?.message ?? "Postingan tidak valid" };
 
-  const { text, image, audio } = parsed.data;
+  const { text, mentionUserIds, image, audio, location, latitude, longitude, event, poll } = parsed.data;
+  const uniqueMentionIds = [...new Set(mentionUserIds)];
+  const mentionedUsers = uniqueMentionIds.length
+    ? await prisma.user.findMany({ where: { id: { in: uniqueMentionIds, not: user.id }, isActive: true }, select: { id: true } })
+    : [];
+  if (mentionedUsers.length !== uniqueMentionIds.length) return { ok: false, error: "Pengguna yang ditag tidak valid" };
+
   const cloud = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
   for (const media of [image, audio]) {
     if (media && cloud && !media.url.startsWith(`https://res.cloudinary.com/${cloud}/`)) {
@@ -48,9 +55,20 @@ export async function createPostAction(input: unknown): Promise<ForumActionResul
     const post = await prisma.forumPost.create({
       data: {
         text,
-        authorId: user.id,
+        author: { connect: { id: user.id } },
+        mentions: uniqueMentionIds.length ? { create: uniqueMentionIds.map((userId) => ({ userId })) } : undefined,
+        locationLabel: location?.label || null,
+        locationUrl: location?.url || null,
+        latitude: latitude ?? null,
+        longitude: longitude ?? null,
+        eventTitle: event?.title || null,
+        eventDate: event?.date || null,
+        eventTime: event?.time || null,
+        eventLocation: event?.location || null,
+        eventUrl: event?.url || null,
         images: imageData ? { create: imageData } : undefined,
         audios: audioData ? { create: audioData } : undefined,
+        poll: poll ? { create: { question: poll.question, options: { create: poll.options.map((text) => ({ text })) } } } : undefined,
       },
       select: { id: true },
     });
@@ -59,6 +77,26 @@ export async function createPostAction(input: unknown): Promise<ForumActionResul
   } catch (error) {
     console.error("[forum] Gagal membuat postingan:", (error as Error).message);
     return { ok: false, error: "Gagal menyimpan postingan, coba lagi" };
+  }
+}
+
+export async function deletePostAction(input: unknown): Promise<ForumActionResult> {
+  const { user } = await requireRole(["USER", "MODERATOR", "ADMIN"]);
+  const parsed = postIdSchema.safeParse(input);
+  if (!parsed.success) return { ok: false, error: "Postingan tidak valid" };
+  const post = await prisma.forumPost.findUnique({ where: { id: parsed.data.postId }, select: { id: true, authorId: true } });
+  if (!post) return { ok: false, error: "Postingan tidak ditemukan" };
+  const allowed = post.authorId === user.id || user.role === "MODERATOR" || user.role === "ADMIN";
+  if (!allowed) return { ok: false, error: "Anda tidak memiliki izin menghapus postingan ini" };
+  try {
+    await prisma.forumPost.delete({ where: { id: post.id } });
+    revalidatePath("/beranda");
+    revalidatePath("/search");
+    revalidatePath("/disukai");
+    return { ok: true };
+  } catch (error) {
+    console.error("[forum] Gagal menghapus postingan:", (error as Error).message);
+    return { ok: false, error: "Gagal menghapus postingan, coba lagi" };
   }
 }
 
@@ -94,26 +132,71 @@ export async function togglePostLikeAction(input: unknown): Promise<ForumActionR
   return { ok: true, liked: !existing, count };
 }
 
+export async function deleteCommentAction(input: unknown): Promise<ForumActionResult> {
+  const { user } = await requireRole(["USER", "MODERATOR", "ADMIN"]);
+  const parsed = commentIdSchema.safeParse(input);
+  if (!parsed.success) return { ok: false, error: "Komentar tidak valid" };
+
+  const comment = await prisma.forumComment.findUnique({
+    where: { id: parsed.data.commentId },
+    select: { id: true, authorId: true, postId: true },
+  });
+  if (!comment) return { ok: false, error: "Komentar tidak ditemukan" };
+
+  const allowed = comment.authorId === user.id || user.role === "MODERATOR" || user.role === "ADMIN";
+  if (!allowed) return { ok: false, error: "Anda tidak memiliki izin menghapus komentar ini" };
+
+  try {
+    await prisma.forumComment.delete({ where: { id: comment.id } });
+    revalidatePath("/beranda");
+    revalidatePath("/search");
+    revalidatePath("/disukai");
+    return { ok: true };
+  } catch (error) {
+    console.error("[forum] Gagal menghapus komentar:", (error as Error).message);
+    return { ok: false, error: "Gagal menghapus komentar, coba lagi" };
+  }
+}
+
 export async function createCommentAction(
   input: unknown,
 ): Promise<ForumActionResult<{ id: number; count: number; comment: FeedComment }>> {
   const { user } = await requireRole(["USER", "MODERATOR", "ADMIN"]);
   const parsed = createCommentSchema.safeParse(input);
   if (!parsed.success) return { ok: false, error: parsed.error.issues[0]?.message ?? "Komentar tidak valid" };
-  const { postId, text } = parsed.data;
+  const { postId, text, parentId, mentionUserIds } = parsed.data;
 
   const post = await prisma.forumPost.findUnique({ where: { id: postId }, select: { id: true } });
   if (!post) return { ok: false, error: "Postingan tidak ditemukan" };
 
+  if (parentId) {
+    const parent = await prisma.forumComment.findUnique({ where: { id: parentId }, select: { id: true, postId: true } });
+    if (!parent || parent.postId !== postId) return { ok: false, error: "Komentar induk tidak valid" };
+  }
+
+  const uniqueMentionIds = [...new Set(mentionUserIds)];
+  const mentionedUsers = uniqueMentionIds.length
+    ? await prisma.user.findMany({ where: { id: { in: uniqueMentionIds, not: user.id }, isActive: true }, select: { id: true } })
+    : [];
+  if (mentionedUsers.length !== uniqueMentionIds.length) return { ok: false, error: "Pengguna yang ditag tidak valid" };
+
   try {
     const [comment, count] = await prisma.$transaction([
       prisma.forumComment.create({
-        data: { postId, authorId: user.id, text },
+        data: {
+          postId,
+          authorId: user.id,
+          parentId: parentId ?? null,
+          text,
+          mentions: uniqueMentionIds.length ? { create: uniqueMentionIds.map((userId) => ({ userId })) } : undefined,
+        },
         select: {
           id: true,
+          parentId: true,
           text: true,
           createdAt: true,
-          author: { select: { name: true, role: true, userType: true } },
+          author: { select: { name: true, nickname: true, role: true, userType: true } },
+          mentions: { select: { userId: true, user: { select: { name: true, nickname: true, username: true } } } },
         },
       }),
       prisma.forumComment.count({ where: { postId } }),
@@ -133,11 +216,19 @@ export async function createCommentAction(
       count,
       comment: {
         id: String(comment.id),
-        authorName: comment.author.name,
+        parentId: comment.parentId === null ? null : String(comment.parentId),
+        authorId: user.id,
+        authorName: getDisplayName(comment.author.nickname, comment.author.name),
         authorRole: comment.author.role,
         authorType: comment.author.userType,
         timeAgo,
         text: comment.text,
+        mentions: comment.mentions.map((mention) => ({
+          userId: mention.userId,
+          name: getDisplayName(mention.user.nickname, mention.user.name),
+          username: mention.user.username,
+        })),
+        replies: [],
       },
     };
   } catch (error) {

@@ -9,8 +9,10 @@ export default async function UbahProfilPage() {
   return (
     <EditProfileForm
       user={{
-        name: user.name,
+        name: user.officialName,
+        nickname: user.nickname,
         username: user.username,
+        email: user.email,
         jurusan: user.jurusan,
         bio: user.bio,
         fotoProfil: user.fotoProfil,

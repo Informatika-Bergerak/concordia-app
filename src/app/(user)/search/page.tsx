@@ -84,7 +84,7 @@ export default async function SearchPage({
         <div className={styles.results}>
           <section className={styles.section} aria-labelledby="posts-heading">
             <div className={styles.sectionHeading}><h1 id="posts-heading">Postingan</h1><span>{posts.length} hasil</span></div>
-            {posts.length > 0 ? posts.map((post) => <PostCard key={post.id} post={post} viewerRole={user.role} />) : <p className={styles.empty}>Tidak ada postingan yang cocok.</p>}
+            {posts.length > 0 ? posts.map((post) => <PostCard key={post.id} post={post} viewerRole={user.role} viewerId={user.id} />) : <p className={styles.empty}>Tidak ada postingan yang cocok.</p>}
           </section>
           <section className={styles.section} aria-labelledby="people-heading">
             <div className={styles.sectionHeading}><h2 id="people-heading">Orang</h2><span>{people.length} hasil</span></div>

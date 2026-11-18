@@ -2,6 +2,7 @@ import { AppShell } from "@/components/app-shell";
 import { requireRole } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import { AdminUsersDataTable, type SerializedAdminUser } from "./admin-users-data-table";
+import { getDisplayName } from "@/lib/users/display-name";
 
 interface PageProps {
   searchParams: Promise<{
@@ -64,6 +65,7 @@ export default async function AdminPage({ searchParams }: PageProps) {
           id: true,
           username: true,
           name: true,
+          nickname: true,
           role: true,
           userType: true,
           createdAt: true,
@@ -84,7 +86,7 @@ export default async function AdminPage({ searchParams }: PageProps) {
   const serializedUsers: SerializedAdminUser[] = users.map((u) => ({
     id: u.id,
     username: u.username,
-    name: u.name,
+    name: getDisplayName(u.nickname, u.name),
     role: u.role,
     userType: u.userType,
     createdAt: u.createdAt.toISOString(),

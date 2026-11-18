@@ -72,6 +72,26 @@ export type ReportPhoto = Prisma.ReportPhotoModel
  */
 export type ForumPost = Prisma.ForumPostModel
 /**
+ * Model ForumPostMention
+ * 
+ */
+export type ForumPostMention = Prisma.ForumPostMentionModel
+/**
+ * Model ForumPoll
+ * 
+ */
+export type ForumPoll = Prisma.ForumPollModel
+/**
+ * Model ForumPollOption
+ * 
+ */
+export type ForumPollOption = Prisma.ForumPollOptionModel
+/**
+ * Model ForumPollVote
+ * 
+ */
+export type ForumPollVote = Prisma.ForumPollVoteModel
+/**
  * Model ForumPostImage
  * 
  */
@@ -91,6 +111,11 @@ export type ForumPostLike = Prisma.ForumPostLikeModel
  * 
  */
 export type ForumComment = Prisma.ForumCommentModel
+/**
+ * Model ForumCommentMention
+ * 
+ */
+export type ForumCommentMention = Prisma.ForumCommentMentionModel
 /**
  * Model FriendRequest
  * 

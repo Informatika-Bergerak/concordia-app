@@ -9,6 +9,7 @@ export const auditLabels: Record<AuditAction, string> = {
   PASSWORD_CHANGED: "Password diubah",
   PASSWORD_RESET: "Password direset admin",
   ACCOUNT_CREATED: "Akun dibuat",
+  ACCOUNT_UPDATED: "Data akun diubah",
   ACCOUNT_ACTIVATED: "Akun diaktifkan",
   ACCOUNT_DEACTIVATED: "Akun dinonaktifkan",
   SESSION_REVOKED: "Sesi dicabut paksa",

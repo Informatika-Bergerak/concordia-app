@@ -6,11 +6,11 @@ import { prisma } from "@/lib/db";
 import { z } from "zod";
 
 const updateProfileSchema = z.object({
-  name: z.string().trim().min(1, "Nama lengkap wajib diisi.").max(100),
-  jurusan: z.string().trim().max(100, "Jurusan maksimal 100 karakter."),
+  nickname: z.string().trim().max(50, "Nickname maksimal 50 karakter."),
+  email: z.string().trim().toLowerCase().email("Format email tidak valid").max(254, "Email terlalu panjang").or(z.literal("")),
   bio: z.string().trim().max(300, "Bio maksimal 300 karakter."),
   fotoProfil: z.string().url().optional(),
-});
+}).strict();
 
 export type UpdateProfileState = { ok: true } | { ok: false; error: string };
 
@@ -26,12 +26,21 @@ export async function updateProfileAction(input: unknown): Promise<UpdateProfile
     return { ok: false, error: "Foto profil tidak valid" };
   }
 
+  const email = parsed.data.email || null;
+  if (email) {
+    const duplicate = await prisma.user.findFirst({
+      where: { email, NOT: { id: user.id } },
+      select: { id: true },
+    });
+    if (duplicate) return { ok: false, error: "Email sudah dipakai akun lain" };
+  }
+
   try {
     await prisma.user.update({
       where: { id: user.id },
       data: {
-        name: parsed.data.name,
-        jurusan: parsed.data.jurusan || null,
+        nickname: parsed.data.nickname || null,
+        email,
         bio: parsed.data.bio || null,
         ...(parsed.data.fotoProfil ? { fotoProfil: parsed.data.fotoProfil } : {}),
       },

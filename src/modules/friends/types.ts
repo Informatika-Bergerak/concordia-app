@@ -6,6 +6,7 @@ export type FriendPerson = {
   id: number;
   username: string;
   name: string;
+  nickname: string | null;
   role: Role;
   userType: UserType | null;
   jurusan: string | null;
