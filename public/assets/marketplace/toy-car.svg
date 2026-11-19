@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" fill="none">
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1">
+      <stop stop-color="#F9E2D9"/>
+      <stop offset="1" stop-color="#F7EECF"/>
+    </linearGradient>
+    <linearGradient id="car" x2="0" y2="1">
+      <stop stop-color="#F0524F"/>
+      <stop offset="1" stop-color="#A90D19"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#bg)" d="M0 0h640v480H0z"/>
+  <circle cx="100" cy="93" r="36" fill="#FFF" fill-opacity=".55"/>
+  <circle cx="530" cy="116" r="63" fill="#FFF" fill-opacity=".45"/>
+  <path fill="#FFF" fill-opacity=".6" d="M0 350h640v130H0z"/>
+  <ellipse cx="327" cy="365" rx="229" ry="25" fill="#6F3940" fill-opacity=".18"/>
+  <path fill="url(#car)" stroke="#70252A" stroke-width="8" d="m125 299 25-63c8-20 27-34 49-36l71-7 54-61c12-14 28-21 47-21h72c23 0 43 12 55 31l46 73c32 8 48 27 48 55v48H109v-18c0-1 6-1 16-1z"/>
+  <path fill="#AEE5F2" stroke="#70252A" stroke-width="7" d="m286 198 47-52c7-8 17-13 29-13h30v65zm120-65h37c14 0 27 8 35 20l28 45H406z"/>
+  <circle cx="208" cy="344" r="43" fill="#252A35"/>
+  <circle cx="208" cy="344" r="20" fill="#D9E0E4"/>
+  <circle cx="484" cy="344" r="43" fill="#252A35"/>
+  <circle cx="484" cy="344" r="20" fill="#D9E0E4"/>
+  <path stroke="#FFD56A" stroke-linecap="round" stroke-width="11" d="M136 286h38"/>
+</svg>

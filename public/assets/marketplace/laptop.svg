@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" fill="none">
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1">
+      <stop stop-color="#D9E7F7"/>
+      <stop offset="1" stop-color="#E8DFF1"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#252F50"/>
+      <stop offset="1" stop-color="#6A83C7"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#bg)" d="M0 0h640v480H0z"/>
+  <circle cx="502" cy="96" r="57" fill="#FFF" fill-opacity=".38"/>
+  <path fill="#FFF" fill-opacity=".4" d="M0 365c99-20 188-4 288-23 108-21 228-29 352 0v138H0z"/>
+  <rect x="151" y="83" width="338" height="257" rx="19" fill="#354354"/>
+  <rect x="165" y="97" width="310" height="226" rx="9" fill="url(#screen)"/>
+  <path fill="#78D0DA" fill-opacity=".8" d="m165 278 106-105 70 72 52-49 82 88v39H165z"/>
+  <path fill="#E4A1C4" fill-opacity=".85" d="m165 290 90-63 63 50 80-69 77 63v52H165z"/>
+  <path fill="#AEB8C2" stroke="#68727C" stroke-width="7" d="M117 344h406l39 42c8 9 2 22-11 22H89c-13 0-19-13-11-22z"/>
+  <path stroke="#737D88" stroke-linecap="round" stroke-width="7" d="M278 378h84"/>
+  <path fill="#B80E0E" d="M248 350h142v8H248z"/>
+</svg>
