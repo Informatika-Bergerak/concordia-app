@@ -79,6 +79,15 @@ export function GroupChat({ group, messages: initialMessages, currentUserId, mem
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  useEffect(() => {
+    const events = new EventSource(`/api/groups/${group.id}/events`);
+    events.onmessage = (event) => {
+      const data = JSON.parse(event.data) as { type?: string };
+      if (data.type !== "connected") router.refresh();
+    };
+    return () => events.close();
+  }, [group.id, router]);
+
   // Scroll ke bawah saat mount
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView();

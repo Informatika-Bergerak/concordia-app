@@ -6,6 +6,7 @@ import { prisma } from "@/lib/db";
 import { rewardGroupMemberMilestones } from "@/modules/trust/group-xp";
 import { createGroupSchema, sendMessageSchema, groupIdSchema } from "./schemas";
 import { z } from "zod";
+import { emitGroupEvent } from "@/lib/realtime/group-events";
 
 export type ActionResult<T extends object = object> =
   | ({ ok: true } & T)
@@ -114,6 +115,7 @@ export async function sendGroupMessageAction(
 
     revalidatePath(`/grup/${groupId}`);
     revalidatePath("/grup");
+    emitGroupEvent(groupId, "message.created");
     return { ok: true, messageId: message.id };
   } catch (error) {
     console.error("[group] Gagal mengirim pesan:", (error as Error).message);
@@ -199,6 +201,7 @@ export async function decideGroupJoinRequestAction(input: unknown): Promise<Acti
   }
   revalidatePath(`/grup/${parsed.data.groupId}`);
   revalidatePath("/grup");
+  emitGroupEvent(parsed.data.groupId, "member.joined");
   return { ok: true };
 }
 
@@ -223,6 +226,7 @@ export async function updateGroupMemberRoleAction(input: unknown): Promise<Actio
   if (!target || target.role === "OWNER") return { ok: false, error: "Anggota tidak ditemukan" };
   await prisma.groupMember.update({ where: { groupId_userId: { groupId: parsed.data.groupId, userId: parsed.data.userId } }, data: { role: parsed.data.role } });
   revalidatePath(`/grup/${parsed.data.groupId}`);
+  emitGroupEvent(parsed.data.groupId, "member.roleChanged");
   return { ok: true };
 }
 
@@ -247,6 +251,7 @@ export async function leaveGroupAction(input: unknown): Promise<ActionResult> {
     prisma.groupMessage.create({ data: { groupId: parsed.data.groupId, senderId: user.id, content: `${targetUser?.name ?? "Anggota"} meninggalkan grup`, isSystem: true } })
   ]);
   revalidatePath("/grup"); revalidatePath(`/grup/${parsed.data.groupId}`);
+  emitGroupEvent(parsed.data.groupId, "member.left");
   return { ok: true };
 }
 
@@ -260,7 +265,9 @@ export async function updateGroupAction(input: unknown): Promise<ActionResult> {
   const updateData = { ...(parsed.data.name ? { name: parsed.data.name } : {}), ...(parsed.data.description !== undefined ? { description: parsed.data.description || null } : {}), ...(parsed.data.photo !== undefined ? { photo: parsed.data.photo } : {}), ...(parsed.data.visibility !== undefined ? { visibility: parsed.data.visibility } : {}) };
   if (parsed.data.visibility !== undefined && !(await requireGroupOwner(parsed.data.groupId, user.id))) return { ok: false, error: "Hanya pembuat grup yang dapat mengubah privasi grup" };
   await prisma.group.update({ where: { id: parsed.data.groupId }, data: updateData });
-  revalidatePath(`/grup/${parsed.data.groupId}`); revalidatePath("/grup"); return { ok: true };
+  revalidatePath(`/grup/${parsed.data.groupId}`); revalidatePath("/grup");
+  emitGroupEvent(parsed.data.groupId, "group.updated");
+  return { ok: true };
 }
 
 export async function addGroupMemberAction(input: unknown): Promise<ActionResult> {
@@ -289,6 +296,7 @@ export async function addGroupMemberAction(input: unknown): Promise<ActionResult
       await rewardGroupMemberMilestones(tx, parsed.data.groupId);
     });
     revalidatePath(`/grup/${parsed.data.groupId}`);
+    emitGroupEvent(parsed.data.groupId, "member.added");
     return { ok: true };
   } catch (error) {
     if ((error as Error).message === "USER_NOT_FOUND") return { ok: false, error: "Pengguna tidak ditemukan" };
@@ -307,7 +315,9 @@ export async function removeGroupMemberAction(input: unknown): Promise<ActionRes
     prisma.groupMember.delete({ where: { groupId_userId: parsed.data } }),
     prisma.groupMessage.create({ data: { groupId: parsed.data.groupId, senderId: user.id, content: `${targetUser?.name ?? "Anggota"} dikeluarkan dari grup`, isSystem: true } })
   ]);
-  revalidatePath(`/grup/${parsed.data.groupId}`); return { ok: true };
+  revalidatePath(`/grup/${parsed.data.groupId}`);
+  emitGroupEvent(parsed.data.groupId, "member.removed");
+  return { ok: true };
 }
 
 export async function editGroupMessageAction(input: unknown): Promise<ActionResult> {
@@ -324,5 +334,8 @@ export async function deleteGroupMessageAction(input: unknown): Promise<ActionRe
   const message = await prisma.groupMessage.findUnique({ where: { id: parsed.data.messageId }, select: { groupId: true, senderId: true, deletedAt: true } });
   if (!message || message.groupId !== parsed.data.groupId || message.deletedAt) return { ok: false, error: "Pesan tidak dapat dihapus" };
   if (message.senderId !== user.id && !(await requireGroupManager(message.groupId, user.id))) return { ok: false, error: "Tidak memiliki izin" };
-  await prisma.groupMessage.update({ where: { id: parsed.data.messageId }, data: { deletedAt: new Date() } }); revalidatePath(`/grup/${message.groupId}`); return { ok: true };
+  await prisma.groupMessage.update({ where: { id: parsed.data.messageId }, data: { deletedAt: new Date() } });
+  revalidatePath(`/grup/${message.groupId}`);
+  emitGroupEvent(message.groupId, "message.deleted");
+  return { ok: true };
 }
