@@ -157,3 +157,5 @@ SESSION-REPORT-*.md
 .claude/
 .cursor/
 .devin/
+# Prisma generated client
+src/generated/
