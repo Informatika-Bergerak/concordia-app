@@ -433,7 +433,7 @@
   border-radius: 16px;
   width: 100%;
   max-width: 680px;
-  max-height: 90vh;
+  max-height: calc(100dvh - 32px);
   overflow-y: auto;
   box-shadow: 0 10px 30px rgba(46, 4, 4, 0.2);
   padding: 24px;
@@ -915,8 +915,8 @@
   border-radius: 16px;
   width: 100%;
   max-width: 760px;
-  max-height: 90vh;
-  height: 90vh;
+  max-height: calc(100dvh - 32px);
+  height: calc(100dvh - 32px);
   display: flex;
   flex-direction: column;
   overflow: hidden;

@@ -8,7 +8,7 @@
 .followBtn, .filterBtn { display: inline-flex; align-items: center; gap: 6px; min-height: var(--touch-min); padding: 0 14px; border-radius: var(--radius-btn); font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
 .followBtn { background: #F4DBDB; border: 1px solid #E49F9F; color: #5C0707; }
 .discoveryOverlay { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 16px; background: rgba(46,4,4,.35); }
-.discoveryModal { position: relative; width: min(760px, 100%); max-height: 90vh; overflow: auto; padding: 24px; background: #fff; border-radius: 12px; }
+.discoveryModal { position: relative; width: min(760px, 100%); max-height: calc(100dvh - 32px); overflow: auto; padding: 24px; background: #fff; border-radius: 12px; }
 .discoveryClose { position: absolute; top: 12px; right: 14px; z-index: 1; border: 0; background: transparent; color: #5C0707; font-size: 24px; line-height: 1; cursor: pointer; }
 .discovery { padding-top: 4px; }
 .discovery h2 { margin: 0 40px 8px 0; color: #2E0404; }
@@ -33,7 +33,7 @@
 .saveBtn { border: 0; background: #B80E0E; color: #fff; }
 .cancelEditBtn { border: 1px solid #E49F9F; background: #F4DBDB; color: #5C0707; }
 .saveBtn:disabled, .cancelEditBtn:disabled { opacity: .6; cursor: wait; }
-.reportModal { width: min(480px, 100%); max-height: min(90vh, 620px); overflow-y: auto; padding: 24px; border: 1px solid #E49F9F; border-radius: 14px; background: #fff; }
+.reportModal { width: min(480px, 100%); max-height: min(calc(100dvh - 32px), 620px); overflow-y: auto; padding: 24px; border: 1px solid #E49F9F; border-radius: 14px; background: #fff; }
 .reportModal h2 { margin: 0 0 8px; color: #2E0404; }
 .reportModal p { margin: 0 0 14px; color: var(--ink-muted); line-height: 1.45; }
 .reportReasons { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
@@ -269,7 +269,7 @@
   background: var(--surface);
   border-radius: var(--radius-card);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  max-height: 90vh;
+  max-height: calc(100dvh - 40px);
   overflow-y: auto;
 }
 .formTitle { margin: 0; font-size: 18px; font-weight: 800; color: var(--ink); }
