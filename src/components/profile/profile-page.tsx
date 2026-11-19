@@ -1,10 +1,15 @@
 import Link from "next/link";
-import { ArrowLeft, CalendarDays, MoreVertical, UserRound, X } from "lucide-react";
+import Image from "next/image";
+import { ArrowLeft, CalendarDays, MessageSquare, MoreVertical, UserRound, Users, X } from "lucide-react";
 import type { Role, UserType } from "@/generated/prisma/enums";
 import { getTrustProgress } from "@/modules/trust/progression";
+import type { FeedPost } from "@/modules/forum/types";
+import { PostCard } from "@/components/forum/post-card";
+import { getDisplayName } from "@/lib/users/display-name";
 import styles from "./profile-page.module.css";
 
 type ProfileUser = {
+  id: number;
   username: string;
   name: string;
   nickname: string | null;
@@ -17,9 +22,33 @@ type ProfileUser = {
   createdAt: Date;
 };
 
-type ProfilePageProps = {
+type Reply = {
+  id: number;
+  postId: number;
+  text: string;
+  createdAt: Date;
+  post: { id: number; text: string; author: { name: string; nickname: string | null } };
+};
+
+type ProfileGroup = {
+  id: number;
+  name: string;
+  description: string | null;
+  photo: string | null;
+  memberCount: number;
+};
+
+export type ProfilePageProps = {
   user: ProfileUser;
+  viewerId: number;
+  viewerRole: Role;
+  tab: "threads" | "liked" | "replies" | "groups";
+  threads: FeedPost[];
+  liked: FeedPost[];
+  replies: Reply[];
+  groups: ProfileGroup[];
   recommendations: { id: number; name: string; jurusan: string | null; fotoProfil: string | null }[];
+  isOwnProfile: boolean;
 };
 
 function getRoleLabel(role: Role, userType: UserType | null) {
@@ -36,23 +65,54 @@ function ProfileAvatar({ user }: { user: ProfileUser }) {
       <img className={styles.avatarImage} src={user.fotoProfil} alt={`Foto profil ${user.name}`} />
     );
   }
-
   return <UserRound size={66} strokeWidth={1.8} aria-hidden="true" />;
 }
 
 function formatJoinedDate(date: Date) {
-  return new Intl.DateTimeFormat("id-ID", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }).format(date);
+  return new Intl.DateTimeFormat("id-ID", { day: "numeric", month: "long", year: "numeric" }).format(date);
 }
 
-export function ProfilePage({ user, recommendations }: ProfilePageProps) {
+function timeAgo(date: Date) {
+  const s = Math.max(0, Math.floor((Date.now() - date.getTime()) / 1000));
+  if (s < 60) return "baru saja";
+  const m = Math.floor(s / 60);
+  if (m < 60) return `${m} menit yang lalu`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h} jam yang lalu`;
+  return `${Math.floor(h / 24)} hari yang lalu`;
+}
+
+function getInitials(name: string) {
+  const parts = name.trim().split(/\s+/);
+  return ((parts[0]?.[0] ?? "") + (parts[1]?.[0] ?? "")).toUpperCase();
+}
+
+function EmptyState({ title, desc }: { title: string; desc: string }) {
+  return (
+    <section className={styles.emptyState} aria-labelledby="empty-title">
+      <h2 id="empty-title">{title}</h2>
+      <p>{desc}</p>
+    </section>
+  );
+}
+
+export function ProfilePage({
+  user,
+  viewerId,
+  viewerRole,
+  tab,
+  threads,
+  liked,
+  replies,
+  groups,
+  recommendations,
+  isOwnProfile,
+}: ProfilePageProps) {
   const displayName = user.nickname?.trim() || user.name;
   const trust = getTrustProgress(user.trustScore);
   const roleLabel = getRoleLabel(user.role, user.userType);
   const profileLine = user.jurusan ? `${roleLabel} - ${user.jurusan}` : roleLabel;
+  const base = `/profil`;
 
   return (
     <div className={styles.page}>
@@ -73,7 +133,9 @@ export function ProfilePage({ user, recommendations }: ProfilePageProps) {
             <div className={styles.avatar}>
               <ProfileAvatar user={{ ...user, name: displayName }} />
             </div>
-            <Link href="/profil/ubah" className={styles.setupButton}>Set Up Profile</Link>
+            {isOwnProfile && (
+              <Link href="/profil/ubah" className={styles.setupButton}>Set Up Profile</Link>
+            )}
           </div>
 
           <section className={styles.identity} aria-labelledby="profile-name">
@@ -97,16 +159,83 @@ export function ProfilePage({ user, recommendations }: ProfilePageProps) {
         </div>
 
         <nav className={styles.tabs} aria-label="Konten profil">
-          <Link href="#threads" className={styles.tabActive} aria-current="page">Threads</Link>
-          <Link href="#liked" className={styles.tab}>Liked</Link>
-          <Link href="#replies" className={styles.tab}>Replies</Link>
-          <Link href="#events" className={styles.tab}>Event</Link>
+          <Link href={`${base}?tab=threads`} className={tab === "threads" ? styles.tabActive : styles.tab} aria-current={tab === "threads" ? "page" : undefined}>Threads</Link>
+          <Link href={`${base}?tab=liked`} className={tab === "liked" ? styles.tabActive : styles.tab} aria-current={tab === "liked" ? "page" : undefined}>Liked</Link>
+          <Link href={`${base}?tab=replies`} className={tab === "replies" ? styles.tabActive : styles.tab} aria-current={tab === "replies" ? "page" : undefined}>Replies</Link>
+          <Link href={`${base}?tab=groups`} className={tab === "groups" ? styles.tabActive : styles.tab} aria-current={tab === "groups" ? "page" : undefined}>Group</Link>
         </nav>
 
-        <section id="threads" className={styles.emptyState} aria-labelledby="empty-title">
-          <h2 id="empty-title">You haven’t posted<br />yet</h2>
-          <p>When you repost, those posts will show up here.</p>
-        </section>
+        {tab === "threads" && (
+          threads.length > 0 ? (
+            <div>
+              {threads.map((post) => (
+                <PostCard key={post.id} post={post} viewerRole={viewerRole} viewerId={viewerId} />
+              ))}
+            </div>
+          ) : (
+            <EmptyState title="You haven't posted yet" desc="Postingan yang kamu buat akan muncul di sini." />
+          )
+        )}
+
+        {tab === "liked" && (
+          liked.length > 0 ? (
+            <div>
+              {liked.map((post) => (
+                <PostCard key={post.id} post={post} viewerRole={viewerRole} viewerId={viewerId} />
+              ))}
+            </div>
+          ) : (
+            <EmptyState title="Belum ada postingan yang disukai" desc="Postingan yang disukai akan muncul di sini." />
+          )
+        )}
+
+        {tab === "replies" && (
+          replies.length > 0 ? (
+            <ul className={styles.replyList}>
+              {replies.map((reply) => (
+                <li key={reply.id} className={styles.replyItem}>
+                  <Link href={`/beranda/post/${reply.postId}`} className={styles.replyLink}>
+                    <div className={styles.replyContext}>
+                      <MessageSquare size={14} aria-hidden="true" />
+                      <span>Membalas postingan {getDisplayName(reply.post.author.nickname, reply.post.author.name)}</span>
+                    </div>
+                    <p className={styles.replyText}>{reply.text}</p>
+                    <time className={styles.replyTime} dateTime={reply.createdAt.toISOString()}>{timeAgo(reply.createdAt)}</time>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <EmptyState title="Belum ada balasan" desc="Balasan yang kamu tulis akan muncul di sini." />
+          )
+        )}
+
+        {tab === "groups" && (
+          groups.length > 0 ? (
+            <ul className={styles.groupList}>
+              {groups.map((group) => (
+                <li key={group.id}>
+                  <Link href={`/grup/${group.id}`} className={styles.groupItem}>
+                    <div className={styles.groupAvatar}>
+                      {group.photo ? (
+                        <Image src={group.photo} alt={group.name} width={46} height={46} unoptimized />
+                      ) : (
+                        <span>{getInitials(group.name) || <Users size={20} />}</span>
+                      )}
+                    </div>
+                    <div className={styles.groupBody}>
+                      <strong className={styles.groupName}>{group.name}</strong>
+                      <span className={styles.groupMeta}>{group.memberCount} anggota</span>
+                      {group.description && <p className={styles.groupDesc}>{group.description}</p>}
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <EmptyState title="Belum ada grup" desc="Grup publik yang diikuti akan muncul di sini." />
+          )
+        )}
 
         <section className={styles.recommendations} aria-labelledby="recommendation-title">
           <h2 id="recommendation-title">Rekomendasi Grup</h2>

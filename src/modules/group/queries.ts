@@ -19,6 +19,16 @@ export async function getPublicGroups(userId: number, query = "") {
   return groups.map(({ members, _count, ...group }) => ({ ...group, memberCount: _count.members, isMember: members.length > 0 }));
 }
 
+export async function getPublicGroupsByUser(userId: number): Promise<{ id: number; name: string; description: string | null; photo: string | null; memberCount: number }[]> {
+  const memberships = await prisma.groupMember.findMany({
+    where: { userId, group: { visibility: "PUBLIC" } },
+    select: { group: { select: { id: true, name: true, description: true, photo: true, _count: { select: { members: true } } } } },
+    orderBy: { joinedAt: "desc" },
+    take: 50,
+  });
+  return memberships.map(({ group }) => ({ id: group.id, name: group.name, description: group.description, photo: group.photo, memberCount: group._count.members }));
+}
+
 export async function getUserGroups(userId: number): Promise<GroupListItem[]> {
   const memberships = await prisma.groupMember.findMany({ where: { userId }, select: { group: { select: { id: true, name: true, description: true, photo: true, createdAt: true, _count: { select: { members: true } }, messages: { where: { deletedAt: null }, take: 1, orderBy: { createdAt: "desc" }, select: { content: true, createdAt: true, senderId: true } } } } }, orderBy: { group: { updatedAt: "desc" } } });
   const senderIds = memberships.flatMap(({ group }) => group.messages.map((message) => message.senderId));

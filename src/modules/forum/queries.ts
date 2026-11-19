@@ -185,6 +185,47 @@ export async function getLikedPosts(): Promise<FeedPost[]> {
   return rows.map(mapPost);
 }
 
+export async function getPostsByAuthor(authorId: number): Promise<FeedPost[]> {
+  const viewer = await getCurrentUser();
+  if (!viewer) return [];
+  const rows = await prisma.forumPost.findMany({
+    where: { authorId },
+    orderBy: { createdAt: "desc" },
+    take: 100,
+    select: { ...postSelect, likes: { where: { userId: viewer.id }, select: { id: true }, take: 1 } },
+  });
+  return rows.map(mapPost);
+}
+
+export async function getLikedPostsByUser(userId: number): Promise<FeedPost[]> {
+  const viewer = await getCurrentUser();
+  if (!viewer) return [];
+  const rows = await prisma.forumPost.findMany({
+    where: { likes: { some: { userId } } },
+    orderBy: { createdAt: "desc" },
+    take: 100,
+    select: { ...postSelect, likes: { where: { userId: viewer.id }, select: { id: true }, take: 1 } },
+  });
+  return rows.map(mapPost);
+}
+
+export async function getRepliesByAuthor(authorId: number): Promise<{ id: number; postId: number; text: string; createdAt: Date; post: { id: number; text: string; author: { name: string; nickname: string | null } } }[]> {
+  const viewer = await getCurrentUser();
+  if (!viewer) return [];
+  return prisma.forumComment.findMany({
+    where: { authorId },
+    orderBy: { createdAt: "desc" },
+    take: 100,
+    select: {
+      id: true,
+      postId: true,
+      text: true,
+      createdAt: true,
+      post: { select: { id: true, text: true, author: { select: { name: true, nickname: true } } } },
+    },
+  });
+}
+
 export async function getPostById(postId: number): Promise<FeedPost | null> {
   const user = await getCurrentUser();
   if (!user) return null;
