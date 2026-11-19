@@ -40,7 +40,7 @@ const tiles = [
   { href: "/grup", label: "Group", Icon: UsersRound },
   { href: "/disukai", label: "Like", Icon: Heart },
   { href: "/event", label: "Event", Icon: CalendarDays },
-  { href: "/fjb", label: "Marketplace", Icon: ShoppingCart },
+  { href: "/marketplace", label: "Marketplace", Icon: ShoppingCart },
 ] as const;
 
 const helpLinks = [
