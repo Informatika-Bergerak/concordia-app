@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" fill="none">
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1">
+      <stop stop-color="#E2E5F3"/>
+      <stop offset="1" stop-color="#D5E8E5"/>
+    </linearGradient>
+    <linearGradient id="printer" x2="0" y2="1">
+      <stop stop-color="#697586"/>
+      <stop offset="1" stop-color="#394451"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#bg)" d="M0 0h640v480H0z"/>
+  <circle cx="126" cy="104" r="52" fill="#FFF" fill-opacity=".44"/>
+  <path fill="#FFF" fill-opacity=".55" d="M0 370h640v110H0z"/>
+  <path fill="#FFF" stroke="#AAB4C0" stroke-width="7" d="M231 63h179v206H231z"/>
+  <path stroke="#B7C1CC" stroke-linecap="round" stroke-width="8" d="M266 112h109m-109 25h109m-109 25h84"/>
+  <path fill="url(#printer)" stroke="#303A47" stroke-width="8" d="M154 211h333c25 0 45 20 45 45v114H109V256c0-25 20-45 45-45z"/>
+  <path fill="#DCE1E7" stroke="#303A47" stroke-width="8" d="M186 316h269v121H186z"/>
+  <rect x="226" y="352" width="189" height="12" rx="6" fill="#778392"/>
+  <rect x="226" y="380" width="145" height="10" rx="5" fill="#A6AFBA"/>
+  <circle cx="461" cy="264" r="12" fill="#71D6A4"/>
+  <path stroke="#252D38" stroke-width="7" d="M248 211v-22h137v22"/>
+</svg>

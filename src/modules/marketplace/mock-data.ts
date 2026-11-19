@@ -5,6 +5,16 @@
 import type { ActivityItem, ListingDetail, ListingSummary, NotificationItem } from "./types";
 
 const DEFAULT_SELLER = { name: "Erlangga Yuda Pratama", major: "Teknik Informatika" };
+const MOCK_PHOTOS = {
+  helicopter: "/assets/marketplace/helicopter.svg",
+  iphone: "/assets/marketplace/iphone.svg",
+  laptop: "/assets/marketplace/laptop.svg",
+  toyCar: "/assets/marketplace/toy-car.svg",
+  sweater: "/assets/marketplace/sweater.svg",
+  book: "/assets/marketplace/book.svg",
+  boardingHouse: "/assets/marketplace/boarding-house.svg",
+  printing: "/assets/marketplace/printing.svg",
+};
 
 const LISTINGS: ListingDetail[] = [
   {
@@ -13,7 +23,7 @@ const LISTINGS: ListingDetail[] = [
     title: "Helikopter Second 2019",
     price: 9_200_000_000,
     location: "Sumedang",
-    photoUrl: null,
+    photoUrl: MOCK_PHOTOS.helicopter,
     category: "VEHICLES",
     condition: "USED",
     availability: "AVAILABLE",
@@ -40,7 +50,7 @@ const LISTINGS: ListingDetail[] = [
     title: "iPhone 12 Pro Max ASELI",
     price: 5_999_999,
     location: "Bandung",
-    photoUrl: null,
+    photoUrl: MOCK_PHOTOS.iphone,
     category: "ELECTRONICS",
     condition: "USED",
     availability: "AVAILABLE",
@@ -64,7 +74,7 @@ const LISTINGS: ListingDetail[] = [
     title: "ASUS TUF Gaming F15",
     price: 12_699_000,
     location: "Kopo",
-    photoUrl: null,
+    photoUrl: MOCK_PHOTOS.laptop,
     category: "ELECTRONICS",
     condition: "USED",
     availability: "LIMITED",
@@ -89,7 +99,7 @@ const LISTINGS: ListingDetail[] = [
     title: "Hotwheels Koleksi",
     price: 125_000,
     location: "Bandung",
-    photoUrl: null,
+    photoUrl: MOCK_PHOTOS.toyCar,
     category: "OTHER",
     condition: "NEW",
     availability: "AVAILABLE",
@@ -107,7 +117,7 @@ const LISTINGS: ListingDetail[] = [
     title: "Sweater Crewneck Cokelat",
     price: 150_000,
     location: "Bandung",
-    photoUrl: null,
+    photoUrl: MOCK_PHOTOS.sweater,
     category: "FASHION",
     condition: "NEW",
     availability: "AVAILABLE",
@@ -128,7 +138,7 @@ const LISTINGS: ListingDetail[] = [
     title: "Buku Algoritma dan Struktur Data",
     price: 85_000,
     location: "Kampus Sangga Buana",
-    photoUrl: null,
+    photoUrl: MOCK_PHOTOS.book,
     category: "BOOKS",
     condition: "USED",
     availability: "AVAILABLE",
@@ -146,7 +156,7 @@ const LISTINGS: ListingDetail[] = [
     title: "Kamar Kos Dekat Kampus",
     price: 900_000,
     location: "Banjar",
-    photoUrl: null,
+    photoUrl: MOCK_PHOTOS.boardingHouse,
     category: "BOARDING_HOUSE",
     condition: "NEW",
     availability: "LIMITED",
@@ -167,7 +177,7 @@ const LISTINGS: ListingDetail[] = [
     title: "Jasa Print dan Jilid Skripsi",
     price: 500,
     location: "Banjar",
-    photoUrl: null,
+    photoUrl: MOCK_PHOTOS.printing,
     category: "SERVICES",
     condition: "NEW",
     availability: "AVAILABLE",
@@ -195,15 +205,15 @@ export function getMockListing(slug: string): ListingDetail | null {
 
 export function getMockOffers(): ActivityItem[] {
   return [
-    { id: 1, slug: "helikopter-second-2019", title: "Helikopter Second 2019", price: 9_200_000_000, photoUrl: null, availability: "AVAILABLE", action: "Ditawarkan", date: "2026-11-17T00:00:00.000Z" },
-    { id: 2, slug: "asus-tuf-gaming-f15", title: "ASUS TUF Gaming F15", price: 14_000_000, photoUrl: null, availability: "AVAILABLE", action: "Ditawarkan", date: "2026-11-17T00:00:00.000Z" },
+    { id: 1, slug: "helikopter-second-2019", title: "Helikopter Second 2019", price: 9_200_000_000, photoUrl: MOCK_PHOTOS.helicopter, availability: "AVAILABLE", action: "Ditawarkan", date: "2026-11-17T00:00:00.000Z" },
+    { id: 2, slug: "asus-tuf-gaming-f15", title: "ASUS TUF Gaming F15", price: 14_000_000, photoUrl: MOCK_PHOTOS.laptop, availability: "AVAILABLE", action: "Ditawarkan", date: "2026-11-17T00:00:00.000Z" },
   ];
 }
 
 export function getMockSaved(): ActivityItem[] {
   return [
-    { id: 3, slug: "iphone-12-pro-max-aseli", title: "iPhone 12 Pro Max ASELI", price: 5_999_999, photoUrl: null, availability: "AVAILABLE", action: "Disimpan", date: "2026-11-16T00:00:00.000Z" },
-    { id: 4, slug: "kamar-kos-dekat-kampus", title: "Kamar Kos Dekat Kampus", price: 900_000, photoUrl: null, availability: "LIMITED", action: "Disimpan", date: "2026-11-18T00:00:00.000Z" },
+    { id: 3, slug: "iphone-12-pro-max-aseli", title: "iPhone 12 Pro Max ASELI", price: 5_999_999, photoUrl: MOCK_PHOTOS.iphone, availability: "AVAILABLE", action: "Disimpan", date: "2026-11-16T00:00:00.000Z" },
+    { id: 4, slug: "kamar-kos-dekat-kampus", title: "Kamar Kos Dekat Kampus", price: 900_000, photoUrl: MOCK_PHOTOS.boardingHouse, availability: "LIMITED", action: "Disimpan", date: "2026-11-18T00:00:00.000Z" },
   ];
 }
 

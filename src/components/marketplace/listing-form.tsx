@@ -85,20 +85,20 @@ export function ListingForm({ mode, initialValues, currentPhotoUrl = null }: Pro
             <p className={styles.hint}>Beri penjelasan selengkap mungkin</p>
 
             <label className={styles.field}>
-              <span className={styles.label}>Judul</span>
-              <input className={styles.input} value={values.title} onChange={(event) => setField("title", event.target.value)} placeholder="Apa nama barang?" aria-invalid={!!errors.title} maxLength={100} />
+              <span className={styles.label}>Judul <span className={styles.required} aria-hidden="true">*</span></span>
+              <input className={styles.input} required value={values.title} onChange={(event) => setField("title", event.target.value)} placeholder="Apa nama barang?" aria-invalid={!!errors.title} maxLength={100} />
               {errors.title && <span className={styles.error} role="alert">{errors.title}</span>}
             </label>
 
             <label className={styles.field}>
-              <span className={styles.label}>Harga</span>
-              <input className={styles.input} inputMode="numeric" value={priceDisplay} onChange={(event) => setField("price", event.target.value.replace(/\D/g, ""))} placeholder="Berapa harga?" aria-invalid={!!errors.price} />
+              <span className={styles.label}>Harga <span className={styles.required} aria-hidden="true">*</span></span>
+              <input className={styles.input} required inputMode="numeric" value={priceDisplay} onChange={(event) => setField("price", event.target.value.replace(/\D/g, ""))} placeholder="Berapa harga?" aria-invalid={!!errors.price} />
               {errors.price && <span className={styles.error} role="alert">{errors.price}</span>}
             </label>
 
             <label className={styles.field}>
-              <span className={styles.label}>Kategori</span>
-              <select className={styles.select} value={values.category} onChange={(event) => setField("category", event.target.value as ListingFormValues["category"])} aria-invalid={!!errors.category}>
+              <span className={styles.label}>Kategori <span className={styles.required} aria-hidden="true">*</span></span>
+              <select className={styles.select} required value={values.category} onChange={(event) => setField("category", event.target.value as ListingFormValues["category"])} aria-invalid={!!errors.category}>
                 <option value="">Termasuk kategori apa?</option>
                 {CATEGORY_OPTIONS.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
               </select>
@@ -106,8 +106,8 @@ export function ListingForm({ mode, initialValues, currentPhotoUrl = null }: Pro
             </label>
 
             <label className={styles.field}>
-              <span className={styles.label}>Kondisi</span>
-              <select className={styles.select} value={values.condition} onChange={(event) => setField("condition", event.target.value as ListingFormValues["condition"])} aria-invalid={!!errors.condition}>
+              <span className={styles.label}>Kondisi <span className={styles.required} aria-hidden="true">*</span></span>
+              <select className={styles.select} required value={values.condition} onChange={(event) => setField("condition", event.target.value as ListingFormValues["condition"])} aria-invalid={!!errors.condition}>
                 <option value="">Bagaimana kondisinya?</option>
                 {CONDITION_OPTIONS.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
               </select>
@@ -115,8 +115,8 @@ export function ListingForm({ mode, initialValues, currentPhotoUrl = null }: Pro
             </label>
 
             <label className={styles.field}>
-              <span className={styles.label}>Ketersediaan</span>
-              <select className={styles.select} value={values.availability} onChange={(event) => setField("availability", event.target.value as ListingFormValues["availability"])} aria-invalid={!!errors.availability}>
+              <span className={styles.label}>Ketersediaan <span className={styles.required} aria-hidden="true">*</span></span>
+              <select className={styles.select} required value={values.availability} onChange={(event) => setField("availability", event.target.value as ListingFormValues["availability"])} aria-invalid={!!errors.availability}>
                 <option value="">Bagaimana ketersediaan barang?</option>
                 {AVAILABILITY_OPTIONS.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
               </select>
@@ -124,13 +124,14 @@ export function ListingForm({ mode, initialValues, currentPhotoUrl = null }: Pro
             </label>
 
             <div className={styles.field}>
-              <span className={styles.label}>Cover Image</span>
+              <span className={styles.label}>Cover Image <span className={styles.required} aria-hidden="true">*</span></span>
               <label className={styles.uploadBtn}>
                 Upload Image
                 <input
                   className={styles.visuallyHidden}
                   type="file"
                   accept="image/jpeg,image/png,image/webp"
+                  required={!isEdit || !currentPhotoUrl}
                   onChange={(event) => { setPhoto(event.target.files?.[0] ?? null); setDone(false); }}
                 />
               </label>
@@ -150,20 +151,26 @@ export function ListingForm({ mode, initialValues, currentPhotoUrl = null }: Pro
             <p className={styles.hint}>Beri penjelasan tambahan terkait produk</p>
 
             <label className={styles.field}>
-              <span className={styles.label}>Keterangan</span>
-              <textarea className={styles.textarea} rows={5} value={values.description} onChange={(event) => setField("description", event.target.value)} placeholder="Beri rincian produk?" aria-invalid={!!errors.description} maxLength={2000} />
+              <span className={styles.label}>Keterangan <span className={styles.required} aria-hidden="true">*</span></span>
+              <textarea className={styles.textarea} required rows={5} value={values.description} onChange={(event) => setField("description", event.target.value)} placeholder="Beri rincian produk?" aria-invalid={!!errors.description} maxLength={2000} />
               {errors.description && <span className={styles.error} role="alert">{errors.description}</span>}
             </label>
 
             <label className={styles.field}>
-              <span className={styles.label}>Lokasi</span>
-              <input className={styles.input} value={values.location} onChange={(event) => setField("location", event.target.value)} placeholder="Lokasi penjualan?" aria-invalid={!!errors.location} />
+              <span className={styles.label}>Lokasi <span className={styles.required} aria-hidden="true">*</span></span>
+              <input className={styles.input} required value={values.location} onChange={(event) => setField("location", event.target.value)} placeholder="Lokasi penjualan?" aria-invalid={!!errors.location} />
               {errors.location && <span className={styles.error} role="alert">{errors.location}</span>}
             </label>
 
             <div className={styles.field}>
-              <span className={styles.label}>Preferensi Penjualan</span>
-              <div className={styles.checkRow}>
+              <span id="preference-label" className={styles.label}>Preferensi Penjualan <span className={styles.required} aria-hidden="true">*</span></span>
+              <span id="preference-hint" className={styles.visuallyHidden}>Wajib pilih minimal satu preferensi penjualan.</span>
+              <div
+                className={styles.checkRow}
+                role="group"
+                aria-labelledby="preference-label"
+                aria-describedby={errors.preference ? "preference-error" : "preference-hint"}
+              >
                 <label className={styles.check}>
                   <input type="checkbox" checked={values.allowCod} onChange={(event) => setField("allowCod", event.target.checked)} />
                   Pertemuan Publik (COD)
@@ -173,7 +180,7 @@ export function ListingForm({ mode, initialValues, currentPhotoUrl = null }: Pro
                   Pengantaran (Ekspedisi)
                 </label>
               </div>
-              {errors.preference && <span className={styles.error} role="alert">{errors.preference}</span>}
+              {errors.preference && <span id="preference-error" className={styles.error} role="alert">{errors.preference}</span>}
             </div>
           </fieldset>
         </div>
