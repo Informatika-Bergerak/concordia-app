@@ -4,7 +4,9 @@ import { useState, useRef, useEffect, useTransition } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Send, MessageCircle, MoreVertical, X, Check } from "lucide-react";
+import { ArrowLeft, Send, MessageCircle, MoreVertical, X, Check, ImagePlus } from "lucide-react";
+import { uploadFile } from "@/lib/uploads/client";
+import { UPLOAD_RULES } from "@/lib/uploads/config";
 import { sendGroupMessageAction, editGroupMessageAction, deleteGroupMessageAction } from "@/modules/group/actions";
 import type { GroupDetail, GroupChatMessage } from "@/modules/group/types";
 import { MessageContextMenu } from "./message-context-menu";
@@ -60,7 +62,9 @@ function isSameDay(a: Date, b: Date): boolean {
 export function GroupChat({ group, messages: initialMessages, currentUserId, members, joinRequests, canManage }: GroupChatProps) {
   const [messages, setMessages] = useState(initialMessages);
   const [text, setText] = useState("");
-  const [editingId, setEditingId] = useState<number | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<number | null>(null); const fileRef = useRef<HTMLInputElement>(null);
   const [editingText, setEditingText] = useState("");
   const [menuOpenId, setMenuOpenId] = useState<number | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<number | null>(null);
@@ -85,41 +89,35 @@ export function GroupChat({ group, messages: initialMessages, currentUserId, mem
     setMessages(initialMessages);
   }, [initialMessages]);
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const rule = UPLOAD_RULES.image;
+    if (!rule.mimes.includes(file.type) || file.size > rule.maxBytes) return;
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
+  };
+
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
     const content = text.trim();
-    if (!content) return;
-
-    // Optimistic update
-    const tempMessage: GroupChatMessage = {
-      id: Date.now(),
-      content,
-      createdAt: new Date(),
-      senderId: currentUserId,
-      senderName: "Kamu",
-      updatedAt: null,
-      deletedAt: null,
-      isSystem: false,
-    };
-    setMessages((prev) => [...prev, tempMessage]);
+    if (!content && !imageFile) return;
+    const file = imageFile;
     setText("");
+    setImageFile(null);
+    setImagePreview(null);
     inputRef.current?.focus();
 
     startTransition(async () => {
-      const result = await sendGroupMessageAction({
-        groupId: group.id,
-        content,
-      });
-      if (!result.ok) {
-        // Rollback optimistic update on error
-        setMessages((prev) => prev.filter((m) => m.id !== tempMessage.id));
+      let imageUrl: string | undefined;
+      try {
+        if (file) imageUrl = (await uploadFile(file, "groupChat")).url;
+        const result = await sendGroupMessageAction({ groupId: group.id, content, imageUrl });
+        if (!result.ok) setText(content);
+        else router.refresh();
+      } catch {
         setText(content);
-        return;
       }
-
-      // Ganti ID sementara dengan ID dari database agar pesan tetap tampil
-      // tanpa langsung ditimpa oleh props lama dari router.refresh().
-      setMessages((prev) => prev.map((message) => message.id === tempMessage.id ? { ...message, id: result.messageId } : message));
     });
   };
 
@@ -154,13 +152,16 @@ export function GroupChat({ group, messages: initialMessages, currentUserId, mem
           </div>
         ) : (
           messages.map((msg, i) => {
-            const isOwn = msg.senderId === currentUserId;
+            const isSystem = msg.isSystem;
+            const isOwn = !isSystem && msg.senderId === currentUserId;
             const showDate =
               i === 0 || !isSameDay(messages[i - 1].createdAt, msg.createdAt);
             // Show sender name only for other's messages, and only when sender changes
             const showSender =
+              !isSystem &&
               !isOwn &&
               (i === 0 ||
+                messages[i - 1].isSystem ||
                 messages[i - 1].senderId !== msg.senderId ||
                 !isSameDay(messages[i - 1].createdAt, msg.createdAt));
 
@@ -179,6 +180,9 @@ export function GroupChat({ group, messages: initialMessages, currentUserId, mem
                     {formatDateSeparator(msg.createdAt)}
                   </div>
                 )}
+                {isSystem ? (
+                  <div className={styles.systemMessage}>{msg.content}</div>
+                ) : (
                 <div className={`${styles.msgRow} ${isOwn ? styles.msgRowOwn : styles.msgRowOther}`}>
                 <div className={`${styles.msgBubble} ${isOwn ? styles.msgOwn : styles.msgOther}`}>
                   {showSender && (
@@ -223,15 +227,20 @@ export function GroupChat({ group, messages: initialMessages, currentUserId, mem
                       </div>
                     </form>
                   ) : (
-                    <>{msg.content}{msg.updatedAt && new Date(msg.updatedAt).getTime() !== new Date(msg.createdAt).getTime() ? <small className={styles.editedLabel}> (diedit)</small> : null}</>
+                    <>
+                      {msg.imageUrl && <Image src={msg.imageUrl} alt="Gambar pesan" width={240} height={240} className={styles.messageImage} unoptimized />}
+                      {msg.content && <span>{msg.content}</span>}
+                      {msg.updatedAt && new Date(msg.updatedAt).getTime() !== new Date(msg.createdAt).getTime() ? <small className={styles.editedLabel}> (diedit)</small> : null}
+                    </>
                   )}
                   <span className={styles.msgTime}>{formatTime(msg.createdAt)}</span>
                 </div>
-                {isOwn && editingId !== msg.id && <div className={styles.msgActionRail}>
+                {(isOwn || canManage) && editingId !== msg.id && <div className={styles.msgActionRail}>
                   <button type="button" className={styles.msgActionsBtn} aria-label="Menu pesan" onClick={() => setMenuOpenId(menuOpenId === msg.id ? null : msg.id)}><MoreVertical size={16} /></button>
-                  {menuOpenId === msg.id && <MessageContextMenu onEdit={() => { setEditingId(msg.id); setEditingText(msg.content); setMenuOpenId(null); }} onDelete={() => { setDeleteTarget(msg.id); setMenuOpenId(null); }} onClose={() => setMenuOpenId(null)} />}
+                  {menuOpenId === msg.id && <MessageContextMenu onEdit={isOwn ? () => { setEditingId(msg.id); setEditingText(msg.content); setMenuOpenId(null); } : undefined} onDelete={() => { setDeleteTarget(msg.id); setMenuOpenId(null); }} onClose={() => setMenuOpenId(null)} />}
                 </div>}
                 </div>
+                )}
               </div>
             );
           })
@@ -242,25 +251,12 @@ export function GroupChat({ group, messages: initialMessages, currentUserId, mem
       {deleteTarget !== null && <div className={styles.confirmOverlay} role="dialog" aria-modal="true"><div className={styles.confirmModal}><h2>Hapus Pesan?</h2><p>Apakah Anda yakin ingin menghapus pesan ini? Pesan yang dihapus tidak akan ditampilkan lagi dalam percakapan.</p><div className={styles.confirmActions}><button type="button" className={styles.cancelBtn} onClick={() => setDeleteTarget(null)}>Batal</button><button type="button" className={styles.dangerBtn} disabled={isPending} onClick={() => { const id = deleteTarget; startTransition(async () => { const result = await deleteGroupMessageAction({ groupId: group.id, messageId: id }); if (result.ok) setMessages((prev) => prev.filter((item) => item.id !== id)); setDeleteTarget(null); }); }}>Hapus Pesan</button></div></div></div>}
 
       {/* Input */}
+      {imagePreview && <div className={styles.imagePreview}><Image src={imagePreview} alt="Preview gambar" width={80} height={80} unoptimized /><button type="button" onClick={() => { setImageFile(null); setImagePreview(null); }}>×</button></div>}
       <form className={styles.chatInput} onSubmit={handleSend}>
-        <input
-          ref={inputRef}
-          type="text"
-          placeholder="Ketik pesan..."
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          maxLength={2000}
-          autoComplete="off"
-          aria-label="Tulis pesan"
-        />
-        <button
-          type="submit"
-          className={styles.sendBtn}
-          disabled={!text.trim() || isPending}
-          aria-label="Kirim pesan"
-        >
-          <Send size={18} />
-        </button>
+        <input ref={inputRef} type="text" placeholder="Ketik pesan..." value={text} onChange={(e) => setText(e.target.value)} maxLength={2000} autoComplete="off" aria-label="Tulis pesan" />
+        <input ref={fileRef} type="file" accept={UPLOAD_RULES.image.mimes.join(",")} hidden onChange={handleImageChange} />
+        <button type="button" className={styles.imageBtn} onClick={() => fileRef.current?.click()} disabled={isPending} aria-label="Kirim gambar"><ImagePlus size={18} /></button>
+        <button type="submit" className={styles.sendBtn} disabled={(!text.trim() && !imageFile) || isPending} aria-label="Kirim pesan"><Send size={18} /></button>
       </form>
     </div>
   );

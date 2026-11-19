@@ -28,6 +28,7 @@ export const UPLOAD_RULES: Record<
 export const UPLOAD_FOLDERS = {
   avatars: ["image"],
   groups: ["image"],
+  groupChat: ["image"],
   forum: ["image"],
 
   reports: ["image", "document"],

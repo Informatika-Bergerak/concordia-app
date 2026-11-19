@@ -14,6 +14,7 @@ import {
   Camera,
   X,
 } from "lucide-react";
+import { UPLOAD_RULES } from "@/lib/uploads/config";
 import { createGroupAction } from "@/modules/group/actions";
 import type { GroupListItem } from "@/modules/group/types";
 import { GroupDiscovery } from "./group-discovery";
@@ -55,6 +56,7 @@ function CreateGroupModal({
   const [description, setDescription] = useState("");
   const [visibility, setVisibility] = useState<"PUBLIC" | "PRIVATE">("PUBLIC");
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isPending, startTransition] = useTransition();
   const fileRef = useRef<HTMLInputElement>(null);
@@ -62,9 +64,17 @@ function CreateGroupModal({
   const handlePhotoChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => setPhotoPreview(reader.result as string);
-    reader.readAsDataURL(file);
+    const rule = UPLOAD_RULES.image;
+    if (!rule.mimes.includes(file.type)) {
+      setErrors({ photo: `Format foto harus ${rule.label}.` });
+      return;
+    }
+    if (file.size > rule.maxBytes) {
+      setErrors({ photo: `Ukuran foto maksimal ${rule.maxBytes / 1024 / 1024} MB.` });
+      return;
+    }
+    setPhotoFile(file);
+    setPhotoPreview(URL.createObjectURL(file));
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -77,9 +87,26 @@ function CreateGroupModal({
     }
 
     startTransition(async () => {
+      let photoUrl: string | undefined;
+      if (photoFile) {
+        try {
+          const body = new FormData();
+          body.append("file", photoFile);
+          body.append("folder", "groups");
+          const response = await fetch("/api/upload", { method: "POST", body });
+          const upload = await response.json().catch(() => null);
+          if (!response.ok) throw new Error(upload?.error ?? "Gagal mengunggah foto");
+          photoUrl = upload.url;
+        } catch (error) {
+          setErrors({ form: error instanceof Error ? error.message : "Gagal mengunggah foto" });
+          return;
+        }
+      }
+
       const result = await createGroupAction({
         name: name.trim(),
         description: description.trim() || undefined,
+        photo: photoUrl,
         visibility,
       });
       if (result.ok) {
@@ -130,10 +157,11 @@ function CreateGroupModal({
           <input
             ref={fileRef}
             type="file"
-            accept="image/*"
+            accept={UPLOAD_RULES.image.mimes.join(",")}
             className={styles.hiddenInput}
             onChange={handlePhotoChange}
           />
+          {errors.photo && <p className={styles.error}>{errors.photo}</p>}
         </div>
 
         {/* Name */}
