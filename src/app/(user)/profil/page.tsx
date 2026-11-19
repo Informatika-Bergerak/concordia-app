@@ -35,6 +35,7 @@ export default async function ProfilPage({ searchParams }: { searchParams: Promi
         jurusan: user.jurusan,
         trustScore: user.trustScore,
         isActive: user.isActive,
+        isProfilePrivate: user.isProfilePrivate,
         createdAt: user.createdAt,
       }}
       viewerId={user.id}

@@ -1,11 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, CalendarDays, MessageSquare, MoreVertical, UserRound, Users } from "lucide-react";
+import { ArrowLeft, CalendarDays, MessageSquare, UserRound, Users } from "lucide-react";
 import type { Role, UserType } from "@/generated/prisma/enums";
 import { getTrustProgress } from "@/modules/trust/progression";
 import type { FeedPost } from "@/modules/forum/types";
 import { PostCard } from "@/components/forum/post-card";
 import { getDisplayName } from "@/lib/users/display-name";
+import { ProfileMenu } from "./profile-menu";
 import styles from "./profile-page.module.css";
 
 type ProfileUser = {
@@ -19,6 +20,7 @@ type ProfileUser = {
   jurusan: string | null;
   trustScore: number;
   isActive: boolean;
+  isProfilePrivate: boolean;
   createdAt: Date;
 };
 
@@ -119,9 +121,7 @@ export function ProfilePage({
           <ArrowLeft size={32} strokeWidth={2.5} aria-hidden="true" />
         </Link>
         <span className={styles.headerTitle}>Profile</span>
-        <button type="button" className={styles.menuButton} aria-label="Opsi profil" title="Opsi profil">
-          <MoreVertical size={26} aria-hidden="true" />
-        </button>
+        <div />
       </header>
 
       <main className={styles.profileCard}>
@@ -131,9 +131,7 @@ export function ProfilePage({
             <div className={styles.avatar}>
               <ProfileAvatar user={{ ...user, name: displayName }} />
             </div>
-            {isOwnProfile && (
-              <Link href="/profil/ubah" className={styles.setupButton}>Set Up Profile</Link>
-            )}
+            {isOwnProfile && <ProfileMenu isProfilePrivate={user.isProfilePrivate} />}
           </div>
 
           <section className={styles.identity} aria-labelledby="profile-name">
