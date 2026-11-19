@@ -84,7 +84,7 @@ export async function sendGroupMessageAction(
     };
   }
 
-  const { groupId, content } = parsed.data;
+  const { groupId, content, imageUrl } = parsed.data;
 
   // Pastikan pengguna adalah anggota grup
   const membership = await prisma.groupMember.findUnique({
@@ -101,7 +101,8 @@ export async function sendGroupMessageAction(
         data: {
           groupId,
           senderId: user.id,
-          content,
+          content: content.trim(),
+          imageUrl: imageUrl ?? null,
         },
         select: { id: true },
       }),

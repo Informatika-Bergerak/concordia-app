@@ -530,6 +530,7 @@ model GroupMessage {
   senderId  Int
   sender    User     @relation("GroupMessageSender", fields: [senderId], references: [id], onDelete: Cascade)
   content   String
+  imageUrl  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
   deletedAt DateTime?

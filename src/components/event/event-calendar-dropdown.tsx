@@ -19,11 +19,12 @@ export function EventCalendarDropdown({
   events,
 }: EventCalendarDropdownProps) {
   const today = new Date();
+  const todayStr = today.toISOString().split("T")[0];
   const [currentYear, setCurrentYear] = useState(
-    selectedDate ? parseInt(selectedDate.split("-")[0]) : today.getFullYear()
+    selectedDate ? parseInt(selectedDate.split("-")[0]) : Number(todayStr.slice(0, 4))
   );
   const [currentMonth, setCurrentMonth] = useState(
-    selectedDate ? parseInt(selectedDate.split("-")[1]) - 1 : today.getMonth()
+    selectedDate ? parseInt(selectedDate.split("-")[1]) - 1 : Number(todayStr.slice(5, 7)) - 1
   );
 
   const monthNames = [
@@ -93,8 +94,6 @@ export function EventCalendarDropdown({
       (evt) => evt.status !== "CANCELLED" && evt.startDate <= dateStr && evt.endDate >= dateStr
     );
   }
-
-  const todayStr = today.toISOString().split("T")[0];
 
   return (
     <div className={styles.calendarDropdownOverlay}>

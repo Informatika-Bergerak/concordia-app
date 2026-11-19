@@ -38,7 +38,7 @@ export async function getGroupDetail(groupId: number, userId: number): Promise<G
 export async function getGroupMessages(groupId: number, userId: number, cursor?: number): Promise<GroupChatMessage[]> {
   const membership = await prisma.groupMember.findUnique({ where: { groupId_userId: { groupId, userId } }, select: { id: true } });
   if (!membership) return [];
-  const messages = await prisma.groupMessage.findMany({ where: { groupId, deletedAt: null, ...(cursor ? { id: { lt: cursor } } : {}) }, take: 50, orderBy: { createdAt: "asc" }, select: { id: true, content: true, createdAt: true, updatedAt: true, deletedAt: true, senderId: true, isSystem: true } });
+  const messages = await prisma.groupMessage.findMany({ where: { groupId, deletedAt: null, ...(cursor ? { id: { lt: cursor } } : {}) }, take: 50, orderBy: { createdAt: "asc" }, select: { id: true, content: true, imageUrl: true, createdAt: true, updatedAt: true, deletedAt: true, senderId: true, isSystem: true } });
   const senders = messages.length ? await prisma.user.findMany({ where: { id: { in: [...new Set(messages.map((message) => message.senderId))] } }, select: { id: true, name: true } }) : [];
   const senderMap = new Map(senders.map((sender) => [sender.id, sender.name]));
   return messages.map((message) => ({ ...message, senderName: senderMap.get(message.senderId) ?? "Unknown", isSystem: message.isSystem }));

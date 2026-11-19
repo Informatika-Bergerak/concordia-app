@@ -9,7 +9,10 @@ export const createGroupSchema = z.object({
 
 export const sendMessageSchema = z.object({
   groupId: z.number().int().positive(),
-  content: z.string().min(1, "Pesan tidak boleh kosong").max(2000, "Pesan terlalu panjang"),
+  content: z.string().max(2000, "Pesan terlalu panjang").optional().default(""),
+  imageUrl: z.string().url().optional(),
+}).refine((data) => data.content.trim() || data.imageUrl, {
+  message: "Pesan tidak boleh kosong",
 });
 
 export const groupIdSchema = z.object({

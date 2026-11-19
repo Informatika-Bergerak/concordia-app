@@ -44,6 +44,7 @@ export type GroupJoinRequestListItem = {
 export type GroupChatMessage = {
   id: number;
   content: string;
+  imageUrl: string | null;
   createdAt: Date;
   updatedAt: Date | null;
   deletedAt: Date | null;

@@ -5,7 +5,7 @@ import { Edit2, Trash2 } from "lucide-react";
 import styles from "./group.module.css";
 
 type Props = {
-  onEdit: () => void;
+  onEdit?: () => void;
   onDelete: () => void;
   onClose: () => void;
 };
@@ -25,10 +25,10 @@ export function MessageContextMenu({ onEdit, onDelete, onClose }: Props) {
 
   return (
     <div className={styles.contextMenu} ref={menuRef}>
-      <button type="button" className={`${styles.menuItem} ${styles.editItem}`} onClick={() => { onEdit(); onClose(); }}>
+      {onEdit && <button type="button" className={`${styles.menuItem} ${styles.editItem}`} onClick={() => { onEdit(); onClose(); }}>
         <Edit2 size={16} />
         Edit Pesan
-      </button>
+      </button>}
       <button type="button" className={`${styles.menuItem} ${styles.deleteItem}`} onClick={() => { onDelete(); onClose(); }}>
         <Trash2 size={16} />
         Hapus Pesan
