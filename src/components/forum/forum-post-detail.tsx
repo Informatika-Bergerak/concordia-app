@@ -3,6 +3,7 @@ import { ArrowLeft, Calendar, MapPin, MessageSquare, MoreVertical } from "lucide
 import { splitHashtagText } from "@/lib/forum/hashtags";
 import { Avatar } from "@/components/ui/avatar";
 import { RoleBadge } from "@/components/ui/role-badge";
+import { TrustLevelBadge } from "@/components/ui/trust-level-badge";
 import type { Role } from "@/generated/prisma/enums";
 import type { FeedPost } from "@/modules/forum/types";
 import { PostComments } from "./post-comments";
@@ -32,6 +33,7 @@ export function ForumPostDetail({ post, viewerRole, viewerId }: { post: FeedPost
         <div className={styles.who}>
           <div className={styles.authorName}>
             <strong>{post.authorName}</strong>
+            <TrustLevelBadge role={post.authorRole ?? "USER"} trustScore={post.authorTrustScore ?? 0} />
             <RoleBadge role={post.authorRole ?? "USER"} userType={post.authorType} />
           </div>
           <span>{post.authorMajor}</span>

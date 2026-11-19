@@ -1,0 +1,2 @@
+ALTER TABLE "ForumPostLike" ADD COLUMN "trustEligible" BOOLEAN NOT NULL DEFAULT true;
+ALTER TABLE "ForumComment" ADD COLUMN "trustEligible" BOOLEAN NOT NULL DEFAULT true;

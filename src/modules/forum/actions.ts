@@ -4,6 +4,8 @@ import { revalidatePath } from "next/cache";
 import { requireRole } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
 import type { FeedComment } from "./types";
+import { isThreadEngagementEligible, rewardEngagementMilestones, reverseInvalidEngagementMilestones } from "@/modules/trust/engagement-xp";
+import { rewardThreadXp } from "@/modules/trust/thread-xp";
 import { commentIdSchema, createCommentSchema, createPostSchema, postIdSchema } from "./schemas";
 import { getDisplayName } from "@/lib/users/display-name";
 
@@ -52,25 +54,29 @@ export async function createPostAction(input: unknown): Promise<ForumActionResul
     : undefined;
 
   try {
-    const post = await prisma.forumPost.create({
-      data: {
-        text,
-        author: { connect: { id: user.id } },
-        mentions: uniqueMentionIds.length ? { create: uniqueMentionIds.map((userId) => ({ userId })) } : undefined,
-        locationLabel: location?.label || null,
-        locationUrl: location?.url || null,
-        latitude: latitude ?? null,
-        longitude: longitude ?? null,
-        eventTitle: event?.title || null,
-        eventDate: event?.date || null,
-        eventTime: event?.time || null,
-        eventLocation: event?.location || null,
-        eventUrl: event?.url || null,
-        images: imageData ? { create: imageData } : undefined,
-        audios: audioData ? { create: audioData } : undefined,
-        poll: poll ? { create: { question: poll.question, options: { create: poll.options.map((text) => ({ text })) } } } : undefined,
-      },
-      select: { id: true },
+    const post = await prisma.$transaction(async (tx) => {
+      const created = await tx.forumPost.create({
+        data: {
+          text,
+          authorId: user.id,
+          mentions: uniqueMentionIds.length ? { create: uniqueMentionIds.map((userId) => ({ userId })) } : undefined,
+          locationLabel: location?.label || null,
+          locationUrl: location?.url || null,
+          latitude: latitude ?? null,
+          longitude: longitude ?? null,
+          eventTitle: event?.title || null,
+          eventDate: event?.date || null,
+          eventTime: event?.time || null,
+          eventLocation: event?.location || null,
+          eventUrl: event?.url || null,
+          images: imageData ? { create: imageData } : undefined,
+          audios: audioData ? { create: audioData } : undefined,
+          poll: poll ? { create: { question: poll.question, options: { create: poll.options.map((text) => ({ text })) } } } : undefined,
+        },
+        select: { id: true },
+      });
+      await rewardThreadXp(tx, user.id, created.id);
+      return created;
     });
     revalidatePath("/beranda");
     return { ok: true, id: post.id };
@@ -106,30 +112,30 @@ export async function togglePostLikeAction(input: unknown): Promise<ForumActionR
   if (!parsed.success) return { ok: false, error: "Postingan tidak valid" };
   const { postId } = parsed.data;
 
-  const post = await prisma.forumPost.findUnique({ where: { id: postId }, select: { id: true } });
-  if (!post) return { ok: false, error: "Postingan tidak ditemukan" };
-
-  const existing = await prisma.forumPostLike.findUnique({
-    where: { postId_userId: { postId, userId: user.id } },
-    select: { id: true },
-  });
-
-  if (existing) {
-    await prisma.forumPostLike.delete({ where: { id: existing.id } });
-  } else {
-    try {
-      await prisma.forumPostLike.create({ data: { postId, userId: user.id } });
-    } catch (error) {
-      if ((error as { code?: string }).code !== "P2002") {
-        console.error("[forum] Gagal memberi like:", (error as Error).message);
-        return { ok: false, error: "Gagal memperbarui like, coba lagi" };
+  const existing = await prisma.forumPostLike.findUnique({ where: { postId_userId: { postId, userId: user.id } }, select: { id: true } });
+  let liked: boolean;
+  let count: number;
+  try {
+    ({ liked, count } = await prisma.$transaction(async (tx) => {
+      const post = await tx.forumPost.findUnique({ where: { id: postId }, select: { id: true } });
+      if (!post) throw new Error("NOT_FOUND");
+      if (existing) {
+        await tx.forumPostLike.delete({ where: { id: existing.id } });
+        await reverseInvalidEngagementMilestones(tx, postId, "LIKE");
+      } else {
+        const trustEligible = await isThreadEngagementEligible(tx, postId);
+        await tx.forumPostLike.create({ data: { postId, userId: user.id, trustEligible } });
+        await rewardEngagementMilestones(tx, postId, "LIKE");
       }
-    }
+      return { liked: !existing, count: await tx.forumPostLike.count({ where: { postId } }) };
+    }));
+  } catch (error) {
+    if ((error as Error).message === "NOT_FOUND") return { ok: false, error: "Postingan tidak ditemukan" };
+    console.error("[forum] Gagal memperbarui like:", (error as Error).message);
+    return { ok: false, error: "Gagal memperbarui like, coba lagi" };
   }
-
-  const count = await prisma.forumPostLike.count({ where: { postId } });
   revalidatePath("/beranda");
-  return { ok: true, liked: !existing, count };
+  return { ok: true, liked, count };
 }
 
 export async function deleteCommentAction(input: unknown): Promise<ForumActionResult> {
@@ -147,7 +153,10 @@ export async function deleteCommentAction(input: unknown): Promise<ForumActionRe
   if (!allowed) return { ok: false, error: "Anda tidak memiliki izin menghapus komentar ini" };
 
   try {
-    await prisma.forumComment.delete({ where: { id: comment.id } });
+    await prisma.$transaction(async (tx) => {
+      await tx.forumComment.delete({ where: { id: comment.id } });
+      await reverseInvalidEngagementMilestones(tx, comment.postId, "COMMENT");
+    });
     revalidatePath("/beranda");
     revalidatePath("/search");
     revalidatePath("/disukai");
@@ -181,13 +190,15 @@ export async function createCommentAction(
   if (mentionedUsers.length !== uniqueMentionIds.length) return { ok: false, error: "Pengguna yang ditag tidak valid" };
 
   try {
-    const [comment, count] = await prisma.$transaction([
-      prisma.forumComment.create({
+    const { comment, count } = await prisma.$transaction(async (tx) => {
+      const trustEligible = await isThreadEngagementEligible(tx, postId);
+      const created = await tx.forumComment.create({
         data: {
           postId,
           authorId: user.id,
           parentId: parentId ?? null,
           text,
+          trustEligible,
           mentions: uniqueMentionIds.length ? { create: uniqueMentionIds.map((userId) => ({ userId })) } : undefined,
         },
         select: {
@@ -195,12 +206,13 @@ export async function createCommentAction(
           parentId: true,
           text: true,
           createdAt: true,
-          author: { select: { name: true, nickname: true, role: true, userType: true } },
+          author: { select: { name: true, nickname: true, role: true, userType: true, trustScore: true } },
           mentions: { select: { userId: true, user: { select: { name: true, nickname: true, username: true } } } },
         },
-      }),
-      prisma.forumComment.count({ where: { postId } }),
-    ]);
+      });
+      await rewardEngagementMilestones(tx, postId, "COMMENT");
+      return { comment: created, count: await tx.forumComment.count({ where: { postId } }) };
+    });
     const seconds = Math.max(0, Math.floor((Date.now() - comment.createdAt.getTime()) / 1000));
     const timeAgo = seconds < 60
       ? "baru saja"
@@ -221,6 +233,7 @@ export async function createCommentAction(
         authorName: getDisplayName(comment.author.nickname, comment.author.name),
         authorRole: comment.author.role,
         authorType: comment.author.userType,
+        authorTrustScore: comment.author.trustScore,
         timeAgo,
         text: comment.text,
         mentions: comment.mentions.map((mention) => ({

@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { requireRole } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db";
+import { rewardGroupMemberMilestones } from "@/modules/trust/group-xp";
 import { createGroupSchema, sendMessageSchema, groupIdSchema } from "./schemas";
 import { z } from "zod";
 
@@ -185,6 +186,7 @@ export async function decideGroupJoinRequestAction(input: unknown): Promise<Acti
           create: { groupId: parsed.data.groupId, userId: parsed.data.userId, role: "MEMBER" },
           update: {},
         });
+        await rewardGroupMemberMilestones(tx, parsed.data.groupId);
         await tx.groupMessage.create({ data: { groupId: parsed.data.groupId, senderId: user.id, content: `${targetUser?.name ?? "Anggota"} bergabung ke grup`, isSystem: true } });
       }
       await tx.groupJoinRequest.delete({ where: { groupId_userId: { groupId: parsed.data.groupId, userId: parsed.data.userId } } });
@@ -283,6 +285,7 @@ export async function addGroupMemberAction(input: unknown): Promise<ActionResult
       if (!target) throw new Error("USER_NOT_FOUND");
       await tx.groupMember.create({ data: parsed.data });
       await tx.groupMessage.create({ data: { groupId: parsed.data.groupId, senderId: user.id, content: `${target.name} ditambahkan ke grup`, isSystem: true } });
+      await rewardGroupMemberMilestones(tx, parsed.data.groupId);
     });
     revalidatePath(`/grup/${parsed.data.groupId}`);
     return { ok: true };

@@ -22,7 +22,7 @@ type CommentRow = {
   authorId: number;
   text: string;
   createdAt: Date;
-  author: { name: string; nickname: string | null; role: FeedPost["authorRole"]; userType: FeedPost["authorType"] };
+  author: { name: string; nickname: string | null; role: FeedPost["authorRole"]; userType: FeedPost["authorType"]; trustScore: number };
   mentions: { userId: number; user: { name: string; nickname: string | null; username: string } }[];
 };
 
@@ -34,6 +34,7 @@ function mapComment(comment: CommentRow): FeedPost["comments"][number] {
     authorName: getDisplayName(comment.author.nickname, comment.author.name),
     authorRole: comment.author.role,
     authorType: comment.author.userType,
+    authorTrustScore: comment.author.trustScore,
     timeAgo: timeAgo(comment.createdAt),
     text: comment.text,
     mentions: comment.mentions.map((mention) => ({
@@ -47,6 +48,7 @@ function mapComment(comment: CommentRow): FeedPost["comments"][number] {
 
 function mapPost(post: {
   id: number;
+  authorId: number;
   text: string;
   mentions: { userId: number; user: { name: string; nickname: string | null; username: string } }[];
   locationLabel: string | null;
@@ -60,8 +62,7 @@ function mapPost(post: {
   eventUrl: string | null;
   poll: { id: number; question: string; options: { id: number; text: string; _count: { votes: number } }[] } | null;
   createdAt: Date;
-  authorId: number;
-  author: { name: string; nickname: string | null; role: FeedPost["authorRole"]; userType: FeedPost["authorType"]; jurusan: string | null };
+  author: { name: string; nickname: string | null; role: FeedPost["authorRole"]; userType: FeedPost["authorType"]; trustScore: number; jurusan: string | null };
   images: { url: string }[];
   audios: { url: string }[];
   _count: { likes: number; comments: number };
@@ -74,6 +75,7 @@ function mapPost(post: {
     authorName: getDisplayName(post.author.nickname, post.author.name),
     authorRole: post.author.role,
     authorType: post.author.userType,
+    authorTrustScore: post.author.trustScore,
     authorMajor: post.author.jurusan ?? "ConCordia",
     timeAgo: timeAgo(post.createdAt),
     text: post.text,
@@ -97,11 +99,8 @@ function mapPost(post: {
       const byId = new Map(mapped.map((comment) => [comment.id, comment]));
       const roots: typeof mapped = [];
       for (const comment of mapped) {
-        if (comment.parentId) {
-          byId.get(comment.parentId)?.replies.push(comment);
-        } else {
-          roots.push(comment);
-        }
+        if (comment.parentId) byId.get(comment.parentId)?.replies.push(comment);
+        else roots.push(comment);
       }
       return roots;
     })(),
@@ -110,12 +109,10 @@ function mapPost(post: {
 
 const postSelect = {
   id: true,
+  authorId: true,
   text: true,
   mentions: {
-    select: {
-      userId: true,
-      user: { select: { name: true, nickname: true, username: true } },
-    },
+    select: { userId: true, user: { select: { name: true, nickname: true, username: true } } },
     orderBy: { id: "asc" as const },
   },
   locationLabel: true,
@@ -131,15 +128,11 @@ const postSelect = {
     select: {
       id: true,
       question: true,
-      options: {
-        select: { id: true, text: true, _count: { select: { votes: true } } },
-        orderBy: { id: "asc" as const },
-      },
+      options: { select: { id: true, text: true, _count: { select: { votes: true } } }, orderBy: { id: "asc" as const } },
     },
   },
   createdAt: true,
-  authorId: true,
-  author: { select: { name: true, nickname: true, role: true, userType: true, jurusan: true } },
+  author: { select: { name: true, nickname: true, role: true, userType: true, trustScore: true, jurusan: true } },
   images: { select: { url: true }, orderBy: { id: "asc" as const }, take: 1 },
   audios: { select: { url: true }, orderBy: { id: "asc" as const }, take: 1 },
   _count: { select: { likes: true, comments: true } },
@@ -152,13 +145,8 @@ const postSelect = {
       authorId: true,
       text: true,
       createdAt: true,
-      author: { select: { name: true, nickname: true, role: true, userType: true } },
-      mentions: {
-        select: {
-          userId: true,
-          user: { select: { name: true, nickname: true, username: true } },
-        },
-      },
+      author: { select: { name: true, nickname: true, role: true, userType: true, trustScore: true } },
+      mentions: { select: { userId: true, user: { select: { name: true, nickname: true, username: true } } } },
     },
   },
 } as const;
@@ -166,71 +154,42 @@ const postSelect = {
 export async function getFeed(): Promise<FeedPost[]> {
   const user = await getCurrentUser();
   if (!user) return [];
-
   const rows = await prisma.forumPost.findMany({
-    where: {},
-    orderBy: { createdAt: "desc" },
-    take: 100,
-    select: {
-      ...postSelect,
-      likes: { where: { userId: user.id }, select: { id: true }, take: 1 },
-    },
+    where: {}, orderBy: { createdAt: "desc" }, take: 100,
+    select: { ...postSelect, likes: { where: { userId: user.id }, select: { id: true }, take: 1 } },
   });
-
   return rows.map(mapPost);
 }
 
 export async function searchPosts(query: string): Promise<FeedPost[]> {
   const user = await getCurrentUser();
   if (!user) return [];
-
   const normalized = query.trim().slice(0, 80);
   if (!normalized) return [];
-
   const hashtag = normalizeHashtagQuery(normalized);
   const rows = await prisma.forumPost.findMany({
-    where: hashtag
-      ? { text: { contains: `#${hashtag}`, mode: "insensitive" } }
-      : { text: { contains: normalized, mode: "insensitive" } },
-    orderBy: { createdAt: "desc" },
-    take: 50,
-    select: {
-      ...postSelect,
-      likes: { where: { userId: user.id }, select: { id: true }, take: 1 },
-    },
+    where: hashtag ? { text: { contains: `#${hashtag}`, mode: "insensitive" } } : { text: { contains: normalized, mode: "insensitive" } },
+    orderBy: { createdAt: "desc" }, take: 50,
+    select: { ...postSelect, likes: { where: { userId: user.id }, select: { id: true }, take: 1 } },
   });
-
   return rows.map(mapPost);
 }
 
 export async function getLikedPosts(): Promise<FeedPost[]> {
   const user = await getCurrentUser();
   if (!user) return [];
-
   const rows = await prisma.forumPost.findMany({
-    where: { likes: { some: { userId: user.id } } },
-    orderBy: { createdAt: "desc" },
-    take: 100,
-    select: {
-      ...postSelect,
-      likes: { where: { userId: user.id }, select: { id: true }, take: 1 },
-    },
+    where: { likes: { some: { userId: user.id } } }, orderBy: { createdAt: "desc" }, take: 100,
+    select: { ...postSelect, likes: { where: { userId: user.id }, select: { id: true }, take: 1 } },
   });
-
   return rows.map(mapPost);
 }
 
 export async function getPostById(postId: number): Promise<FeedPost | null> {
   const user = await getCurrentUser();
   if (!user) return null;
-
   const post = await prisma.forumPost.findUnique({
-    where: { id: postId },
-    select: {
-      ...postSelect,
-      likes: { where: { userId: user.id }, select: { id: true }, take: 1 },
-    },
+    where: { id: postId }, select: { ...postSelect, likes: { where: { userId: user.id }, select: { id: true }, take: 1 } },
   });
-
   return post ? mapPost(post) : null;
 }

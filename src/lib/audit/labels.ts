@@ -13,4 +13,5 @@ export const auditLabels: Record<AuditAction, string> = {
   ACCOUNT_ACTIVATED: "Akun diaktifkan",
   ACCOUNT_DEACTIVATED: "Akun dinonaktifkan",
   SESSION_REVOKED: "Sesi dicabut paksa",
+  TRUST_MODERATION: "Moderasi Trust Level",
 };
