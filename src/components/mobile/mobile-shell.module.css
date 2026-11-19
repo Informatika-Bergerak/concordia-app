@@ -1,10 +1,20 @@
 .stage {
+  display: flex;
+  flex-direction: column;
   min-height: 100dvh;
   background: var(--surface-muted);
 }
 
+.stage:has(.chatPage) {
+  height: 100dvh;
+  overflow: hidden;
+}
+
 .body {
+  display: flex;
+  flex: 1 1 auto;
   min-width: 0;
+  min-height: 0;
 }
 
 /* ── Sidebars (desktop only) ── */
@@ -16,13 +26,13 @@
 /* ── Main column ── */
 .main {
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
   min-width: 0;
-  min-height: 100dvh;
+  min-height: 0;
 }
 
 .content {
-  /* Mengisi tinggi kolom utama agar halaman chat dapat memakai ruang viewport. */
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
@@ -35,7 +45,6 @@
 }
 
 .content:has(.chatPage) {
-  height: calc(100dvh - 56px);
   padding-bottom: max(8px, env(safe-area-inset-bottom));
 }
 
@@ -113,14 +122,18 @@
 
   @media (min-width: 1280px) {
     .body {
-      grid-template-columns: 248px minmax(680px, 1fr) 320px;
+      grid-template-columns: 248px minmax(0, 1fr) 320px;
       gap: 20px;
     }
 
     .rightSidebar {
       display: block;
+      align-self: start;
+      width: 100%;
+      height: fit-content;
       min-width: 0;
       min-height: 0;
+      max-height: min(100%, 100dvh);
       overflow-y: auto;
       overscroll-behavior: contain;
     }
@@ -147,7 +160,6 @@
   :global(body),
   .sidebar,
   .main,
-  .rightSidebar,
   .drawer {
     scrollbar-width: thin;
     scrollbar-color: rgba(111, 104, 104, 0.48) transparent;
@@ -157,7 +169,6 @@
   :global(body)::-webkit-scrollbar,
   .sidebar::-webkit-scrollbar,
   .main::-webkit-scrollbar,
-  .rightSidebar::-webkit-scrollbar,
   .drawer::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -167,7 +178,6 @@
   :global(body)::-webkit-scrollbar-track,
   .sidebar::-webkit-scrollbar-track,
   .main::-webkit-scrollbar-track,
-  .rightSidebar::-webkit-scrollbar-track,
   .drawer::-webkit-scrollbar-track {
     background: transparent;
   }
@@ -176,7 +186,6 @@
   :global(body)::-webkit-scrollbar-thumb,
   .sidebar::-webkit-scrollbar-thumb,
   .main::-webkit-scrollbar-thumb,
-  .rightSidebar::-webkit-scrollbar-thumb,
   .drawer::-webkit-scrollbar-thumb {
     background: rgba(111, 104, 104, 0.48);
     border-radius: 999px;
@@ -186,7 +195,6 @@
   :global(body)::-webkit-scrollbar-thumb:hover,
   .sidebar::-webkit-scrollbar-thumb:hover,
   .main::-webkit-scrollbar-thumb:hover,
-  .rightSidebar::-webkit-scrollbar-thumb:hover,
   .drawer::-webkit-scrollbar-thumb:hover {
     background: rgba(78, 72, 72, 0.68);
   }
