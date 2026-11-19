@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, CalendarDays, MessageSquare, MoreVertical, UserRound, Users, X } from "lucide-react";
+import { ArrowLeft, CalendarDays, MessageSquare, MoreVertical, UserRound, Users } from "lucide-react";
 import type { Role, UserType } from "@/generated/prisma/enums";
 import { getTrustProgress } from "@/modules/trust/progression";
 import type { FeedPost } from "@/modules/forum/types";
@@ -47,7 +47,6 @@ export type ProfilePageProps = {
   liked: FeedPost[];
   replies: Reply[];
   groups: ProfileGroup[];
-  recommendations: { id: number; name: string; jurusan: string | null; fotoProfil: string | null }[];
   isOwnProfile: boolean;
 };
 
@@ -105,7 +104,6 @@ export function ProfilePage({
   liked,
   replies,
   groups,
-  recommendations,
   isOwnProfile,
 }: ProfilePageProps) {
   const displayName = user.nickname?.trim() || user.name;
@@ -167,7 +165,7 @@ export function ProfilePage({
 
         {tab === "threads" && (
           threads.length > 0 ? (
-            <div>
+            <div className={styles.postList}>
               {threads.map((post) => (
                 <PostCard key={post.id} post={post} viewerRole={viewerRole} viewerId={viewerId} />
               ))}
@@ -179,7 +177,7 @@ export function ProfilePage({
 
         {tab === "liked" && (
           liked.length > 0 ? (
-            <div>
+            <div className={styles.postList}>
               {liked.map((post) => (
                 <PostCard key={post.id} post={post} viewerRole={viewerRole} viewerId={viewerId} />
               ))}
@@ -237,29 +235,7 @@ export function ProfilePage({
           )
         )}
 
-        <section className={styles.recommendations} aria-labelledby="recommendation-title">
-          <h2 id="recommendation-title">Rekomendasi Grup</h2>
-          <div className={styles.recommendationList}>
-            {recommendations.map((person) => (
-              <div className={styles.recommendation} key={person.id}>
-                <span className={styles.recommendationAvatar} aria-hidden="true">
-                  {person.fotoProfil ? (
-                    // The URL is validated and stored by the existing upload flow.
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={person.fotoProfil} alt="" />
-                  ) : <UserRound size={25} />}
-                </span>
-                <div>
-                  <strong>{person.name}</strong>
-                  <span>{person.jurusan ? `Mahasiswa ${person.jurusan}` : "Mahasiswa"}</span>
-                </div>
-                <button type="button" className={styles.dismissButton} aria-label={`Sembunyikan rekomendasi ${person.name}`}>
-                  <X size={28} strokeWidth={2} aria-hidden="true" />
-                </button>
-              </div>
-            ))}
-          </div>
-        </section>
+
       </main>
     </div>
   );

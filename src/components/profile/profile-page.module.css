@@ -37,6 +37,7 @@
   overflow: hidden;
   background: #fff;
   box-shadow: 0 2px 8px rgba(52, 39, 45, 0.15);
+  padding-bottom: 48px;
 }
 
 .cover {
@@ -101,17 +102,8 @@
 .emptyState { min-height: 280px; padding: 36px 24px 20px; text-align: center; }
 .emptyState h2 { margin: 0; font-size: clamp(28px, 7vw, 34px); line-height: 1.35; text-decoration: underline; text-decoration-color: #1797dc; text-decoration-thickness: 4px; text-underline-offset: 3px; }
 .emptyState p { margin: 16px 0 0; color: #625d60; font-size: 14px; }
-.recommendations { padding: 0 24px 42px; }
-.recommendations h2 { margin: 0 0 18px; font-size: 20px; }
-.recommendationList { display: grid; gap: 18px; }
-.recommendation { display: grid; grid-template-columns: 58px minmax(0, 1fr) 34px; align-items: center; gap: 14px; }
-.recommendationAvatar { display: inline-flex; align-items: center; justify-content: center; width: 58px; height: 58px; overflow: hidden; border-radius: 50%; background: #c90008; color: #fff; }
-.recommendationAvatar img { width: 100%; height: 100%; object-fit: cover; }
-.recommendation div { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
-.recommendation strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 16px; }
-.recommendation span { color: #6c6669; font-size: 14px; font-weight: 600; }
-.dismissButton { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; padding: 0; border: 0; background: transparent; color: #2e0435; cursor: pointer; }
-.dismissButton:hover { color: #c90008; }
+
+.postList { display: flex; flex-direction: column; gap: 12px; padding: 12px; background: var(--surface-muted); }
 
 .replyList { list-style: none; margin: 0; padding: 0; }
 .replyItem { border-bottom: 1px solid #eee9eb; }
@@ -134,8 +126,7 @@
 .menuButton:focus-visible,
 .setupButton:focus-visible,
 .tab:focus-visible,
-.tabActive:focus-visible,
-.dismissButton:focus-visible { outline: 3px solid #c90008; outline-offset: 2px; }
+.tabActive:focus-visible { outline: 3px solid #c90008; outline-offset: 2px; }
 
 @media (min-width: 768px) {
   .page { max-width: 640px; margin: 0 auto; }
@@ -152,5 +143,5 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .backButton, .menuButton, .setupButton, .tab, .dismissButton { transition: none; }
+  .backButton, .menuButton, .setupButton, .tab { transition: none; }
 }
