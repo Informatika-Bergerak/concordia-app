@@ -22,6 +22,12 @@ export function EventCard({
 }: EventCardProps) {
   const isJoined = event.participants.includes(currentUserId);
   const isInterested = event.interested.includes(currentUserId);
+  const createdDate = new Intl.DateTimeFormat("id-ID", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(event.createdAt));
 
   return (
     <div className={styles.eventCard}>
@@ -37,7 +43,7 @@ export function EventCard({
         <div className={styles.creatorMeta}>
           <div className={styles.creatorName}>{event.creatorName}</div>
           <div className={styles.creatorSub}>{event.creatorJurusan || "Mahasiswa Concordia"}</div>
-          <time className={styles.postTime}>{new Date(event.createdAt).toLocaleDateString("id-ID", { dateStyle: "medium" })}</time>
+          <time className={styles.postTime}>{createdDate}</time>
         </div>
       </div>
 

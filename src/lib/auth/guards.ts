@@ -37,6 +37,7 @@ export const getCurrentUser = cache(async () => {
       bio: true,
       trustScore: true,
       isActive: true,
+      isProfilePrivate: true,
       createdAt: true,
       mustChangePassword: true,
       // Kolom sesi — hanya untuk validasi, tidak dikembalikan ke pemanggil
@@ -81,6 +82,7 @@ export const getCurrentUser = cache(async () => {
     bio: user.bio,
     trustScore: user.trustScore,
     isActive: user.isActive,
+    isProfilePrivate: user.isProfilePrivate,
     createdAt: user.createdAt,
     mustChangePassword: user.mustChangePassword,
   };

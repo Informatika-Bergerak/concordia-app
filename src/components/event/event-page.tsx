@@ -29,18 +29,21 @@ type EventPageProps = {
 const STORAGE_KEY = "concordia_events_v1";
 
 export function EventPage({ currentUser }: EventPageProps) {
-  const [events, setEvents] = useState<EventItem[]>(() => {
-    if (typeof window === "undefined") return mockEvents;
+  // Gunakan data awal yang sama di server dan client agar hydration konsisten.
+  const [events, setEvents] = useState<EventItem[]>(mockEvents);
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       try {
-        return JSON.parse(saved);
+        setEvents(JSON.parse(saved));
       } catch {
-        return mockEvents;
+        // Gunakan mockEvents jika data tersimpan rusak.
       }
     }
-    return mockEvents;
-  });
+    setIsHydrated(true);
+  }, []);
 
   const [query, setQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState<string>("all");
@@ -59,8 +62,8 @@ export function EventPage({ currentUser }: EventPageProps) {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
-  }, [events]);
+    if (isHydrated) localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
+  }, [events, isHydrated]);
 
   function showToast(msg: string) {
     setToastMessage(msg);
