@@ -9,6 +9,7 @@ import type { ListingDetail } from "@/modules/marketplace/types";
 import { ListingPhoto } from "./listing-photo";
 import { OfferSheet } from "./offer-sheet";
 import styles from "./marketplace.module.css";
+import extra from "./seller.module.css";
 
 type Comment = { id: number; text: string };
 
@@ -73,16 +74,16 @@ export function ListingDetailView({ listing, isOwner = false }: { listing: Listi
           </section>
 
           <div className={styles.actions}>
-            <button type="button" className={styles.primaryBtn} onClick={() => setNotice("Fitur pesan belum tersedia.")}>
+            <Link href={`/marketplace/pesan/baru?listing=${listing.slug}`} className={styles.primaryBtn}>
               <MessageCircle size={18} aria-hidden="true" /> Kirim Pesan
-            </button>
+            </Link>
             <button type="button" className={styles.squareBtn} onClick={() => setOfferOpen(true)} aria-label="Tawar harga" disabled={listing.availability === "SOLD"}>
               <Tag size={20} aria-hidden="true" />
             </button>
             <button type="button" className={styles.squareBtn} onClick={handleShare} aria-label="Bagikan">
               <Share2 size={20} aria-hidden="true" />
             </button>
-            <button type="button" className={styles.squareBtn} onClick={() => setSaved((value) => !value)} aria-label={saved ? "Hapus dari tersimpan" : "Simpan"} aria-pressed={saved}>
+            <button type="button" className={`${styles.squareBtn} ${saved ? extra.squareBtnActive : ""}`} onClick={() => setSaved((value) => !value)} aria-label={saved ? "Hapus dari tersimpan" : "Simpan"} aria-pressed={saved}>
               <Bookmark size={20} aria-hidden="true" fill={saved ? "currentColor" : "none"} />
             </button>
           </div>
@@ -143,6 +144,7 @@ export function ListingDetailView({ listing, isOwner = false }: { listing: Listi
       {offerOpen && (
         <OfferSheet
           target={{ title: listing.title, price: listing.price, location: listing.location, photoUrl: listing.photoUrl }}
+          chatBaseHref={`/marketplace/pesan/baru?listing=${listing.slug}`}
           onClose={() => setOfferOpen(false)}
         />
       )}

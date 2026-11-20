@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useState } from "react";
+import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { MAX_PRICE } from "@/modules/marketplace/constants";
 import { formatRupiah, parseDigits } from "@/modules/marketplace/format";
@@ -16,7 +17,7 @@ export type OfferTarget = {
 
 type Choice = "LOWER" | "ASKING" | "CUSTOM";
 
-export function OfferSheet({ target, onClose }: { target: OfferTarget; onClose: () => void }) {
+export function OfferSheet({ target, onClose, chatBaseHref }: { target: OfferTarget; onClose: () => void; chatBaseHref?: string }) {
   const titleId = useId();
   const [choice, setChoice] = useState<Choice>("LOWER");
   const [custom, setCustom] = useState("");
@@ -86,8 +87,9 @@ export function OfferSheet({ target, onClose }: { target: OfferTarget; onClose: 
 
               {choice === "CUSTOM" ? (
                 <label className={styles.field}>
-                  <span className={styles.label}>Nominal tawaran</span>
+                  <span className={styles.label}>Harga</span>
                   <input className={styles.input} inputMode="numeric" placeholder="Rp. 0" value={custom ? Number(custom).toLocaleString("id-ID") : ""} onChange={(event) => setCustom(event.target.value.replace(/\D/g, ""))} autoFocus />
+                  <span className={styles.note}>Harga tercantum {formatRupiah(target.price)}</span>
                 </label>
               ) : (
                 <p className={styles.offerCustomLine}>
@@ -107,7 +109,10 @@ export function OfferSheet({ target, onClose }: { target: OfferTarget; onClose: 
             <div className={styles.offerDone} role="status">
               <p><strong>Tawaran {formatRupiah(sentAmount)} siap dikirim.</strong></p>
               <p className={styles.note}>Tampilan demo: pengiriman ke penjual aktif setelah backend Marketplace terhubung.</p>
-              <button type="button" className={styles.primaryBtn} onClick={onClose}>Tutup</button>
+              {chatBaseHref && (
+                <Link href={`${chatBaseHref}&offer=${sentAmount}`} className={styles.primaryBtn}>Buka Percakapan</Link>
+              )}
+              <button type="button" className={styles.linkBtn} onClick={onClose}>Tutup</button>
             </div>
           )}
         </div>

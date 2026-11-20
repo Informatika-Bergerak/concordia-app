@@ -131,7 +131,7 @@ export function MarketplaceBrowser({ listings }: { listings: ListingSummary[] })
           <Link href="/marketplace/beli" className={styles.fab} aria-label="Menu beli">
             <ShoppingCart size={24} aria-hidden="true" />
           </Link>
-          <Link href="/marketplace/baru" className={styles.fab} aria-label="Tawarkan barang">
+          <Link href="/marketplace/jual" className={styles.fab} aria-label="Menu jual">
             <Plus size={26} aria-hidden="true" />
           </Link>
         </div>

@@ -251,6 +251,7 @@
   background: var(--mp-red);
   color: #fff;
   font-weight: 600;
+  text-decoration: none;
   cursor: pointer;
 }
 
