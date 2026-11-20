@@ -55,6 +55,7 @@ export type ActivityItem = {
 
 export type NotificationItem = {
   id: number;
+  title?: string;
   text: string;
   date: string;
   slug?: string;

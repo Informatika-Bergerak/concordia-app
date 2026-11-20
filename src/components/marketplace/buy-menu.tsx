@@ -8,6 +8,7 @@ import { formatDate, formatRupiah } from "@/modules/marketplace/format";
 import type { ActivityItem, NotificationItem } from "@/modules/marketplace/types";
 import { ListingPhoto } from "./listing-photo";
 import styles from "./marketplace.module.css";
+import extra from "./seller.module.css";
 
 type Tab = "activity" | "saved" | "notifications";
 
@@ -28,22 +29,24 @@ export function BuyMenu({ offers, saved, notifications }: Props) {
   const [query, setQuery] = useState("");
   const [onlyAvailable, setOnlyAvailable] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
+  const [savedItems, setSavedItems] = useState<ActivityItem[]>(saved);
 
   const q = query.trim().toLowerCase();
 
   const items = useMemo(() => {
-    const source = tab === "activity" ? offers : saved;
+    const source = tab === "activity" ? offers : savedItems;
     return source.filter(
       (item) => (q === "" || item.title.toLowerCase().includes(q)) && (!onlyAvailable || item.availability !== "SOLD"),
     );
-  }, [tab, offers, saved, q, onlyAvailable]);
+  }, [tab, offers, savedItems, q, onlyAvailable]);
 
-  const visibleNotifications = useMemo(
-    () => notifications.filter((item) => q === "" || item.text.toLowerCase().includes(q)),
-    [notifications, q],
-  );
+  function removeSaved(id: number) {
+    // TODO: panggil server action hapus dari tersimpan saat backend selesai.
+    setSavedItems((prev) => prev.filter((item) => item.id !== id));
+  }
 
-  const placeholder = tab === "saved" ? "Telusuri tawaran yang Anda simpan" : tab === "activity" ? "Telusuri aktivitas Anda" : "Telusuri pemberitahuan";
+  const placeholder = tab === "saved" ? "Telusuri tawaran yang Anda simpan" : "Telusuri aktivitas Anda";
+  const heading = tab === "saved" ? "Tawaran Disimpan" : "Riwayat";
 
   return (
     <div className={styles.page}>
@@ -73,44 +76,61 @@ export function BuyMenu({ offers, saved, notifications }: Props) {
         </div>
 
         <div className={styles.buyContent} role="tabpanel" id="buy-panel" aria-labelledby={`tab-${tab}`}>
-          <div className={styles.searchBar}>
-            <label className={styles.searchField}>
-              <Search size={18} aria-hidden="true" />
-              <input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder={placeholder} aria-label={placeholder} />
-            </label>
-            {tab !== "notifications" && (
-              <button type="button" className={styles.iconBtn} aria-label="Filter" aria-expanded={filterOpen} onClick={() => setFilterOpen((open) => !open)}>
-                <Filter size={16} aria-hidden="true" />
-              </button>
-            )}
-          </div>
+          {tab !== "notifications" && (
+            <>
+              <div className={styles.searchBar}>
+                <label className={styles.searchField}>
+                  <Search size={18} aria-hidden="true" />
+                  <input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder={placeholder} aria-label={placeholder} />
+                </label>
+                <button type="button" className={styles.iconBtn} aria-label="Filter" aria-expanded={filterOpen} onClick={() => setFilterOpen((open) => !open)}>
+                  <Filter size={16} aria-hidden="true" />
+                </button>
+              </div>
 
-          {filterOpen && tab !== "notifications" && (
-            <label className={styles.check}>
-              <input type="checkbox" checked={onlyAvailable} onChange={(event) => setOnlyAvailable(event.target.checked)} />
-              Hanya yang masih tersedia
-            </label>
+              {filterOpen && (
+                <label className={styles.check}>
+                  <input type="checkbox" checked={onlyAvailable} onChange={(event) => setOnlyAvailable(event.target.checked)} />
+                  Hanya yang masih tersedia
+                </label>
+              )}
+            </>
           )}
 
           {tab === "notifications" ? (
-            visibleNotifications.length === 0 ? (
-              <p className={styles.empty}>Belum ada pemberitahuan.</p>
-            ) : (
-              <ul className={styles.historyList}>
-                {visibleNotifications.map((item) => (
-                  <li key={item.id} className={styles.historyItem}>
-                    <div className={styles.historyBody}>
-                      <p className={styles.historyTitle}>{item.text}</p>
-                      <p className={styles.historyMeta}>{formatDate(item.date)}</p>
-                      {item.slug && <Link href={`/marketplace/${item.slug}`} className={styles.linkBtn}>Lihat tawaran</Link>}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )
+            <>
+              <h2 className={styles.historyHeading}>Pengumuman Untuk Anda</h2>
+              {notifications.length === 0 ? (
+                <p className={styles.empty}>Belum ada pemberitahuan.</p>
+              ) : (
+                <ul className={styles.historyList}>
+                  {notifications.map((item) => {
+                    const content = (
+                      <>
+                        <span className={extra.notifThumb} aria-hidden="true" />
+                        <div className={extra.notifBody}>
+                          <p className={extra.notifTitle}>{item.title ?? "Pemberitahuan"}</p>
+                          <p className={extra.notifText}>{item.text}</p>
+                          <p className={extra.notifText}>{formatDate(item.date)}</p>
+                        </div>
+                      </>
+                    );
+                    return (
+                      <li key={item.id}>
+                        {item.slug ? (
+                          <Link href={`/marketplace/${item.slug}`} className={`${styles.historyItem} ${extra.notifItem}`}>{content}</Link>
+                        ) : (
+                          <div className={`${styles.historyItem} ${extra.notifItem}`}>{content}</div>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </>
           ) : (
             <>
-              <h2 className={styles.historyHeading}>Riwayat</h2>
+              <h2 className={styles.historyHeading}>{heading}</h2>
               {items.length === 0 ? (
                 <p className={styles.empty}>
                   {tab === "saved" ? "Belum ada tawaran tersimpan." : "Belum ada aktivitas."} Telusuri marketplace untuk mulai.
@@ -118,16 +138,21 @@ export function BuyMenu({ offers, saved, notifications }: Props) {
               ) : (
                 <ul className={styles.historyList}>
                   {items.map((item) => (
-                    <li key={item.id}>
-                      <Link href={`/marketplace/${item.slug}`} className={styles.historyItem}>
+                    <li key={item.id} className={extra.sellerItem}>
+                      <Link href={`/marketplace/${item.slug}`} className={extra.sellerItemMain}>
                         <ListingPhoto src={item.photoUrl} alt={`Foto ${item.title}`} className={styles.historyThumb} />
                         <div className={styles.historyBody}>
                           <p className={styles.historyTitle}>{item.title}</p>
                           <p className={styles.historyPrice}>{formatRupiah(item.price)}</p>
-                          <p className={styles.historyMeta}>{item.action} Tanggal {formatDate(item.date)}</p>
+                          <p className={styles.historyMeta}>{item.action === "Disimpan" ? "Ditawarkan" : item.action} Tanggal {formatDate(item.date)}</p>
                           <p className={styles.historyMeta}>{AVAILABILITY_LABELS[item.availability]}</p>
                         </div>
                       </Link>
+                      {tab === "saved" && (
+                        <button type="button" className={extra.removeBtn} onClick={() => removeSaved(item.id)}>
+                          Hapus dari tersimpan
+                        </button>
+                      )}
                     </li>
                   ))}
                 </ul>
