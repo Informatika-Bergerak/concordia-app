@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" fill="none">
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1">
+      <stop stop-color="#F0E2D7"/>
+      <stop offset="1" stop-color="#E7D7CB"/>
+    </linearGradient>
+    <linearGradient id="cloth" x2="1" y2="1">
+      <stop stop-color="#A46F4F"/>
+      <stop offset="1" stop-color="#684738"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#bg)" d="M0 0h640v480H0z"/>
+  <circle cx="502" cy="111" r="66" fill="#FFF" fill-opacity=".4"/>
+  <path fill="#FFF" fill-opacity=".5" d="M58 380h524v46H58z"/>
+  <path fill="#FFF" fill-opacity=".36" d="M90 426h460v16H90z"/>
+  <path fill="url(#cloth)" stroke="#50382F" stroke-linejoin="round" stroke-width="9" d="m218 95 69-30c10 27 29 42 53 42s43-15 53-42l69 30 75 110-69 44-34-44v171H246V205l-34 44-69-44z"/>
+  <path stroke="#D3AC8D" stroke-linecap="round" stroke-width="9" d="M286 68c5 24 25 39 54 39s49-15 54-39M252 375h135"/>
+  <path stroke="#573B30" stroke-width="5" d="M248 205v168m146-168v168M220 98l42 19m161-19-42 19"/>
+  <path fill="#D2AC8D" d="M247 379h143v23H247z"/>
+</svg>

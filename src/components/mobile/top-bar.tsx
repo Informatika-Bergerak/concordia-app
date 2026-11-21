@@ -18,7 +18,7 @@ const tabs = [
   { href: "/beranda", label: "Beranda", Icon: Home },
   { href: "/chat", label: "Chat", Icon: MessageCircle },
   { href: "/event", label: "Event", Icon: CalendarDays },
-  { href: "/fjb", label: "FJB", Icon: ShoppingCart },
+  { href: "/marketplace", label: "Marketplace", Icon: ShoppingCart },
 ] as const;
 
 type TopBarProps = {
