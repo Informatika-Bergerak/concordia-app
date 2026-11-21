@@ -99,6 +99,7 @@ model User {
 
   reports       Report[]
   reportSupports ReportSupport[]
+  listings       Listing[]
   createdGroups Group[] @relation("GroupCreator")
   groupMemberships GroupMember[] @relation("GroupMembershipUser")
   groupJoinRequests GroupJoinRequest[] @relation("GroupJoinRequestUser")
@@ -551,4 +552,73 @@ model AdminNews {
 
   @@index([createdAt])
   @@index([authorId])
+}
+
+// ── Marketplace (Forum Jual Beli) ───────────────────────────
+
+enum ListingCategory {
+  BOOKS
+  ELECTRONICS
+  FASHION
+  VEHICLES
+  BOARDING_HOUSE
+  SERVICES
+  FOOD
+  OTHER
+}
+
+enum ListingCondition {
+  NEW
+  USED
+}
+
+enum ListingAvailability {
+  AVAILABLE
+  LIMITED
+  SOLD
+}
+
+model Listing {
+  id            Int                 @id @default(autoincrement())
+  // Alamat halaman tawaran (/marketplace/<slug>); judul + akhiran acak, tidak berubah saat judul diedit.
+  slug          String              @unique
+  title         String
+  description   String
+  // Rupiah utuh. BigInt karena batas harga aplikasi (100 miliar) melebihi batas Int 32-bit PostgreSQL (2,1 miliar).
+  price         BigInt
+  category      ListingCategory
+  condition     ListingCondition
+  availability  ListingAvailability @default(AVAILABLE)
+  location      String
+  // Preferensi penjualan; minimal salah satu harus true (dijaga constraint di database).
+  allowCod      Boolean             @default(true)
+  allowShipping Boolean             @default(false)
+  // false = dinonaktifkan penjual: tidak tampil di daftar umum, tetap ada di Menu Jual.
+  isActive      Boolean             @default(true)
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+
+  sellerId Int
+  seller   User @relation(fields: [sellerId], references: [id], onDelete: Restrict)
+
+  photos ListingPhoto[]
+
+  @@index([sellerId])
+  @@index([isActive, createdAt])
+  @@index([category])
+}
+
+model ListingPhoto {
+  id        Int      @id @default(autoincrement())
+  listingId Int
+  listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  url       String
+  publicId  String   @unique
+  format    String?
+  bytes     Int?
+  width     Int?
+  height    Int?
+  createdAt DateTime @default(now())
+
+  @@index([listingId])
 }
