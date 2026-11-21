@@ -5,7 +5,7 @@ const MAX_BASE_LENGTH = 50;
 const SUFFIX_LENGTH = 6;
 
 /** Mengubah teks menjadi bentuk URL: huruf kecil, tanpa aksen, dipisah tanda hubung. */
-export function slugify(text: string, maxLength = MAX_BASE_LENGTH): string {
+export function slugify(text: string, maxLength = MAX_BASE_LENGTH, fallback = "laporan"): string {
   const base = text
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
@@ -14,7 +14,7 @@ export function slugify(text: string, maxLength = MAX_BASE_LENGTH): string {
     .replace(/^-+|-+$/g, "")
     .slice(0, maxLength)
     .replace(/-+$/g, "");
-  return base || "laporan";
+  return base || fallback;
 }
 
 /** Akhiran acak (huruf kecil dan angka). `bytes` boleh diberikan untuk pengujian. */
