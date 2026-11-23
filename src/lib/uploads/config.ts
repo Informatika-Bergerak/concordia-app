@@ -30,6 +30,8 @@ export const UPLOAD_FOLDERS = {
   groups: ["image"],
   groupChat: ["image"],
   forum: ["image"],
+  // Foto tawaran Marketplace (cover image). Hanya gambar; hasilnya concordia/marketplace/<uuid>.
+  marketplace: ["image"],
 
   reports: ["image", "document"],
   activities: ["image", "document"],

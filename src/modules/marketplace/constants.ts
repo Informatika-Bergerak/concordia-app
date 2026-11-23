@@ -1,3 +1,4 @@
+import { UPLOAD_RULES } from "../../lib/uploads/config";
 import type { ListingAvailability, ListingCategory, ListingCondition } from "./types";
 
 export const CATEGORY_LABELS: Record<ListingCategory, string> = {
@@ -38,5 +39,7 @@ export const AVAILABILITY_OPTIONS = (Object.keys(AVAILABILITY_LABELS) as Listing
 }));
 
 export const MAX_PRICE = 100_000_000_000;
-export const MAX_PHOTO_BYTES = 4 * 1024 * 1024;
-export const ALLOWED_PHOTO_TYPES = ["image/jpeg", "image/png", "image/webp"];
+// Aturan foto mengikuti aturan unggahan gambar di lib/uploads/config (satu sumber kebenaran),
+// sehingga form dan /api/upload selalu sepakat soal jenis dan ukuran yang diterima.
+export const MAX_PHOTO_BYTES = UPLOAD_RULES.image.maxBytes;
+export const ALLOWED_PHOTO_TYPES: readonly string[] = UPLOAD_RULES.image.mimes;
