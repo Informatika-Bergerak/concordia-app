@@ -14,9 +14,23 @@ export async function getPublicGroups(userId: number, query = "") {
     },
     orderBy: { createdAt: "desc" },
     take: 50,
-    select: { id: true, name: true, description: true, photo: true, creator: { select: { name: true, nickname: true } }, members: { where: { userId }, select: { id: true } }, _count: { select: { members: true } } },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      photo: true,
+      creator: { select: { name: true, nickname: true } },
+      members: { where: { userId }, select: { id: true } },
+      joinRequests: { where: { userId }, select: { status: true } },
+      _count: { select: { members: true } },
+    },
   });
-  return groups.map(({ members, _count, ...group }) => ({ ...group, memberCount: _count.members, isMember: members.length > 0 }));
+  return groups.map(({ members, joinRequests, _count, ...group }) => ({
+    ...group,
+    memberCount: _count.members,
+    isMember: members.length > 0,
+    requestStatus: joinRequests[0]?.status === "PENDING" ? "PENDING" : null,
+  }));
 }
 
 export async function getPublicGroupsByUser(userId: number): Promise<{ id: number; name: string; description: string | null; photo: string | null; memberCount: number }[]> {

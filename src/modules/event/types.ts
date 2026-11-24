@@ -10,6 +10,7 @@ export type EventItem = {
   endTime: string; // HH:MM
   location: string;
   isOnline: boolean;
+  groupId?: number | null;
   groupName?: string | null;
   category: string;
   coverImage: string | null;
@@ -20,5 +21,6 @@ export type EventItem = {
   createdAt: string;
   status: EventStatus;
   participants: number[]; // user IDs
+  participantUsers?: { id: number; name: string; fotoProfil: string | null }[];
   interested: number[]; // user IDs
 };

@@ -48,8 +48,7 @@ export async function createReportAction(
     };
   }
 
-  const { photo, occurredAt, groupId, ...data } = parsed.data;
-
+  const { photo, occurredAt, groupId, eventId: _eventId, ...data } = parsed.data;
   // Kategori Laporan Grup hanya dibuat dari halaman grup, yang menyertakan groupId.
   if (data.category === "LAPORAN_GRUP" && groupId === undefined) {
     return {

@@ -8,6 +8,7 @@ export const reportCategories = [
   "KEBIJAKAN",
   "LAINNYA",
   "LAPORAN_GRUP",
+  "LAPORAN_EVENT",
 ] as const;
 
 export const createReportSchema = z.object({
@@ -34,6 +35,7 @@ export const createReportSchema = z.object({
     .refine((v) => Date.parse(v) <= Date.now(), "Tanggal tidak boleh di masa depan"),
   visibility: z.enum(["PUBLIC", "ANONYMOUS", "PRIVATE"]),
   groupId: z.coerce.number().int().positive().optional(),
+  eventId: z.coerce.number().int().positive().optional(),
 });
 
 export type CreateReportInput = z.infer<typeof createReportSchema>;

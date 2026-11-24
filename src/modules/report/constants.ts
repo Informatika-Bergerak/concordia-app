@@ -8,6 +8,7 @@ export const CATEGORY_LABELS: Record<ReportCategory, string> = {
   KEBIJAKAN: "Melanggar Kebijakan",
   LAINNYA: "Lainnya",
   LAPORAN_GRUP: "Laporan Grup",
+  LAPORAN_EVENT: "Laporan Event",
 };
 
 // Label mengikuti desain Figma. Samakan dengan Adrian bila istilah status berubah.

@@ -254,13 +254,35 @@ export function GroupListPage({ groups }: GroupListProps) {
   const [showForm, setShowForm] = useState(false);
   const [showDiscovery, setShowDiscovery] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [groupItems, setGroupItems] = useState(groups);
   const router = useRouter();
 
+  useEffect(() => {
+    const events = new EventSource("/api/groups/events");
+    events.onmessage = (event) => {
+      const data = JSON.parse(event.data) as { type?: string };
+      if (data.type === "connected" || data.type === "keepalive") return;
+
+      // Fetch the latest memberships immediately instead of waiting for a
+      // server component refresh to arrive.
+      void fetch("/api/groups/mine", { cache: "no-store" })
+        .then((response) => response.ok ? response.json() : null)
+        .then((latest) => {
+          if (latest) setGroupItems(latest);
+        });
+    };
+    return () => events.close();
+  }, []);
+
+  useEffect(() => {
+    setGroupItems(groups);
+  }, [groups]);
+
   const filtered = searchQuery.trim()
-    ? groups.filter((g) =>
+    ? groupItems.filter((g) =>
         g.name.toLowerCase().includes(searchQuery.toLowerCase()),
       )
-    : groups;
+    : groupItems;
 
   const handleCreated = (id: number) => {
     setShowForm(false);
@@ -301,7 +323,7 @@ export function GroupListPage({ groups }: GroupListProps) {
             ))}
           </div>
         </div>
-      ) : groups.length > 0 && searchQuery.trim() ? (
+      ) : groupItems.length > 0 && searchQuery.trim() ? (
         <div className={styles.empty}>
           <Search size={40} className={styles.emptyIcon} />
           <h3 className={styles.emptyTitle}>Grup tidak ditemukan</h3>

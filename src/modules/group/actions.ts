@@ -6,7 +6,7 @@ import { prisma } from "@/lib/db";
 import { rewardGroupMemberMilestones } from "@/modules/trust/group-xp";
 import { createGroupSchema, sendMessageSchema, groupIdSchema } from "./schemas";
 import { z } from "zod";
-import { emitGroupEvent } from "@/lib/realtime/group-events";
+import { emitGroupEvent, emitUserEvent } from "@/lib/realtime/group-events";
 
 export type ActionResult<T extends object = object> =
   | ({ ok: true } & T)
@@ -60,6 +60,7 @@ export async function createGroupAction(
     });
 
     revalidatePath("/grup");
+    emitUserEvent(user.id, "group.created", group.id);
     return { ok: true, id: group.id };
   } catch (error) {
     console.error("[group] Gagal membuat grup:", (error as Error).message);
@@ -145,6 +146,8 @@ export async function joinPublicGroupAction(input: unknown): Promise<ActionResul
     });
     revalidatePath("/grup");
     revalidatePath(`/grup/${parsed.data.groupId}`);
+    emitUserEvent(user.id, "group.joinRequest.created", parsed.data.groupId);
+    emitGroupEvent(parsed.data.groupId, "joinRequest.created");
     return { ok: true, status: "PENDING" };
   } catch {
     return { ok: false, error: "Gagal mengajukan permintaan masuk grup" };
@@ -165,6 +168,8 @@ export async function cancelGroupJoinRequestAction(input: unknown): Promise<Acti
   await prisma.groupJoinRequest.delete({ where: { groupId_userId: { groupId: parsed.data.groupId, userId: user.id } } });
   revalidatePath("/grup");
   revalidatePath(`/grup/${parsed.data.groupId}`);
+  emitUserEvent(user.id, "group.joinRequest.cancelled", parsed.data.groupId);
+  emitGroupEvent(parsed.data.groupId, "joinRequest.cancelled");
   return { ok: true };
 }
 
@@ -202,6 +207,7 @@ export async function decideGroupJoinRequestAction(input: unknown): Promise<Acti
   revalidatePath(`/grup/${parsed.data.groupId}`);
   revalidatePath("/grup");
   emitGroupEvent(parsed.data.groupId, "member.joined");
+  emitUserEvent(parsed.data.userId, "group.joinRequest.decided", parsed.data.groupId);
   return { ok: true };
 }
 
@@ -234,8 +240,15 @@ export async function deleteGroupAction(input: unknown): Promise<ActionResult> {
   const { user } = await requireRole(["USER", "MODERATOR", "ADMIN"]);
   const parsed = groupIdSchema.safeParse(input);
   if (!parsed.success || !(await requireGroupOwner(parsed.data.groupId, user.id))) return { ok: false, error: "Hanya pembuat grup yang dapat menghapus grup" };
+  const members = await prisma.groupMember.findMany({
+    where: { groupId: parsed.data.groupId },
+    select: { userId: true },
+  });
   await prisma.group.delete({ where: { id: parsed.data.groupId } });
   revalidatePath("/grup");
+  for (const member of members) {
+    emitUserEvent(member.userId, "group.deleted", parsed.data.groupId);
+  }
   return { ok: true };
 }
 
@@ -297,6 +310,7 @@ export async function addGroupMemberAction(input: unknown): Promise<ActionResult
     });
     revalidatePath(`/grup/${parsed.data.groupId}`);
     emitGroupEvent(parsed.data.groupId, "member.added");
+    emitUserEvent(parsed.data.userId, "group.added", parsed.data.groupId);
     return { ok: true };
   } catch (error) {
     if ((error as Error).message === "USER_NOT_FOUND") return { ok: false, error: "Pengguna tidak ditemukan" };
@@ -317,6 +331,7 @@ export async function removeGroupMemberAction(input: unknown): Promise<ActionRes
   ]);
   revalidatePath(`/grup/${parsed.data.groupId}`);
   emitGroupEvent(parsed.data.groupId, "member.removed");
+  emitUserEvent(parsed.data.userId, "group.removed", parsed.data.groupId);
   return { ok: true };
 }
 
@@ -325,7 +340,10 @@ export async function editGroupMessageAction(input: unknown): Promise<ActionResu
   if (!parsed.success || !parsed.data.content) return { ok: false, error: "Pesan tidak valid" };
   const message = await prisma.groupMessage.findUnique({ where: { id: parsed.data.messageId }, select: { groupId: true, senderId: true, deletedAt: true } });
   if (!message || message.groupId !== parsed.data.groupId || message.senderId !== user.id || message.deletedAt) return { ok: false, error: "Pesan tidak dapat diedit" };
-  await prisma.groupMessage.update({ where: { id: parsed.data.messageId }, data: { content: parsed.data.content } }); revalidatePath(`/grup/${message.groupId}`); return { ok: true };
+  await prisma.groupMessage.update({ where: { id: parsed.data.messageId }, data: { content: parsed.data.content } });
+  revalidatePath(`/grup/${message.groupId}`);
+  emitGroupEvent(message.groupId, "message.updated");
+  return { ok: true };
 }
 
 export async function deleteGroupMessageAction(input: unknown): Promise<ActionResult> {

@@ -1,0 +1,1 @@
+ALTER TYPE "ReportCategory" ADD VALUE 'LAPORAN_EVENT';
