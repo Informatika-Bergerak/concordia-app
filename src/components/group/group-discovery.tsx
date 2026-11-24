@@ -32,8 +32,27 @@ export function GroupDiscovery({ initialGroups }: { initialGroups: Group[] }) {
     void searchGroups("");
   }, []);
 
+  useEffect(() => {
+    const events = new EventSource("/api/groups/events");
+    events.onmessage = (event) => {
+      const data = JSON.parse(event.data) as { type?: string; groupId?: number };
+      if (data.type === "connected" || data.type === "keepalive") return;
+
+      // Refresh discovery after a request is accepted/rejected. The API also
+      // returns the current request status, so the button changes immediately.
+      if (data.type === "group.joinRequest.decided" || data.type === "group.added") {
+        if (data.type === "group.joinRequest.decided") {
+          setGroups((items) => items.map((item) => item.id === data.groupId ? { ...item, requestStatus: null } : item));
+        }
+        void searchGroups(query);
+        router.refresh();
+      }
+    };
+    return () => events.close();
+  }, [query, router]);
+
   async function searchGroups(value: string) {
-    const response = await fetch(`/api/groups/discover?q=${encodeURIComponent(value)}`);
+    const response = await fetch(`/api/groups/discover?q=${encodeURIComponent(value)}`, { cache: "no-store" });
     if (response.ok) setGroups((await response.json()).groups);
   }
 
@@ -46,7 +65,8 @@ export function GroupDiscovery({ initialGroups }: { initialGroups: Group[] }) {
     const result = await joinPublicGroupAction({ groupId: id });
     if (result.ok) {
       setGroups((items) => items.map((item) => item.id === id ? { ...item, requestStatus: "PENDING" } : item));
-      router.refresh();
+      setNotice("Pengajuan masuk grup berhasil dikirim.");
+      await searchGroups(query);
     }
   });
 
@@ -57,7 +77,6 @@ export function GroupDiscovery({ initialGroups }: { initialGroups: Group[] }) {
       setGroups((items) => items.map((item) => item.id === id ? { ...item, requestStatus: null } : item));
       setCancelTarget(null);
       setNotice("Pengajuan masuk grup berhasil dibatalkan.");
-      router.refresh();
     } else {
       setError(result.error);
     }

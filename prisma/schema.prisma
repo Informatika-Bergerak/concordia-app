@@ -48,6 +48,7 @@ enum ReportCategory {
   KEBIJAKAN
   LAINNYA
   LAPORAN_GRUP
+  LAPORAN_EVENT
 }
 
 enum ReportStatus {
@@ -118,6 +119,9 @@ model User {
   trustMilestones        TrustMilestone[]
   trustDailyEarnings     TrustDailyEarning[]
   trustXpSuspensions     TrustXpSuspension[]
+  createdEvents           Event[]               @relation("EventCreator")
+  eventParticipations     EventParticipant[]
+  eventInterests          EventInterest[]
 }
 
 // Trust Level ledger: amount is signed; positive adds XP and negative removes XP.
@@ -491,6 +495,7 @@ model Group {
   joinRequests  GroupJoinRequest[]
   messages      GroupMessage[]
   reports       Report[]
+  events        Event[]
 
   @@index([creatorId])
 }
@@ -551,4 +556,60 @@ model AdminNews {
 
   @@index([createdAt])
   @@index([authorId])
+}
+
+model Event {
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String
+  startDate    DateTime @db.Date
+  startTime    String
+  endDate      DateTime @db.Date
+  endTime      String
+  location     String
+  isOnline     Boolean  @default(false)
+  groupId      Int?
+  group        Group?   @relation(fields: [groupId], references: [id], onDelete: SetNull)
+  groupName    String?
+  category     String
+  coverImage   String?
+  status       EventStatus @default(UPCOMING)
+  creatorId    Int
+  creator      User     @relation("EventCreator", fields: [creatorId], references: [id], onDelete: Restrict)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  participants EventParticipant[]
+  interests    EventInterest[]
+
+  @@index([creatorId])
+  @@index([startDate])
+}
+
+enum EventStatus {
+  UPCOMING
+  ONGOING
+  COMPLETED
+  CANCELLED
+}
+
+model EventParticipant {
+  eventId   Int
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([eventId, userId])
+  @@index([userId])
+}
+
+model EventInterest {
+  eventId   Int
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([eventId, userId])
+  @@index([userId])
 }

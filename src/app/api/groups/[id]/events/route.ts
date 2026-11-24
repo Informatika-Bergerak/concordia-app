@@ -9,6 +9,7 @@ type GroupSnapshot = {
   updatedAt: number;
   memberCount: number;
   memberRoles: string;
+  pendingRequestIds: string;
   messageId: number | null;
   messageUpdatedAt: number | null;
 };
@@ -20,6 +21,7 @@ async function getSnapshot(groupId: number): Promise<GroupSnapshot | null> {
       updatedAt: true,
       _count: { select: { members: true } },
       members: { select: { userId: true, role: true } },
+      joinRequests: { where: { status: "PENDING" }, select: { userId: true, updatedAt: true } },
       messages: {
         orderBy: { updatedAt: "desc" },
         take: 1,
@@ -32,6 +34,7 @@ async function getSnapshot(groupId: number): Promise<GroupSnapshot | null> {
     updatedAt: group.updatedAt.getTime(),
     memberCount: group._count.members,
     memberRoles: JSON.stringify(group.members),
+    pendingRequestIds: JSON.stringify(group.joinRequests),
     messageId: group.messages[0]?.id ?? null,
     messageUpdatedAt: group.messages[0]?.updatedAt.getTime() ?? null,
   };

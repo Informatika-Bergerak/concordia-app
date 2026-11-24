@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { Search, Calendar, Plus, RefreshCw } from "lucide-react";
-import { mockEvents } from "@/modules/event/mock";
+import { useRouter } from "next/navigation";
+import { Search, Calendar } from "lucide-react";
 import { EVENT_FILTERS } from "@/modules/event/constants";
+import { createEventAction, updateEventAction, cancelEventAction, deleteEventAction, toggleEventParticipationAction, toggleEventInterestAction } from "@/modules/event/actions";
 import type { EventItem } from "@/modules/event/types";
 import { EventToolbar } from "./event-toolbar";
 import { EventCard } from "./event-card";
@@ -13,10 +14,11 @@ import { EditEventModal } from "./edit-event-modal";
 import { EventDetailModal } from "./event-detail-modal";
 import { CancelEventModal } from "./cancel-event-modal";
 import { DeleteEventModal } from "./delete-event-modal";
-import { ReportEventModal } from "./report-event-modal";
 import styles from "./event.module.css";
 
 type EventPageProps = {
+  initialEvents: EventItem[];
+  joinedGroups: { id: number; name: string }[];
   currentUser: {
     id: number;
     name: string;
@@ -26,24 +28,16 @@ type EventPageProps = {
   };
 };
 
-const STORAGE_KEY = "concordia_events_v1";
-
-export function EventPage({ currentUser }: EventPageProps) {
-  // Gunakan data awal yang sama di server dan client agar hydration konsisten.
-  const [events, setEvents] = useState<EventItem[]>(mockEvents);
-  const [isHydrated, setIsHydrated] = useState(false);
+export function EventPage({ initialEvents, joinedGroups, currentUser }: EventPageProps) {
+  const [events, setEvents] = useState<EventItem[]>(initialEvents);
 
   useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      try {
-        setEvents(JSON.parse(saved));
-      } catch {
-        // Gunakan mockEvents jika data tersimpan rusak.
-      }
-    }
-    setIsHydrated(true);
-  }, []);
+    setEvents(initialEvents);
+  }, [initialEvents]);
+
+  function refreshEvents() {
+    window.location.reload();
+  }
 
   const [query, setQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState<string>("all");
@@ -57,13 +51,8 @@ export function EventPage({ currentUser }: EventPageProps) {
   const [detailEvent, setDetailEvent] = useState<EventItem | null>(null);
   const [cancellingEvent, setCancellingEvent] = useState<EventItem | null>(null);
   const [deletingEvent, setDeletingEvent] = useState<EventItem | null>(null);
-  const [reportingEvent, setReportingEvent] = useState<EventItem | null>(null);
-
+  const router = useRouter();
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (isHydrated) localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
-  }, [events, isHydrated]);
 
   function showToast(msg: string) {
     setToastMessage(msg);
@@ -121,80 +110,52 @@ export function EventPage({ currentUser }: EventPageProps) {
   }, [events, query, selectedFilter, selectedDate, currentUser.id]);
 
   // Handlers
-  function handleCreate(newEvent: EventItem) {
-    setEvents((prev) => [newEvent, ...prev]);
+  async function handleCreate(newEvent: EventItem) {
+    const result = await createEventAction({ ...newEvent, startDate: newEvent.startDate, endDate: newEvent.endDate });
+    if (!result.ok) return showToast(result.error);
     setModalCreateOpen(false);
     showToast("Event berhasil dibuat dan dipublikasikan!");
+    refreshEvents();
   }
 
-  function handleUpdate(updated: EventItem) {
-    setEvents((prev) => prev.map((e) => (e.id === updated.id ? updated : e)));
+  async function handleUpdate(updatedEvent: EventItem) {
+    const result = await updateEventAction({ eventId: Number(updatedEvent.id), ...updatedEvent, groupName: updatedEvent.groupName ?? null });
+    if (!result.ok) return showToast(result.error);
     setEditingEvent(null);
     showToast("Event berhasil diperbarui!");
+    refreshEvents();
   }
 
-  function handleCancelConfirm() {
+  async function handleCancelConfirm() {
     if (!cancellingEvent) return;
-    setEvents((prev) =>
-      prev.map((e) => (e.id === cancellingEvent.id ? { ...e, status: "CANCELLED" } : e))
-    );
+    const result = await cancelEventAction({ eventId: Number(cancellingEvent.id) });
+    if (!result.ok) return showToast(result.error);
     setCancellingEvent(null);
     showToast("Event berhasil dibatalkan.");
+    refreshEvents();
   }
 
-  function handleDeleteConfirm() {
+  async function handleDeleteConfirm() {
     if (!deletingEvent) return;
-    const deletedId = deletingEvent.id;
-    const deletedTitle = deletingEvent.title;
-
-    setEvents((prev) => prev.filter((e) => e.id !== deletedId));
+    const result = await deleteEventAction({ eventId: Number(deletingEvent.id) });
+    if (!result.ok) return showToast(result.error);
     setDeletingEvent(null);
-
-    // Preserve audit reports history in localStorage
-    if (typeof window !== "undefined") {
-      const savedReports = localStorage.getItem("concordia_reports_v1");
-      if (savedReports) {
-        try {
-          const reports = JSON.parse(savedReports);
-          const updatedReports = reports.map((r: any) => {
-            if (r.title && r.title.includes(deletedTitle)) {
-              return {
-                ...r,
-                description: `${r.description} — [Event Terkait "${deletedTitle}" Telah Dihapus dari Sistem]`,
-              };
-            }
-            return r;
-          });
-          localStorage.setItem("concordia_reports_v1", JSON.stringify(updatedReports));
-        } catch {}
-      }
-    }
-
     showToast("Event berhasil dihapus.");
+    refreshEvents();
   }
 
-  function handleJoinToggle(event: EventItem) {
-    const isJoined = event.participants.includes(currentUser.id);
-    const updatedParticipants = isJoined
-      ? event.participants.filter((id) => id !== currentUser.id)
-      : [...event.participants, currentUser.id];
-
-    setEvents((prev) =>
-      prev.map((e) => (e.id === event.id ? { ...e, participants: updatedParticipants } : e))
-    );
-    showToast(isJoined ? "Anda batal bergabung dari event." : "Berhasil bergabung ke event!");
+  async function handleJoinToggle(event: EventItem) {
+    const result = await toggleEventParticipationAction({ eventId: Number(event.id) });
+    if (!result.ok) return showToast(result.error);
+    setEvents((prev) => prev.map((item) => item.id === event.id ? { ...item, participants: result.joined ? [...item.participants, currentUser.id] : item.participants.filter((id) => id !== currentUser.id) } : item));
+    showToast(result.joined ? "Berhasil bergabung ke event!" : "Anda batal bergabung dari event.");
   }
 
-  function handleInterestedToggle(event: EventItem) {
-    const isInterested = event.interested.includes(currentUser.id);
-    const updatedInterested = isInterested
-      ? event.interested.filter((id) => id !== currentUser.id)
-      : [...event.interested, currentUser.id];
-
-    setEvents((prev) =>
-      prev.map((e) => (e.id === event.id ? { ...e, interested: updatedInterested } : e))
-    );
-    showToast(isInterested ? "Status Interested dibatalkan." : "Event ditandai sebagai Interested.");
+  async function handleInterestedToggle(event: EventItem) {
+    const result = await toggleEventInterestAction({ eventId: Number(event.id) });
+    if (!result.ok) return showToast(result.error);
+    setEvents((prev) => prev.map((item) => item.id === event.id ? { ...item, interested: result.interested ? [...item.interested, currentUser.id] : item.interested.filter((id) => id !== currentUser.id) } : item));
+    showToast(result.interested ? "Event ditandai sebagai Interested." : "Status Interested dibatalkan.");
   }
 
   function handleShare(event: EventItem) {
@@ -327,6 +288,7 @@ export function EventPage({ currentUser }: EventPageProps) {
       {modalCreateOpen && (
         <CreateEventModal
           currentUser={currentUser}
+          joinedGroups={joinedGroups}
           onClose={() => setModalCreateOpen(false)}
           onCreated={handleCreate}
         />
@@ -362,9 +324,14 @@ export function EventPage({ currentUser }: EventPageProps) {
           onJoinToggle={handleJoinToggle}
           onInterestedToggle={handleInterestedToggle}
           onShare={handleShare}
-          onReport={(e) => {
-            setDetailEvent(null);
-            setReportingEvent(e);
+          onReport={(event) => {
+            const params = new URLSearchParams({
+              eventTitle: event.title,
+              eventLocation: event.title,
+              eventDate: event.startDate <= new Date().toISOString().slice(0, 10) ? event.startDate : new Date().toISOString().slice(0, 10),
+              eventId: event.id,
+            });
+            router.push(`/laporan/baru?${params.toString()}`);
           }}
         />
       )}
@@ -385,18 +352,6 @@ export function EventPage({ currentUser }: EventPageProps) {
           onClose={() => setDeletingEvent(null)}
           onConfirm={handleDeleteConfirm}
           showToast={showToast}
-        />
-      )}
-
-      {reportingEvent && (
-        <ReportEventModal
-          event={reportingEvent}
-          currentUser={currentUser}
-          onClose={() => setReportingEvent(null)}
-          onSubmitReport={(msg) => {
-            setReportingEvent(null);
-            showToast(msg);
-          }}
         />
       )}
 
