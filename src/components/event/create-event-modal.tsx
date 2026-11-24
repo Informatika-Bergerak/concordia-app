@@ -3,19 +3,20 @@
 
 import { useState, type FormEvent } from "react";
 import { X, Calendar, MapPin, Globe, Upload, Users } from "lucide-react";
-import { CONCORDIA_GROUPS, EVENT_CATEGORIES } from "@/modules/event/constants";
+import { EVENT_CATEGORIES } from "@/modules/event/constants";
 import type { EventItem } from "@/modules/event/types";
 import styles from "./event.module.css";
 
 type CreateEventModalProps = {
   currentUser: { id: number; name: string; fotoProfil: string | null; jurusan: string | null };
+  joinedGroups: { id: number; name: string }[];
   onClose: () => void;
   onCreated: (event: EventItem) => void;
 };
 
-export function CreateEventModal({ currentUser, onClose, onCreated }: CreateEventModalProps) {
-  const [locationType, setLocationType] = useState<"group" | "custom">("group");
-  const [selectedGroup, setSelectedGroup] = useState(CONCORDIA_GROUPS[0]);
+export function CreateEventModal({ currentUser, joinedGroups, onClose, onCreated }: CreateEventModalProps) {
+  const [locationType, setLocationType] = useState<"group" | "custom">(joinedGroups.length ? "group" : "custom");
+  const [selectedGroupId, setSelectedGroupId] = useState(joinedGroups[0]?.id ?? 0);
   const [customLocation, setCustomLocation] = useState("");
   const [isOnline, setIsOnline] = useState(false);
 
@@ -55,7 +56,12 @@ export function CreateEventModal({ currentUser, onClose, onCreated }: CreateEven
       setError("Deskripsi event wajib diisi.");
       return;
     }
-    const finalLocation = locationType === "group" ? `Grup Concordia: ${selectedGroup}` : customLocation.trim();
+    const selectedGroup = joinedGroups.find((group) => group.id === selectedGroupId);
+    const finalLocation = locationType === "group" ? `Grup Concordia: ${selectedGroup?.name ?? ""}` : customLocation.trim();
+    if (locationType === "group" && !selectedGroup) {
+      setError("Pilih grup yang sudah kamu ikuti.");
+      return;
+    }
     if (!finalLocation) {
       setError("Lokasi event wajib diisi.");
       return;
@@ -75,7 +81,8 @@ export function CreateEventModal({ currentUser, onClose, onCreated }: CreateEven
       endTime,
       location: finalLocation,
       isOnline: locationType === "custom" ? isOnline : false,
-      groupName: locationType === "group" ? selectedGroup : null,
+      groupId: locationType === "group" ? selectedGroupId : null,
+      groupName: locationType === "group" ? selectedGroup?.name ?? null : null,
       category,
       coverImage,
       creatorId: currentUser.id,
@@ -111,8 +118,9 @@ export function CreateEventModal({ currentUser, onClose, onCreated }: CreateEven
                 name="locationType"
                 checked={locationType === "group"}
                 onChange={() => setLocationType("group")}
+                disabled={!joinedGroups.length}
               />
-              <Users size={18} /> Concordia Group ({selectedGroup})
+              <Users size={18} /> Concordia Group
             </label>
             <label className={styles.radioLabel}>
               <input
@@ -130,11 +138,11 @@ export function CreateEventModal({ currentUser, onClose, onCreated }: CreateEven
               <label className={styles.formLabel}>Pilih Grup Tujuan</label>
               <select
                 className={styles.formSelect}
-                value={selectedGroup}
-                onChange={(e) => setSelectedGroup(e.target.value)}
+                value={selectedGroupId}
+                onChange={(e) => setSelectedGroupId(Number(e.target.value))}
               >
-                {CONCORDIA_GROUPS.map((g) => (
-                  <option key={g} value={g}>{g}</option>
+                {joinedGroups.map((group) => (
+                  <option key={group.id} value={group.id}>{group.name}</option>
                 ))}
               </select>
             </div>

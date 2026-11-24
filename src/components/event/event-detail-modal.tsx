@@ -176,13 +176,13 @@ export function EventDetailModal({
                 Total {event.participants.length} mahasiswa telah bergabung ke event ini.
               </p>
               <div style={{ display: "grid", gap: "8px" }}>
-                {event.participants.map((pId) => (
-                  <div key={pId} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px", background: "#fff9f9", borderRadius: "8px", border: "1px solid #E49F9F" }}>
+                {(event.participantUsers ?? []).map((participant) => (
+                  <div key={participant.id} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px", background: "#fff9f9", borderRadius: "8px", border: "1px solid #E49F9F" }}>
                     <div className={styles.creatorAvatar} style={{ width: "32px", height: "32px", fontSize: "12px" }}>
-                      P{pId}
+                      {participant.fotoProfil ? <img src={participant.fotoProfil} alt={participant.name} className={styles.creatorFotoImg} /> : participant.name.charAt(0)}
                     </div>
                     <span style={{ fontWeight: 600, fontSize: "14px", color: "#2E0404" }}>
-                      {pId === currentUserId ? "Anda (Peserta)" : `Mahasiswa Peserta #${pId}`}
+                      {participant.id === currentUserId ? `${participant.name} (Anda)` : participant.name}
                     </span>
                   </div>
                 ))}

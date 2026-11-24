@@ -39,17 +39,20 @@ export function ReportForm({
   initial,
   viewerRole,
   groupReport,
+  eventReport,
 }: {
   initial?: ReportFormInitial;
   viewerRole: ViewerRole;
   groupReport?: { id: number; name: string };
+  eventReport?: { title: string; location: string; occurredAt?: string; description?: string };
 }) {
   const router = useRouter();
   const editing = initial !== undefined;
   const isGroupReport = groupReport !== undefined || initial?.category === "LAPORAN_GRUP";
+  const isEventReport = eventReport !== undefined || initial?.category === "LAPORAN_EVENT";
 
   // Moderator hanya boleh membuat laporan Public. Laporan grup tidak ikut aturan ini.
-  const allowed = isGroupReport
+  const allowed = isGroupReport || isEventReport
     ? allowedVisibilities("USER")
     : allowedVisibilities(viewerRole);
   const visibilityOptions = VISIBILITY_OPTIONS.filter(([value]) => allowed.includes(value));
@@ -68,9 +71,11 @@ export function ReportForm({
   const [visibility, setVisibility] = useState<ReportVisibility>(
     initial?.visibility && allowed.includes(initial.visibility) ? initial.visibility : allowed[0],
   );
-  const defaultTitle = initial?.title ?? (groupReport ? `Laporan Grup: ${groupReport.name}` : undefined);
-  const defaultCategory = initial?.category ?? (groupReport ? "LAINNYA" : "");
-  const defaultLocation = initial?.location ?? (groupReport ? `Grup: ${groupReport.name}` : undefined);
+  const defaultTitle = initial?.title ?? (groupReport ? `Laporan Grup: ${groupReport.name}` : eventReport?.title);
+  const defaultCategory = initial?.category ?? (groupReport ? "LAPORAN_GRUP" : eventReport ? "LAPORAN_EVENT" : "");
+  const defaultLocation = initial?.location ?? (groupReport ? `Grup: ${groupReport.name}` : eventReport?.location);
+  const defaultDescription = initial?.description ?? eventReport?.description;
+  const defaultOccurredAt = initial?.occurredAt ?? eventReport?.occurredAt;
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => () => { if (preview) URL.revokeObjectURL(preview); }, [preview]);
@@ -189,7 +194,7 @@ export function ReportForm({
 
       <div className={styles.field}>
         <label className={styles.label} htmlFor="description">Deskripsi Masalah<Required /></label>
-        <textarea id="description" name="description" aria-required="true" defaultValue={initial?.description} className={cls("description", styles.textarea)} placeholder="Jelaskan masalah yang terjadi" maxLength={1000} aria-invalid={!!errors.description} />
+        <textarea id="description" name="description" aria-required="true" defaultValue={defaultDescription} className={cls("description", styles.textarea)} placeholder="Jelaskan masalah yang terjadi" maxLength={1000} aria-invalid={!!errors.description} />
         {errors.description && <p className={styles.error}>{errors.description}</p>}
       </div>
 
@@ -201,12 +206,19 @@ export function ReportForm({
 
       <div className={styles.field}>
         <label className={styles.label} htmlFor="category">Kategori Masalah<Required /></label>
-        <select id="category" name="category" aria-required="true" defaultValue={defaultCategory} className={cls("category", styles.select)} aria-invalid={!!errors.category}>
-          <option value="" disabled>Termasuk masalah apa ?</option>
-          {categoryOptions.map(([value, label]) => (
-            <option key={value} value={value}>{label}</option>
-          ))}
-        </select>
+        {isGroupReport || isEventReport ? (
+          <>
+            <input type="hidden" name="category" value={isGroupReport ? "LAPORAN_GRUP" : "LAPORAN_EVENT"} />
+            <p className={styles.visibilityFixed}>{isGroupReport ? "Laporan Grup" : "Laporan Event"}</p>
+          </>
+        ) : (
+          <select id="category" name="category" aria-required="true" defaultValue={defaultCategory} className={cls("category", styles.select)} aria-invalid={!!errors.category}>
+            <option value="" disabled>Termasuk masalah apa ?</option>
+            {categoryOptions.map(([value, label]) => (
+              <option key={value} value={value}>{label}</option>
+            ))}
+          </select>
+        )}
         {errors.category && <p className={styles.error}>{errors.category}</p>}
       </div>
 
@@ -214,7 +226,7 @@ export function ReportForm({
         <label className={styles.label} htmlFor="occurredAt">
           <CalendarDays size={14} aria-hidden style={{ verticalAlign: "-2px" }} /> Tanggal Terjadi atau Terlihat<Required />
         </label>
-        <input id="occurredAt" name="occurredAt" aria-required="true" type="date" max={today()} defaultValue={initial?.occurredAt ?? today()} className={cls("occurredAt", styles.input)} aria-invalid={!!errors.occurredAt} />
+        <input id="occurredAt" name="occurredAt" aria-required="true" type="date" max={today()} defaultValue={defaultOccurredAt ?? today()} className={cls("occurredAt", styles.input)} aria-invalid={!!errors.occurredAt} />
         {errors.occurredAt && <p className={styles.error}>{errors.occurredAt}</p>}
       </div>
 

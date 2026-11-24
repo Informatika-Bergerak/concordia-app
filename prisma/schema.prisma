@@ -48,6 +48,7 @@ enum ReportCategory {
   KEBIJAKAN
   LAINNYA
   LAPORAN_GRUP
+  LAPORAN_EVENT
 }
 
 enum ReportStatus {
@@ -119,6 +120,9 @@ model User {
   trustMilestones        TrustMilestone[]
   trustDailyEarnings     TrustDailyEarning[]
   trustXpSuspensions     TrustXpSuspension[]
+  createdEvents           Event[]               @relation("EventCreator")
+  eventParticipations     EventParticipant[]
+  eventInterests          EventInterest[]
 }
 
 // Trust Level ledger: amount is signed; positive adds XP and negative removes XP.
@@ -492,6 +496,7 @@ model Group {
   joinRequests  GroupJoinRequest[]
   messages      GroupMessage[]
   reports       Report[]
+  events        Event[]
 
   @@index([creatorId])
 }
@@ -553,6 +558,7 @@ model AdminNews {
   @@index([createdAt])
   @@index([authorId])
 }
+
 
 // ── Marketplace (Forum Jual Beli) ───────────────────────────
 
